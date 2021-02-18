@@ -1,0 +1,30 @@
+<header>    
+  <div class="bg-white shadow">
+    <div class="container py-2">        
+      <nav class="main-nav" role="navigation"> 
+        <!-- Mobile menu toggle button (hamburger/x icon) -->
+        <input id="main-menu-state" type="checkbox" />
+        <label class="main-menu-btn" for="main-menu-state">
+          <span class="main-menu-btn-icon"></span> Toggle main menu visibility
+        </label>
+        <a href="index.php">LOGO</a>                 
+        <!-- Sample menu definition -->
+        <ul id="main-menu" class="sm sm-clean">          
+          <li><%= link_to "Главная", root_url, class: 'nav-font' %></li>
+          <li><%= link_to "Контакты", contacts_url, class: 'nav-font' %></li>
+          <li><%= link_to "О нас", about_url, class: 'nav-font' %></li>
+          <li>
+            <%= link_to "Гостевые дома", root_url, onclick: "event.preventDefault()", class: 'nav-font' %>
+            <ul>
+              <li><a href="alex.php">«Александры и Александра»</a></li>
+              <li><a href="sunhouse.php">«Солнечный дом»</a></li>
+              <li><a href="elling.php">Эллинг «Алые паруса»</a></li>
+            </ul>
+          </li>   
+          
+                               
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
