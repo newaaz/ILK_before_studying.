@@ -1,0 +1,70 @@
+<% provide(:title, 'Создание города') %>
+
+<div class="container">
+
+<div class="row justify-content-center align-items-center">
+  <h2>Создание города</h2>
+</div>
+
+<%= form_with(model: @town, local: true) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+  <div class="row h-100">
+    <div class="col-md-6"> 
+
+      <div class="form-group">
+        <%= f.label :name %>
+        <small class="text-muted">
+          / Имя города
+        </small>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :parent_name %>
+        <small class="text-muted">
+          / Имя города в падеже
+        </small>
+        <%= f.text_field :parent_name, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :number %>
+        <small class="text-muted">
+          / Порядковый номер
+        </small>
+        <%= f.number_field :number, class: 'form-control' %>
+      </div>
+
+       <div class="form-group">
+        <small class="text-muted">
+          Загрузить фото города
+        </small>
+        <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control' %>
+      </div>
+
+      <br>
+
+      <%= f.submit "Создать город",class:"btn btn-primary btn-sm"%>
+      <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+    </div>
+
+    <div class="col-md-3 col-md-offset-3">
+      
+    </div>
+
+  </div>
+<% end %>
+
+</div>
+
+<script type="text/javascript">
+  $("#town_avatar").bind("change", function() {
+    const size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 4) {
+      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+    }
+  });
+</script>
+
+

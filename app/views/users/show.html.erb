@@ -8,6 +8,15 @@
 
 <br><br>
 
+<%= link_to "Новая гостиница", new_hotel_path %>
+
+<br><br>
+
+<% @user.hotels.each do |hotel| %>
+  <%= link_to hotel.name, hotel %>
+  <br>
+<% end %>
+
 </div>
 
 

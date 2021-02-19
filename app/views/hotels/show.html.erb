@@ -1,0 +1,52 @@
+<% provide(:title, @hotel.name) %>
+<%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+
+<div class="container">
+
+  <div class="breadcrumbs">    
+    <%= link_to "Главная", root_url %>&nbsp;/&nbsp;
+    
+    
+    
+    <%= @hotel.name %>
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-12">
+      <h1 class="d-inline"><%= @hotel.name %></h1>, <%= @hotel.address %>
+    </div>
+
+    <div class="col-md-6">
+      
+      <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
+        <div class="f-right">
+          <%= link_to "Редактировать", edit_hotel_path(@hotel) ,class: "btn btn-primary btn-sm" %>
+          <%= link_to "Добавить номер", edit_hotel_path(@hotel), class: "btn btn-primary btn-sm" %>
+          <%= link_to "Удалить объект", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+        </div>
+      <% end %>
+      
+    </div>
+
+  </div> 
+
+  <br><br>
+<div class="col-md-9">
+  <!-- fotorama begin -->        
+  <div class="fotorama"
+    data-width="900"
+    data-ratio="3/2"
+    data-allowfullscreen="true"
+    data-nav="thumbs"
+    data-loop="true"
+    data-keyboard="true">
+    <%= link_to image_tag(@hotel.avatar.thumb.url), @hotel.avatar.url %>
+    <% @hotel.images.each do |image| %>
+      <%= link_to image_tag(image.thumb.url), image.url %>
+    <% end %>
+  </div>        
+  <!-- fotorama end -->
+</div>
+
+</div>

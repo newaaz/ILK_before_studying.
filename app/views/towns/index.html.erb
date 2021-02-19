@@ -1,0 +1,36 @@
+<% provide(:title, "Все города") %>
+
+<div class="container">
+
+<%= link_to 'Создать город', new_town_path, class: 'btn btn-primary btn-sm' %>
+
+<br>
+<br>
+
+<section>
+  <table class="table">
+    <thead>
+      <th>№</th>
+      <th>Название</th>
+      <th>В предлож.падеже</th>
+      <th>Фото</th>
+      <th>Действия</th>
+    </thead>
+    <tbody>
+      <% @towns.each do |town| %>
+        <tr>
+          <td><%= town.number %></td>
+          <td><%= link_to town.name, town %></td>
+          <td><%= town.parent_name %></td>
+          <td><%= image_tag town.avatar.thumb.url %></td>
+          <td>
+            <%= link_to 'Edit', edit_town_path(town), class: 'btn btn-warning btn-sm' %>
+            <%= link_to "Удалить Город", town_path(town), method: :delete, class: 'btn btn-outline-danger btn-sm' %>            
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
+
+</div>

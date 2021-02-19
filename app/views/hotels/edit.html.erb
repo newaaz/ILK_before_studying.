@@ -1,0 +1,119 @@
+<% provide(:title, 'Изменение данных') %>
+
+
+<h1 class='h3'>Изменение данных</h1>
+
+<div class="row">  
+  
+  <div class="col-md-9 border-right">
+    <%= form_with(model: @hotel, local: true) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :hotel_category_id %>            
+            <%= f.collection_select :hotel_category_id, HotelCategory.order(:number), :id, :name,
+              { include_blank: false },class:"custom-select custom-select-sm" %>
+            <small class="text-muted">
+              Выберите категорию жилья
+            </small>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+              <%= f.label :town_id %>              
+              <%= f.collection_select :town_id, Town.order(:number), :id, :name,
+                { include_blank: false },class:"custom-select custom-select-sm" %>
+              <small class="text-muted">
+                Выберите населённый пункт
+              </small>
+            </div>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :price_from %>
+          <div class="input-group input-group-sm">
+            <%= f.text_field :price_from, class: 'form-control' %>
+            <div class="input-group-append">
+              <span class="input-group-text">₽</span>
+            </div>            
+          </div>
+          <small class="form-text text-muted">
+              Минимальная цена
+          </small>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :name %>
+            <small class="text-muted">
+              / Название
+            </small>       
+            <%= f.text_field :name, class: 'form-control form-control-sm' %>        
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :address %>
+            <small class="text-muted">
+              / Адрес без населённого пункта 
+            </small>    
+            <%= f.text_field :address, class: 'form-control form-control-sm' %>        
+          </div>
+        </div>
+      </div>      
+
+      <div class="row">       
+        <div class="col-4">
+          <%= f.label :distance_to_sea %>
+          <div class="input-group input-group-sm">
+            <%= f.text_field :distance_to_sea, class: 'form-control' %>
+            <div class="input-group-append">
+              <span class="input-group-text">М</span>
+            </div>            
+          </div>
+          <small class="form-text text-muted">
+            Если море недалеко - можете указать расстояние
+          </small>
+        </div>
+        <div class="col-4">
+          <%= f.label "Работает:" %>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+            <label class="custom-control-label" for="customSwitch1">Круглогодично</label>
+          </div>
+        </div>
+      </div>      
+
+      <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+      <%= f.submit "Сохранить изменения",class:"btn btn-primary btn-sm"%>      
+    <% end %>      
+  </div>
+  
+
+  <div class="col-md-3 border-start">
+  
+    <h2 class='h5'>Изменение фотографий</h2><hr>
+    
+      
+  
+  </div>
+  
+</div>
+
+
+<script type="text/javascript">
+  $("#town_avatar").bind("change", function() {
+    const size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 4) {
+      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+    }
+  });
+
+  //$('#hotel_comfort_ids').multiSelect();
+</script>
+
+
+

@@ -18,8 +18,7 @@
               <li><a href="sunhouse.php">«Солнечный дом»</a></li>
               <li><a href="elling.php">Эллинг «Алые паруса»</a></li>
             </ul>
-          </li>   
-          <li><%= link_to "Пользователи", users_url, class: 'nav-font' %></li>                 
+          </li>                           
           <li><%= link_to "Контакты", contacts_url, class: 'nav-font' %></li>
         <% if logged_in? %>
           <li>
@@ -39,7 +38,9 @@
               <i class="fas fa-user-cog"></i>&nbsp;Admin
             <% end %>
             <ul>
-              
+              <li><%= link_to "Пользователи", users_url, class: 'nav-font' %></li>
+              <li><%= link_to "Типы жилья", hotel_categories_path %></li>
+              <li><%= link_to "Города", towns_path %></li>
               <li><%= link_to "Выход", logout_path, method: :delete %></li>
             </ul>
           </li>
