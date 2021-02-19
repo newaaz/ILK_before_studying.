@@ -1,0 +1,11 @@
+<% provide(:title, 'Восстановление пароля') %>
+
+<h1 class="h3 mb-3 font-weight-normal text-center">Восстановление пароля</h1>
+
+<%= form_with(url: password_resets_path, scope: :password_reset,
+              local: true, html: {class: "form-signin"}) do |f|%>
+ <label for="inputEmail" class="sr-only">Email</label>
+ <%= f.email_field :email, id:"inputEmail1", class:"form-control", placeholder: "Email" %>
+ <br>
+ <%= f.submit "Отправить",class:"btn btn-lg btn-primary w-100"%>
+<% end %>

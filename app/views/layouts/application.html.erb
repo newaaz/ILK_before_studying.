@@ -2,16 +2,14 @@
 <html>
   <head>
 
-    <title>Ilk</title>
+    <title><%= full_title(yield(:title)) %></title>
+
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <script
-      src="https://code.jquery.com/jquery-2.2.4.min.js"
-      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-      crossorigin="anonymous">
-    </script>
+    
     <script src="https://kit.fontawesome.com/b52c0bb8eb.js" crossorigin="anonymos"></script>
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     
@@ -28,7 +26,18 @@
 
     <%= render 'layouts/header' %>
 
-    <%= yield %>
+    <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %> alert-dismissible fade show" role="alert">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+
+    <main class='<%= controller.controller_name %>'>
+      
+      <%= yield %>
+      
+    </main>
 
     <%= javascript_include_tag "smartmenu.js" %>
     <script>// SmartMenus init    

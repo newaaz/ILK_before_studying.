@@ -1,6 +1,6 @@
 .sm-clean {
-  /*background: #eeeeee;
-  border-radius: 5px;*/
+  background: #eeeeee;
+  border-radius: 5px;
 }
 .sm-clean a, .sm-clean a:hover, .sm-clean a:focus, .sm-clean a:active {
   padding: 13px 20px;
@@ -8,7 +8,7 @@
   padding-right: 58px;
   color: #555555;
   
-  font-size: 18px;
+  font-size: 16px;
   font-weight: normal;
   line-height: 17px;
   text-decoration: none;
@@ -59,7 +59,7 @@
   background: rgba(162, 162, 162, 0.1);
 }
 .sm-clean ul a, .sm-clean ul a:hover, .sm-clean ul a:focus, .sm-clean ul a:active {
-  font-size: 16px;
+  font-size: 15px;
   border-left: 8px solid transparent;
 }
 .sm-clean ul ul a,
@@ -130,7 +130,9 @@
     border-radius: 100px;
   }
   .sm-clean a, .sm-clean a:hover, .sm-clean a:focus, .sm-clean a:active, .sm-clean a.highlighted {
-    padding: 12px 12px;
+    /*РАССТОЯНИЕ МЕЖДУ ССЫЛКАМИ*/
+    /*padding: 12px 12px;*/
+    padding: 12px 10px;
     color: #555555;
     border-radius: 0 !important;
   }

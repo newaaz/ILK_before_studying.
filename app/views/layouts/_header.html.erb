@@ -1,6 +1,6 @@
 <header>    
   <div class="bg-white shadow">
-    <div class="container py-2">        
+    <div class="container py-1">        
       <nav class="main-nav" role="navigation"> 
         <!-- Mobile menu toggle button (hamburger/x icon) -->
         <input id="main-menu-state" type="checkbox" />
@@ -9,10 +9,8 @@
         </label>
         <a href="index.php">LOGO</a>                 
         <!-- Sample menu definition -->
-        <ul id="main-menu" class="sm sm-clean">          
+        <ul id="main-menu" class="sm sm-clean">
           <li><%= link_to "Главная", root_url, class: 'nav-font' %></li>
-          <li><%= link_to "Контакты", contacts_url, class: 'nav-font' %></li>
-          <li><%= link_to "О нас", about_url, class: 'nav-font' %></li>
           <li>
             <%= link_to "Гостевые дома", root_url, onclick: "event.preventDefault()", class: 'nav-font' %>
             <ul>
@@ -21,8 +19,35 @@
               <li><a href="elling.php">Эллинг «Алые паруса»</a></li>
             </ul>
           </li>   
-          
-                               
+          <li><%= link_to "Пользователи", users_url, class: 'nav-font' %></li>                 
+          <li><%= link_to "Контакты", contacts_url, class: 'nav-font' %></li>
+        <% if logged_in? %>
+          <li>
+            <%= link_to root_url, onclick: "event.preventDefault()", class: 'nav-font' do %>
+              <i class="far fa-user-circle"></i>&nbsp;Профиль
+            <% end %>
+            <ul>
+              <li><%= link_to "User/show", current_user %></li>
+              <li><%= link_to "Настройки", edit_user_path(current_user) %></li>
+              <li><%= link_to "Новая гостиница", new_hotel_path %></li>
+              <li><%= link_to "Выход", logout_path, method: :delete %></li>
+            </ul>
+          </li>
+          <% if current_user.admin? %>
+            <li>
+            <%= link_to root_path, onclick: "event.preventDefault()", class: 'nav-font' do %>
+              <i class="fas fa-user-cog"></i>&nbsp;Admin
+            <% end %>
+            <ul>
+              
+              <li><%= link_to "Выход", logout_path, method: :delete %></li>
+            </ul>
+          </li>
+          <% end %>
+        <% else %>
+          <li><%= link_to "Вход", login_path, class: 'nav-font' %></li> 
+          <li><%= link_to "Регистрация", signup_path, class: 'nav-font' %></li>
+        <% end %>                       
         </ul>
       </nav>
     </div>

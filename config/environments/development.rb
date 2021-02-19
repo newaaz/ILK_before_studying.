@@ -35,8 +35,26 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-
   config.action_mailer.perform_caching = false
+
+  #__________Настройки почты______________________
+
+  host = '127.0.0.1:3000'
+  config.action_mailer.default_url_options = { host: host }
+  
+  config.action_mailer.delivery_method = :smtp
+
+  ActionMailer::Base.smtp_settings = {
+    :address        => 'smtp.mail.ru',
+    :port           => '587',
+    :authentication => :plain,
+    :user_name      => Rails.application.credentials.email[:login],
+    :password       => Rails.application.credentials.email[:pass],
+    #:domain         => 'heroku.com',
+    :enable_starttls_auto => true
+    }  
+
+  #__________Настройки почты закончены_____________
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

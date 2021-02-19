@@ -1,0 +1,49 @@
+<% provide(:title, "Изменение данных профиля") %>
+<hr>
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+  <label class="form-check-label" for="flexCheckDefault">
+    Default checkbox
+  </label>
+</div>
+<hr>
+
+<h2 class="mb-3">Изменение данных</h2>
+
+<div class="row">
+  <div class="col-6">
+    <%= form_with(model: @user, local: true) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, class: 'form-control' %>
+      </div>
+
+      <br>
+
+      <%= f.submit "Сохранить изменения", class:"btn btn-primary" %>
+
+    <% end %><br>
+
+    <%= link_to "Удалить свой аккаунт", @user, method: :delete,
+        data: {confirm: "Вы уверены? Вместе с аккаунтом удалятся все Ваши объявления и статьи"},
+        class: "btn btn-outline-danger btn-sm" %>
+
+  </div>
+</div>
