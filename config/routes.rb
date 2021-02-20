@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  
-  get 'password_resets/new'
-  get 'password_resets/edit'
+
   root 'main#home'
 
   # static pages
@@ -17,17 +15,14 @@ Rails.application.routes.draw do
   # login & logout
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy' 
-  
-  # for account activation
-  resources :account_activations, only: [:edit]
-  # for password reset
+  delete '/logout', to: 'sessions#destroy'   
+ 
+  resources :account_activations, only: [:edit]  
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
   resources :hotel_categories, except: :show
-
   resources :towns
-
   resources :hotels
+  resources :rooms
 
 end

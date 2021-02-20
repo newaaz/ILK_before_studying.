@@ -1,3 +1,6 @@
-// Place all the styles related to the Main controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+/* Поля с ошибками*/
+.field_with_errors {
+  all: unset;        /* Обнуление стиля!!! */
+  label { color: #B22222 }
+  input, textarea { border-color: #B22222}
+}

@@ -3,8 +3,8 @@ class HotelsController < ApplicationController
   before_action :logged_in_user, only: [:new, :create]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
-  def index
-    redirect_to root_url unless current_user && current_user.admin?  
+  def index    
+    redirect_back(fallback_location: root_url) unless current_user && current_user.admin?  
     @hotels = Hotel.all.order(created_at: :desc)    
   end
   

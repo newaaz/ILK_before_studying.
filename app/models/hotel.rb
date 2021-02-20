@@ -1,6 +1,9 @@
 class Hotel < ApplicationRecord
 
-  belongs_to :user
+  belongs_to  :user
+  belongs_to  :town
+  belongs_to  :hotel_category  
+  has_many    :rooms, dependent: :destroy
 
   mount_uploader  :avatar, PictureUploader
   mount_uploaders :images, PictureUploader

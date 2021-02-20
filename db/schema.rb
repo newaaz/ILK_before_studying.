@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_19_133855) do
+ActiveRecord::Schema.define(version: 2021_02_19_145754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,17 @@ ActiveRecord::Schema.define(version: 2021_02_19_133855) do
     t.index ["user_id"], name: "index_hotels_on_user_id"
   end
 
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.json "images"
+    t.integer "number", default: 1
+    t.integer "size"
+    t.bigint "hotel_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["hotel_id"], name: "index_rooms_on_hotel_id"
+  end
+
   create_table "towns", force: :cascade do |t|
     t.string "name"
     t.string "parent_name"
@@ -67,4 +78,5 @@ ActiveRecord::Schema.define(version: 2021_02_19_133855) do
   add_foreign_key "hotels", "hotel_categories"
   add_foreign_key "hotels", "towns"
   add_foreign_key "hotels", "users"
+  add_foreign_key "rooms", "hotels"
 end

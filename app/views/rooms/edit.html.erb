@@ -1,0 +1,91 @@
+<% provide(:title, 'Редактирование номера') %>
+
+<div class="container">
+
+<h1 class='h3 text-center'><%= @hotel.name %> - редактирование номера</h1>
+
+<div class="row">
+
+  <div class="col-md-9 border-right">
+
+    <%= form_with(model: @room, local: true) do |f| %>
+      <%= render 'shared/error_messages', object: f.object%>
+      <%= hidden_field_tag(:hotel_id, params[:hotel_id].to_i) %>
+      
+      <div class="form-group">
+        <%= f.label "Название или тип номера" %>
+        <small class="text-muted">
+          / Не больше 400 символов
+        </small>
+        <%= f.text_field :name, class:"form-control form-control-sm", autofocus: true %>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <%= f.label :number %>            
+            <%= f.number_field :number, class:"form-control  form-control-sm", autofocus: true %>
+            <small class="text-muted">
+              Порядок отображения
+            </small>
+          </div>
+        </div> 
+        <div class="col-md-3">
+          <%= f.label :size %>
+          <div class="input-group input-group-sm">
+            <%= f.number_field :size, class: 'form-control' %>
+            <div class="input-group-append">
+              <span class="input-group-text">
+                М<sup><small>2</small></sup>
+              </span>
+            </div>            
+          </div>
+          <small class="form-text text-muted">
+              В квадратных метрах
+          </small>
+        </div>
+      </div>      
+
+      <div class="row">
+        <div class="form-group">
+          <%= button_tag type: 'submit', class:"btn btn-primary btn-sm" do %>
+              <span class="icon"><i class="fas fa-camera"></i></span>&#8194;Сохранить изменения
+            <% end %>
+          <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+        </div>
+      </div>
+
+    <% end %>        
+
+  </div>  
+
+  <div class="col-md-3 border-left">
+    <h2 class='h6'><strong>Фотографии</strong></h2>
+    <div class="row mb-3">
+      <%  if @room.images.any? %>
+        <% @room.images.each_with_index do |image, index| %>
+          <div class="col-md-6">
+            <%= image_tag image.thumb.url, class: 'img-fluid img-thumbnail' %>
+            
+          </div>
+        <% end %>    
+      <% else %>
+        <small>
+          У номера нет фотографий, Вы можете добавить их ниже.     
+        </small>
+      <% end %>
+    </div>
+      
+    <div class="col-12"><strong>Добавить фотографии</strong></div>
+    
+    <small class="form-text text-muted">
+      Загрузить фотографии номера. Максимальный размер одной фотографии - 4 МБ,
+      не больше 20 фотографий
+    </small>
+    
+  </div>
+
+</div>
+
+  
+

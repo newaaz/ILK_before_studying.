@@ -1,5 +1,7 @@
 class Town < ApplicationRecord
 
+  has_many  :hotels, dependent: :destroy
+
   mount_uploader  :avatar, PictureUploader
 
   validates :name, :parent_name, :number, :avatar, presence: true
