@@ -11,7 +11,11 @@ class UsersController < ApplicationController
   def show
     # @user определяется в методе :correct_user
     # @user = User.find(params[:id])
-    #debugger   
+    #debugger
+    # определяем заявки которые принял User в качестве владельца жилья
+    @orders = current_user.owner_orders unless current_user.owner_orders.nil?
+    # определяем заявки которые отправлял User в качестве гостя
+    @outgoing_orders = Order.where('user_id = ?', current_user.id)
   end
   
   def new

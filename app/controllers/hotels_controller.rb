@@ -9,7 +9,7 @@ class HotelsController < ApplicationController
   end
   
   def show
-    @hotel = Hotel.find(params[:id])
+    @hotel = Hotel.includes(:rooms).find(params[:id])
   end
   
   def new

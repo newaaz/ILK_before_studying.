@@ -1,0 +1,25 @@
+Здравствуйте! Спасибо за бронирование через сервис "Люблю Крым!"
+Ваша заявка отправлена и в ближайшее время с Вами свяжутся для уточнения деталей и подтверждения общей стоимости.
+Детали бронирования:
+№ брони: <%= @order.id %>
+<%= @order.hotel.name %>
+<%= @order.room_name if @order.room_id? %>
+Заезд:&nbsp<%= @order.check_in %>
+Выезд:&nbsp<%= @order.check_out %>
+ФИО:&nbsp<%= @order.guest_name %>
+Email:&nbsp<%= @order.guest_email %>
+Тел:&nbsp<%= @order.guest_phone %>
+Взрослых:&nbsp<%= @order.adults %>
+<% if @order.kids.blank? %>
+  Без детей
+<% else %>            
+    Дети:&nbsp<%= @order.kids %>           
+<% end %>
+
+<% if @order.wishes.blank? %>
+Комментариев или пожеланию к этому бронированию нет      
+<% else %>            
+Комментарии к бронированию:&nbsp<%= @order.wishes %>         
+<% end %>
+
+С уважением, администрация сайта «Люблю Крым»

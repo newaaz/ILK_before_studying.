@@ -20,6 +20,13 @@ class User < ApplicationRecord
 
   #_______________ Методы ___________________
 
+  # Возвращает заявки по отелям принадлежащим пользователю
+  def owner_orders
+    if hotels.any?
+      self.owner_orders = Order.where(hotel_id: hotel_ids).order({updated_at: :desc}, :hotel_id)
+    end
+  end
+
   # Возвращает случайные токены для хранения куков для запоминания сеанса,
   # активации аккаунта и сброса пароля
   def User.new_token

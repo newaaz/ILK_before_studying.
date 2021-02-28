@@ -24,5 +24,6 @@ Rails.application.routes.draw do
   resources :towns
   resources :hotels
   resources :rooms
+  resources :orders, except: [:edit, :update, :destroy]
 
 end

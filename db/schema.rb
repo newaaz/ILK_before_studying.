@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_19_145754) do
+ActiveRecord::Schema.define(version: 2021_02_20_085700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,27 @@ ActiveRecord::Schema.define(version: 2021_02_19_145754) do
     t.index ["hotel_category_id"], name: "index_hotels_on_hotel_category_id"
     t.index ["town_id"], name: "index_hotels_on_town_id"
     t.index ["user_id"], name: "index_hotels_on_user_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "guest_name"
+    t.string "guest_email"
+    t.string "guest_phone"
+    t.date "check_in"
+    t.date "check_out"
+    t.integer "adults", limit: 2
+    t.integer "kids", limit: 2
+    t.integer "room_id"
+    t.text "wishes"
+    t.boolean "reservation_confirmed", default: false
+    t.boolean "payment_successful", default: false
+    t.string "owner_comment"
+    t.integer "total_amount"
+    t.integer "user_id"
+    t.bigint "hotel_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["hotel_id"], name: "index_orders_on_hotel_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -78,5 +99,6 @@ ActiveRecord::Schema.define(version: 2021_02_19_145754) do
   add_foreign_key "hotels", "hotel_categories"
   add_foreign_key "hotels", "towns"
   add_foreign_key "hotels", "users"
+  add_foreign_key "orders", "hotels"
   add_foreign_key "rooms", "hotels"
 end

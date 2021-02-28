@@ -7,7 +7,7 @@
         <label class="main-menu-btn" for="main-menu-state">
           <span class="main-menu-btn-icon"></span> Toggle main menu visibility
         </label>
-        <a href="index.php">LOGO</a>                 
+        <a href="index.php">LOGO</a> 
         <!-- Sample menu definition -->
         <ul id="main-menu" class="sm sm-clean">
           <li><%= link_to "Главная", root_url, class: 'nav-font' %></li>
@@ -41,6 +41,7 @@
               <li><%= link_to "Пользователи", users_url, class: 'nav-font' %></li>
               <li><%= link_to "Типы жилья", hotel_categories_path %></li>
               <li><%= link_to "Города", towns_path %></li>
+              <li><%= link_to "Гостиницы", hotels_path %></li>
               <li><%= link_to "Выход", logout_path, method: :delete %></li>
             </ul>
           </li>

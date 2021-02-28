@@ -1,0 +1,43 @@
+<!-- Вывод всех карточек статей -->
+<div class='col-sm-4 p-1'>
+  <!-- Начало карточки в блоке md-4 -->
+  <div class='card shadow-sm' id="card-<%= hotel.id %>">
+    <!-- Карусель -->
+    <div id="carouselControls-<%= hotel.id %>" class="carousel slide" data-ride="carousel" data-interval=false>
+    <div class="carousel-inner">
+    <div class="carousel-item active">
+      <%= image_tag hotel.avatar.thumb.url, class: 'd-block w-100 rounded-top' %>
+    </div>
+
+    <% hotel.images.take(7).each do |image| %>
+      <div class="carousel-item">
+        <%= image_tag image.thumb.url, class: 'd-block w-100 rounded-top' %>
+      </div>
+      <% end %>
+
+    </div>
+    <a class="carousel-control-prev" href="#carouselControls-<%= hotel.id %>" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselControls-<%= hotel.id %>" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+    </div>
+    <!-- тело карточки -->
+    <div class="card-body">
+      <h6 class="card-title"><%= link_to hotel.name, hotel %></h6>
+      
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-outline-secondary">Статус:</button> 
+      </div>
+      <hr>
+      <a href="#" class="btn btn-primary btn-sm">Переход куда-нибудь</a>
+    </div>
+  </div>
+  <!-- Конец карточки -->
+</div>
+
+
+<!-- END Вывод всех карточек статей -->

@@ -1,0 +1,26 @@
+.genric-btn {
+  display: inline-block;
+  outline: none;
+  line-height: 40px;
+  padding: 0 15px;
+  font-size: .9em;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+}
+.genric-btn:focus { outline: none; }
+.genric-btn.small {line-height: 25px; }
+.genric-btn.radius {border-radius: 3px; }
+.genric-btn.danger {
+  color: #fff;
+  background: #ee6f41;
+  border: 1px solid transparent; }
+  .genric-btn.danger:hover {
+    color: #f44a40;
+    border: 1px solid #f44a40;
+    background: #fff; }

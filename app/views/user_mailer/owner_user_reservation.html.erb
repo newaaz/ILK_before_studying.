@@ -1,0 +1,24 @@
+<h3>Здравствуйте, у Вас новая заявка на бронирование:</h3>
+<strong>№ брони:&nbsp<%= @order.id %></strong><br>
+<%= @order.hotel.name %><br>
+<%= @order.room_name if @order.room_id? %><br>
+Заезд:&nbsp<strong><%= @order.check_in %></strong><br>
+Выезд:&nbsp<strong><%= @order.check_out %></strong><br>
+ФИО:&nbsp<strong><%= @order.guest_name %></strong><br>
+Email:&nbsp<strong><%= @order.guest_email %></strong><br>
+Тел:&nbsp<strong><%= @order.guest_phone %></strong><br>
+Взрослых:&nbsp<strong><%= @order.adults %></strong><br>
+<% if @order.kids.blank? %>
+  Без детей<br>
+<% else %>            
+    <strong>Дети:&nbsp</strong><%= @order.kids %><br>         
+<% end %>
+
+<% if @order.wishes.blank? %>
+Комментариев или пожеланию к этому бронированию нет<br>     
+<% else %>            
+<strong>Комментарии к бронированию:&nbsp</strong><%= @order.wishes %><br>         
+<% end %>
+<br>
+С уважением, администрация сайта «Люблю Крым»
+

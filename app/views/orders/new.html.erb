@@ -1,0 +1,134 @@
+<% provide(:title, 'Бронирование | ' + @hotel.name) %>
+
+<% content_for(:javascript_plugin_header) do %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+  <%= javascript_include_tag "lightpick.js", 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<div class="container mb-5">
+  <div class="row">
+    <h3>Предварительное бронирование - <%= @hotel.name %></h3>
+    <div class="col-md-9">      
+      <%= form_with(model: @order, local: true) do |f| %>
+        <%= render 'shared/error_messages', object: f.object%>
+        
+        <%= hidden_field_tag(:hotel_id, @hotel.id) %>
+        <p id="result-3"></p>
+        <div class="row">
+          <div class="col-4  pr-1">
+            <div class="form-group">
+              <%= f.label "Дата заезда" %>            
+              <%= f.text_field :check_in, class:"form-control form-control-sm" %>
+            </div>
+          </div>
+          <div class="col-4  pl-1">
+            <div class="form-group">
+              <%= f.label "Дата выезда" %>            
+              <%= f.text_field :check_out, class:" form-control form-control-sm" %>
+            </div>
+          </div>
+          <div class="col-4" id="range-result"></div>
+        </div>
+
+        <% if @hotel.rooms.any? %>
+          <div class="form-group my-3">
+            <%= f.label "Выберите номер" %> 
+            <% if @room %>
+              <%= f.collection_select :room_id, @hotel.rooms, :id, :name, { selected: @room.id, include_blank: false },
+                                    class: "form-select form-select-sm" %>
+            <% else %>
+              <%= f.collection_select :room_id, @hotel.rooms, :id, :name, { prompt: "Какой номер?", include_blank: false },
+                                    class: "form-select form-select-sm" %>
+            <% end %>
+          </div>
+        <% end %>    
+
+        
+        
+        <div class="form-group mb-3">
+          <label>
+            Ваше имя<span class="text-danger"> *</span>
+          </label>            
+          <%= f.text_field :guest_name, class:"form-control form-control-sm", required: true %>
+        </div>
+        
+        <div class="row mb-3">
+          <div class="col-5 pr-1">
+            <div class="form-group">
+              <%= f.label :guest_email %><span class="text-danger"> *</span>             
+              <%= f.email_field :guest_email, class:"form-control form-control-sm", required: true %>             
+            </div>
+          </div>
+          <div class="col-4 pl-1">
+            <div class="form-group">
+              <%= f.label "Ваш телефон" %><span class="text-danger"> *</span>                 
+              <%= f.telephone_field :guest_phone, class:"form-control form-control-sm", required: true %>
+            </div>
+          </div>          
+        </div>
+
+        <div class="row">
+          <div class="col-5">
+            <div class="form-group">
+              <%= f.label "Взрослых" %>               
+              <%= f.number_field :adults, class:"form-control form-control-sm" %>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="form-group">
+              <%= f.label "Детей" %>               
+              <%= f.number_field :kids, class:"form-control form-control-sm" %>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group my-3">
+          <%= f.label :wishes %>                  
+          <%= f.text_area :wishes, class:"form-control form-control-sm" %>
+        </div>
+        
+        <%= f.submit "Отправить заявку",class:"btn btn-primary"%>  
+
+      <% end %>
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+</div>
+
+<script>
+  var picker = new Lightpick({
+    field: document.getElementById('order_check_in'),
+    secondField: document.getElementById('order_check_out'),
+    repick: true,
+    singleDate: false,
+    selectForward: true,
+    minDate: moment(),
+    numberOfMonths: 2,
+    lang: 'ru',
+    locale: {
+        tooltip: {
+            one: 'день',
+            few: 'дня',
+            many: 'дней',
+        },
+        pluralize: function(i, locale) {
+            if ('one' in locale && i % 10 === 1 && !(i % 100 === 11)) return locale.one;
+            if ('few' in locale && i % 10 === Math.floor(i % 10) && i % 10 >= 2 && i % 10 <= 4 && !(i % 100 >= 12 && i % 100 <= 14)) return locale.few;
+            if ('many' in locale && (i % 10 === 0 || i % 10 === Math.floor(i % 10) && i % 10 >= 5 && i % 10 <= 9 || i % 100 === Math.floor(i % 100) && i % 100 >= 11 && i % 100 <= 14)) return locale.many;
+            if ('other' in locale) return locale.other;
+    
+            return '';
+        }
+    },
+    onSelect: function(start, end){
+        var str = '';
+        str += start ? start.format('Do MMMM YYYY') + ' to ' : '';
+        str += end ? end.format('Do MMMM YYYY') : '...';
+        document.getElementById('result-3').innerHTML = str;
+        document.getElementById('range-result').innerHTML = start - end;
+        
+    }    
+
+  });
+</script>

@@ -57,9 +57,13 @@
       <div class="bg-white p-2 mb-3 shadow">
         <h4 class="d-inline"><%= link_to room.name, room %></h4>&ensp;        
         <i class="fas fa-vector-square color-blue"></i>
-        <%= room.size %> М<sup><small>2</small></sup><br>
+        <%= room.size %> М<sup><small>2</small></sup>     
+        
+        <!-- бронирование -->
+        <%= link_to 'Выбрать этот номер', new_order_path(hotel_id: @hotel.id, room_id: room.id),
+                                          class: "genric-btn danger radius small" %>
+        <br>
 
-        <!-- сюда ссылку на бронирование -->
 
         <% if room.images.any? %>              
           <% room.images.each do |image| %> 

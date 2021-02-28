@@ -1,0 +1,79 @@
+<% provide(:title, "Заявка №-#{@order.id}") %>
+
+<div class="container">
+<div class="row mt-3">
+  <div class="col-md-2">
+    Sidebar
+  </div>
+  <div class="col-md-10 dashboard-content">
+        
+    <h4 class="mb-4">Заявка на бронирование № <%= @order.id %></h4>
+
+    <div class="row border rounded shadow-sm mb-2 ml-2">
+      
+      <div class="col-8 border-right">
+        <div class="order mt-3 ml-1">
+          <h5><strong><%= link_to @order.hotel.name, @order.hotel %></strong></h5>
+          <table class="table table-responsive">            
+            <% if @order.room_id? %>
+            <tr>
+              <td>Номер</td>
+              <td><%= @order.room_name %></td>              
+            </tr>
+            <% end %>
+            <tr>
+              <td>Даты</td>
+              <td>
+                Заезд: <strong><%= @order.check_in %></strong>
+                выезд: <strong><%= @order.check_out %> </strong>
+                (Ночей: <%= (@order.check_out - @order.check_in).to_i %>)
+              </td>              
+            </tr>
+            <tr>
+              <td>Взрослые</td>
+              <td><%= @order.adults %></td>              
+            </tr>
+            <tr>
+              <td>Дети</td>
+                <% if @order.kids.blank? %>
+                  <td>Без детей</td>
+                <% else %>            
+                    <td><%= @order.kids %></td>          
+                <% end %>                         
+            </tr>
+            <tr>
+              <td>Комментарии</td>
+              <% if @order.wishes.blank? %>
+                <td>Комментариев или пожеланий к этому бронированию нет</td>   
+              <% else %>            
+                <td><%= @order.wishes %></td>           
+              <% end %>
+            </tr>
+            <tr>
+              <td>Имя</td>
+              <td><%= @order.guest_name %></td>              
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td><%= @order.guest_email %></td>              
+            </tr>
+            <tr>
+              <td>Телефон</td>
+              <td><%= @order.guest_phone %></td>              
+            </tr>
+
+          </table>
+          <div class="input-group">            
+            <input type="text" class="form-control" placeholder="Итоговая стоимость">
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-success ">Отправить</button>
+            </div>
+        </div>
+        </div>
+      </div>      
+
+    </div>            
+  
+  </div>
+</div>
+</div>
