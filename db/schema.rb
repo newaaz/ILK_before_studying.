@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_20_085700) do
+ActiveRecord::Schema.define(version: 2021_03_05_103327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "carts", force: :cascade do |t|
+  end
 
   create_table "hotel_categories", force: :cascade do |t|
     t.string "name"
@@ -36,9 +39,18 @@ ActiveRecord::Schema.define(version: 2021_02_20_085700) do
     t.bigint "hotel_category_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "latitude", precision: 6, scale: 4
+    t.decimal "longitude", precision: 6, scale: 4
     t.index ["hotel_category_id"], name: "index_hotels_on_hotel_category_id"
     t.index ["town_id"], name: "index_hotels_on_town_id"
     t.index ["user_id"], name: "index_hotels_on_user_id"
+  end
+
+  create_table "line_items", force: :cascade do |t|
+    t.bigint "cart_id", null: false
+    t.string "resource_name"
+    t.integer "resource_id"
+    t.index ["cart_id"], name: "index_line_items_on_cart_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -99,6 +111,7 @@ ActiveRecord::Schema.define(version: 2021_02_20_085700) do
   add_foreign_key "hotels", "hotel_categories"
   add_foreign_key "hotels", "towns"
   add_foreign_key "hotels", "users"
+  add_foreign_key "line_items", "carts"
   add_foreign_key "orders", "hotels"
   add_foreign_key "rooms", "hotels"
 end

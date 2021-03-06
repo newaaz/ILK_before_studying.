@@ -47,7 +47,8 @@ ru:
         images: 'Фотографии'
         hotel_category_id: 'Категория жилья.'
         town_id: 'Где находится'
-        latitude: 'Требуются координаты.'
+        latitude: 'Требуется широта,'
+        longitude: 'Требуется долгота,'
         town: 'Населённый пункт.'
         hotel_category: 'Категория жилья.'
       room:

@@ -49,7 +49,7 @@ private
                                   :adults, :kids, :room_id, :wishes, :owner_comment, :total_amount)
   end
 
-  # Корректный пользователь - владелец отеля заявки, а также
+  # Корректный пользователь - владелец отеля заявки, или админ
   def correct_user
     order = Order.find(params[:id])
     redirect_to root_url unless current_user && (current_user?(order.owner_user) || current_user.admin?)

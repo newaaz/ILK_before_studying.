@@ -1,6 +1,6 @@
 class TownsController < ApplicationController
 
-  before_action :user_admin, except: :show
+  before_action :user_admin, except: [:show, :hotels]
 
   def index
     @towns = Town.all    
@@ -8,7 +8,7 @@ class TownsController < ApplicationController
   
   def show
     @town = Town.find(params[:id])
-    
+    @hotels = @town.hotels
   end
   
   def new
@@ -47,26 +47,14 @@ class TownsController < ApplicationController
     redirect_to towns_path
   end
 
-  # Метод выводит все кафе принадлежащие городу
-  def cafe
-    @town = Town.find(params[:id])    
-    @tagcafebars = Tagcafebar.all  
-    if params[:tag].blank?
-      @cafebars = @town.cafebars.enabled
-    else
-      @tag = Tagcafebar.find(params[:tag].to_i)
-      @cafebars = @tag.cafebars.enabled.where(town_id: @town.id)
-    end    
-  end
-
   # Метод выводит всё жильё принадлежащее городу
   def hotels
     @town = Town.find(params[:id])
     @hotel_categories = HotelCategory.all
     if params[:cat].blank?
-      @hotels = @town.hotels.enabled
+      @hotels = @town.hotels
     else
-      @hotels = @town.hotels.enabled.where(hotel_category: params[:cat].to_i)
+      @hotels = @town.hotels.where(hotel_category: params[:cat].to_i)
       @hotel_cat = HotelCategory.find(params[:cat].to_i).name
     end
   end

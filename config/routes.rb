@@ -21,9 +21,14 @@ Rails.application.routes.draw do
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
   resources :hotel_categories, except: :show
-  resources :towns
+  resources :towns do
+    get :hotels, on: :member
+  end
   resources :hotels
   resources :rooms
   resources :orders, except: [:edit, :update, :destroy]
+
+  resources :carts
+  resources :line_items
 
 end

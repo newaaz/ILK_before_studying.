@@ -1,0 +1,49 @@
+<% provide(:title, "Жильё в #{ @town.parent_name }") %>
+
+<div class="town-bg-image" style="background-image: url('<%= @town.avatar.url %>');" >
+  <div class="hero-title text-center">
+    <% unless @hotel_cat %>
+      <h1>Жильё в <%= @town.parent_name %></h1>    
+      Активный отдых Крыму без посредников
+    <% else %>      
+      <h1><%= @hotel_cat %> в <%= @town.parent_name %></h1>
+    <% end %>    
+  </div>  
+</div>
+
+<div class="container">
+
+  <div class="breadcrumbs">    
+    <%= link_to "Главная", root_url %>&nbsp;/&nbsp; 
+    <%= link_to @town.name, @town %>&nbsp;/&nbsp;
+    <% unless @hotel_cat %>
+      Жильё в <%= @town.parent_name %>
+    <% else %>
+      <%= link_to "Жильё", hotels_town_path %>&nbsp;/&nbsp;
+      <%= @hotel_cat %>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <div class="col-9 px-0">
+      <div class="row">
+        <%= render @hotels %>
+      </div>
+    </div>
+    <div class="col-md-3 ">
+      <aside>
+        <h4>Категории</h4>
+        <ul>
+          <% if @hotel_cat %>
+            <li><%= link_to "Всё жильё", hotels_town_path %></li> 
+          <% end %>      
+          <% @hotel_categories.each do |hotel_cat| %>
+            <li>
+              <%= link_to hotel_cat.name, { cat: hotel_cat.id } %>
+            </li> 
+          <% end %>                        
+        </ul>
+      </aside>
+    </div>
+  </div>
+</div>

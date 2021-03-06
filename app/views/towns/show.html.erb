@@ -1,6 +1,29 @@
 <% provide(:title, @town.name) %>
 
+<div class="town-bg-image" style="background-image: url('<%= @town.avatar.url %>');" >
+  <div class="hero-title text-center">
+    <h1><%= @town.name %></h1>    
+    Активный отдых Крыму без посредников
+
+    <input type="button" value="Показать карту" class="btn btn-primary btn-sm" id="toggle"/>
+
+  </div>
+</div>
+
+<div class="container">
+
 <div class="breadcrumbs">    
   <%= link_to "Главная", root_url %>&nbsp;/&nbsp;
   <%= @town.name %>
+</div>
+
+<br><br>
+
+<div class="row">
+  <div class="col-9">
+    <%= link_to "Жильё в #{@town.parent_name}", hotels_town_path,
+                class: 'btn btn-primary btn-sm' %>
+  </div>  
+</div>
+
 </div>

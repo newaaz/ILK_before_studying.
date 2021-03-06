@@ -4,3 +4,32 @@
   label { color: #B22222 }
   input, textarea { border-color: #B22222}
 }
+
+/* ХЛЕБНЫЕ КРОШКИ */
+.breadcrumbs {
+  margin-top: 10px;
+  color: #585858;
+  font-size: 13px;
+  a {
+    color: #ff4500;
+    font-size: 13px;
+  }
+  a:hover {
+    color: #252525;
+  }
+}
+
+/* Выделение запомненного цветом */
+@keyframes cart-highlight {
+  0% {
+      background: #8f8;
+  }
+
+  100% {
+      background: none;
+  }
+}
+
+.cart-highlight {
+  animation: cart-highlight 1s;
+}

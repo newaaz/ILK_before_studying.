@@ -1,5 +1,6 @@
 <% provide(:title, 'Изменение данных') %>
 
+<div class="container">
 
 <h1 class='h3'>Изменение данных</h1>
 
@@ -14,7 +15,7 @@
           <div class="form-group">
             <%= f.label :hotel_category_id %>            
             <%= f.collection_select :hotel_category_id, HotelCategory.order(:number), :id, :name,
-              { include_blank: false },class:"custom-select custom-select-sm" %>
+              { include_blank: false },class:"form-select form-select-sm" %>
             <small class="text-muted">
               Выберите категорию жилья
             </small>
@@ -24,7 +25,7 @@
           <div class="form-group">
               <%= f.label :town_id %>              
               <%= f.collection_select :town_id, Town.order(:number), :id, :name,
-                { include_blank: false },class:"custom-select custom-select-sm" %>
+                { include_blank: false },class:"form-select form-select-sm" %>
               <small class="text-muted">
                 Выберите населённый пункт
               </small>
@@ -87,6 +88,37 @@
         </div>
       </div>      
 
+      <div class="row my-4 pb-3">
+        <h2 class='h5 text-center'>Изменить расположение</h2>
+        <div class="col-md-8">
+          <div id="map" style="height: 300px" class="border"></div>
+        </div>
+        <div class="col-md-4">
+          <div class="coordinates" style="width: 200px">
+            <span>Координаты</span>
+            <div class="form-group">              
+              <small class="text-muted">
+                Широта
+              </small>
+              <%= f.text_field :latitude, class: 'form-control form-control-sm', readonly: true %>
+            </div>
+            <div class="form-group">              
+              <small class="text-muted">
+                Долгота
+              </small>
+              <%= f.text_field :longitude, class: 'form-control form-control-sm', readonly: true %>
+            </div>
+
+            <br>
+            
+            <button type="button" id="clear-btn" class="d-block btn btn-outline-secondary btn-sm">Сбросить координаты</button>
+            <small class="text-muted">
+              С пустыми координатами карта отображаться не будет
+            </small>
+          </div>
+        </div>
+      </div>  
+
       <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
       <%= f.submit "Сохранить изменения",class:"btn btn-primary btn-sm"%>      
     <% end %>      
@@ -103,16 +135,51 @@
   
 </div>
 
+</div>
 
 <script type="text/javascript">
-  $("#town_avatar").bind("change", function() {
+  $("#hotel_avatar").bind("change", function() {
     const size_in_megabytes = this.files[0].size/1024/1024;
     if (size_in_megabytes > 4) {
       alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
     }
   });
+</script>
 
-  //$('#hotel_comfort_ids').multiSelect();
+<script type="text/javascript">
+    ymaps.ready(init);
+    function init(){
+      const coords = [<%= @hotel.latitude %>, <%= @hotel.longitude %>]
+      var myMap = new ymaps.Map("map", {
+          center: coords,
+          zoom: 16,
+          controls: ['zoomControl'],
+          behaviors: ['drag','dblClickZoom', 'multiTouch']
+      });
+
+      var myPlacemark = new ymaps.Placemark(coords, {}, {
+        preset: "islands#blueHomeIcon",        
+        // Балун будем открывать и закрывать кликом по иконке метки.
+        hideIconOnBalloonOpen: false,
+        draggable: true
+      });
+      myMap.geoObjects.add(myPlacemark);
+
+      myPlacemark.events.add('dragend', function(e) {
+        var newCoords = myPlacemark.geometry.getCoordinates()
+        document.getElementById('hotel_latitude').value = newCoords[0].toPrecision(6)
+        document.getElementById('hotel_longitude').value = newCoords[1].toPrecision(6)
+
+      })
+
+      document.getElementById('clear-btn').onclick = function(e) {
+        //myMap.geoObjects.remove(myPlacemark)
+        document.getElementById('hotel_latitude').value = ''
+        document.getElementById('hotel_longitude').value = ''
+      }
+    }
+
+    
 </script>
 
 

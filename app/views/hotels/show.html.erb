@@ -20,67 +20,130 @@
     <div class="col-md-6">
       
       <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
-        <div class="f-right">
-          <%= link_to "Редактировать", edit_hotel_path(@hotel) ,class: "btn btn-primary btn-sm" %>
-          <%= link_to "Добавить номер", new_room_path(hotel_id: @hotel.id), class: "btn btn-primary btn-sm" %>
-          <%= link_to "Удалить объект", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
-        </div>
+        <%= link_to "Редактировать", edit_hotel_path(@hotel) ,class: "btn btn-primary btn-sm" %>
+        <%= link_to "Добавить номер", new_room_path(hotel_id: @hotel.id), class: "btn btn-primary btn-sm" %>
+        <%= link_to "Удалить объект", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
       <% end %>
+
       
+      
+      <% if @current_item %>
+        <%= button_to line_items_path(resource_id: @hotel), remote: true, id: "btn-heart",
+                                                              class: "btn btn-link text-danger" do %>
+          <i class="far fa-heart fa-2x"></i>
+        <% end %>
+      <% else %>
+        <%= button_to line_items_path(resource_id: @hotel), remote: true, id: "btn-heart",
+                                                              class: "btn btn-link" do %>
+          <i class="far fa-heart fa-2x"></i>
+        <% end %>
+      <% end %>
+
     </div>
 
   </div> 
 
-  <br><br>
-<div class="col-md-9">
-  <!-- fotorama begin -->        
-  <div class="fotorama"
-    data-width="900"
-    data-ratio="3/2"
-    data-allowfullscreen="true"
-    data-nav="thumbs"
-    data-loop="true"
-    data-keyboard="true">
-    <%= link_to image_tag(@hotel.avatar.thumb.url), @hotel.avatar.url %>
-    <% @hotel.images.each do |image| %>
-      <%= link_to image_tag(image.thumb.url), image.url %>
-    <% end %>
-  </div>        
-  <!-- fotorama end -->
-</div>
+  <br>
 
+<div class="row">
+
+  <div class="col-md-9">
+    <!-- fotorama begin -->        
+    <div class="fotorama"
+      data-width="900"
+      data-ratio="3/2"
+      data-allowfullscreen="true"
+      data-nav="thumbs"
+      data-loop="true"
+      data-keyboard="true">
+      <%= link_to image_tag(@hotel.avatar.thumb.url), @hotel.avatar.url %>
+      <% @hotel.images.each do |image| %>
+        <%= link_to image_tag(image.thumb.url), image.url %>
+      <% end %>
+    </div>        
+    <!-- fotorama end -->
+  </div>
+
+  <div class="col-3">
+    <div id="map" style="height: 300px" class="border shadow"></div>
+  </div>
+
+</div>
 <br><br>
 
-  <% if @hotel.rooms.any? %>
-    <h3 class="mb-4">Номера:</h3>
-    <% @hotel.rooms.each do |room| %>          
-      <div class="bg-white p-2 mb-3 shadow">
-        <h4 class="d-inline"><%= link_to room.name, room %></h4>&ensp;        
-        <i class="fas fa-vector-square color-blue"></i>
-        <%= room.size %> М<sup><small>2</small></sup>     
-        
-        <!-- бронирование -->
-        <%= link_to 'Выбрать этот номер', new_order_path(hotel_id: @hotel.id, room_id: room.id),
-                                          class: "genric-btn danger radius small" %>
-        <br>
+<div class="row">
+  <div class="col-9">
+    <% if @hotel.rooms.any? %>
+      <h3 class="mb-4">Номера:</h3>
+      <% @hotel.rooms.each do |room| %>          
+        <div class="bg-white p-2 mb-3 shadow">
+          <h4 class="d-inline"><%= link_to room.name, room %></h4>&ensp;        
+          <i class="fas fa-vector-square color-blue"></i>
+          <%= room.size %> М<sup><small>2</small></sup>     
+          
+          <!-- бронирование -->
+          <%= link_to 'Выбрать этот номер', new_order_path(hotel_id: @hotel.id, room_id: room.id),
+                                            class: "genric-btn danger radius small" %>
+          <br>
 
 
-        <% if room.images.any? %>              
-          <% room.images.each do |image| %> 
-            <%= link_to image_tag(image.thumb.url, width: "100px"), image.url %>            
-          <% end %>                          
-        <% end %>
+          <% if room.images.any? %>              
+            <% room.images.each do |image| %> 
+              <%= link_to image_tag(image.thumb.url, width: "100px"), image.url %>            
+            <% end %>                          
+          <% end %>
 
-        <!-- редактирование номеров перенести в ЛК -->        
-        <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %><br>
-        <div class="mt-3">
-          <%= link_to "Редактировать", edit_room_path(room, hotel_id: @hotel.id),class: "btn btn-primary btn-sm" %>
-          <%= link_to "Удалить номер", room ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
-        </div>
-        <% end %>        
+          <!-- редактирование номеров перенести в ЛК -->        
+          <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %><br>
+          <div class="mt-3">
+            <%= link_to "Редактировать", edit_room_path(room, hotel_id: @hotel.id),class: "btn btn-primary btn-sm" %>
+            <%= link_to "Удалить номер", room ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
+          </div>
+          <% end %>        
 
-      </div>          
+        </div>          
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
+  <div class="col-3">
+    <div class="resource_near">
+      <h4>Жильё рядом</h4>
+      <% hotels_near(@hotel).each do |hotel_near| %>
+        <div class="pl-2 media border rounded bg-white shadow-sm mb-2">              
+          <div class="media-body align-self-center">
+            <%= link_to hotel_near.name , hotel_near %>
+            <span style="font-size: 18px; color: orangered;">
+            <i class="fas fa-map-marked-alt"></i>
+            </span>
+            <small>~<%= distance_between(@hotel, hotel_near) %>м.</small>
+          </div>
+          <%= link_to image_tag(hotel_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-end img-fluid'), hotel_near %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 </div>
+
+<script type="text/javascript">
+  ymaps.ready(init);
+  function init(){
+    const coords = [<%= @hotel.latitude %>, <%= @hotel.longitude %>]      
+    var myMap = new ymaps.Map("map", {
+        center: coords,
+        zoom: 14,
+        behaviors: ['drag','dblClickZoom', 'multiTouch']
+    });    
+    var myPlacemark = new ymaps.Placemark(coords, {
+      balloonContentHeader: 'Однажды',
+      balloonContentBody: 'В студеную зимнюю пору',
+      balloonContentFooter: 'Мы пошли в гору',
+      hintContent: 'Зимние происшествия'
+    }, {
+      preset: "islands#blueHomeIcon"
+    });
+    myMap.geoObjects.add(myPlacemark);
+  }
+  
+</script>

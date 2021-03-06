@@ -1,4 +1,4 @@
-class HotelsController < ApplicationController
+class HotelsController < ApplicationController  
   
   before_action :logged_in_user, only: [:new, :create]
   before_action :correct_user, only: [:edit, :update, :destroy]
@@ -10,6 +10,10 @@ class HotelsController < ApplicationController
   
   def show
     @hotel = Hotel.includes(:rooms).find(params[:id])
+    # определяем - является ли этот отель запомненным
+    @current_item = @cart.line_items.find_by(resource_id: params[:id])
+    
+
   end
   
   def new
@@ -18,8 +22,6 @@ class HotelsController < ApplicationController
 
   def create    
     @hotel = current_user.hotels.build(hotel_params)
-    #@hotel.latitude = hotel_params[:latitude].to_f * 10000
-    #@hotel.longitude = hotel_params[:longitude].to_f * 10000
     if @hotel.save
       flash[:success] = "Объект успешно создан"
       redirect_to @hotel
@@ -35,9 +37,6 @@ class HotelsController < ApplicationController
   def update
     @hotel = Hotel.find(params[:id])
     if @hotel.update(hotel_params)
-      #@hotel.latitude = hotel_params[:latitude].to_f * 10000
-      #@hotel.longitude = hotel_params[:longitude].to_f * 10000
-      #@hotel.save
       redirect_to @hotel
       flash[:info] = 'Объект успешно изменён'
     else
@@ -80,7 +79,7 @@ private
   end  
 
   def hotel_params
-    params.require(:hotel).permit(:name, :price_from, :address, :distance_to_sea,
+    params.require(:hotel).permit(:name, :price_from, :address, :distance_to_sea, :latitude, :longitude,
                                   :hotel_category_id, :town_id, :site,
                                   :email, :avatar, { images: [], comfort_ids: [] })
   end

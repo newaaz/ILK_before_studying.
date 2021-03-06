@@ -1,43 +1,46 @@
-<!-- Вывод всех карточек статей -->
-<div class='col-sm-4 p-1'>
-  <!-- Начало карточки в блоке md-4 -->
-  <div class='card shadow-sm' id="card-<%= hotel.id %>">
-    <!-- Карусель -->
-    <div id="carouselControls-<%= hotel.id %>" class="carousel slide" data-ride="carousel" data-interval=false>
-    <div class="carousel-inner">
-    <div class="carousel-item active">
-      <%= image_tag hotel.avatar.thumb.url, class: 'd-block w-100 rounded-top' %>
-    </div>
-
-    <% hotel.images.take(7).each do |image| %>
-      <div class="carousel-item">
-        <%= image_tag image.thumb.url, class: 'd-block w-100 rounded-top' %>
-      </div>
-      <% end %>
-
-    </div>
-    <a class="carousel-control-prev" href="#carouselControls-<%= hotel.id %>" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselControls-<%= hotel.id %>" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-    </div>
-    <!-- тело карточки -->
-    <div class="card-body">
-      <h6 class="card-title"><%= link_to hotel.name, hotel %></h6>
+<div class="col-lg-4 col-md-6 px-0 mb-15">
+    <div class="card mx-2 shadow">  
       
-      <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-outline-secondary">Статус:</button> 
+      <%= link_to hotel.name, hotel %>
+        
+      <!-- carousel -->
+      <a href="<%= hotel_path(hotel) %>">
+        <div id="carousel_hotel-<%= hotel.id %>" class="carousel slide" data-bs-interval="false">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <%= image_tag hotel.avatar.thumb.url, class: 'd-block w-100' %>
+            </div>
+            <% hotel.images.take(7).each do |image| %>
+              <div class="carousel-item">
+                <%= image_tag image.thumb.url, class: 'd-block w-100' %>
+              </div>
+            <% end %>          
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel_hotel-<%= hotel.id %>"  data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel_hotel-<%= hotel.id %>"  data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </a>
+      <!-- end carousel -->   
+      <div class="card-body"> 
+        <div class="row">
+          <div class="col">
+            <i class="fas fa-water color-blue"></i>&nbsp;море: <%= hotel.distance_to_sea %> м<br>
+          </div>
+          <div class="col">
+            <i class="fas fa-wallet color-gray"></i>&nbsp;от <%= hotel.price_from %> ₽/сут <br>
+          </div>
+        </div>
       </div>
-      <hr>
-      <a href="#" class="btn btn-primary btn-sm">Переход куда-нибудь</a>
+      <div class="card-footer py-1">
+        <small class="text-muted">
+          <i class="fas fa-map-marker-alt"></i>&nbsp;<%= hotel.address %>            
+        </small>
+      </div>
     </div>
   </div>
-  <!-- Конец карточки -->
-</div>
-
-
-<!-- END Вывод всех карточек статей -->

@@ -1,4 +1,23 @@
-<header>    
+<header>
+
+  
+  <div class="container">
+
+    <div id="cart">
+  
+      <% if @cart %>
+        <%= link_to @cart do %>
+          <small>Избранное(<%= @cart.line_items.count %>)</small>
+        <% end %>  
+      <% else %>
+        <small>Избранное</small>
+      <% end %> 
+
+    </div>   
+    
+  </div>
+  
+
   <div class="bg-white shadow">
     <div class="container py-1">        
       <nav class="main-nav" role="navigation"> 
@@ -12,13 +31,21 @@
         <ul id="main-menu" class="sm sm-clean">
           <li><%= link_to "Главная", root_url, class: 'nav-font' %></li>
           <li>
+            <%= link_to "Города", root_url, onclick: "event.preventDefault()", class: 'nav-font' %>
+            <ul>
+              <% Town.all.each do |town| %>
+                <li><%= link_to town.name, town %></li>
+              <% end %>
+            </ul>
+          </li>
+          <li>
             <%= link_to "Гостевые дома", root_url, onclick: "event.preventDefault()", class: 'nav-font' %>
             <ul>
               <li><a href="alex.php">«Александры и Александра»</a></li>
               <li><a href="sunhouse.php">«Солнечный дом»</a></li>
               <li><a href="elling.php">Эллинг «Алые паруса»</a></li>
             </ul>
-          </li>                           
+          </li>                            
           <li><%= link_to "Контакты", contacts_url, class: 'nav-font' %></li>
         <% if logged_in? %>
           <li>

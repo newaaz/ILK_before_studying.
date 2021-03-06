@@ -4,12 +4,12 @@ class Hotel < ApplicationRecord
   belongs_to  :town
   belongs_to  :hotel_category  
   has_many    :rooms, dependent: :destroy
-  has_many    :orders
+  has_many    :orders, dependent: :destroy
 
   mount_uploader  :avatar, PictureUploader
   mount_uploaders :images, PictureUploader
 
-  validates :name, :price_from, :avatar, presence: true
+  validates :name, :price_from, :avatar, :latitude, :longitude, presence: true
 
   validates :price_from, numericality: { greater_than: 0 }
   validates :distance_to_sea, numericality: { allow_nil: true, greater_than: 0 }

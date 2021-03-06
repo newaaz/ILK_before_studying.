@@ -1,0 +1,5 @@
+  <div class="cart-highlight">
+    <%= link_to @cart do %>
+      <small>Избранное(<%= @cart.line_items.count %>)</small>
+    <% end %>
+  </div>

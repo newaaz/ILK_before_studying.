@@ -1,0 +1,27 @@
+<% provide(:title, "Запомненное") %>
+
+<div class="container">
+
+<% @hotels.each do |hotel| %>
+  <%= link_to hotel.name, hotel %>  
+  <br>
+<% end %>
+
+<br><br>
+
+<%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+
+<%= link_to "Очистить корзину", cart_path(@cart), method: :delete, class: 'btn btn-outline-danger btn-sm' %>  
+
+<br><br>
+
+<% @cart.line_items.each do |line_item| %>
+  <%= @hotels.find(line_item.resource_id) %>  
+<% end %>
+
+
+</div>
+
+
+
+
