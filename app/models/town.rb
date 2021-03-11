@@ -2,6 +2,8 @@ class Town < ApplicationRecord
 
   has_many  :hotels, dependent: :destroy
 
+  default_scope { order(:number) }
+
   mount_uploader  :avatar, PictureUploader
 
   validates :name, :parent_name, :number, :avatar, presence: true

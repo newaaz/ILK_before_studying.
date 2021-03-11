@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_05_103327) do
+ActiveRecord::Schema.define(version: 2021_03_09_063822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,14 @@ ActiveRecord::Schema.define(version: 2021_03_05_103327) do
     t.index ["hotel_id"], name: "index_orders_on_hotel_id"
   end
 
+  create_table "prices", force: :cascade do |t|
+    t.bigint "room_id", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "day_cost"
+    t.index ["room_id"], name: "index_prices_on_room_id"
+  end
+
   create_table "rooms", force: :cascade do |t|
     t.string "name"
     t.json "images"
@@ -113,5 +121,6 @@ ActiveRecord::Schema.define(version: 2021_03_05_103327) do
   add_foreign_key "hotels", "users"
   add_foreign_key "line_items", "carts"
   add_foreign_key "orders", "hotels"
+  add_foreign_key "prices", "rooms"
   add_foreign_key "rooms", "hotels"
 end

@@ -44,8 +44,19 @@
               В квадратных метрах
           </small>
         </div>
-      </div>                 
-
+      </div>
+      <!-- Add Price -->
+      <h3>Добавление цен</h3>
+      <div id="prices">
+        <%= f.fields_for :prices do |price| %>
+          <%= render 'price_fields', f: price %>
+        <% end %>     
+        <div class='links'>
+        <br>  
+          <%= link_to_add_association 'Добавить ценовой период', f, :prices, class: "btn btn-success btn-sm" %>
+        </div>
+      </div>       
+      <!-- end Price -->
     </div>  
 
     <div class="col-md-3 border-start">
@@ -60,6 +71,8 @@
     </div>
 
   </div>
+
+  <br><br>
 
   <div class="row">
     <div class="form-group">

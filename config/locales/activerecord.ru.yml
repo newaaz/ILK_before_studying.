@@ -6,7 +6,8 @@ ru:
       post_category: 'Категория статей'
       town: 'Город'
       order: 'Заявка'
-    attributes:
+      price: 'Стоимость'
+    attributes:      
       post:
         title:   'Название'
         content: 'Содержание:'
@@ -58,6 +59,10 @@ ru:
         images: "Фотографии номера"
         number: "Порядковый номер"
         size: "Площадь"
+      price:
+        start_date: 'Начальная дата'
+        end_date: 'Конец периода'
+        day_cost: 'Стоимость периода'
       cafebar:
         name: 'Название'
         avatar: 'Главное фото'

@@ -1,0 +1,27 @@
+<div class='nested-fields'>
+  <div class="row">
+    <div class="col-3">
+      <div class="form-group">
+        <%= f.label "начало периода" %>            
+        <%= f.date_field :start_date, class:"form-control form-control-sm" %>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group">
+        <%= f.label "конец периода" %>            
+        <%= f.date_field :end_date, class:" form-control form-control-sm" %>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group">
+        <%= f.label "Стоимость суток" %>               
+        <%= f.number_field :day_cost, class:"form-control form-control-sm" %>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-group">
+        <%= link_to_remove_association "Удалить", f, class: 'btn btn-danger btn-sm' %>
+      </div>
+    </div>
+  </div>
+</div>

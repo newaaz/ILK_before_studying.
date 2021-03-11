@@ -5,9 +5,6 @@ ru:
     nav:
       prev: "&lsaquo;&nbsp;Назад"
       next: "Вперёд&nbsp;&rsaquo;"
-  errors:
-    messages:
-      extension_whitelist_error: "должно иметь разрешение JPEG, JPG или PNG"
   towns:
     form:
       submit:

@@ -18,6 +18,7 @@ class RoomsController<ApplicationController
     else
       @hotel = Hotel.find(params[:hotel_id].to_i)
       @room = Room.new 
+      @room.prices.build
     end
   end
 
@@ -67,11 +68,13 @@ private
 
   # Разрешённые параметры
   def room_params
-    params.require(:room).permit(:name, :number, :description, :size, { images: [] })
+    params.require(:room).permit(:name, :number, :description, :size, { images: [] },
+      prices_attributes: [:id, :start_date, :end_date, :day_cost, :_destroy])
   end
 
   # проверяем пользователя являетля ли он владельцем отеля для которого создаётся номер
   def correct_user_rooms_for_create
+    #debugger
     hotel = Hotel.find(params[:hotel_id].to_i)
     redirect_to root_path unless current_user?(hotel.user) || current_user.admin?
   end

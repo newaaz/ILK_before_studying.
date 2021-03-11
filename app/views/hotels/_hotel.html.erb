@@ -38,9 +38,24 @@
         </div>
       </div>
       <div class="card-footer py-1">
+
         <small class="text-muted">
-          <i class="fas fa-map-marker-alt"></i>&nbsp;<%= hotel.address %>            
+          <i class="fas fa-map-marker-alt"></i>&nbsp;<%= hotel.address %>        
         </small>
+
+        <!-- like button -->
+        <% if @array_resources_ids.include?(hotel.id) %>
+          <%= button_to line_items_path(resource_id: hotel), remote: true, id: "btn-heart-#{hotel.id}",
+                                            class: "btn btn-link text-danger" do %>
+            <i class="fas fa-heart"></i>
+          <% end %>
+        <% else %>
+          <%= button_to line_items_path(resource_id: hotel), remote: true, id: "btn-heart-#{hotel.id}",
+                                                      class: "btn btn-link" do %>
+            <i class="fas fa-heart"></i>
+          <% end %>
+        <% end %>
+
       </div>
     </div>
   </div>

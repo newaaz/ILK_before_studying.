@@ -28,7 +28,9 @@ Rails.application.routes.draw do
   resources :rooms
   resources :orders, except: [:edit, :update, :destroy]
 
-  resources :carts
-  resources :line_items
+  resources :carts, only: [:show, :destroy]
+  resources :line_items, only: :create
+
+  
 
 end

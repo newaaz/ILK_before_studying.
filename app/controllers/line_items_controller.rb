@@ -22,10 +22,9 @@ class LineItemsController < ApplicationController
         end
       end
     end
-
-
     
   end
+
 
 end
 

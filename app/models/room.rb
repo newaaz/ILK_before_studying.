@@ -2,6 +2,12 @@ class Room < ApplicationRecord
   
   belongs_to :hotel
 
+  has_many  :prices, dependent: :destroy
+  accepts_nested_attributes_for :prices, allow_destroy: true
+
+  default_scope { order(:number) }
+
+
   #has_rich_text :description
 
   mount_uploaders :images, PictureUploader

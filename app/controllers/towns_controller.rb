@@ -57,6 +57,13 @@ class TownsController < ApplicationController
       @hotels = @town.hotels.where(hotel_category: params[:cat].to_i)
       @hotel_cat = HotelCategory.find(params[:cat].to_i).name
     end
+
+    # определяем массив запомненных ID отелей
+    @array_resources_ids = []
+    @cart.line_items.each do |line_item|
+      @array_resources_ids << line_item.resource_id
+    end
+
   end
 
   private

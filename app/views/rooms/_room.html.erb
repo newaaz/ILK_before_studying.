@@ -1,0 +1,53 @@
+<div class="bg-white p-2 mb-3 shadow">
+
+  <h4 class="d-inline"><%= link_to room.name, room %></h4>&ensp;        
+  <i class="fas fa-vector-square color-blue"></i>
+  <%= room.size %> М<sup><small>2</small></sup>     
+  
+  <!-- бронирование -->
+  <%= link_to 'Выбрать этот номер', new_order_path(hotel_id: @hotel.id, room_id: room.id),
+                                    class: "genric-btn danger radius small" %>
+  <br>
+
+  <% if room.images.any? %>              
+    <% room.images.each do |image| %> 
+      <%= link_to image_tag(image.thumb.url, width: "100px"), image.url %>            
+    <% end %>                          
+  <% end %>
+
+  <br>
+
+  <div class="room__price"><!-- Prices  -->
+    <h5>Стоимость проживания:</h5>
+
+    <% room.prices.each do |price| %>
+
+    <div class="d-inline-flex border py-1 px-1">
+      <%= price.start_date.strftime("%d/%m") %>-<%= price.end_date.strftime("%d/%m") %>
+      <br>
+      <%= price.day_cost %>      
+    </div>       
+            
+    <% end %>                
+    
+  </div><!-- End Prices -->
+
+  <!-- редактирование номеров перенести в ЛК -->        
+  <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %><br>
+  <div class="mt-3">
+    <%= link_to "Редактировать", edit_room_path(room, hotel_id: @hotel.id),class: "btn btn-primary btn-sm" %>
+    <%= link_to "Удалить номер", room ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
+  </div>
+  <% end %> 
+
+</div>  
+
+
+
+
+
+
+
+
+
+

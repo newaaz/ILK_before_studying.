@@ -1,0 +1,18 @@
+<div class="container">
+
+<br>
+<br>
+
+
+<% @room.prices.each do |price| %>
+  Начало: <%= price.start_date.strftime("%d/%m") %> - Конец: <%= price.end_date.to_s(:rfc822) %>
+  <br>
+  Стоимость/сутки: <%= price.day_cost %> 
+  <br>
+  Сумма за период: <%= price.day_cost * (price.end_date - price.start_date).to_i %>
+  <hr>
+<% end %>
+
+
+
+</div>

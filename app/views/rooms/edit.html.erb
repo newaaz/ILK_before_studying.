@@ -46,6 +46,18 @@
         </div>
       </div>      
 
+      <!-- Add Price -->
+      <h3>Добавление цен</h3>
+      <div id="prices">
+        <%= f.fields_for :prices do |price| %>
+          <%= render 'price_fields', f: price %>
+        <% end %>  
+        <div class='links'>
+          <%= link_to_add_association 'Добавить ценовой период', f, :prices %>
+        </div>
+      </div>       
+      <!-- end Price -->
+
       <div class="row">
         <div class="form-group">
           <%= button_tag type: 'submit', class:"btn btn-primary btn-sm" do %>

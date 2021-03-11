@@ -68,6 +68,25 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
+  #__________Настройки почты______________________
+
+  host = 'ilovekrim.ru'
+  config.action_mailer.default_url_options = { host: host }
+  
+  config.action_mailer.delivery_method = :smtp
+
+  ActionMailer::Base.smtp_settings = {
+    :address        => 'smtp.mail.ru',
+    :port           => '587',
+    :authentication => :plain,
+    :user_name      => Rails.application.credentials.email[:login],
+    :password       => Rails.application.credentials.email[:pass],
+    #:domain         => 'heroku.com',
+    :enable_starttls_auto => true
+    }  
+
+  #__________Настройки почты закончены_____________
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
