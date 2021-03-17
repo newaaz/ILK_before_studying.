@@ -104,7 +104,7 @@
    display: inline-block;
    vertical-align: middle;
    *display: inline;
-   *zoom: 1; }
+   /**zoom: 1; */ }
  
  .fotorama__nav__frame, .fotorama__thumb-border {
    box-sizing: content-box; }

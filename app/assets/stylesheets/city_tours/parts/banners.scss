@@ -1,0 +1,141 @@
+/*Banners*/
+.banner {
+	position: relative;
+	background: #fff url(asset_path("ct/banner_bg.png")) no-repeat center bottom;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	padding: 30px;
+	margin-bottom: 60px;
+}
+
+.banner:after,
+.banner:before {
+	position: absolute;
+	content: "";
+	z-index: 1;
+	height: 18px;
+	width: 50%;
+	top: 100%;
+}
+
+.banner:after {
+	left: 0;
+/*	background: url(../img/shadow-bg.png) no-repeat top left;*/
+  background: url(asset_path("ct/shadow-bg.png")) no-repeat top left;
+}
+
+.banner:before {
+	right: 0;
+	background: url(asset_path("ct/shadow-bg.png")) no-repeat top right;
+}
+
+.banner a {
+	position: absolute;
+	top: 35%;
+	right: 30px;
+}
+
+.banner h4 {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 32px;
+	margin: 0;
+	padding: 0;
+	color: #e04f67;
+	font-family: "Gochi Hand", cursive;
+}
+
+.banner h4 span {
+	text-transform: none;
+	color: #555;
+}
+
+.banner p {
+	margin: 0;
+	padding: 0;
+}
+
+.banner.colored {
+  /* background: linear-gradient(to right, #114982, #0473aa, #0473aa, #114982); */
+	background: #e04f67 url(asset_path("ct/banner_bg_colored.png")) no-repeat center bottom;
+	color: #fff;
+}
+
+.banner.colored h4 {
+	color: #fff;
+}
+
+.banner.colored h4 span {
+	color: #FFC;
+}
+
+
+/* Promo_full */
+.promo_full {
+	height: auto;
+	/*background: url(../img/home_bg_2.jpg) no-repeat center center;*/
+	background: url(asset_path("ct/home_bg_2")) no-repeat center center;
+	background-attachment: fixed;
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	position: relative;
+}
+
+.promo_full_wp {
+	display: table;
+	width: 100%;
+	height: auto;
+}
+
+.promo_full_wp > div {
+	display: table-cell;
+	padding: 10% 15%;
+	vertical-align: middle;
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.promo_full_wp div h3 {
+	font-size: 48px;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #fff;
+}
+
+.promo_full_wp div p {
+	font-size: 23px;
+	font-weight: 300;
+	line-height: 1.4;
+}
+
+@media (max-width: 575px) {
+	.promo_full_wp div h3 {
+		font-size: 36px;
+	}
+	.promo_full_wp > div {
+		padding: 10% 30px;
+	}
+  .promo_full_wp div p {
+	font-size: 18px;
+	}
+}
+
+.promo_full_wp div a i {
+	color: #fff;
+	opacity: 0.5;
+	font-size: 72px;
+	-webkit-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+.promo_full_wp div a:hover i {
+	opacity: 1;
+}

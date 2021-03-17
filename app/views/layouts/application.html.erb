@@ -46,6 +46,11 @@
 
     <%= render 'layouts/footer' %>
 
+    <div id="toTop"></div><!-- Back to top button -->
+
+    <%= javascript_include_tag "common_scripts.js", 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "functions.js", 'data-turbolinks-track': 'reload' %>
+
     <%= javascript_include_tag "smartmenu.js" %>
     <script>// SmartMenus init    
       $(function() {
@@ -81,5 +86,101 @@
       });
     </script>
     
+    <script>
+    /* Video modal dialog + Parallax + Scroll to top + Incrementer */
+      $(function () {
+        'use strict';
+        $('.parallax-window').parallax({zIndex:1}); /* Parallax modal*/
+        
+        $('.video').magnificPopup({
+          type: 'iframe',
+          closeMarkup: '<button title="%title%" type="button" class="mfp-close" style="font-size:21px">&#215;</button>'
+        }); /* video modal*/
+        
+        /*  Image popups */
+        $('.magnific-gallery').each(function () {
+          $(this).magnificPopup({
+            delegate: 'a',
+            type: 'image',
+                  preloader: true,
+            gallery: {
+              enabled: true
+            },
+            removalDelay: 500, //delay removal by X to allow out-animation
+            callbacks: {
+              beforeOpen: function () {
+                // just a hack that adds mfp-anim class to markup 
+                this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
+                this.st.mainClass = this.st.el.attr('data-effect');
+              }
+            },
+            closeOnContentClick: true,
+            midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+          });
+        });
+        
+        /* Cart header drop down */
+        $('.dropdown-menu').on('click', function (e) {
+          e.stopPropagation();
+        });
+        $('ul#top_tools li .dropdown').hover(function () {
+          $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn(300);
+        }, function () {
+          $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeOut(300);
+        });
+
+        /* Hamburger icon */
+        var toggles = document.querySelectorAll(".cmn-toggle-switch");
+        for (var i = toggles.length - 1; i >= 0; i--) {
+          var toggle = toggles[i];
+          toggleHandler(toggle);
+        };
+        function toggleHandler(toggle) {
+          toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            (this.classList.contains("active") === true) ? this.classList.remove("active"): this.classList.add("active");
+          });
+        };
+
+        /* Scroll to top*/
+        var pxShow = 800; // height on which the button will show
+        var scrollSpeed = 500; // how slow / fast you want the button to scroll to top.
+
+        $(window).on('scroll', function(){
+        if($(window).scrollTop() >= pxShow){
+          $("#toTop").addClass('visible');
+        } else {
+          $("#toTop").removeClass('visible');
+        }
+        });
+
+        $('#toTop').on('click', function(){
+        $('html, body').animate({scrollTop:0}, scrollSpeed);
+        return false;
+        });
+
+        /* Input incrementer*/
+        $(".numbers-row").append('<div class="inc button_inc">+</div><div class="dec button_inc">-</div>');
+        $(".button_inc").on('click', function () {
+
+          var $button = $(this);
+          var oldValue = $button.parent().find("input").val();
+
+          if ($button.text() == "+") {
+            var newVal = parseFloat(oldValue) + 1;
+          } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 1) {
+              var newVal = parseFloat(oldValue) - 1;
+            } else {
+              newVal = 0;
+            }
+          }
+          $button.parent().find("input").val(newVal);
+        });
+      });  
+    </script>
+
+
   </body>
 </html>
