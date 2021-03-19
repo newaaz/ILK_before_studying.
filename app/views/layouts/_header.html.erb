@@ -1,16 +1,22 @@
-<header>
 
-  
   <div class="container">
 
     <div id="cart">
   
       <% if @cart %>
-        <%= link_to @cart do %>
-          <small>Избранное(<%= @cart.line_items.count %>)</small>
+        <% if @cart.line_items.count > 0 %>
+          <%= link_to @cart do %>
+            <small>Избранное <i class="icon-heart"></i>(<%= @cart.line_items.count %>)</small>
+          <% end %>
+        <% else %>
+          <%= link_to @cart do %>
+            <small>Избранное <i class="icon-heart-empty"></i></small>
+          <% end %>
         <% end %>  
       <% else %>
-        <small>Избранное</small>
+        <%= link_to cart_path('blank') do %>
+          <small>Избранное <i class="icon-heart-empty"></i></small>
+        <% end %>
       <% end %> 
 
     </div>
@@ -81,4 +87,4 @@
       </nav>
     </div>
   </div>
-</header>
+

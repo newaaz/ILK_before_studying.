@@ -1,5 +1,13 @@
   <div class="cart-highlight">
-    <%= link_to @cart do %>
-      <small>Избранное(<%= @cart.line_items.count %>)</small>
+    
+    <% if @cart.line_items.count > 0 %>
+      <%= link_to @cart do %>
+        <small>Избранное <i class="icon-heart"></i>(<%= @cart.line_items.count %>)</small>
+      <% end %>
+    <% else %>
+      <%= link_to @cart do %>
+        <small>Избранное <i class="icon-heart-empty"></i></small>
+      <% end %>
     <% end %>
+  
   </div>

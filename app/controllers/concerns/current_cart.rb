@@ -1,9 +1,15 @@
 module CurrentCart
   private
     def set_cart
-        @cart = Cart.find(session[:cart_id])
+      @cart = Cart.find(session[:cart_id])
     rescue ActiveRecord::RecordNotFound
-        @cart = Cart.create
-        session[:cart_id] = @cart.id
+      @cart = Cart.create
+      session[:cart_id] = @cart.id
     end
+
+    def find_cart
+      @cart = Cart.find(session[:cart_id]) if session[:cart_id]
+    end
+
+
 end

@@ -58,10 +58,12 @@ class TownsController < ApplicationController
       @hotel_cat = HotelCategory.find(params[:cat].to_i).name
     end
 
-    # определяем массив запомненных ID отелей
-    @array_resources_ids = []
-    @cart.line_items.each do |line_item|
-      @array_resources_ids << line_item.resource_id
+    # определяем массив запомненных ID отелей, если есть @cart
+    if @cart
+      @array_resources_ids = []
+      @cart.line_items.each do |line_item|
+        @array_resources_ids << line_item.resource_id
+      end
     end
 
   end
