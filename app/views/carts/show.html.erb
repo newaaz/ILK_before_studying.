@@ -6,12 +6,13 @@
 
   <div class="row">
 
-    <div class="col-9">
+    <div class="col-9"> 
 
-      <% if @cart.line_items.any? %>      
-        <% @hotels.each do |hotel| %>
-          <%= link_to hotel.name, hotel %>
-          <div class="row">
+      <% if @cart.line_items.any? %> 
+
+        <% @hotels.each do |hotel| %>          
+          <div class="row" id="Hotel-<%= hotel.id %>">
+            <%= link_to hotel.name, hotel %>
             <div class="col-4">
               <%= link_to image_tag(hotel.avatar.thumb.url), hotel  %>
             </div>        
@@ -20,20 +21,18 @@
               Второй из мелкой перетёртой ракушки - пляж санатория Восход. Вход на все пляжи Феодосии бесплатный. В гостинице сдаются 2-х, 3-х и 4-х местные номера класса Люкс. В номерах имеется всё что нужно для комфортного отдыха в Феодосии.
             </div>
             <div class="col-2">
-              <%= link_to "X", cart_path(@cart, resource_id: hotel.id), method: :delete, class: 'btn btn-danger btn-sm' %>
+              <%= link_to "X", cart_path(@cart, resource_id: hotel.id, resource_name: "Hotel"),
+                                remote: true, method: :delete, class: 'btn btn-danger btn-sm' %>
             </div>
           </div>
         <% end %>
 
         <br><br>
-
         <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
         <%= link_to "Удалить список", cart_path(@cart, referer_page: @referer_page), method: :delete, class: 'btn btn-outline-danger btn-sm' %>  
       <% else %>
         <h2>Список избранного пуст</h2>
-
         <br><br>
-
         <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
         <%= link_to "Удалить список", cart_path(@cart), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
       <% end %>
@@ -48,9 +47,7 @@
 
   <br><br>
  
-  <% @cart.line_items.each do |line_item| %>
-    <%= @hotels.find(line_item.resource_id) %>  
-  <% end %>
+
 
 <% else %>
 

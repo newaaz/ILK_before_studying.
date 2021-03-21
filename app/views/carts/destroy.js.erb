@@ -1,0 +1,7 @@
+cart = document.getElementById("cart")
+cart.innerHTML = "<%= j render(@cart) %>"
+
+
+document.getElementById("<%= @resource_id_in_cart %>").style.display = 'none'
+
+

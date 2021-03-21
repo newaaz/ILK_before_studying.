@@ -28,12 +28,12 @@
       
       
       <% if @current_item %>
-        <%= button_to line_items_path(resource_id: @hotel), remote: true, id: "btn-heart",
+        <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
                                                               class: "btn btn-link text-danger" do %>
           <i class="fas fa-heart fa-2x"></i>
         <% end %>
       <% else %>
-        <%= button_to line_items_path(resource_id: @hotel), remote: true, id: "btn-heart-#{@hotel.id}",
+        <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
                                                               class: "btn btn-link" do %>
           <i class="fas fa-heart fa-2x"></i>
         <% end %>

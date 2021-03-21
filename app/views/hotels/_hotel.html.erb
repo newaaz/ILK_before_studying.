@@ -45,12 +45,12 @@
 
         <!-- like button -->
         <% if @cart && @array_resources_ids.include?(hotel.id) %>
-          <%= button_to line_items_path(resource_id: hotel), remote: true, id: "btn-heart-#{hotel.id}",
+          <%= button_to line_items_path(resource_id: hotel, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{hotel.id}",
                                             class: "btn btn-link text-danger" do %>
             <i class="fas fa-heart"></i>
           <% end %>
         <% else %>
-          <%= button_to line_items_path(resource_id: hotel), remote: true, id: "btn-heart-#{hotel.id}",
+          <%= button_to line_items_path(resource_id: hotel, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{hotel.id}",
                                                       class: "btn btn-link" do %>
             <i class="fas fa-heart"></i>
           <% end %>

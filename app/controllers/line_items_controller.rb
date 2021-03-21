@@ -4,19 +4,18 @@ class LineItemsController < ApplicationController
 
   def create
     #debugger
-    current_item = @cart.line_items.find_by(resource_id: params[:resource_id])
-
+    #current_item = @cart.line_items.find_by(resource_id: params[:resource_id])
+    current_item = @cart.line_items.find_by(resource_name: params[:resource_name],
+                                            resource_id: params[:resource_id])
     if current_item           # если такой ресурс уже добавлен в избранное - удаляем
       current_item.destroy
-      respond_to do |format|
-        format.html { redirect_back(fallback_location: root_url) }
+      respond_to do |format|        
         format.js   
       end      
     else                      # если не добавлен - добавляем
-      @line_item = @cart.line_items.build(resource_id: params[:resource_id])
+      @line_item = @cart.line_items.build(resource_id: params[:resource_id], resource_name: params[:resource_name])
       respond_to do |format|
-        if @line_item.save
-          format.html { redirect_back(fallback_location: root_url) }
+        if @line_item.save          
           format.js        
         else
           format.html { redirect_back(fallback_location: root_url) }

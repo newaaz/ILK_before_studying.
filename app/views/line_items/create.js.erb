@@ -1,7 +1,13 @@
 cart = document.getElementById("cart")
 cart.innerHTML = "<%= j render(@cart) %>"
 
-btnHeart = document.getElementById("btn-heart-<%= params[:resource_id] %>")
+btnHeart = document.getElementById("heart-<%= params[:resource_name] %>-<%= params[:resource_id] %>")
 btnHeart.classList.toggle("text-danger")
+
+
+
+
+
+
 
 
