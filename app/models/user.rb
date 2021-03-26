@@ -3,6 +3,7 @@ class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token, :owner_orders
 
   has_many  :hotels, dependent: :destroy
+  has_many  :cafebars, dependent: :destroy
 
   before_save :downcase_email
   before_create :create_activation_digest

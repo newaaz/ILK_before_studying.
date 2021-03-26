@@ -3127,7 +3127,7 @@ ul.list_order li span {
 	width: 100%;
 	overflow: hidden;
 	height: 40px;
-	background: #434343 url(../img/down_arrow_select.png) no-repeat right center;
+	background: #434343 url(asset_path("ct/down_arrow_select.png")) no-repeat right center;
 	border: none;
 	margin-bottom: 15px;
 	-webkit-border-radius: 3px;
@@ -3164,7 +3164,7 @@ ul.list_order li span {
 	width: 100%;
 	overflow: hidden;
 	height: 34px;
-	background: #fff url(../img/down_arrow_select_filters.png) no-repeat right center;
+	background: #fff url(asset_path("ct/down_arrow_select_filters.png")) no-repeat right center;
 	border: none;
 	margin: 0;
 	padding: 0;
@@ -3198,7 +3198,7 @@ ul.list_order li span {
 
 /* Parallax bg */
 .parallax-window {
-	min-height: 470px;
+	min-height: 270px;
 	background: transparent;
 	position: relative;
 }
@@ -3206,7 +3206,7 @@ ul.list_order li span {
 .parallax-content-1 {
 	display: table;
 	width: 100%;
-	height: 470px;
+	height: 270px;
 	background: rgba(0, 0, 0, 0.6);
 }
 
@@ -3413,11 +3413,11 @@ ul.list_order li span {
 }
 
 .ribbon.popular {
-	background: url(../img/ribbon_popular.png) no-repeat 0 0;
+	background: url(asset_path("ct/ribbon_popular.png")) no-repeat 0 0;
 }
 
 .ribbon.top_rated {
-	background: url(../img/ribbon_top_rated.png) no-repeat 0 0;
+	background: url(asset_path("ct/ribbon_top_rated.png")) no-repeat 0 0;
 }
 
 /* Tooltips */

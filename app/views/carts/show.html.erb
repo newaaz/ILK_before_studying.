@@ -1,71 +1,215 @@
 <% provide(:title, "Запомненное") %>
 
-<div class="container">
+	<main>
+		<div id="position">
+			<div class="container">
+				<ul>
+					<li><a href="#">Home</a>
+					</li>
+					<li><a href="#">Category</a>
+					</li>
+					<li>Page active</li>
+				</ul>
+			</div>
+		</div>
+		<!-- Position -->
 
-<% if @cart %>
+		<div class="collapse" id="collapseMap">
+			<div id="map" class="map"></div>
+		</div>
+		<!-- End Map -->
 
-  <div class="row">
+		<div class="container margin_60">
 
-    <div class="col-9"> 
+			<div class="row">
+				
+				<div class="col-lg-9">
 
-      <% if @cart.line_items.any? %> 
+          <% if @cart %>
+            <% if @cart.line_items.any? %>
 
-        <% @hotels.each do |hotel| %>          
-          <div class="row" id="Hotel-<%= hotel.id %>">
-            <%= link_to hotel.name, hotel %>
-            <div class="col-4">
-              <%= link_to image_tag(hotel.avatar.thumb.url), hotel  %>
-            </div>        
-            <div class="col-6" style="font-size: 14px">
-              Гостиница находится в одном из лучших районов города. До моря идти 7-10 минут неспешным шагом, направится можно на два разных пляжа. Первый пляж "Динамо" - песчанный с ровным песчанным дном.
-              Второй из мелкой перетёртой ракушки - пляж санатория Восход. Вход на все пляжи Феодосии бесплатный. В гостинице сдаются 2-х, 3-х и 4-х местные номера класса Люкс. В номерах имеется всё что нужно для комфортного отдыха в Феодосии.
-            </div>
-            <div class="col-2">
-              <%= link_to "X", cart_path(@cart, resource_id: hotel.id, resource_name: "Hotel"),
-                                remote: true, method: :delete, class: 'btn btn-danger btn-sm' %>
-            </div>
-          </div>
-        <% end %>
+              <div id="tools">
+                <div class="row">
+                  <div class="col-md-3 col-sm-4 col-6">
+                    <div class="styled-select-filters">
+                      <select name="sort_price" id="sort_price">
+                        <option value="" selected>Sort by price</option>
+                        <option value="lower">Lowest price</option>
+                        <option value="higher">Highest price</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-sm-4 col-6">
+                    <div class="styled-select-filters">
+                      <select name="sort_rating" id="sort_rating">
+                        <option value="" selected>Sort by ranking</option>
+                        <option value="lower">Lowest ranking</option>
+                        <option value="higher">Highest ranking</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-4 d-none d-sm-block text-right">
+                    <a href="all_tours_grid.html" class="bt_filters"><i class="icon-th"></i></a> <a href="#" class="bt_filters"><i class=" icon-list"></i></a>
+                  </div>
 
-        <br><br>
-        <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
-        <%= link_to "Удалить список", cart_path(@cart, referer_page: @referer_page), method: :delete, class: 'btn btn-outline-danger btn-sm' %>  
-      <% else %>
-        <h2>Список избранного пуст</h2>
-        <br><br>
-        <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
-        <%= link_to "Удалить список", cart_path(@cart), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
-      <% end %>
-    
-    </div>
+                </div>
+              </div>
+              <!--/tools -->
 
-    <div class="col-3">
+              <%= render partial: "carts/cafebar", collection: @cart.cafebars %>
 
-    </div>
+              <%= render partial: "carts/hotel", collection: @cart.hotels %>
 
-  </div>
+              <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+              <%= link_to "Удалить список", cart_path(@cart, referer_page: @referer_page), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+            
+            <% else %>
+              <h2>Список избранного пуст</h2>
+              <br><br>
+              <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+              <%= link_to "Удалить список", cart_path(@cart, referer_page: @referer_page), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+            <% end %>
 
-  <br><br>
- 
+          <% else %>
+            <h2>Список избранного пуст</h2>
+            <h3>Вы пока не добавили в список запомненного</h3>
+            <br><br>
+            <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+          <% end %>
 
+					<hr>
 
-<% else %>
+					<nav aria-label="Page navigation">
+						<ul class="pagination justify-content-center">
+							<li class="page-item">
+								<a class="page-link" href="#" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+									<span class="sr-only">Previous</span>
+								</a>
+							</li>
+							<li class="page-item active"><span class="page-link">1<span class="sr-only">(current)</span></span>
+							</li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item">
+								<a class="page-link" href="#" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+									<span class="sr-only">Next</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+					<!-- end pagination-->
 
-  <div class="row">
-    <div class="col-9">
-      <h2>Список избранного пуст</h2>
-      <h3>Вы пока не добавили в список запомненного</h3>
-      <br><br>
-      <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
-    </div>
-    <div class="col-3">
-    </div>
-  </div> 
-  
-<% end %>
+				</div>
+				<!-- End col lg-9 -->
 
-</div>
+        <aside class="col-lg-3">
+					<p>
+						<a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap" data-text-swap="Hide map" data-text-original="View on map">View on map</a>
+					</p>
 
+					<div id="filters_col">
+						<a data-toggle="collapse" href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt"><i class="icon_set_1_icon-65"></i>Filters</a>
+						<div class="collapse show" id="collapseFilters">
+							<div class="filter_type">
+								<h6>Price</h6>
+								<ul>
+									<li>
+										<label>
+											<input type="checkbox" checked>From $10 to $50</label>
+									</li>
+									<li>
+										<label>
+											<input type="checkbox">From $50 to $80</label>
+									</li>
+									<li>
+										<label>
+											<input type="checkbox">From $80 to $100</label>
+									</li>
+								</ul>
+							</div>
+							<div class="filter_type">
+								<h6>Rating</h6>
+								<ul>
+									<li>
+										<label>
+											<input type="checkbox">
+											<span class="rating">
+												<i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i>
+											</span>
+										</label>
+									</li>
+									<li>
+										<label>
+											<input type="checkbox">
+											<span class="rating">
+												<i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i>
+											</span>
+										</label>
+									</li>
+									<li>
+										<label>
+											<input type="checkbox">
+											<span class="rating">
+												<i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i><i class="icon-smile"></i>
+											</span>
+										</label>
+									</li>
+									<li>
+										<label>
+											<input type="checkbox">
+											<span class="rating">
+												<i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i><i class="icon-smile"></i><i class="icon-smile"></i>
+											</span>
+										</label>
+									</li>
+									<li>
+										<label>
+											<input type="checkbox">
+											<span class="rating">
+												<i class="icon-smile voted"></i><i class="icon-smile"></i><i class="icon-smile"></i><i class="icon-smile"></i><i class="icon-smile"></i>
+											</span>
+										</label>
+									</li>
+								</ul>
+							</div>
+							<div class="filter_type">
+								<h6>Type</h6>
+								<ul>
+									<li>
+										<label>
+											<input type="checkbox">City tours</label>
+									</li>
+									<li>
+										<label>
+											<input type="checkbox">Hotels</label>
+									</li>
+									<li>
+										<label>
+											<input type="checkbox">Transfers</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<!--End collapse -->
+					</div>
+					<!--End filters col-->
+					<div class="box_style_2">
+						<i class="icon_set_1_icon-57"></i>
+						<h4>Need <span>Help?</span></h4>
+						<a href="tel://004542344599" class="phone">+45 423 445 99</a>
+						<small>Monday to Friday 9.00am - 7.30pm</small>
+					</div>
+				</aside>
+				<!--End aside -->
+
+			</div>
+			<!-- End row -->
+		</div>
+		<!-- End container -->
+	</main>
+	<!-- End main -->
 
 
 

@@ -10,9 +10,8 @@ class HotelsController < ApplicationController
   
   def show
     @hotel = Hotel.includes(:rooms).find(params[:id])
-    # определяем - является ли этот отель запомненным
-    # возможно - модифицировать метод, чтобы он отправлял true или false
-    current_item = @cart.line_items.find_by(resource_id: params[:id]) if @cart
+    # определяем - является ли этот отель запомненным    
+    current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Hotel') if @cart
     @current_item = true if current_item
 
   end

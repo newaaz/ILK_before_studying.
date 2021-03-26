@@ -1,0 +1,42 @@
+<div class="col-md-4 isotope-item lower_price higher_ranking">
+  <div class="tour_container">    
+    <div class="img_container">
+      <a href="single_restaurant.html">
+        <%= image_tag cafebar.avatar.thumb.url, class: "img-fluid", alt: "РЕСТОРАН" %>
+        <div class="short_info">
+          <i class="icon_set_3_restaurant-2"></i> Fast food<span class="price"><sup>$</sup>45</span>
+        </div>
+      </a>
+    </div>
+    <div class="tour_title">
+      <%= link_to cafebar do %>
+        <h3><strong><%= cafebar.name %></strong></h3>
+      <% end %>
+      <div class="rating">
+        <i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i><small>(75)</small>
+      </div>
+      <!-- end rating -->
+
+      <!-- like button -->
+        <% if @cart && @array_resources_ids.include?(cafebar.id) %>
+          <%= button_to line_items_path(resource_id: cafebar, resource_name: "Cafebar"), remote: true, id: "heart-Cafebar-#{cafebar.id}",
+                                            class: "btn btn-link text-danger" do %>
+            <i class="fas fa-heart"></i>
+          <% end %>
+        <% else %>
+          <%= button_to line_items_path(resource_id: cafebar, resource_name: "Cafebar"), remote: true, id: "heart-Cafebar-#{cafebar.id}",
+                                                      class: "btn btn-link" do %>
+            <i class="fas fa-heart"></i>
+          <% end %>
+        <% end %>
+
+
+
+      <div class="wishlist">
+        <a class="tooltip_flip tooltip-effect-1" href="#"><strong>+</strong><span class="tooltip-content-flip"><span class="tooltip-back">Add to wishlist</span></span></a>
+      </div>
+      <!-- End wish list-->
+    </div>
+  </div>
+  <!-- End box tour -->
+</div>

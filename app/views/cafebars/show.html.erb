@@ -1,0 +1,179 @@
+<% provide(:title, @cafebar.name) %>
+<%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+
+<div class="container">
+
+<div class="breadcrumbs">    
+  <%= link_to "Главная", root_url %>&nbsp;/&nbsp;
+  <%= link_to @cafebar.town.name, @cafebar.town %>&nbsp;/&nbsp;
+  <%= link_to "Где поесть", "#" %>&nbsp;/&nbsp;
+  <%= @cafebar.name %>
+</div>
+
+<div class="row mt-5">
+
+  <div class="col-md-6">
+    <div class="hotel-name">
+      <h1 class="d-inline"><%= @cafebar.name %></h1>, <%= @cafebar.address %>
+    </div>
+  </div>
+
+  <div class="col-md-1">
+    <% if @current_item %>
+      <%= button_to line_items_path(resource_id: @cafebar.id, resource_name: "Cafebar"),
+                remote: true, id: "heart-Cafebar-#{@cafebar.id}", class: "btn btn-link text-danger" do %>
+        <i class="fas fa-heart fa-2x"></i>
+      <% end %>
+    <% else %>
+      <%= button_to line_items_path(resource_id: @cafebar.id, resource_name: "Cafebar"),
+                remote: true, id: "heart-Cafebar-#{@cafebar.id}", class: "btn btn-link" do %>
+        <i class="fas fa-heart fa-2x"></i>
+      <% end %>
+    <% end %>    
+  </div>
+
+  <div class="col-md-3">
+    <% if current_user %>
+      <% if current_user?(@cafebar.user) || current_user.admin? %>
+        <div class="f-right">
+          <%= link_to "Редактировать", edit_cafebar_path(@cafebar) ,class: "btn btn-primary btn-sm" %>
+          <%= link_to "Удалить объект", @cafebar ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+</div>
+
+<div class="row mt-5">
+
+  <div class="col-lg-9 col-md-12 p-0">
+
+    <!--   TAGS    -->
+
+    <!-- fotorama begin -->                        
+    <div class="fotorama"
+      data-width="900"
+      data-ratio="3/2"
+      data-allowfullscreen="true"
+      data-nav="thumbs"
+      data-loop="true"
+      data-keyboard="true">
+      <%= link_to image_tag(@cafebar.avatar.thumb.url), @cafebar.avatar.url %>
+      <% @cafebar.images.each do |image| %>
+        <%= link_to image_tag(image.thumb.url), image.url %>
+      <% end %>
+    </div> 
+    <!-- fotorama end -->
+
+  </div>
+
+  <div class="col-lg-3 col-md-6 col-sm-12 shadow-sm">
+
+    <div class="contact-info">
+      <div class="owner-foto">
+        <%= image_tag @cafebar.avatar.thumb.url, width: "50px", height: '50px',
+        class: "rounded-circle shadow-sm" %>
+        <span>Тамара Васильевна</span>
+      </div>
+      <div class="owner-detail">
+        <i class="fas fa-mobile-alt fa-fw fa-lg color-blue"></i>&nbsp;
+        <a href="tel:+7978819500">+7 978 715 45 00</a>&nbsp;
+        <i class="fab fa-viber color-pink fa-lg"></i>&nbsp;
+        <i class="fab fa-whatsapp color-green fa-lg"></i>        
+      </div>
+      <div class="owner-detail">
+        <i class="far fa-envelope fa-fw fa-lg color-blue"></i>&nbsp;
+        <a href="mailto:konica_kafa@mail.ru">konica_kafa@mail.ru</a>
+      </div>
+      <div class="owner-detail">
+        <i class="fab fa-skype fa-fw fa-lg color-blue"></i>&nbsp;
+        myskypied
+      </div> 
+      <div class="owner-detail">
+        <i class="fas fa-globe fa-fw fa-lg color-blue"></i>&nbsp;
+        <a href="https://bootstrap-4.ru/">sunhome.ru</a>
+      </div>
+    </div>
+    
+    <div id="map" style="height: 300px" class="border my-3 shadow"></div>    
+
+  </div>
+
+</div>
+
+<div class="row mt-20">
+    
+  <div class="col-lg-9">
+    <h3>Описание:</h3>
+    <%= @cafebar.description %>
+    <h3>Что в меню:</h3>
+    
+  </div>
+
+  <div class="col-lg-3 shadow-sm">
+    <!-- NEAR -->      
+    <div class="nears-all">        
+      <div class="resource">
+        <h4>Другие предложения рядом</h4>
+        <% hotels_near(@cafebar).each do |hotel_near| %>
+          <div class="pl-2 media border rounded bg-white shadow-sm mb-2">              
+            <div class="media-body align-self-center">
+              <h6><%= link_to hotel_near.name , hotel_near %></h6>
+              <span style="font-size: 18px; color: orangered;">
+              <i class="fas fa-map-marked-alt"></i>
+              </span>
+              <small>~<%= distance_between(@cafebar, hotel_near) %>м.</small>
+            </div>
+            <%= link_to image_tag(hotel_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-end'), hotel_near %>
+          </div>
+        <% end %>
+      </div> 
+      <div class="resource">
+        <h4>Кафе, бары, рестораны рядом</h4>
+        <% cafebars_near(@cafebar).each do |cafebar_near| %>          
+          <div class="d-flex align-items-center border rounded bg-white shadow mb-2">            
+            <div class="flex-grow-1 ps-2">
+              <h6><%= link_to cafebar_near.name, cafebar_near %></h6>
+              <span style="font-size: 18px; color: orangered;">
+                <i class="fas fa-map-marked-alt"></i>
+              </span>
+              <small>~<%= distance_between(@cafebar, cafebar_near) %>м.</small>
+            </div>
+            <div class="flex-shrink-0">
+              <%= link_to image_tag(cafebar_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-end'), cafebar_near %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="resource">
+        <h4>Статьи рядом:</h4>
+
+      </div>        
+    </div>      
+    <!-- END NEAR -->
+  </div>
+
+</div>
+
+</div>
+
+<script type="text/javascript">
+  ymaps.ready(init);
+  function init(){
+    const coords = [<%= @cafebar.latitude %>, <%= @cafebar.longitude %>]      
+    var myMap = new ymaps.Map("map", {
+        center: coords,
+        zoom: 14,
+        behaviors: ['drag','dblClickZoom', 'multiTouch']
+    });    
+    var myPlacemark = new ymaps.Placemark(coords, {}, {
+      preset: "islands#blueFoodIcon"
+    });
+    myMap.geoObjects.add(myPlacemark);
+  }  
+</script>
+
+
+
+</div>

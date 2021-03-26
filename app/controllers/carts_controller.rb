@@ -7,15 +7,9 @@ class CartsController < ApplicationController
     if params[:id] == 'blank'
       render 'show'
     else
-      @cart = Cart.find(params[:id])
-      array_hotel_ids = []
-      @cart.line_items.where('resource_name = ?', 'Hotel').each do |line_item|
-        array_hotel_ids << line_item.resource_id
-      end
-      @hotels = Hotel.find(array_hotel_ids)
-      @referer_page = request.referer
-    end
-    
+      #@cart = Cart.find(params[:id])  Корзина уже определена в хелпере
+      @referer_page = request.referer            
+    end    
   end
   
   def destroy

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :hotel_categories, except: :show
   resources :towns do
     get :hotels, on: :member
+    get :cafebars, on: :member
   end
   resources :hotels
   resources :rooms
@@ -30,6 +31,8 @@ Rails.application.routes.draw do
 
   resources :carts, only: [:show, :destroy]
   resources :line_items, only: :create
+
+  resources :cafebars
 
   
 

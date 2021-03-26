@@ -49,6 +49,7 @@ class TownsController < ApplicationController
 
   # Метод выводит всё жильё принадлежащее городу
   def hotels
+
     @town = Town.find(params[:id])
     @hotel_categories = HotelCategory.all
     if params[:cat].blank?
@@ -61,7 +62,21 @@ class TownsController < ApplicationController
     # определяем массив запомненных ID отелей, если есть @cart
     if @cart
       @array_resources_ids = []
-      @cart.line_items.each do |line_item|
+      @cart.line_items.where(resource_name: "Hotel").each do |line_item|
+        @array_resources_ids << line_item.resource_id
+      end
+    end
+
+  end
+
+  def cafebars
+   #  @town = Town.includes(:cafebars).find(params[:id])       ЧЕРЕЗ INCLUDES (потом проверить)
+    @town = Town.find(params[:id])
+    @hotels = @town.hotels
+
+    if @cart
+      @array_resources_ids = []
+      @cart.line_items.where(resource_name: "Cafebar").each do |line_item|
         @array_resources_ids << line_item.resource_id
       end
     end

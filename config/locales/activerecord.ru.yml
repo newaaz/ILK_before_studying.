@@ -7,6 +7,7 @@ ru:
       town: 'Город'
       order: 'Заявка'
       price: 'Стоимость'
+      cafebar: 'Кафе/Ресторан'
     attributes:      
       post:
         title:   'Название'
@@ -67,12 +68,13 @@ ru:
         name: 'Название'
         avatar: 'Главное фото'
         images: 'Фотографии'
-        town: 'Населённый пункт.'
+        town_id: 'Населённый пункт'
         latitude: 'Требуются координаты.'
         address: 'Адрес'
         phone: 'Телефон'
-        site: 'Сайт'
-        cafe_category: '---------'
+        site: 'Сайт'    
+        instagram: 'Профиль в Instagram'
+        vk:      'Профиль в VK'   
         description: 'Описание'
         menu: 'Меню'
       order:
