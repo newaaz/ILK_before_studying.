@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_23_160401) do
+ActiveRecord::Schema.define(version: 2021_03_28_082956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,13 @@ ActiveRecord::Schema.define(version: 2021_03_23_160401) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["town_id"], name: "index_cafebars_on_town_id"
     t.index ["user_id"], name: "index_cafebars_on_user_id"
+  end
+
+  create_table "cafebars_tagcafebars", id: false, force: :cascade do |t|
+    t.bigint "cafebar_id", null: false
+    t.bigint "tagcafebar_id", null: false
+    t.index ["cafebar_id"], name: "index_cafebars_tagcafebars_on_cafebar_id"
+    t.index ["tagcafebar_id"], name: "index_cafebars_tagcafebars_on_tagcafebar_id"
   end
 
   create_table "carts", force: :cascade do |t|
@@ -156,6 +163,11 @@ ActiveRecord::Schema.define(version: 2021_03_23_160401) do
     t.index ["hotel_id"], name: "index_rooms_on_hotel_id"
   end
 
+  create_table "tagcafebars", force: :cascade do |t|
+    t.string "name"
+    t.string "icon"
+  end
+
   create_table "towns", force: :cascade do |t|
     t.string "name"
     t.string "parent_name"
@@ -183,6 +195,8 @@ ActiveRecord::Schema.define(version: 2021_03_23_160401) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cafebars", "towns"
   add_foreign_key "cafebars", "users"
+  add_foreign_key "cafebars_tagcafebars", "cafebars"
+  add_foreign_key "cafebars_tagcafebars", "tagcafebars"
   add_foreign_key "hotels", "hotel_categories"
   add_foreign_key "hotels", "towns"
   add_foreign_key "hotels", "users"

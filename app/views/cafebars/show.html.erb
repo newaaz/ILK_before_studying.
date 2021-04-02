@@ -6,7 +6,7 @@
 <div class="breadcrumbs">    
   <%= link_to "Главная", root_url %>&nbsp;/&nbsp;
   <%= link_to @cafebar.town.name, @cafebar.town %>&nbsp;/&nbsp;
-  <%= link_to "Где поесть", "#" %>&nbsp;/&nbsp;
+  <%= link_to "Где поесть", cafebars_town_path(@cafebar.town) %>&nbsp;/&nbsp;
   <%= @cafebar.name %>
 </div>
 
@@ -48,9 +48,18 @@
 <div class="row mt-5">
 
   <div class="col-lg-9 col-md-12 p-0">
-
-    <!--   TAGS    -->
-
+    
+    <% if @cafebar.tagcafebars.any? %> 
+    <div class="widget tags">
+      <h4 class="d-inline">Теги</h4> 
+      <% @cafebar.tagcafebars.each do |tag| %>        
+        <%= link_to cafebars_town_path(@cafebar.town, { tag: tag.id }) do %>
+          <%= tag.name %><i class="<%= tag.icon %>"></i>
+        <% end %>         
+      <% end %>
+    </div>
+    <% end %> 
+    
     <!-- fotorama begin -->                        
     <div class="fotorama"
       data-width="900"
@@ -64,7 +73,7 @@
         <%= link_to image_tag(image.thumb.url), image.url %>
       <% end %>
     </div> 
-    <!-- fotorama end -->
+    <!-- fotorama end -->    
 
   </div>
 

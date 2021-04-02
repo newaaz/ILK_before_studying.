@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
   resources :hotel_categories, except: :show
+  
   resources :towns do
     get :hotels, on: :member
     get :cafebars, on: :member
@@ -33,7 +34,7 @@ Rails.application.routes.draw do
   resources :line_items, only: :create
 
   resources :cafebars
-
-  
+  resources :tagcafebars, except: :show
+    
 
 end

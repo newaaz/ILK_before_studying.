@@ -131,6 +131,20 @@
           <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
         </div>
         
+        <br>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group mb-4">
+              <%= f.label 'Выберите теги' %>            
+              <%= f.collection_select :tagcafebar_ids, Tagcafebar.order(:name), :id, :name,
+                { include_blank: false }, class:"form-select", size: 8,
+                      multiple: true %>                
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
     </div>            

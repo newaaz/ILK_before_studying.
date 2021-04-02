@@ -1,6 +1,6 @@
 class TownsController < ApplicationController
 
-  before_action :user_admin, except: [:show, :hotels]
+  before_action :user_admin, except: [:show, :hotels, :cafebars]
 
   def index
     @towns = Town.all    
@@ -49,7 +49,6 @@ class TownsController < ApplicationController
 
   # Метод выводит всё жильё принадлежащее городу
   def hotels
-
     @town = Town.find(params[:id])
     @hotel_categories = HotelCategory.all
     if params[:cat].blank?
@@ -66,14 +65,21 @@ class TownsController < ApplicationController
         @array_resources_ids << line_item.resource_id
       end
     end
-
   end
-
+  
+  # Метод выводит все кафе принадлежащие городу
   def cafebars
-   #  @town = Town.includes(:cafebars).find(params[:id])       ЧЕРЕЗ INCLUDES (потом проверить)
+    #  @town = Town.includes(:cafebars).find(params[:id])       ЧЕРЕЗ INCLUDES (потом проверить)
     @town = Town.find(params[:id])
-    @hotels = @town.hotels
+    @tagcafebars = Tagcafebar.all   
+    if params[:tag].blank?
+      @cafebars = @town.cafebars
+    else
+      @tag = Tagcafebar.find(params[:tag].to_i)
+      @cafebars = @tag.cafebars.where(town_id: @town.id)
+    end 
 
+    # определяем массив запомненных ID кафе, если есть @cart
     if @cart
       @array_resources_ids = []
       @cart.line_items.where(resource_name: "Cafebar").each do |line_item|

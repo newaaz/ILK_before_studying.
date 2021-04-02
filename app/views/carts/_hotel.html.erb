@@ -19,7 +19,7 @@
         <%= link_to hotel do %>
           <h3><strong><%= hotel.name %></strong></h3>
         <% end %>
-        <p style="font-size: 14px">Гостиница находится в одном из лучших районов города. До моря идти 7-10 минут неспешным шагом, направится можно на два разных пляжа. Первый пляж "Динамо" - песчанный с ровным песчанным дном.
+        <p style="font-size: 13px;">Гостиница находится в одном из лучших районов города. До моря идти 7-10 минут неспешным шагом, направится можно на два разных пляжа. Первый пляж "Динамо" - песчанный с ровным песчанным дном.
           В номерах имеется всё что нужно для комфортного отдыха в Феодосии.</p>
           <ul class="add_info">
             <li>
@@ -75,12 +75,14 @@
                 </div>
               </div>
             </li>
+            <li>
+              <%= link_to "x", cart_path(@cart, resource_id: hotel.id, resource_name: "Hotel"),
+                  remote: true, method: :delete, class: 'btn btn-danger btn-sm' %>
+            </li>
           </ul>
       </div>
     </div>
-    <div class="col-lg-2 col-md-2">
-      <%= link_to "x", cart_path(@cart, resource_id: hotel.id, resource_name: "Hotel"),
-                    remote: true, method: :delete, class: 'btn btn-danger btn-sm' %>
+    <div class="col-lg-2 col-md-2">      
       <div class="price_list">
         <div><sup>$</sup>39*<span class="normal_price_list">$99</span><small>*From/Per night</small>
           <p><a href="single_hotel.html" class="btn_1">Подробнее</a>

@@ -15,7 +15,7 @@
           <div class="col-4">
             <span><i class="fas fa-hashtag text-muted"></i></span>
             <%= f.label :name %><small class="text-muted"> / Название</small>
-            <%= f.text_field :name, class: 'form-control', required: true %>
+            <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>
             <div class="form-text">подсказки к загрузке  главного фото</div>
           </div>
           <div class="col-3">
@@ -130,7 +130,20 @@
           <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
           <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
         </div>
-        
+
+        <br>     
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group mb-4">
+              <%= f.label 'Выберите теги' %>            
+              <%= f.collection_select :tagcafebar_ids, Tagcafebar.order(:name), :id, :name,
+                { include_blank: false }, class:"form-select", size: 8,
+                      multiple: true %>                
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>            

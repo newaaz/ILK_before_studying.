@@ -1,0 +1,33 @@
+<% provide(:title, 'Все теги для кафе') %>
+
+<div class="container">
+
+<%= link_to 'Новый тег', new_tagcafebar_path, class: 'btn btn-primary btn-sm' %>
+
+<br>
+<br>
+
+<section>
+  <table class="table">
+    <thead>
+      <th>№</th>
+      <th>Название</th>
+      <th>Icon</th>    
+    </thead>
+    <tbody>
+      <% @tagcafebars.each do |tagcafebar| %>
+        <tr>
+          <td><%= tagcafebar.id %></td>
+          <td><%= tagcafebar.name %></td>
+          <td><i style="font-size: 24px;" class="<%= tagcafebar.icon %>"></td>         
+          <td>
+            <%= link_to 'Edit', edit_tagcafebar_path(tagcafebar), class: 'btn btn-warning btn-sm' %>
+            <%= link_to "Удалить", tagcafebar_path(tagcafebar), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
+
+</div>

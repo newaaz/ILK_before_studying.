@@ -61,8 +61,8 @@ private
 
   # Разрешённые параметры
   def cafebar_params
-    params.require(:cafebar).permit(:name, :avatar, :address, :phone, :site, :email, :instagram, :vk, :town_id,
-                                    :latitude, :longitude, :description, :menu, { images: [] })
+    params.require(:cafebar).permit(:name, :avatar, :address, :phone, :site, :email, :instagram, :town_id,
+                                    :vk, :latitude, :longitude, :description, { images: [], tagcafebar_ids: [] })
   end
 
 end

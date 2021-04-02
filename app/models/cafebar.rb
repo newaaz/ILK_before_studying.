@@ -3,6 +3,8 @@ class Cafebar < ApplicationRecord
   belongs_to :user
   belongs_to :town
 
+  has_and_belongs_to_many :tagcafebars
+
   has_rich_text :description
 
   mount_uploader  :avatar, PictureUploader

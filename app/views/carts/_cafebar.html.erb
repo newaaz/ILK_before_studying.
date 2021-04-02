@@ -76,10 +76,10 @@
       </div>
     </div>
     <div class="col-lg-2 col-md-2">
-      <div class="price_list">
-        <%= link_to "x", cart_path(@cart, resource_id: cafebar.id, resource_name: "Cafebar"),
-                  remote: true, method: :delete, class: 'btn btn-danger btn-sm' %>
-        <div><sup>$</sup>39*<span class="normal_price_list">$99</span><small>*Per person</small>
+      <%= link_to "x", cart_path(@cart, resource_id: cafebar.id, resource_name: "Cafebar"),
+          remote: true, method: :delete, class: 'btn btn-danger btn-sm' %>
+      <div class="price_list">        
+        <div><sup>$</sup>39*<span class="normal_price_list">$99</span><small>*Per person</small>        
           <p><a href="single_tour.html" class="btn_1">Подробнее</a>
           </p>
         </div>
