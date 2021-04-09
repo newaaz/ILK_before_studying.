@@ -44,7 +44,14 @@
               В квадратных метрах
           </small>
         </div>
-      </div>      
+      </div>
+
+      <div class="mb-2">
+        <span><i class="fas fa-info-circle text-muted"></i></span>
+        <%= f.label :description %>        
+      </div>
+      <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
+ 
 
       <!-- Add Price -->
       <h3>Добавление цен</h3>
@@ -96,6 +103,8 @@
     </small>
     
   </div>
+
+</div>
 
 </div>
 

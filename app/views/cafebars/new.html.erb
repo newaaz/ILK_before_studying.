@@ -67,18 +67,14 @@
             <%= f.label :vk %>
             <%= f.text_field :vk, class: 'form-control' %>
           </div>
+        </div>       
+        
+        <div class="mb-2">
+          <span><i class="fas fa-info-circle text-muted"></i></span>
+          <%= f.label :description %>
+          <small class="text-muted"> / Основной контент статьи</small>
         </div>
-
-        <div class="row mb-3">
-        <div class="col">
-          <div class="mb-2">
-            <span><i class="fas fa-info-circle text-muted"></i></span>
-            <%= f.label :description %>
-            <small class="text-muted"> / Основной контент статьи</small>
-          </div>
-          <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
-        </div>
-        </div>
+        <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
 
         <div class="row mb-4 pb-3">
           <div class="col-md-8">

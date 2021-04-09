@@ -14,7 +14,7 @@
   <div class="row">
 
     <div class="col-md-12">
-      <h1 class="d-inline"><%= @hotel.name %></h1>, <%= @hotel.address %>
+      <h1 class="d-inline"><%= @hotel.name %></h1>, <%= @hotel.address %> check
     </div>
 
     <div class="col-md-6">
@@ -23,9 +23,7 @@
         <%= link_to "Редактировать", edit_hotel_path(@hotel) ,class: "btn btn-primary btn-sm" %>
         <%= link_to "Добавить номер", new_room_path(hotel_id: @hotel.id), class: "btn btn-primary btn-sm" %>
         <%= link_to "Удалить объект", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
-      <% end %>
-
-      
+      <% end %>      
       
       <% if @current_item %>
         <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
@@ -74,11 +72,25 @@
   <div class="row">
 
     <div class="col-9">
+
+      <!-- Work with JS show rooms description -->
+      <script>
+        jsRooms = <%= @hotel.rooms.to_json.html_safe %>
+        function roomModal(jsRoom) {
+          console.log(jsRoom.name)
+        }
+      </script>
+
+      <% @hotel.rooms.each_with_index do |room, index| %>     
+        <h3 style="cursor: pointer" onclick="roomModal(jsRooms[<%= index %>]);"><%= room.name %></h3>  
+      <% end %>
+      <!-- END work with JS -->
           
       <% if @hotel.rooms.any? %><!-- Rooms -->
         <h3 class="mb-4">Номера:</h3>
         <%= render @hotel.rooms %>
-      <% end %><!-- End Rooms -->      
+      <% end %><!-- End Rooms -->  
+
     </div>
 
     <div class="col-3">
@@ -104,7 +116,7 @@
 
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript"> // map
   ymaps.ready(init);
   function init(){
     const coords = [<%= @hotel.latitude %>, <%= @hotel.longitude %>]      
@@ -122,6 +134,27 @@
       preset: "islands#blueHomeIcon"
     });
     myMap.geoObjects.add(myPlacemark);
-  }
-  
+  };  
 </script>
+
+<script>  // More... hidden
+  $(document).on('turbolinks:load', function() {
+  
+    let btnsMore = document.getElementsByClassName('more-info');
+    for (var i = 0; i < btnsMore.length; i++) {
+      btnsMore[i].addEventListener("click", function() {
+        let indexRoom = 'room__hidden-'+ this.dataset.room;
+        let hiddenContent = document.getElementById(indexRoom);      
+        if (hiddenContent.style.display === "none") {
+          hiddenContent.style.display = "block";
+          this.innerHTML = "<i class='icon-angle-up'></i> Скрыть";
+        } else {
+          hiddenContent.style.display = "none";
+          this.innerHTML = "<i class='icon-angle-down'></i> Подробнее";
+        }
+      })
+    }
+  
+  });
+</script>
+

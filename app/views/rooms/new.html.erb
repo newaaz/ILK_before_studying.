@@ -12,7 +12,7 @@
 
     <div class="col-md-9 border-right">
       
-      <div class="form-group">
+      <div class="form-group mb-3">
         <%= f.label "Название или тип номера" %>
         <small class="text-muted">
           / Не больше 400 символов
@@ -20,7 +20,7 @@
         <%= f.text_field :name, class:"form-control form-control-sm", autofocus: true %>
       </div>
 
-      <div class="row">
+      <div class="row mb-3">
         <div class="col-md-3">
           <div class="form-group">
             <%= f.label :number %>            
@@ -44,7 +44,14 @@
               В квадратных метрах
           </small>
         </div>
+      </div>      
+
+      <div class="mb-2">
+        <span><i class="fas fa-info-circle text-muted"></i></span>
+        <%= f.label :description %>        
       </div>
+      <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
+
       <!-- Add Price -->
       <h3>Добавление цен</h3>
       <div id="prices">
@@ -55,8 +62,8 @@
         <br>  
           <%= link_to_add_association 'Добавить ценовой период', f, :prices, class: "btn btn-success btn-sm" %>
         </div>
-      </div>       
-      <!-- end Price -->
+      </div>  <!-- end Price -->   
+      
     </div>  
 
     <div class="col-md-3 border-start">

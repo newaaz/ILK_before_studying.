@@ -1,6 +1,6 @@
 class Price < ApplicationRecord
 
-  belongs_to :room, dependent: :destroy
+  belongs_to :room
 
   default_scope { order(:start_date) }
 

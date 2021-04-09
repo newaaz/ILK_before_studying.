@@ -32,6 +32,124 @@
     
   </div><!-- End Prices -->
 
+  <br>
+  <!-- MORE - HIDDEN -->
+  <div class="more-info" data-room="<%= room.id %>">
+    <i class="icon-angle-down"></i> Подробнее
+  </div>
+
+  <div class="hidden_content" id="room__hidden-<%= room.id %>" style="display: none;">
+    <div class="more_box">
+      <div class="slot">
+        <div class="slot_title">
+          О номере
+        </div>
+        <div class="columns_description mt-2">
+          <%= room.description %>
+        </div>
+        <div class="columns_slot">              
+          <div>
+            <div class="">
+              <span class="label_slot">Курение:</span>
+              <span class="value_slot">Разрешено</span>
+            </div>
+            <div class="">
+              <span>Уборка:</span>
+              <span>Не предоставляется</span>
+            </div>
+          </div>
+          <div class="">
+            Интернет/Балкон<br>
+            <span>Вид из окна: море, горы</span>
+          </div>              
+        </div>                    
+      </div>
+      <div class="slot">
+        <div class="slot_title">
+          В номере
+        </div>
+        <div class="columns_slot">      
+          <div>
+            Телевизор
+          </div>
+          <div class="">
+            Кабельное ТВ
+          </div>      
+        </div>
+        <div class="columns_slot">      
+          <div>
+            Москитные сетки на окнах
+          </div>
+          <div class="">
+            Кондиционер
+          </div>      
+        </div>       
+      </div>
+      <div class="slot">
+        <div class="slot_title">
+          Спальные места
+        </div>
+        <div class="columns_slot">      
+          <div>
+            <div class="">
+              <span class="label_slot">Двуспальная кровать:</span>
+              <span class="value_slot">1</span>
+            </div>               
+          </div>
+          <div class="">
+            <span class="label_slot">Диван (2 места):</span>
+            <span class="value_slot">1</span>
+          </div>      
+        </div>
+        <div class="columns_slot">      
+          <div>
+            Постельные принадлежности: 4
+          </div>                          
+        </div>             
+      </div>
+      <div class="slot">
+        <div class="slot_title">
+          Ванная комната
+        </div>
+        <div class="columns_slot">      
+          <div>
+            <div class="">
+              <span class="label_slot">Ванная комната:</span>
+              <span class="value_slot">В номере</span>
+            </div>
+            <div class="">
+              <span class="label_slot">Туалет:</span>
+              <span class="value_slot">В номере</span>
+            </div>              
+          </div>
+          <div class="">
+            <span class="label_slot">Душевая кабина</span><br>
+            <span class="label_slot">Полотенца</span>               
+          </div>      
+        </div>            
+      </div>
+      <div class="slot">
+        <div class="slot_title">
+          Кухня
+        </div>
+        <div class="columns_slot">      
+          <div>
+            <div class="">
+              <span class="label_slot">Электрочайник</span>                  
+            </div>                             
+          </div>
+          <div class="">
+            <span class="label_slot">Холодильник</span>                
+          </div>      
+        </div>            
+      </div>
+    </div>
+  </div><!-- END MORE - HIDDEN -->
+
+
+  
+
+
   <!-- редактирование номеров перенести в ЛК -->        
   <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %><br>
   <div class="mt-3">

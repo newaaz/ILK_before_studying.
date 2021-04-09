@@ -3,12 +3,12 @@ class Room < ApplicationRecord
   belongs_to :hotel
 
   has_many  :prices, dependent: :destroy
-  accepts_nested_attributes_for :prices, allow_destroy: true
+  accepts_nested_attributes_for :prices, reject_if: :all_blank, allow_destroy: true
 
   default_scope { order(:number) }
 
 
-  #has_rich_text :description
+  has_rich_text :description
 
   mount_uploaders :images, PictureUploader
 
@@ -16,10 +16,10 @@ class Room < ApplicationRecord
   validates :size, numericality: { allow_nil: true }
   validates :number, numericality: { greater_than: 0 }
 
-  validate  :image_type_size
+  validate  :image_type_size  
   
   # проверка описания ActionText
-  # validate  :description_embeds
+  validate  :description_embeds
 
 private
 

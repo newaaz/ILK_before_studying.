@@ -64,7 +64,8 @@ private
 
   def correct_room_create
     if room_hotel_id = params[:order][:room_id]
-      redirect_to root_url unless Hotel.find(params[:hotel_id].to_i).room_ids.include?(room_hotel_id.to_i)
+      #redirect_to root_url unless Hotel.find(params[:hotel_id].to_i).room_ids.include?(room_hotel_id.to_i)
+      redirect_to root_url unless Hotel.find(params[:hotel_id].to_i).rooms.exists?(room_hotel_id.to_i)
     end
   end
 

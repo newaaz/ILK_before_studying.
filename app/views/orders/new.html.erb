@@ -1,8 +1,7 @@
 <% provide(:title, 'Бронирование | ' + @hotel.name) %>
 
 <% content_for(:javascript_plugin_header) do %>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
-  <%= javascript_include_tag "lightpick.js", 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "litepicker.js", 'data-turbolinks-track': 'reload' %>
 <% end %>
 
 <div class="container mb-5">
@@ -41,9 +40,7 @@
                                     class: "form-select form-select-sm" %>
             <% end %>
           </div>
-        <% end %>    
-
-        
+        <% end %>        
         
         <div class="form-group mb-3">
           <label>
@@ -96,39 +93,30 @@
   </div>
 </div>
 
+<!-- lightpicker -->
 <script>
-  var picker = new Lightpick({
-    field: document.getElementById('order_check_in'),
-    secondField: document.getElementById('order_check_out'),
-    repick: true,
-    singleDate: false,
-    selectForward: true,
-    minDate: moment(),
-    numberOfMonths: 2,
-    lang: 'ru',
-    locale: {
-        tooltip: {
-            one: 'день',
-            few: 'дня',
-            many: 'дней',
-        },
-        pluralize: function(i, locale) {
-            if ('one' in locale && i % 10 === 1 && !(i % 100 === 11)) return locale.one;
-            if ('few' in locale && i % 10 === Math.floor(i % 10) && i % 10 >= 2 && i % 10 <= 4 && !(i % 100 >= 12 && i % 100 <= 14)) return locale.few;
-            if ('many' in locale && (i % 10 === 0 || i % 10 === Math.floor(i % 10) && i % 10 >= 5 && i % 10 <= 9 || i % 100 === Math.floor(i % 100) && i % 100 >= 11 && i % 100 <= 14)) return locale.many;
-            if ('other' in locale) return locale.other;
-    
-            return '';
-        }
-    },
-    onSelect: function(start, end){
-        var str = '';
-        str += start ? start.format('Do MMMM YYYY') + ' to ' : '';
-        str += end ? end.format('Do MMMM YYYY') : '...';
-        document.getElementById('result-3').innerHTML = str;
-        document.getElementById('range-result').innerHTML = start - end;
-        
-    }    
-
-  });
+  document.addEventListener("turbolinks:load", () => {
+    new Litepicker({
+      element: document.getElementById('order_check_in'),
+      elementEnd: document.getElementById('order_check_out'),
+      plugins: ['mobilefriendly'],
+      format: 'DD-MM-YY',
+      resetButton: true,
+      minDate: Date.now(),
+      numberOfColumns: 2,
+      numberOfMonths: 2,
+      lang: 'ru-RO',
+      singleMode: false,
+      tooltipText: {
+        one: 'ночь',
+        few: 'ночи',
+        many: 'ночей',
+        other: 'ночей'
+      },
+      tooltipNumber: (totalDays) => {
+        return totalDays - 1;
+      },
+      allowRepick: true        
+    });
+  });  
 </script>
