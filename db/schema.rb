@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_28_082956) do
+ActiveRecord::Schema.define(version: 2021_04_16_084352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,17 @@ ActiveRecord::Schema.define(version: 2021_03_28_082956) do
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "latitude", precision: 6, scale: 4
     t.decimal "longitude", precision: 6, scale: 4
+    t.string "food"
+    t.string "parking"
+    t.string "territory"
+    t.string "addition"
+    t.string "vk"
+    t.string "instagram"
+    t.string "transfer"
+    t.string "service"
+    t.boolean "all_year", default: false
+    t.integer "floors", limit: 2
+    t.json "desc_json"
     t.index ["hotel_category_id"], name: "index_hotels_on_hotel_category_id"
     t.index ["town_id"], name: "index_hotels_on_town_id"
     t.index ["user_id"], name: "index_hotels_on_user_id"
@@ -160,6 +171,14 @@ ActiveRecord::Schema.define(version: 2021_03_28_082956) do
     t.bigint "hotel_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "avatar"
+    t.string "furniture"
+    t.string "bathroom"
+    t.string "addition"
+    t.string "in_room"
+    t.integer "guests", limit: 2
+    t.integer "floor", limit: 2
+    t.integer "rooms", limit: 2
     t.index ["hotel_id"], name: "index_rooms_on_hotel_id"
   end
 

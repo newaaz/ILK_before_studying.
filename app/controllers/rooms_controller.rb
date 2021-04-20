@@ -17,6 +17,9 @@ class RoomsController<ApplicationController
       redirect_to root_url
     else
       @hotel = Hotel.find(params[:hotel_id].to_i)
+           
+      @previous_room = @hotel.rooms.last
+      
       @room = Room.new 
       @room.prices.build
     end
@@ -68,7 +71,8 @@ private
 
   # Разрешённые параметры
   def room_params
-    params.require(:room).permit(:name, :number, :description, :size, { images: [] },
+    params.require(:room).permit(:name, :number, :description, :size, :avatar, :guests, :furniture,
+      :floor, :bathroom, :addition, :rooms, :in_room, { images: [] },
       prices_attributes: [:id, :start_date, :end_date, :day_cost, :_destroy])
   end
 

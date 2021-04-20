@@ -2,83 +2,95 @@
 
 <div class="container">
 
-<h1 class='h3 text-center'><%= @hotel.name %> - редактирование номера</h1>
+<h1 class='h3 text-center my-4'><%= link_to @hotel.name, @hotel %> - редактирование номера</h1>
 
 <div class="row">
 
-  <div class="col-md-9 border-right">
+  <div class="col-md-9 border-end">
 
     <%= form_with(model: @room, local: true) do |f| %>
       <%= render 'shared/error_messages', object: f.object%>
       <%= hidden_field_tag(:hotel_id, params[:hotel_id].to_i) %>
       
-      <div class="form-group">
-        <%= f.label "Название или тип номера" %>
-        <small class="text-muted">
-          / Не больше 400 символов
-        </small>
-        <%= f.text_field :name, class:"form-control form-control-sm", autofocus: true %>
+      <div class="row mb-3 gx-3">
+        <div class="col-md-9">          
+          <%= f.label "Название или тип номера", class: 'form-label' %> <span class="text-danger">*</span>              
+          <%= f.text_field :name, class:"form-control form-control-sm", required: true %>
+        </div>
+        <div class="col-md-3">
+          <%= f.label "Кол-во комнат", class: 'form-label' %> <span class="text-danger">*</span>        
+          <%= f.text_field :rooms, class:"form-control form-control-sm" %>
+        </div>        
       </div>
 
-      <div class="row">
+      <div class="row mb-3 gx-3">
         <div class="col-md-3">
-          <div class="form-group">
-            <%= f.label :number %>            
-            <%= f.number_field :number, class:"form-control  form-control-sm", autofocus: true %>
-            <small class="text-muted">
-              Порядок отображения
-            </small>
-          </div>
+          <%= f.label :guests, class: 'form-label' %> <span class="text-danger">*</span>        
+          <%= f.text_field :guests, class:"form-control form-control-sm", required: true %>
+        </div>
+        <div class="col-md-3">        
+          <div class="form-label">Площадь <span class="text-danger">*</span> (М<sup><small>2</small></sup>) </div>  
+          <%= f.text_field :size, class:"form-control form-control-sm", required: true %>          
+        </div>
+        <div class="col-md-3">
+          <%= f.label :floor, class: 'form-label' %> <span class="text-danger">*</span>           
+          <%= f.number_field :floor, class:"form-control form-control-sm", required: true %>            
         </div> 
         <div class="col-md-3">
-          <%= f.label :size %>
-          <div class="input-group input-group-sm">
-            <%= f.number_field :size, class: 'form-control' %>
-            <div class="input-group-append">
-              <span class="input-group-text">
-                М<sup><small>2</small></sup>
-              </span>
-            </div>            
-          </div>
-          <small class="form-text text-muted">
-              В квадратных метрах
-          </small>
+          <%= f.label :number, class: 'form-label' %> <span style="font-weight:200; font-size:14px"><sup><i class="far fa-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Порядковый номер в выводе списка номеров"></i></sup></span>
+          <%= f.number_field :number, class: 'form-control' %>
         </div>
-      </div>
+      </div> 
 
       <div class="mb-2">
         <span><i class="fas fa-info-circle text-muted"></i></span>
-        <%= f.label :description %>        
+        <%= f.label :description, class: 'form-label' %>        
       </div>
-      <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
- 
+      <%= f.rich_text_area :description, class: 'form-control mb-3', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
+
+      <%= f.label :furniture, class: 'form-label' %> <span class="text-danger">*</span>          
+      <%= f.text_field :furniture, class:"form-control form-control-sm mb-3", required: true %>
+
+      <%= f.label :bathroom, class: 'form-label' %> <span class="text-danger">*</span>        
+      <%= f.text_field :bathroom, class:"form-control form-control-sm mb-3", required: true %>
+
+      <%= f.label :in_room, class: 'form-label' %> <span class="text-danger">*</span>          
+      <%= f.text_field :in_room, class:"form-control form-control-sm mb-3", required: true %>
+
+      <%= f.label :addition, class: 'form-label' do %>
+        <i class="far fa-clone"></i> Дополнительно
+      <% end %>        
+      <%= f.text_field :addition, class:"form-control form-control-sm mb-3" %>
 
       <!-- Add Price -->
-      <h3>Добавление цен</h3>
+      <h3 class="text-center">Добавление цен:</h3>
       <div id="prices">
         <%= f.fields_for :prices do |price| %>
           <%= render 'price_fields', f: price %>
-        <% end %>  
+        <% end %>     
         <div class='links'>
-          <%= link_to_add_association 'Добавить ценовой период', f, :prices %>
+          <br>  
+          <%= link_to_add_association 'Добавить ценовой период', f, :prices, class: "btn btn-success btn-sm" %>
         </div>
-      </div>       
-      <!-- end Price -->
+      </div><!-- end Price -->
 
-      <div class="row">
-        <div class="form-group">
-          <%= button_tag type: 'submit', class:"btn btn-primary btn-sm" do %>
-              <span class="icon"><i class="fas fa-camera"></i></span>&#8194;Сохранить изменения
-            <% end %>
-          <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
-        </div>
+      <br><br><br>
+
+      <div class="d-grid gap-2 col-md-5 mx-auto mb-5">     
+        <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
+          <span class="icon"><i class="fas fa-camera"></i></span>&#8194;Сохранить изменения
+        <% end %> 
       </div>
 
     <% end %>        
 
   </div>  
 
-  <div class="col-md-3 border-left">
+  <div class="col-md-3 border-start">
+
+    Главное фото
+    <%= image_tag @room.avatar.thumb.url, class: 'img-fluid img-thumbnail' %>
+
     <h2 class='h6'><strong>Фотографии</strong></h2>
     <div class="row mb-3">
       <%  if @room.images.any? %>

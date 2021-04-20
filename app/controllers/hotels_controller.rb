@@ -9,19 +9,20 @@ class HotelsController < ApplicationController
   end
   
   def show
-    @hotel = Hotel.includes(:rooms).find(params[:id])
+    @hotel = Hotel.includes(:rooms).references(:rooms).order(:number).find(params[:id])
     # определяем - является ли этот отель запомненным    
     current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Hotel') if @cart
     @current_item = true if current_item
-
   end
   
   def new
     @hotel = Hotel.new    
   end
 
-  def create    
+  def create
+    # debugger
     @hotel = current_user.hotels.build(hotel_params)
+    @hotel.desc_json = params[:desc_json]
     if @hotel.save
       flash[:success] = "Объект успешно создан"
       redirect_to @hotel
@@ -79,8 +80,9 @@ private
   end  
 
   def hotel_params
-    params.require(:hotel).permit(:name, :price_from, :address, :distance_to_sea, :latitude, :longitude,
-                                  :hotel_category_id, :town_id, :site,
+    params.require(:hotel).permit(:name, :price_from, :address, :distance_to_sea, :latitude, :longitude, :vk,
+                                  :hotel_category_id, :town_id, :site, :description, :food, :parking, :territory,
+                                  :transfer, :service, :addition, :instagram, :all_year, :floors,
                                   :email, :avatar, { images: [], comfort_ids: [] })
   end
   

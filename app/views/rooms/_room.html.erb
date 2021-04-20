@@ -1,171 +1,121 @@
-<div class="bg-white p-2 mb-3 shadow">
+<!-- Single room  -->
+<div class="row room">
 
-  <h4 class="d-inline"><%= link_to room.name, room %></h4>&ensp;        
-  <i class="fas fa-vector-square color-blue"></i>
-  <%= room.size %> М<sup><small>2</small></sup>     
-  
-  <!-- бронирование -->
-  <%= link_to 'Выбрать этот номер', new_order_path(hotel_id: @hotel.id, room_id: room.id),
-                                    class: "genric-btn danger radius small" %>
-  <br>
-
-  <% if room.images.any? %>              
-    <% room.images.each do |image| %> 
-      <%= link_to image_tag(image.thumb.url, width: "100px"), image.url %>            
-    <% end %>                          
-  <% end %>
-
-  <br>
-
-  <div class="room__price"><!-- Prices  -->
-    <h5>Стоимость проживания:</h5>
-
-    <% room.prices.each do |price| %>
-
-    <div class="d-inline-flex border py-1 px-1">
-      <%= price.start_date.strftime("%d/%m") %>-<%= price.end_date.strftime("%d/%m") %>
-      <br>
-      <%= price.day_cost %>      
-    </div>       
-            
-    <% end %>                
-    
-  </div><!-- End Prices -->
-
-  <br>
-  <!-- MORE - HIDDEN -->
-  <div class="more-info" data-room="<%= room.id %>">
-    <i class="icon-angle-down"></i> Подробнее
+  <div class="col-md-5 px-0">
+    <!-- fotorama begin -->
+    <div class="fotorama-rooms"
+        data-width="100%"
+        data-ratio="3/2"
+        data-allowfullscreen="true"                
+        data-nav="false"
+        data-loop="true"
+        data-keyboard="true"
+        data-auto="false">      
+      <%= link_to image_tag(room.avatar.thumb.url), room.avatar.url %>
+      
+    </div>
+    <!-- fotorama end -->            
   </div>
 
-  <div class="hidden_content" id="room__hidden-<%= room.id %>" style="display: none;">
-    <div class="more_box">
-      <div class="slot">
-        <div class="slot_title">
-          О номере
+  <div class="col-7 pt-2 ps-4">
+
+    <h4><%= link_to room.name, room %></h4>
+
+    <ul>
+      <li>
+        <div class="tooltip_styled tooltip-effect-1">
+          <span class="tooltip-item"><i class="icon_set_2_icon-105"></i>
+            x <%= room.guests %>
+          </span>
+          <div class="tooltip-content">Вместимость</div>
+          <div class="room_icon">Гостей</div>
         </div>
-        <div class="columns_description mt-2">
-          <%= room.description %>
+      </li>
+      <li>
+        <div class="tooltip_styled tooltip-effect-4">
+          <span class="tooltip-item"><i class="icon_set_1_icon-23"></i>
+            x <%= room.rooms %>
+          </span>
+          <div class="tooltip-content">Количество комнат</div>
+          <div class="room_icon">Комнат</div>
         </div>
-        <div class="columns_slot">              
-          <div>
-            <div class="">
-              <span class="label_slot">Курение:</span>
-              <span class="value_slot">Разрешено</span>
-            </div>
-            <div class="">
-              <span>Уборка:</span>
-              <span>Не предоставляется</span>
-            </div>
-          </div>
-          <div class="">
-            Интернет/Балкон<br>
-            <span>Вид из окна: море, горы</span>
-          </div>              
-        </div>                    
-      </div>
-      <div class="slot">
-        <div class="slot_title">
-          В номере
+      </li>
+      <li>
+        <div class="tooltip_styled tooltip-effect-4">
+          <span class="tooltip-item"><i class="fas fa-vector-square"></i></span>
+          <div class="tooltip-content">Площадь</div>
+          <div class="room_icon"><%= room.size %> м<sup>2</sup></div>
         </div>
-        <div class="columns_slot">      
-          <div>
-            Телевизор
-          </div>
-          <div class="">
-            Кабельное ТВ
-          </div>      
+      </li> 
+      <li>
+        <div class="tooltip_styled tooltip-effect-4">
+          <span class="tooltip-item"><i class="icon_set_2_icon-111"></i>
+            x <%= room.floor %>
+          </span>
+          <div class="tooltip-content">Душ</div>
+          <div class="room_icon">Этаж</div>
         </div>
-        <div class="columns_slot">      
-          <div>
-            Москитные сетки на окнах
-          </div>
-          <div class="">
-            Кондиционер
-          </div>      
-        </div>       
-      </div>
-      <div class="slot">
-        <div class="slot_title">
-          Спальные места
-        </div>
-        <div class="columns_slot">      
-          <div>
-            <div class="">
-              <span class="label_slot">Двуспальная кровать:</span>
-              <span class="value_slot">1</span>
-            </div>               
-          </div>
-          <div class="">
-            <span class="label_slot">Диван (2 места):</span>
-            <span class="value_slot">1</span>
-          </div>      
-        </div>
-        <div class="columns_slot">      
-          <div>
-            Постельные принадлежности: 4
-          </div>                          
-        </div>             
-      </div>
-      <div class="slot">
-        <div class="slot_title">
-          Ванная комната
-        </div>
-        <div class="columns_slot">      
-          <div>
-            <div class="">
-              <span class="label_slot">Ванная комната:</span>
-              <span class="value_slot">В номере</span>
-            </div>
-            <div class="">
-              <span class="label_slot">Туалет:</span>
-              <span class="value_slot">В номере</span>
-            </div>              
-          </div>
-          <div class="">
-            <span class="label_slot">Душевая кабина</span><br>
-            <span class="label_slot">Полотенца</span>               
-          </div>      
-        </div>            
-      </div>
-      <div class="slot">
-        <div class="slot_title">
-          Кухня
-        </div>
-        <div class="columns_slot">      
-          <div>
-            <div class="">
-              <span class="label_slot">Электрочайник</span>                  
-            </div>                             
-          </div>
-          <div class="">
-            <span class="label_slot">Холодильник</span>                
-          </div>      
-        </div>            
-      </div>
+      </li>          
+    </ul>
+
+    <div class="row">                  
+      <div class="col-md-6 col-sm-12" style="color: #222">от <strong> room.price_from</strong><small>₽</small> /сутки<br>
+      <small>1 дополнительное место 250₽</small></div>
+      <div class="col-md-6 col-sm-12">                
+        <!-- бронирование -->
+        <%= link_to 'Выбрать этот номер', new_order_path(hotel_id: @hotel.id, room_id: room.id),
+                            class: "btn_full" %>
+      </div>                  
     </div>
-  </div><!-- END MORE - HIDDEN -->
 
+    <div class="more-info" data-room="<%= room.id %>">
+      <i class="icon-angle-down"></i> Подробнее
+    </div>
 
+  </div>       
+
+</div>
+
+<!-- MORE - HIDDEN --> 
+<div class="row hidden_content" id="room-hidden-<%= room.id %>" style="display: none;">
   
+  <strong>Описание: </strong>room.description<br>  
+  <strong>Мебель: </strong><%= room.furniture %><br>
+  <strong>Санузел/душ/ванна: </strong><%= room.bathroom %><br>    
+  <strong>В номере: </strong><%= room.in_room %><br>  
+  <strong>Дополнительно: </strong><%= room.addition %><br><br> 
 
+  <h3 class='h4 text-center'>Стоимость проживания</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>29.04-07.06</th>
+        <th>08.06-28.06</th>
+        <th>29.06-19.07</th>
+        <th>20.07-26.08</th>
+        <th>27.08-06.09</th>
+        <th>07.09-30.09</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center; color: #333">2250р</td>
+        <td style="text-align: center; color: #333">3000р</td>
+        <td style="text-align: center; color: #333">4000р</td>
+        <td style="text-align: center; color: #333">4500р</td>
+        <td style="text-align: center; color: #333">4000р</td>
+        <td style="text-align: center; color: #333">2800р</td>
+      </tr>                    
+    </tbody>
+  </table>
+</div><!-- END MORE - HIDDEN -->
 
-  <!-- редактирование номеров перенести в ЛК -->        
-  <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %><br>
-  <div class="mt-3">
-    <%= link_to "Редактировать", edit_room_path(room, hotel_id: @hotel.id),class: "btn btn-primary btn-sm" %>
+<!-- редактирование номеров перенести в ЛК -->        
+<% if current_user && (current_user?(@hotel.user) || current_user.admin?) %><br>
+  <div class="">
+    <%= link_to "Редактировать", edit_room_path(room, hotel_id: @hotel.id),class: "btn btn-outline-primary btn-sm" %>
     <%= link_to "Удалить номер", room ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
   </div>
-  <% end %> 
+<% end %> 
 
-</div>  
-
-
-
-
-
-
-
-
-
-
+<!--END Single room--><br>

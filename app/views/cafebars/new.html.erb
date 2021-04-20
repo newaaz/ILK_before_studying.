@@ -24,7 +24,7 @@
             </span>
             <%= f.label :town_id %>              
             <%= f.collection_select :town_id, Town.order(:number), :id, :name,
-              { prompt: "Выбрать" },class:"form-select", required: true %>
+              { prompt: "Выбрать..." },class:"form-select", required: true %>
           </div>
           <div class="col-5">
             <span>

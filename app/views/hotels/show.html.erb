@@ -62,7 +62,7 @@
       <!-- fotorama end -->
     </div>
 
-    <div class="col-3">
+    <div class="col-md-3">
       <div id="map" style="height: 300px" class="border shadow"></div>
     </div>
 
@@ -71,29 +71,34 @@
 
   <div class="row">
 
-    <div class="col-9">
+    <div class="col-md-9">
 
-      <!-- Work with JS show rooms description -->
-      <script>
-        jsRooms = <%= @hotel.rooms.to_json.html_safe %>
-        function roomModal(jsRoom) {
-          console.log(jsRoom.name)
-        }
-      </script>
+      <strong>Описание: </strong><%= @hotel.description %>
+      <br>
 
-      <% @hotel.rooms.each_with_index do |room, index| %>     
-        <h3 style="cursor: pointer" onclick="roomModal(jsRooms[<%= index %>]);"><%= room.name %></h3>  
-      <% end %>
-      <!-- END work with JS -->
-          
+      <% JSON.parse(@hotel.desc_json).each do |item| %>
+        <%= item[1].size %> //
+      <% end %>  
+      
+
+      <!-- Описание из JSON -->
+      <h2 class="text-center">Описание из JSON</h2>
+      <div id="hotel__food"></div>
+      <h3 class="text-center">Бывшее двухуровневыое описание</h3>
+      <div class="row">
+        <div id="hotel__parking" class="col-md-6"></div>
+        <div id="hotel__territory" class="col-md-6"></div>
+      </div>
+
+      <!-- Room partial -->
       <% if @hotel.rooms.any? %><!-- Rooms -->
         <h3 class="mb-4">Номера:</h3>
         <%= render @hotel.rooms %>
-      <% end %><!-- End Rooms -->  
+      <% end %><!-- End Rooms -->      
 
     </div>
 
-    <div class="col-3">
+    <div class="col-md-3">
       <!-- NEAR -->
       <div class="resource_near">
         <h4>Жильё рядом</h4>
@@ -138,23 +143,48 @@
 </script>
 
 <script>  // More... hidden
-  $(document).on('turbolinks:load', function() {
-  
-    let btnsMore = document.getElementsByClassName('more-info');
-    for (var i = 0; i < btnsMore.length; i++) {
-      btnsMore[i].addEventListener("click", function() {
-        let indexRoom = 'room__hidden-'+ this.dataset.room;
-        let hiddenContent = document.getElementById(indexRoom);      
-        if (hiddenContent.style.display === "none") {
-          hiddenContent.style.display = "block";
-          this.innerHTML = "<i class='icon-angle-up'></i> Скрыть";
-        } else {
-          hiddenContent.style.display = "none";
-          this.innerHTML = "<i class='icon-angle-down'></i> Подробнее";
-        }
-      })
-    }
-  
+  let btnsMore = document.getElementsByClassName('more-info');
+  for (var i = 0; i < btnsMore.length; i++) {
+    btnsMore[i].addEventListener("click", function() {
+      let indexRoom = 'room-hidden-'+ this.dataset.room;
+      let hiddenContent = document.getElementById(indexRoom);      
+      if (hiddenContent.style.display === "none") {
+        hiddenContent.style.display = "block";
+        this.innerHTML = "<i class='icon-angle-up'></i> Скрыть";
+      } else {
+        hiddenContent.style.display = "none";
+        this.innerHTML = "<i class='icon-angle-down'></i> Подробнее";
+      }
+    })
+  }; 
+</script>
+
+<script>//Initialize fotorama manually for rooms.
+  $(function () {
+    let $fotoramaDiv = $('.fotorama-rooms').fotorama();
+
+    $fotoramaDiv.on('fotorama:fullscreenenter',
+      function (e, fotorama) {        
+        fotorama.setOptions({
+          nav: "thumbs"
+        });
+      });
+    
+    $fotoramaDiv.on('fotorama:fullscreenexit',
+    function (e, fotorama) {      
+      fotorama.setOptions({
+        nav: "false"
+      });
+    })
   });
 </script>
+
+<script>// Show JSON desc  --- СКОРЕЕ ВСЕГО НАДО НА ВЕРХ  !!!!  
+  let desc = <%= @hotel.desc_json.html_safe %>;
+  document.getElementById('hotel__food').innerHTML = desc.food
+  document.getElementById('hotel__parking').innerHTML = desc.parking
+  document.getElementById('hotel__territory').innerHTML = desc.territory
+</script>
+
+
 

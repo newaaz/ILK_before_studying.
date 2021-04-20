@@ -6,6 +6,8 @@ class Hotel < ApplicationRecord
   has_many    :rooms, dependent: :destroy
   has_many    :orders, dependent: :destroy
 
+  has_rich_text :description
+
   mount_uploader  :avatar, PictureUploader
   mount_uploaders :images, PictureUploader
 
@@ -16,6 +18,8 @@ class Hotel < ApplicationRecord
 
   validate  :avatar_type_size
   validate  :image_type_size
+
+  validate  :check_desc_json
 
 private
 
@@ -53,8 +57,11 @@ private
     end
   end
 
-  def coordinates
-    errors.add(:latitude, 'Нужно отметить объект на карте') if latitude == 0 || longitude == 0
-  end
+  # проверка JSON описания объекта
+  def check_desc_json
+    JSON.parse(desc_json.html_safe).each do |desc_item|
+      errors.add(desc_item[0],' - описание слишком длинное (не более 255 символов)') if desc_item[1].size > 255
+    end
+  end 
 
 end

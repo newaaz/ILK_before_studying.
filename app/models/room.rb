@@ -4,29 +4,34 @@ class Room < ApplicationRecord
 
   has_many  :prices, dependent: :destroy
   accepts_nested_attributes_for :prices, reject_if: :all_blank, allow_destroy: true
-
-  default_scope { order(:number) }
-
+ 
+  
 
   has_rich_text :description
-
+  
+  mount_uploader  :avatar, PictureUploader
   mount_uploaders :images, PictureUploader
 
-  validates :hotel_id, :name, presence: true
-  validates :size, numericality: { allow_nil: true }
-  validates :number, numericality: { greater_than: 0 }
+  validates :avatar, presence: true
+  validates :hotel_id, :name, :furniture, :bathroom, presence: true, length: { maximum: 255 }
+  #validates :size, numericality: { allow_nil: true }
+  validates :number, :rooms, :guests, :size, :floor, numericality: { greater_than: 0 }
 
   validate  :image_type_size  
   
   # проверка описания ActionText
   validate  :description_embeds
 
+  def price_from
+    prices.minimum(:day_cost)
+  end
+
 private
 
   # Проверяем прикреплённые файлы carrierwave
   def image_type_size
     #@max_byte_size = 5.megabytes
-    errors.add(:images, "- общее количество - не больше 20 фотографий") if images.count > 20
+    errors.add(:images, "- общее количество - не больше 15 фотографий") if images.count > 15
     if images.any?
       images.each do |image|
         # проверки для ActiveStorage
