@@ -71,6 +71,28 @@
 
 }
 
+/* Календарь цен */
+.room-prices {  
+  display: table;
+  width: 100%;
+	border: none;
+	border-collapse: separate;
+	border-spacing: 5px;
+  text-align: center;
+  font-size: 14px;
+}
+.period {
+  display: table-cell;
+  vertical-align: top;
+	padding: 0;
+}
+.period__date {
+  background-color: #fec771;
+  font-weight: 500;
+  padding: 0 20px;
+}
+/* Календарь цен */
+
 
 
 

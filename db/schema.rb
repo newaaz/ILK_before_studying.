@@ -172,13 +172,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_084352) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "avatar"
-    t.string "furniture"
-    t.string "bathroom"
-    t.string "addition"
-    t.string "in_room"
-    t.integer "guests", limit: 2
-    t.integer "floor", limit: 2
-    t.integer "rooms", limit: 2
+    t.json "description"
     t.index ["hotel_id"], name: "index_rooms_on_hotel_id"
   end
 

@@ -4,24 +4,24 @@ class Room < ApplicationRecord
 
   has_many  :prices, dependent: :destroy
   accepts_nested_attributes_for :prices, reject_if: :all_blank, allow_destroy: true
- 
-  
-
-  has_rich_text :description
   
   mount_uploader  :avatar, PictureUploader
   mount_uploaders :images, PictureUploader
 
   validates :avatar, presence: true
-  validates :hotel_id, :name, :furniture, :bathroom, presence: true, length: { maximum: 255 }
+  validates :hotel_id, :name, presence: true, length: { maximum: 255 }
   #validates :size, numericality: { allow_nil: true }
-  validates :number, :rooms, :guests, :size, :floor, numericality: { greater_than: 0 }
+  validates :number, :size, numericality: { greater_than: 0 }
 
   validate  :image_type_size  
   
   # проверка описания ActionText
-  validate  :description_embeds
+  # validate  :description_embeds
 
+  after_save  :set_min_price!
+
+
+  # Этот метод перегружает БД - отказались от него
   def price_from
     prices.minimum(:day_cost)
   end
@@ -55,6 +55,14 @@ private
         errors.add(:description, "должно содержать только изображения формата JPG или PNG") unless attach.content_type.in?(%('image/jpeg image/png'))
       end
     end
+  end
+
+  # Устанавливаем минимальную цену после сохранения
+  def set_min_price!
+    min_price = prices.minimum(:day_cost)
+    description['min_price'] = min_price
+    desc_new = description
+    update_column(:description, desc_new)    
   end
 
 end

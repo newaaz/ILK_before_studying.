@@ -2,7 +2,7 @@ class RoomsController<ApplicationController
 
   before_action :logged_in_user, except: [:show, :index]
   before_action :correct_user, except: [:new, :create, :show, :index]
-  before_action :correct_user_rooms_for_create, only: [:new, :create]
+  before_action :correct_user_rooms_for_create, only: [:new, :create]  
 
   def index
     redirect_back(fallback_location: root_url)
@@ -27,7 +27,9 @@ class RoomsController<ApplicationController
 
   def create
     @hotel = Hotel.find(params[:hotel_id].to_i)
-    @room = @hotel.rooms.build(room_params)    
+    @room = @hotel.rooms.build(room_params)
+    @room.description = JSON.parse(params[:desc_json])    
+    #debugger
     if @room.save
       flash[:success] = "Номер добавлен"
       redirect_to @hotel
@@ -50,6 +52,7 @@ class RoomsController<ApplicationController
   def update    
     @room = Room.find(params[:id])
     @hotel = @room.hotel
+    @room.description = JSON.parse(params[:desc_json])
     if @room.update(room_params)
       redirect_to @hotel
       flash.now[:info] = 'Номер успешно обновлен'
@@ -71,8 +74,8 @@ private
 
   # Разрешённые параметры
   def room_params
-    params.require(:room).permit(:name, :number, :description, :size, :avatar, :guests, :furniture,
-      :floor, :bathroom, :addition, :rooms, :in_room, { images: [] },
+    params.require(:room).permit(:name, :number, :description, :size, :avatar, :guests, 
+      { images: [] },
       prices_attributes: [:id, :start_date, :end_date, :day_cost, :_destroy])
   end
 

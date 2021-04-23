@@ -4,7 +4,7 @@
 
 <h1 class='h3 text-center my-4'><%= link_to @hotel.name, @hotel %> - добавление номера:</h1>
 
-<%= form_with(model: @room, local: true, html: { name: 'room_form' }) do |f| %>
+<%= form_with(model: @room, local: true) do |f| %>
   <%= hidden_field_tag(:hotel_id, params[:hotel_id].to_i) %>
   <%= render 'shared/error_messages', object: f.object%>
   
@@ -18,60 +18,77 @@
           <%= f.text_field :name, class:"form-control form-control-sm", required: true %>
         </div>
         <div class="col-md-2">
-          <%= f.label "Кол-во комнат", class: 'form-label' %> <span class="text-danger">*</span>        
-          <%= f.text_field :rooms, class:"form-control form-control-sm" %>
+          <label class="form-label">Кол-во комнат</label> <span class="text-danger">*</span>
+          <input name="rooms" type="text" class="form-control" required>
         </div>
 
         <% if @previous_room %>
-        <div class="col-md-3">
-          <div class="form-label">Предыдущее описание
-            <span style="font-size:14px"><sup><i class="far fa-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Вставить описание из предыдущего номера"></i></sup></span>
-          </div> 
-          <a href="javascript: insertInfo();" class="btn btn-success  shadow">Вставить</a>
-          <a href="javascript: document.forms.room_form.reset();" class="btn btn-outline-warning shadow">Очистить</a>
-        </div>
+          <div class="col-md-3">
+            <div class="form-label">Предыдущее описание
+              <span style="font-size:14px"><sup><i class="far fa-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Вставить описание из предыдущего номера"></i></sup></span>
+            </div> 
+            <a href="javascript: insertInfo();" class="btn btn-success  shadow">Вставить</a>
+            <a href="javascript: document.forms[0].reset();" class="btn btn-outline-warning shadow">Очистить</a>
+          </div>
         <% end %>
 
       </div>
 
       <div class="row mb-3 gx-3">
         <div class="col-md-3">
-          <%= f.label :guests, class: 'form-label' %> <span class="text-danger">*</span>        
-          <%= f.text_field :guests, class:"form-control form-control-sm", required: true %>
+          <label class="form-label">Кол-во гостей</label> <span class="text-danger">*</span>
+          <input name="guests" type="text" class="form-control" required>
         </div>
         <div class="col-md-3">        
           <div class="form-label">Площадь <span class="text-danger">*</span> (М<sup><small>2</small></sup>) </div>  
           <%= f.text_field :size, class:"form-control form-control-sm", required: true %>          
         </div>
         <div class="col-md-3">
-          <%= f.label :floor, class: 'form-label' %> <span class="text-danger">*</span>           
-          <%= f.number_field :floor, class:"form-control form-control-sm", required: true %>            
+          <label class="form-label">Этаж</label> <span class="text-danger">*</span>
+          <input name="floor" type="text" class="form-control" required>            
         </div> 
         <div class="col-md-3">
           <%= f.label :number, class: 'form-label' %> <span style="font-weight:200; font-size:14px"><sup><i class="far fa-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Порядковый номер в выводе списка номеров"></i></sup></span>
           <%= f.number_field :number, class: 'form-control' %>
         </div>
-      </div> 
+      </div>      
 
-      <div class="mb-2">
-        <span><i class="fas fa-info-circle text-muted"></i></span>
-        <%= f.label :description, class: 'form-label' %>        
-      </div>
-      <%= f.rich_text_area :description, class: 'form-control mb-3', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
+      <div class="room__desc">
 
-      <%= f.label :furniture, class: 'form-label' %> <span class="text-danger">*</span>          
-      <%= f.text_field :furniture, class:"form-control form-control-sm mb-3", required: true %>
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <label class="form-label">Описание</label>
+          <textarea name="desc" class="form-control" rows="5" style="height:130px"></textarea>
+        </div>
 
-      <%= f.label :bathroom, class: 'form-label' %> <span class="text-danger">*</span>        
-      <%= f.text_field :bathroom, class:"form-control form-control-sm mb-3", required: true %>
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <label class="form-label">Мебель</label> <span class="text-danger">*</span>
+          <input name="furniture" type="text" class="form-control" required>            
+        </div>  
 
-      <%= f.label :in_room, class: 'form-label' %> <span class="text-danger">*</span>          
-      <%= f.text_field :in_room, class:"form-control form-control-sm mb-3", required: true %>
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <label class="form-label">Санузел/душ/ванна</label> <span class="text-danger">*</span>
+          <input name="bathroom" type="text" class="form-control" required>            
+        </div> 
 
-      <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-      <%= f.label :addition, class: 'form-label' %> 
-      <%= f.text_field :addition, class:"form-control form-control-sm mb-3" %>
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <label class="form-label">В номере</label> <span class="text-danger">*</span>
+          <input name="in_room" type="text" class="form-control" required>            
+        </div>
 
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <label class="form-label">Дополнительно</label>
+          <input name="addition" type="text" class="form-control">            
+        </div>
+
+        <input type="hidden" name="desc_json">
+
+      </div>     
+      
       <!-- Add Price -->
       <h3 class="text-center">Добавление цен:</h3>
       <div id="prices">
@@ -116,22 +133,45 @@
 
 </div>
 
-<script>          
+<script>
+
+  let form = document.forms[0]  
+
+  form.addEventListener('submit', function(event){
+    event.preventDefault();
+
+    var data = {
+        "rooms": this.rooms.value,
+        "guests": this.guests.value,
+        "floor": this.floor.value,
+
+        "desc": this.desc.value,
+        "furniture": this.furniture.value,
+        "bathroom": this.bathroom.value,  
+        "in_room": this.in_room.value,  
+        "addition": this.addition.value               
+    };
+    this.desc_json.value = JSON.stringify(data);    
+    
+    console.log(this.desc_json)
+    
+    form.submit();
+  })
+
   function insertInfo() {
     let previousRoom = <%= @previous_room.to_json.html_safe %>;
-    let form = document.forms.room_form;
+    
     form.elements[2].value = previousRoom.name;
-    form.elements[3].value = previousRoom.rooms;
-    form.elements[4].value = previousRoom.guests;
     form.elements[5].value = previousRoom.size;
-    form.elements[6].value = previousRoom.floor;          
-    form.elements[26].value = previousRoom.furniture;
-    form.elements[27].value = previousRoom.bathroom;
-    form.elements[28].value = previousRoom.in_room;
-    form.elements[29].value = previousRoom.addition;
+
+    form.elements[3].value = previousRoom.description['rooms'];
+    form.elements[4].value = previousRoom.description['guests'];
+    form.elements[6].value = previousRoom.description['floor'];
+    form.elements[8].value = previousRoom.description['desc'];
+    form.elements[9].value = previousRoom.description['furniture'];
+    form.elements[10].value = previousRoom.description['bathroom'];
+    form.elements[11].value = previousRoom.description['in_room'];
+    form.elements[12].value = previousRoom.description['addition'];
   }
 
-  function clearForm() {
-    document.forms.room_form.reset();    
-  }
 </script>

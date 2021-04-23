@@ -14,7 +14,7 @@
   <div class="row">
 
     <div class="col-md-12">
-      <h1 class="d-inline"><%= @hotel.name %></h1>, <%= @hotel.address %> check
+      <h1 class="d-inline"><%= @hotel.name %></h1>, <%= @hotel.address %>
     </div>
 
     <div class="col-md-6">
@@ -94,7 +94,7 @@
       <% if @hotel.rooms.any? %><!-- Rooms -->
         <h3 class="mb-4">Номера:</h3>
         <%= render @hotel.rooms %>
-      <% end %><!-- End Rooms -->      
+      <% end %><!-- End Rooms -->   
 
     </div>
 

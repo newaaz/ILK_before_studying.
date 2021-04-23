@@ -11,8 +11,10 @@
         data-loop="true"
         data-keyboard="true"
         data-auto="false">      
-      <%= link_to image_tag(room.avatar.thumb.url), room.avatar.url %>
-      
+      <%= link_to image_tag(room.avatar.thumb.url), room.avatar.url %>      
+      <% room.images.each do |image| %> 
+        <%= link_to image_tag(image.thumb.url, width: "100px"), image.url %>            
+      <% end %>
     </div>
     <!-- fotorama end -->            
   </div>
@@ -25,7 +27,7 @@
       <li>
         <div class="tooltip_styled tooltip-effect-1">
           <span class="tooltip-item"><i class="icon_set_2_icon-105"></i>
-            x <%= room.guests %>
+            x <%= room.description['guests'] %>
           </span>
           <div class="tooltip-content">Вместимость</div>
           <div class="room_icon">Гостей</div>
@@ -34,7 +36,7 @@
       <li>
         <div class="tooltip_styled tooltip-effect-4">
           <span class="tooltip-item"><i class="icon_set_1_icon-23"></i>
-            x <%= room.rooms %>
+            x <%= room.description['rooms'] %>
           </span>
           <div class="tooltip-content">Количество комнат</div>
           <div class="room_icon">Комнат</div>
@@ -50,7 +52,7 @@
       <li>
         <div class="tooltip_styled tooltip-effect-4">
           <span class="tooltip-item"><i class="icon_set_2_icon-111"></i>
-            x <%= room.floor %>
+            x <%= room.description['floor'] %>
           </span>
           <div class="tooltip-content">Душ</div>
           <div class="room_icon">Этаж</div>
@@ -59,7 +61,7 @@
     </ul>
 
     <div class="row">                  
-      <div class="col-md-6 col-sm-12" style="color: #222">от <strong> room.price_from</strong><small>₽</small> /сутки<br>
+      <div class="col-md-6 col-sm-12" style="color: #222">от <strong><%= room.description['min_price'] %></strong><small>₽</small> /сутки<br>
       <small>1 дополнительное место 250₽</small></div>
       <div class="col-md-6 col-sm-12">                
         <!-- бронирование -->
@@ -79,11 +81,11 @@
 <!-- MORE - HIDDEN --> 
 <div class="row hidden_content" id="room-hidden-<%= room.id %>" style="display: none;">
   
-  <strong>Описание: </strong>room.description<br>  
-  <strong>Мебель: </strong><%= room.furniture %><br>
-  <strong>Санузел/душ/ванна: </strong><%= room.bathroom %><br>    
-  <strong>В номере: </strong><%= room.in_room %><br>  
-  <strong>Дополнительно: </strong><%= room.addition %><br><br> 
+  <strong>Описание: </strong><%= room.description['desc'] %><br>  
+  <strong>Мебель: </strong><%= room.description['furniture'] %><br>
+  <strong>Санузел/душ/ванна: </strong><%= room.description['bathroom'] %><br>    
+  <strong>В номере: </strong><%= room.description['in_room'] %><br>  
+  <strong>Дополнительно: </strong><%= room.description['addition'] %><br><br> 
 
   <h3 class='h4 text-center'>Стоимость проживания</h3>
   <table>
@@ -108,6 +110,19 @@
       </tr>                    
     </tbody>
   </table>
+
+  <div style="overflow-x:auto;">
+    <div class="room-prices">
+      <% room.prices.each do |price| %>
+        <div class="period">
+          <div class="period__date"><%= price.start_date.strftime('%d/%m') %>-<%= price.end_date.to_s(:short) %></div>
+          <div class="period__price"><%= price.day_cost %><span>руб.</span></div>
+        </div>
+      <% end %>    
+    </div>
+  </div>
+
+
 </div><!-- END MORE - HIDDEN -->
 
 <!-- редактирование номеров перенести в ЛК -->        
