@@ -1,7 +1,4 @@
-.sm-clean {
-  background: #eeeeee;
-  border-radius: 5px;
-}
+
 .sm-clean a, .sm-clean a:hover, .sm-clean a:focus, .sm-clean a:active {
   padding: 13px 20px;
   /* make room for the toggle button (sub indicator) */
@@ -379,7 +376,7 @@
 /* Mobile menu toggle button */
 
 .main-menu-btn {
-  float: right;
+  /*float: right;*/
   margin: 6px 10px;
   position: relative;
   display: inline-block;

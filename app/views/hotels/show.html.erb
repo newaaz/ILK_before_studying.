@@ -1,30 +1,28 @@
 <% provide(:title, @hotel.name) %>
 <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
 
-<div class="container">
-
-  <div class="breadcrumbs">    
+<div class="breadcrumbs">
+  <div class="container">
+    <i class="icon_set_1_icon-41" style="font-size:15px"></i>
     <%= link_to "Главная", root_url %>&nbsp;/&nbsp;
     
     
     
     <%= @hotel.name %>
   </div>
+</div>
 
+<main class="hotels-show">
+
+<div class="container">
+  
+  <!-- title -->
   <div class="row">
-
-    <div class="col-md-12">
-      <h1 class="d-inline"><%= @hotel.name %></h1>, <%= @hotel.address %>
+    <div class="col-md-7 px-0">
+      <h1 class="d-inline h3"><%= @hotel.name %></h1>&emsp;
+      <i class="icon_set_1_icon-37"></i> <%= @hotel.desc_json["town_name"] %><%= @hotel.address %>
     </div>
-
-    <div class="col-md-6">
-      
-      <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
-        <%= link_to "Редактировать", edit_hotel_path(@hotel) ,class: "btn btn-primary btn-sm" %>
-        <%= link_to "Добавить номер", new_room_path(hotel_id: @hotel.id), class: "btn btn-primary btn-sm" %>
-        <%= link_to "Удалить объект", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
-      <% end %>      
-      
+    <div class="col-md-1">
       <% if @current_item %>
         <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
                                                               class: "btn btn-link text-danger" do %>
@@ -35,17 +33,21 @@
                                                               class: "btn btn-link" do %>
           <i class="fas fa-heart fa-2x"></i>
         <% end %>
-      <% end %>
-
+      <% end %>   
     </div>
+    <div class="col-md-4">
+      <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
+        <%= link_to "Edit", edit_hotel_path(@hotel) ,class: "btn btn-outline-success btn-sm" %>
+        <%= link_to "+ Room", new_room_path(hotel_id: @hotel.id), class: "btn btn-outline-success btn-sm" %>
+        <%= link_to "Delete", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+      <% end %>
+    </div>
+  </div>
 
-  </div> 
-
-  <br>
-
+  <!-- photo + contacts & map -->
   <div class="row">
-
-    <div class="col-md-9">
+    
+    <div class="col-md-9 px-0">
       <!-- fotorama begin -->        
       <div class="fotorama"
         data-width="900"
@@ -62,64 +64,368 @@
       <!-- fotorama end -->
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-3 pe-0">
+
+      <div class="contact-info">
+        <div class="owner-foto">
+          <%= image_tag @hotel.avatar.thumb.url, width: "50px", height: '50px',
+          class: "rounded-circle shadow-sm" %>
+          <span>Тамара Васильевна</span>
+        </div>
+        <div class="owner-detail">
+          <i class="fas fa-mobile-alt fa-fw fa-lg"></i>&nbsp;
+          <a href="tel:+7978819500">+7 978 715 45 00</a>&nbsp;
+          <i class="fab fa-viber fa-lg"></i>&nbsp;
+          <i class="fab fa-whatsapp fa-lg"></i>        
+        </div>
+        <div class="owner-detail">
+          <i class="far fa-envelope fa-fw fa-lg"></i>&nbsp;
+          <a href="mailto:konica_kafa@mail.ru">konica_kafa@mail.ru</a>
+        </div>
+        <div class="owner-detail">
+          <i class="fab fa-skype fa-fw fa-lg"></i>&nbsp;
+          myskypied
+        </div> 
+        <div class="owner-detail">
+          <i class="fas fa-globe fa-fw fa-lg"></i>&nbsp;
+          <a href="https://bootstrap-4.ru/">sunhome.ru</a>
+        </div>
+      </div>
+
       <div id="map" style="height: 300px" class="border shadow"></div>
+
     </div>
 
   </div>
-  <br><br>
 
+  <br>
+
+  <!-- desc & rooms -->
   <div class="row">
-
-    <div class="col-md-9">
-
-      <strong>Описание: </strong><%= @hotel.description %>
-      <br>
-
-      <% JSON.parse(@hotel.desc_json).each do |item| %>
-        <%= item[1].size %> //
-      <% end %>  
+    
+    <div class="col-md-9 px-0">
       
+      <!-- DESCRIPTION -->
+      <div class="tabset">
 
-      <!-- Описание из JSON -->
-      <h2 class="text-center">Описание из JSON</h2>
-      <div id="hotel__food"></div>
-      <h3 class="text-center">Бывшее двухуровневыое описание</h3>
-      <div class="row">
-        <div id="hotel__parking" class="col-md-6"></div>
-        <div id="hotel__territory" class="col-md-6"></div>
+        <!-- Tab description-->
+        <input type="radio" name="tabset" id="tab1" aria-controls="desc" checked>
+        <label for="tab1">Описание</label>
+
+         <!-- Tab description-->
+        <input type="radio" name="tabset" id="tab7" aria-controls="infrastructure">
+        <label for="tab7">Инфраструктура</label> 
+
+        <!-- Tab places near-->
+        <input type="radio" name="tabset" id="tab4" aria-controls="place-near-section">
+        <label for="tab4">Места рядом</label>
+
+        <!-- Tab rules-->
+        <input type="radio" name="tabset" id="tab5" aria-controls="rules">
+        <label for="tab5">Правила и скидки</label>
+
+         <!-- Tab prices-->
+         <input type="radio" name="tabset" id="tab6" aria-controls="prices">
+         <label for="tab6">Календарь цен</label>
+        
+        <div class="tab-panels">
+
+          <!-- Tab DESC -->
+          <section id="desc" class="tab-panel">
+            <strong>Море</strong> ~ <%= @hotel.distance_to_sea %>м. || <strong>Цена от</strong> - <%= @hotel.price_from %><small>руб.</small><br>
+            <strong>Этажей</strong> : <%= @hotel.desc_json["floors"] %> || <strong>Кол-во зданий</strong> : <span class="text-danger strong">Определить</span>
+            <%= @hotel.description %>
+            ----------------------------------------<br>
+            <%= @hotel.description.to_plain_text.size %>
+          </section>
+
+          <section id="infrastructure" class="tab-panel">  
+            <div id="hotel__food"><strong>Питание: </strong><%= @hotel.desc_json["food"] %></div>
+            <div id="hotel__parking"><strong>Парковка: </strong><%= @hotel.desc_json["parking"] %></div>
+            <div id="hotel__territory"><strong>Территория: </strong><%= @hotel.desc_json["territory"] %></div>
+            <div id="hotel__service"><strong>Сервис и услуги: </strong><%= @hotel.desc_json["service"] %></div>
+            <div id="hotel__transfer"><strong>Трансфер: </strong><%= @hotel.desc_json["transfer"] %></div>
+            <div id="hotel__addition"><strong>Дополнительно: </strong><%= @hotel.desc_json["addition"] %></div>
+          </section>    
+  
+          <!-- Tab PLACES NEAR -->
+          <section id="place-near-section" class="tab-panel">            
+            <div class="row">
+              <div class="col px-2">
+                <ul id="place-near">
+                  <li><i class="icon_set_2_icon-108"></i><h5>Отдых и развлечения</h5>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="float-left">Море</div>
+                      <div class="float-right place-near-value">&gt;50м.</div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="float-left">Пляж</div>
+                      <div class="float-right place-near-value">&gt;50м.</div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="float-left">Парк</div>
+                      <div class="float-right place-near-value">~500м.</div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="float-left">Детская площадка</div>
+                      <div class="float-right place-near-value">~700м.</div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="float-left">Лес</div>
+                      <div class="float-right place-near-value">~300м.</div>
+                    </div>
+                  </div>                  
+                  </li>
+                  <li><i class="icon_set_1_icon-49"></i><h5>Еда и покупки</h5>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="float-left">Центр города</div>
+                        <div class="float-right place-near-value">~1,1км</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Кафе</div>
+                        <div class="float-right place-near-value">~200м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Cтоловая</div>
+                        <div class="float-right place-near-value">~200м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Ресторан</div>
+                        <div class="float-right place-near-value">~300м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Продуктовый магазин</div>
+                        <div class="float-right place-near-value">~400м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Супермаркет</div>
+                        <div class="float-right place-near-value">~400м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Банк/Банкомат</div>
+                        <div class="float-right place-near-value">~800м.</div>
+                      </div>
+                    </div>                  
+                  </li>
+                  <li><i class="icon_set_1_icon-21"></i><h5>Транспорт</h5>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="float-left">Аэропорт</div>
+                        <div class="float-right place-near-value">50км</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">ЖД вокзал</div>
+                        <div class="float-right place-near-value">~10км.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Автостанция</div>
+                        <div class="float-right place-near-value">~800м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Остановка общ. трансп.</div>
+                        <div class="float-right place-near-value">~100м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Порт</div>
+                        <div class="float-right place-near-value">~900м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Платная парковка</div>
+                        <div class="float-right place-near-value">~600м.</div>
+                      </div>                      
+                    </div>                  
+                  </li>
+                  <li><i class="icon_set_1_icon-82"></i><h5>Красота и здоровье</h5>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="float-left">Прачечная/химчитска</div>
+                        <div class="float-right place-near-value">~800м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Спорт-оздоров центр</div>
+                        <div class="float-right place-near-value">~400м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Аптека</div>
+                        <div class="float-right place-near-value">~100м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Больница</div>
+                        <div class="float-right place-near-value">~700м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Парик-я/салон красоты</div>
+                        <div class="float-right place-near-value">~400м.</div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Платная парковка</div>
+                        <div class="float-right place-near-value">~600м.</div>
+                      </div>                      
+                    </div>                  
+                  </li>
+                  <li><i class="icon_set_1_icon-3"></i><h5>Досуг</h5>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="float-left">Кинотеатр</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Музей</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Дельфинарий</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Торговый центр</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Ночной клуб</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Боулинг</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Бассеин</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Парк аттракционов</div>                        
+                      </div>                    
+                    </div>                  
+                  </li>
+                  <li><i class="icon_set_1_icon-76"></i><h5>Отдых на воде</h5>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="float-left">Виндсёрфинг</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Дайвинг</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Водные лыжи</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Подводное плавание</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Аквапарк</div>                        
+                      </div>                                          
+                    </div>                  
+                  </li>
+                  <li><i class="icon_set_1_icon-30"></i><h5>Активный отдых</h5>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="float-left">Прогулки на лошадях</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Походы в горы</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Рыбалка</div>                        
+                      </div>
+                      <div class="col-md-4">
+                        <div class="float-left">Джиппинг</div>                        
+                      </div>                                                               
+                    </div>                  
+                  </li>              
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tab RULES -->
+          <section id="rules" class="tab-panel">            
+            <div class="row">
+              <div class="col px-2">
+                  <ul id="policies">                      
+                      <li><i class="icon_set_1_icon-54"></i><h5>Правила проживания:</h5>
+                        <div class="policies">
+                          <%= @hotel.desc_json["child"] %><br>
+                          <%= @hotel.desc_json["animals"] %>
+                          Запрещено для шумных компаний<br>
+                          Проведение мероприятий (Банкетов, Свадеб)                          
+                        </div>
+                      </li>
+                      <li><i class="icon_set_1_icon-83"></i><h5>Рассчётное время:</h5>
+                        <div class="policies">
+                          Расчетное время: 12-00, заезд в 14-00<br>
+                          Время выезда: до 12:00<br>
+                          Время заезда: после 14:00<br>
+                          Минимальный срок проживания: 5 ночей
+                        </div>
+                      </li>
+                      <li><i class="icon_set_1_icon-35"></i><h5>Оплата</h5>
+                        <div class="policies">
+                          Оплата только наличными<br>
+                          Бесплатная отмена бронирования
+                        </div>
+                      </li>                                    
+                  </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tab PRICES -->
+          <section id="prices" class="tab-panel">            
+            <table class="room__table">
+                <thead>
+                  <tr>
+                    <th>Номер</th>
+                    <th>29.04-07.06</th>
+                    <th>08.06-28.06</th>
+                    <th>29.06-19.07</th>
+                    <th>20.07-26.08</th>
+                    <th>27.08-06.09</th>
+                    <th>07.09-30.09</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2 этаж</td>
+                    <td style="text-align: center; color: #333">3000р</td>
+                    <td style="text-align: center; color: #333">3000р</td>
+                    <td style="text-align: center; color: #333">4000р</td>
+                    <td style="text-align: center; color: #333">4500р</td>
+                    <td style="text-align: center; color: #333">4000р</td>
+                    <td style="text-align: center; color: #333">2800р</td>
+                  </tr>
+                  <tr>
+                    <td>3 этаж</td>
+                    <td style="text-align: center">2500р.</td>
+                    <td style="text-align: center">3000р.</td>
+                    <td style="text-align: center">4000р.</td>
+                    <td style="text-align: center">4500р.</td>
+                    <td style="text-align: center">4000р.</td>
+                    <td style="text-align: center">2800р.</td>
+                  </tr>                       
+                </tbody>
+              </table>
+          </section>
+
+        </div>
+
       </div>
 
-      <!-- Room partial -->
-      <% if @hotel.rooms.any? %><!-- Rooms -->
+      <!-- ROOMS -->      
+      <% if @hotel.rooms.any? %>
         <h3 class="mb-4">Номера:</h3>
         <%= render @hotel.rooms %>
-      <% end %><!-- End Rooms -->   
+      <% end %>
+      
 
     </div>
 
-    <div class="col-md-3">
-      <!-- NEAR -->
-      <div class="resource_near">
-        <h4>Жильё рядом</h4>
-        <% hotels_near(@hotel).each do |hotel_near| %>
-          <div class="pl-2 media border rounded bg-white shadow-sm mb-2">              
-            <div class="media-body align-self-center">
-              <%= link_to hotel_near.name , hotel_near %>
-              <span style="font-size: 18px; color: orangered;">
-              <i class="fas fa-map-marked-alt"></i>
-              </span>
-              <small>~<%= distance_between(@hotel, hotel_near) %>м.</small>
-            </div>
-            <%= link_to image_tag(hotel_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-end img-fluid'), hotel_near %>
-          </div>
-        <% end %>
-      </div> <!-- end NEAR -->
+    <div class="col-md-3 pe-0">
+     
     </div>
 
   </div>
 
 </div>
+
+</main>
+
+
 
 <script type="text/javascript"> // map
   ymaps.ready(init);
@@ -179,12 +485,7 @@
   });
 </script>
 
-<script>// Show JSON desc  --- СКОРЕЕ ВСЕГО НАДО НА ВЕРХ  !!!!  
-  let desc = <%= @hotel.desc_json.html_safe %>;
-  document.getElementById('hotel__food').innerHTML = desc.food
-  document.getElementById('hotel__parking').innerHTML = desc.parking
-  document.getElementById('hotel__territory').innerHTML = desc.territory
-</script>
+
 
 
 

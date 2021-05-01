@@ -690,7 +690,7 @@ ul#cart_items li:last-child span{
 
 /* Footer */
 footer {
-	background: #222 url(../img/pattern.png) repeat 0 0;
+	/*background: #222 url(../img/pattern.png) repeat 0 0;*/
 	color: #fff;
 	padding: 30px 0 10px 0;
 }
@@ -4575,160 +4575,6 @@ ul.plan-features {
 	border-top: 3px solid #a3362a;
 }
 
-/*-------- 5.2 Footer styles --------*/
-/* Footer 3 */
-footer#pattern_2 {
-	background: #222 url(../img/pattern_3.png) repeat 0 0;
-}
-
-footer #logo {
-	margin-top: 20px;
-}
-
-/* Footer 4 */
-#newsletter_container {
-	background-color: #f8f8f8;
-	border-top: 1px solid #ededed;
-}
-
-#newsletter_container h3 {
-	font-size: 32px;
-	font-weight: 300;
-	margin: 0 0 20px 0;
-}
-
-#newsletter_container input.form-control#email_newsletter_2 {
-	margin-bottom: 0;
-	background-color: #fff;
-	border: none;
-	border: 2px solid #ededed;
-	height: 45px;
-	font-size: 15px;
-	padding-left: 20px;
-	width: 380px;
-	margin-right: 5px;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	display: inline-block;
-}
-
-#newsletter_container input.form-control#email_newsletter_2:focus {
-	border-color: none;
-	outline: 0;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	color: #444;
-}
-
-#newsletter_container #submit-newsletter_2.btn_1 {
-	padding: 12px 35px;
-	display: inline-block;
-}
-
-/* Footer 5 */
-ul.tweet_list li{
-	padding-left: 30px;
-	background: url(../img/twitter_icon.svg) no-repeat 0 5px;
-}
-.tweets-next,
-.tweets-prev {
-	display: inline-block;
-	font-size: 28px;
-	color: #FFF;
-	margin-top: 5px;
-	width: 28px;
-	padding: 0;
-	text-align: left;
-}
-
-.tweets-prev {
-	margin-right: 5px;
-}
-
-.tweet_avatar {
-	float: left;
-}
-
-.tweet_time a{
-	display: block;
-	margin-bottom: 5px;
-	color: #fdf7ac;
-}
-
-a.bx-next, a.bx-prev{
-	color: #fff;
-}
-
-a.bx-next:hover, a.bx-prev:hover{
-	color: #fdf7ac;
-}
-
-.tweet_text a{
-	text-decoration: underline;
-}
-
-.tweet-control {
-	margin-left:15px;
-}
-
-/* Footer 6 */
-footer#pattern_3 {
-	background: #222 url(../img/pattern_4.png) repeat 0 0;
-}
-footer .post{
-	position:relative;
-	min-height:62px;
-	padding-left:80px;
-	padding-top:5px;
-	margin-bottom:10px;	
-}
-
-footer .post:last-child{
-	margin-bottom:5px;	
-}
-
-footer .post figure{
-	position:absolute;
-	left:0px;
-	top:0px;
-	width:62px;
-	height:62px;
-}
-
-footer .post h4{
-	font-size:13px;
-	color:#ffffff;
-	margin-bottom:6px;	
-}
-
-footer.post i{
-	font-size:14px;
-	padding-right:10px; 
-}
-
-/* Footer 7 */
-footer#pattern_4 {
-	background: #2a2a2a url(../img/pattern_5.png) repeat 0 0;
-}
-
-footer .gallery-image {
-  overflow: hidden;
-}
-
-footer .gallery-image a {
-  max-width: 33.33%;
-  padding-right: 10px;
-  padding-bottom: 10px;
-  float: left;
-}
-
-footer .gallery-image img {
-  width: 100%;
-  transition: 0.3s ease-in-out;
-}
 
 /*-------- 5.3 Header versions --------*/
 /* Header 4*/
@@ -4972,15 +4818,7 @@ a.btn_infobox:hover, .btn_infobox:hover{
 /*============================================================================================*/
 
 /*-------- 6.1 Footer fixed --------*/
-main{
-	background-color: #f9f9f9;
-	z-index:2;
-	position:relative;
-}
-.parallax-content-1 {
-	z-index: 3;
-	position: relative;
-}
+
 
 /*-------- 6.2 Notify --------*/
 [data-notify="progressbar"] {

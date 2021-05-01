@@ -74,7 +74,7 @@ private
 
   # Разрешённые параметры
   def room_params
-    params.require(:room).permit(:name, :number, :description, :size, :avatar, :guests, 
+    params.require(:room).permit(:name, :number, :size, :avatar, :guests, 
       { images: [] },
       prices_attributes: [:id, :start_date, :end_date, :day_cost, :_destroy])
   end

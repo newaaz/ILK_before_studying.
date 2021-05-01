@@ -13,25 +13,25 @@
 
         <div class="row mb-3 gx-3">
           <div class="col-md-5">          
-            <%= f.label :name, class: 'form-label' %>       
-            <%= f.text_field :name, class: 'form-control form-control-sm' %>
+            <%= f.label :name, class: 'form-label' %> <span class="text-danger">*</span>   
+            <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>
           </div>
           <div class="col-md-3">
-            <%= f.label :town_id, class: 'form-label' %>              
-            <%= f.collection_select :town_id, Town.order(:number), :id, :name, { prompt: "Выбрать..." },class:"form-select form-select-sm" %>
+            <%= f.label :town_id, class: 'form-label' %> <span class="text-danger">*</span>            
+            <%= f.collection_select :town_id, Town.order(:number), :id, :name, { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
           </div>
           <div class="col-md-4">            
-            <%= f.label :address, class: 'form-label' %><small class="text-muted"> / без населённого пункта</small>    
-            <%= f.text_field :address, class: 'form-control form-control-sm' %>
+            <%= f.label :address, class: 'form-label' %> <span class="text-danger">*</span> <small class="text-muted"> / без населённого пункта</small>    
+            <%= f.text_field :address, class: 'form-control form-control-sm', required: true %>
           </div>
         </div> 
 
         <div class="row mb-3 gx-2">
 
           <div class="col-md-3">            
-            <%= f.label :hotel_category_id, class: 'form-label' %>            
+            <%= f.label :hotel_category_id, class: 'form-label' %> <span class="text-danger">*</span>            
             <%= f.collection_select :hotel_category_id, HotelCategory.order(:number), :id, :name,
-             { prompt: "Выбрать..." }, class:"form-select form-select-sm" %>
+             { prompt: "Выбрать..." }, class:"form-select form-select-sm", required: true %>
           </div>
 
           <div class="col-md-3">
@@ -41,13 +41,13 @@
           </div>
 
           <div class="col-md-2">
-            <%= f.label :price_from, class: 'form-label' %><small class="text-muted"> (руб.)</small>           
-            <%= f.text_field :price_from, class: 'form-control form-control-sm' %>              
+            <%= f.label :price_from, class: 'form-label' %> <span class="text-danger">*</span> <small class="text-muted"> (руб.)</small>           
+            <%= f.text_field :price_from, class: 'form-control form-control-sm', required: true %>              
           </div>
 
           <div class="col-md-2">
-            <%= f.label :floors, class: 'form-label' %><small class="text-muted"> (руб.)</small>           
-            <%= f.text_field :floors, class: 'form-control form-control-sm' %>              
+            <label class="form-label">Кол-во этажей</label> <span class="text-danger">*</span>
+            <input name="floors" type="text" class="form-control" required>
           </div>
 
           <div class="col-md-2 pt-4 ">
@@ -58,11 +58,10 @@
             </div>                     
           </div>
 
-        </div>          
-
+        </div> 
         
         <div class="row mb-3 pb-3 pt-2 bg-white shadow">
-          <h2 class='h5 text-center'>Отметить на карте</h2>
+          <h3 class='h4 text-center text-success'>Отметить на карте<span style="font-size:20px;" class="text-danger">*</span></h3>
           <div class="col-md-8">
             <div id="map" style="height: 300px" class="border"></div>
           </div>
@@ -73,13 +72,13 @@
                 <small class="text-muted">
                   Широта
                 </small>
-                <%= f.text_field :latitude, class: 'form-control form-control-sm', readonly: true %>
+                <%= f.text_field :latitude, class: 'form-control form-control-sm', readonly: true, required: true %>
               </div>
               <div class="form-group">              
                 <small class="text-muted">
                   Долгота
                 </small>
-                <%= f.text_field :longitude, class: 'form-control form-control-sm', readonly: true %>
+                <%= f.text_field :longitude, class: 'form-control form-control-sm', readonly: true, required: true %>
               </div>
 
               <br>
@@ -92,38 +91,62 @@
           </div>
         </div>  
 
+        <h3 class='h4 text-center text-success'>Описание и правила</h3>
+
         <div class="mb-2">
-          <span><i class="fas fa-info-circle text-muted"></i></span>          
-          <%= f.label :description, class: 'form-label' %>        
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>          
+          <%= f.label :description, class: 'form-label' %>  
         </div>
         <%= f.rich_text_area :description, class: 'form-control mb-3', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>     
 
-        <%= f.label :food, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :food, class:"form-control form-control-sm mb-3" %>
-
-        <%= f.label :parking, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :parking, class:"form-control form-control-sm mb-3" %>
-
-        <%= f.label :territory, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :territory, class:"form-control form-control-sm mb-3" %>
-
-        <%= f.label :transfer, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :transfer, class:"form-control form-control-sm mb-3" %>
-
-        <%= f.label :service, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :service, class:"form-control form-control-sm mb-3" %>
-
-        <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-        <%= f.label :addition, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :addition, class:"form-control form-control-sm mb-3" %>
-
+        <div class="hotel__desc">
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+            <label class="form-label">Питание</label><span class="text-danger">*</span> 
+            <input name="food" type="text" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+            <label class="form-label">Парковка</label><span class="text-danger">*</span> 
+            <input name="parking" type="text" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+            <label class="form-label">Территория</label><span class="text-danger">*</span> 
+            <input name="territory" type="text" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+            <label class="form-label">Трансфер</label><span class="text-danger">*</span> 
+            <input name="transfer" type="text" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+            <label class="form-label">Сервис</label><span class="text-danger">*</span> 
+            <input name="service" type="text" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+            <label class="form-label">Дополнительно</label><span class="text-danger">*</span> 
+            <input name="addition" type="text" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+            <label class="form-label">Дети</label><span class="text-danger">*</span> 
+            <input name="child" type="text" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+            <label class="form-label">Домашние животные</label><span class="text-danger">*</span> 
+            <input name="animals" type="text" class="form-control">
+          </div>
+        </div> 
 
         <div class="d-grid gap-2 col-md-5 mx-auto my-5">
           <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
             <span class="icon"><i class="fas fa-camera"></i></span>&#8194;Добавить объявление
           <% end %> 
-        </div>
-        
+        </div>        
 
       </div>
 
@@ -133,18 +156,20 @@
         <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd">Градиент</a>
         <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd btn-blue">Голубой</a>
         <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd btn-ocean">Океан</a>
-        <h3 class='h4 text-center'>Фотографии</h3>
+        <h3 class='h4 text-center text-success'>Фотографии</h3>
         <div class="mb-3">
           <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
           <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
-          <img src="https://via.placeholder.com/300x200" id="preview" class="img-thumbnail mb-1">        
-          <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
+          <img src="https://via.placeholder.com/300x200" id="preview" class="img-thumbnail">        
+          <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm', required: true %>
         </div>
         <div class="mb-3">
           <span style="font-size:18px"><i class="fas fa-images text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Загрузить фотографии номера. Максимальный размер одной фотографии - 4 МБ, не более 35 фотографий"></i></span>
           <%= f.label :images, class: 'form-label' %>      
           <%= f.file_field :images, multiple: true, accept: 'image/jpeg,image/png', class: 'form-control' %>
         </div>
+
+        <h3 class='h4 text-center text-success'>Контакты</h3>
 
         <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
         <%= f.label :site, class: 'form-label' %> <span class="text-danger">*</span>        
@@ -154,32 +179,22 @@
         <%= f.label :email, class: 'form-label' %> <span class="text-danger">*</span>        
         <%= f.text_field :email, class:"form-control form-control-sm mb-3" %>
 
-        <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-        <%= f.label :vk, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :vk, class:"form-control form-control-sm mb-3" %>
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <label class="form-label">VK</label><span class="text-danger">*</span> 
+          <input name="vk" type="text" class="form-control">
+        </div>
 
-        <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-        <%= f.label :instagram, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :instagram, class:"form-control form-control-sm mb-3" %>
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <label class="form-label">Instagram</label><span class="text-danger">*</span> 
+          <input name="instagram" type="text" class="form-control">
+        </div>   
 
-      </div>
-      <!-- ПОЛЯ ДЛЯ JSON -->
-      <br><br>
-
-      <div class="mb-3">
-        <label for="" class="form-label">Питание</label>
-        <input type="text" name="food" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label for="" class="form-label">Парковка</label>
-        <input type="text" name="parking" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label for="" class="form-label">Территория</label>
-        <input type="text" name="territory" class="form-control">
-      </div>
+      </div>      
+      
       <input type="hidden" name="desc_json">
-      <!-- END ПОЛЯ ДЛЯ JSON -->
+      
     </div>
   <% end %>
 
@@ -226,11 +241,10 @@
       });
 
     }
-
     document.getElementById('clear-btn').onclick = function(e) {
       document.getElementById('hotel_latitude').value = ''
       document.getElementById('hotel_longitude').value = ''
-    }
+    }  
 </script>
 
 <script>      
@@ -241,13 +255,20 @@
     event.preventDefault();
 
     var data = {
+        "floors": this.floors.value,
         "food": this.food.value,
         "parking": this.parking.value,
-        "territory": this.territory.value        
+        "territory": this.territory.value,
+        "transfer": this.transfer.value,
+        "service": this.service.value,
+        "addition": this.addition.value,
+        "vk": this.vk.value,
+        "instagram": this.instagram.value,
+        "child": this.child.value,
+        "animals": this.animals.value,
     };
     this.desc_json.value = JSON.stringify(data);
     
-    console.log(data.food)
     console.log(this.desc_json)
     
     form.submit();
@@ -272,15 +293,15 @@
     form.elements[34].value = 'трансфер из аэропорта в Симферополе 2500 руб';
     form.elements[35].value = 'круглосуточная стойка регистрации бесплатный wi-fi в номерах поздний выезд ранний заезд';
     form.elements[36].value = 'Услуги за отдельную плату: пользование стиральной машиной. Примечание: если клиент отказывается от бронирования, предоплата не возвращается.';
+    form.elements[37].value = 'Принимаем с детьми';
+    form.elements[38].value = 'Принимаем с животными';
 
-    form.elements[40].value = 'kilova.ru';
-    form.elements[41].value = 'jumperka@list.ru';
-    form.elements[42].value = 'mcixabuka';
-    form.elements[43].value = 'kilovagora';
 
-    form.elements[44].value = 'JSON - food - отдельная кухня с чайником';
-    form.elements[45].value = 'JSON - Парковка во дворе дома и на прилегающей территории';
-    form.elements[46].value = 'JSON - закрытый двор терраса, место для отдыха мангал, место для барбекю';
+    form.elements[42].value = 'kilova.ru';
+    form.elements[43].value = 'jumperka@list.ru';
+    form.elements[44].value = 'mcixabuka';
+    form.elements[45].value = 'kilovagora';
+
   }
 </script>
 

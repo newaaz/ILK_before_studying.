@@ -111,16 +111,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_084352) do
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "latitude", precision: 6, scale: 4
     t.decimal "longitude", precision: 6, scale: 4
-    t.string "food"
-    t.string "parking"
-    t.string "territory"
-    t.string "addition"
-    t.string "vk"
-    t.string "instagram"
-    t.string "transfer"
-    t.string "service"
     t.boolean "all_year", default: false
-    t.integer "floors", limit: 2
     t.json "desc_json"
     t.index ["hotel_category_id"], name: "index_hotels_on_hotel_category_id"
     t.index ["town_id"], name: "index_hotels_on_town_id"

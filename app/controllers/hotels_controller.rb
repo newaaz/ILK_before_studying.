@@ -5,7 +5,7 @@ class HotelsController < ApplicationController
 
   def index    
     redirect_back(fallback_location: root_url) unless current_user && current_user.admin?  
-    @hotels = Hotel.all.order(created_at: :desc)    
+    @hotels = Hotel.all.order(created_at: :desc)
   end
   
   def show
@@ -19,10 +19,9 @@ class HotelsController < ApplicationController
     @hotel = Hotel.new    
   end
 
-  def create
-    # debugger
+  def create    
     @hotel = current_user.hotels.build(hotel_params)
-    @hotel.desc_json = params[:desc_json]
+    @hotel.desc_json = JSON.parse(params[:desc_json])
     if @hotel.save
       flash[:success] = "Объект успешно создан"
       redirect_to @hotel
@@ -37,6 +36,7 @@ class HotelsController < ApplicationController
 
   def update
     @hotel = Hotel.find(params[:id])
+    @hotel.desc_json = JSON.parse(params[:desc_json])
     if @hotel.update(hotel_params)
       redirect_to @hotel
       flash[:info] = 'Объект успешно изменён'
@@ -80,9 +80,8 @@ private
   end  
 
   def hotel_params
-    params.require(:hotel).permit(:name, :price_from, :address, :distance_to_sea, :latitude, :longitude, :vk,
-                                  :hotel_category_id, :town_id, :site, :description, :food, :parking, :territory,
-                                  :transfer, :service, :addition, :instagram, :all_year, :floors,
+    params.require(:hotel).permit(:name, :price_from, :address, :distance_to_sea, :latitude, :longitude,
+                                  :hotel_category_id, :town_id, :site, :description, :all_year,
                                   :email, :avatar, { images: [], comfort_ids: [] })
   end
   

@@ -133,6 +133,15 @@
 
 </div>
 
+<script type="text/javascript">
+  $("#room_avatar").bind("change", function() {
+    const size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 4) {
+      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");      
+    }
+  });
+</script>
+
 <script>
 
   let form = document.forms[0]  

@@ -2,7 +2,7 @@ class Hotel < ApplicationRecord
 
   belongs_to  :user
   belongs_to  :town
-  belongs_to  :hotel_category  
+  belongs_to  :hotel_category
   has_many    :rooms, dependent: :destroy
   has_many    :orders, dependent: :destroy
 
@@ -13,13 +13,17 @@ class Hotel < ApplicationRecord
 
   validates :name, :price_from, :avatar, :latitude, :longitude, presence: true
 
-  validates :price_from, numericality: { greater_than: 0 }
-  validates :distance_to_sea, numericality: { allow_nil: true, greater_than: 0 }
+  validates :price_from, numericality: { greater_than: 0, less_than: 999999 }
+  validates :distance_to_sea, numericality: { allow_nil: true, greater_than: 0, less_than: 30000 }
 
   validate  :avatar_type_size
   validate  :image_type_size
 
+  validate  :description_embeds
+
   validate  :check_desc_json
+
+  after_save  :set_town_name!
 
 private
 
@@ -55,13 +59,21 @@ private
         errors.add(:description, "должно содержать только изображения формата JPG или PNG") unless attach.content_type.in?(%('image/jpeg image/png'))
       end
     end
+    errors.add(:description, " - слишком длинное (не более 4000 символов)") if description.to_plain_text.size > 4000
   end
 
   # проверка JSON описания объекта
   def check_desc_json
-    JSON.parse(desc_json.html_safe).each do |desc_item|
+    desc_json.each do |desc_item|
       errors.add(desc_item[0],' - описание слишком длинное (не более 255 символов)') if desc_item[1].size > 255
     end
-  end 
+  end
+
+  # Устанавливаем название города в JSON-описание отеля
+  def set_town_name!
+    desc_json['town_name'] = town.name
+    desc_new = desc_json
+    update_column(:desc_json, desc_new)  
+  end
 
 end

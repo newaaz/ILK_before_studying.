@@ -10,26 +10,10 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- 
+ *= require_tree .
  *= require_self
  */
 
-@import "smartmenu/sm-core-css.scss";
-@import "smartmenu/smartmenu.scss";
 
-
-@import "city_tours/parts/banners.scss";
-@import "city_tours/font-icon.scss";
-@import "city_tours/style.scss";
-@import "city_tours/vendors.unminified.scss";
-
-
-@import "plugins/fotorama.scss";
-
-@import "base";
-@import "hotels";
-@import "buttons";
-@import "icon_set_2";
- 
 
 
