@@ -238,7 +238,7 @@
 </script>
 
 <script>  
-    let form = document.forms[0]
+    var form = document.forms[0]
 
     form.floors.value = <%= @hotel.desc_json["floors"] %>
     form.food.value = '<%= @hotel.desc_json["food"] %>'
@@ -252,8 +252,10 @@
     form.vk.value = '<%= @hotel.desc_json["vk"] %>'
     form.instagram.value = '<%= @hotel.desc_json["instagram"] %>'
 
-    form.addEventListener('submit', function(event){
+    form.addEventListener('submit', function(event){    
+    
     event.preventDefault();
+    form.commit.disabled = true;
 
     var data = {
         "floors": this.floors.value,
@@ -268,9 +270,7 @@
         "child": this.child.value,
         "animals": this.animals.value,
     };
-    this.desc_json.value = JSON.stringify(data);
-    
-    console.log(this.desc_json)
+    this.desc_json.value = JSON.stringify(data);    
     
     form.submit();
   })

@@ -20,11 +20,14 @@
 
     <%= stylesheet_link_tag 'actiontext', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
     <% if content_for?(:javascript_plugin_header) %>
       <%= yield(:javascript_plugin_header) %>      
     <% end %>
+
+    <%= javascript_include_tag "smartmenu.js" %>
     
   </head>
 
@@ -37,12 +40,10 @@
         <%= message %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-    <% end %>
+    <% end %>    
 
-    
       
-    <%= yield %>
-      
+    <%= yield %>      
     
 
     <%= render 'layouts/footer' %>
@@ -51,44 +52,48 @@
 
     <%= javascript_include_tag "common_scripts.js", 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag "functions.js", 'data-turbolinks-track': 'reload' %>
-
-    <%= javascript_include_tag "smartmenu.js" %>
-    <script>// SmartMenus init    
-      $(function() {
-        $('#main-menu').smartmenus({
-          showTimeout: 50,
-          hideTimeout: 100,
-          mainMenuSubOffsetX: -1,
-          mainMenuSubOffsetY: 4,
-          subMenusSubOffsetX: 6,
-          subMenusSubOffsetY: -6
+   
+    <script>// smart menu
+      document.addEventListener("turbolinks:load", () => {
+        $(function() {
+          $('#main-menu').smartmenus({
+            showTimeout: 50,
+            hideTimeout: 100,
+            mainMenuSubOffsetX: -1,
+            mainMenuSubOffsetY: 4,
+            subMenusSubOffsetX: 6,
+            subMenusSubOffsetY: -6
+          });
         });
       });
-      // SmartMenus mobile menu toggle button
-      $(function() {
-        var $mainMenuState = $('#main-menu-state');
-        if ($mainMenuState.length) {
-          // animate mobile menu
-          $mainMenuState.change(function(e) {
-            var $menu = $('#main-menu');
-            if (this.checked) {
-              $menu.hide().slideDown(250, function() { $menu.css('display', ''); });
-            } else {
-              $menu.show().slideUp(250, function() { $menu.css('display', ''); });
-            }
-          });
-          // hide mobile menu beforeunload
-          $(window).bind('beforeunload unload', function() {
-            if ($mainMenuState[0].checked) {
-              $mainMenuState[0].click();
-            }
-          });
-        }
+      //Smart Menu
+      document.addEventListener("turbolinks:load", () => {
+        // SmartMenus mobile menu toggle button
+        $(function() {
+          var $mainMenuState = $('#main-menu-state');
+          if ($mainMenuState.length) {
+            // animate mobile menu
+            $mainMenuState.change(function(e) {
+              var $menu = $('#main-menu');
+              if (this.checked) {
+                $menu.hide().slideDown(250, function() { $menu.css('display', ''); });
+              } else {
+                $menu.show().slideUp(250, function() { $menu.css('display', ''); });
+              }
+            });
+            // hide mobile menu beforeunload
+            $(window).bind('beforeunload unload', function() {
+              if ($mainMenuState[0].checked) {
+                $mainMenuState[0].click();
+              }
+            });
+          }
+        });
       });
     </script>
     
     <script>
-    /* Video modal dialog + Parallax + Scroll to top + Incrementer */
+      /* Video modal dialog + Parallax + Scroll to top + Incrementer */
       $(function () {
         'use strict';
         $('.parallax-window').parallax({zIndex:1}); /* Parallax modal*/

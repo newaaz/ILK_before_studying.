@@ -141,24 +141,22 @@
 
 <script>
 
-  let form = document.forms[0]  
+  var form = document.forms[0]  
   
-  let previousRoom = <%= @room.to_json.html_safe %>;
+  var previousRoom = <%= @room.description.to_json.html_safe %>;
   
-  form.elements[3].value = previousRoom.name;
-  form.elements[6].value = previousRoom.size;
-  form.elements[4].value = previousRoom.description['rooms'];
-  form.elements[5].value = previousRoom.description['guests'];
-  form.elements[7].value = previousRoom.description['floor'];
-  form.elements[9].value = previousRoom.description['desc'];
-  form.elements[10].value = previousRoom.description['furniture'];
-  form.elements[11].value = previousRoom.description['bathroom'];
-  form.elements[12].value = previousRoom.description['in_room'];
-  form.elements[13].value = previousRoom.description['addition'];  
+  form.rooms.value = previousRoom['rooms'];
+  form.guests.value = previousRoom['guests'];
+  form.floor.value = previousRoom['floor'];
+  form.desc.value = previousRoom['desc'];
+  form.furniture.value = previousRoom['furniture'];
+  form.bathroom.value = previousRoom['bathroom'];
+  form.in_room.value = previousRoom['in_room'];
+  form.addition.value = previousRoom['addition'];  
 
   form.addEventListener('submit', function(event){
     event.preventDefault();
-
+    form.button.disabled = true;  
     var data = {
         "rooms": this.rooms.value,
         "guests": this.guests.value,
@@ -170,9 +168,7 @@
         "in_room": this.in_room.value,  
         "addition": this.addition.value               
     };
-    this.desc_json.value = JSON.stringify(data);    
-    
-    console.log(this.desc_json)
+    this.desc_json.value = JSON.stringify(data);
     
     form.submit();
   })

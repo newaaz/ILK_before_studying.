@@ -15,7 +15,6 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-
 require("trix")
 require("@rails/actiontext")
 
@@ -26,4 +25,6 @@ document.addEventListener("turbolinks:load", () => {
     return new bootstrap.Tooltip(tooltipTriggerEl)
   })
 });
+
+
 

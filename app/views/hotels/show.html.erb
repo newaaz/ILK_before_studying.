@@ -1,5 +1,8 @@
 <% provide(:title, @hotel.name) %>
-<%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+<% end %>
+
 
 <div class="breadcrumbs">
   <div class="container">
@@ -49,13 +52,7 @@
     
     <div class="col-md-9 px-0">
       <!-- fotorama begin -->        
-      <div class="fotorama"
-        data-width="900"
-        data-ratio="3/2"
-        data-allowfullscreen="true"
-        data-nav="thumbs"
-        data-loop="true"
-        data-keyboard="true">
+      <div class="fotoramain">
         <%= link_to image_tag(@hotel.avatar.thumb.url), @hotel.avatar.url %>
         <% @hotel.images.each do |image| %>
           <%= link_to image_tag(image.thumb.url), image.url %>
@@ -133,10 +130,17 @@
           <!-- Tab DESC -->
           <section id="desc" class="tab-panel">
             <strong>Море</strong> ~ <%= @hotel.distance_to_sea %>м. || <strong>Цена от</strong> - <%= @hotel.price_from %><small>руб.</small><br>
-            <strong>Этажей</strong> : <%= @hotel.desc_json["floors"] %> || <strong>Кол-во зданий</strong> : <span class="text-danger strong">Определить</span>
-            <%= @hotel.description %>
-            ----------------------------------------<br>
-            <%= @hotel.description.to_plain_text.size %>
+            <strong>Этажей</strong> : <%= @hotel.desc_json["floors"] %> || <strong>Кол-во зданий</strong> : <span class="text-warning strong">Определить!</span>
+            
+            <%  if @hotel.description.to_plain_text.size > 626 %>            
+              <a class="content_toggle" href="#"><i class='icon-angle-down'></i> Показать далее</a>
+              <div class="content_block hide">
+              <%= @hotel.description %>
+              <a class="content_toggle" href="#"></i></a>
+              </div>          
+            <% else %>
+              <%= @hotel.description %>
+            <% end %>
           </section>
 
           <section id="infrastructure" class="tab-panel">  
@@ -416,7 +420,23 @@
     </div>
 
     <div class="col-md-3 pe-0">
-     
+            <!-- NEAR -->
+      <div class="resource_near">
+        <h4>Жильё рядом</h4>
+        <% hotels_near(@hotel).each do |hotel_near| %>
+          <div class="pl-2 media border rounded bg-white shadow-sm mb-2">              
+            <div class="media-body align-self-center">
+              <%= link_to hotel_near.name , hotel_near %>
+              <span style="font-size: 18px; color: orangered;">
+              <i class="fas fa-map-marked-alt"></i>
+              </span>
+              <small>~<%= distance_between(@hotel, hotel_near) %>м.</small>
+            </div>
+            <%= link_to image_tag(hotel_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-end img-fluid'), hotel_near %>
+          </div>
+        <% end %>
+      </div> <!-- end NEAR -->
+    </div>
     </div>
 
   </div>
@@ -449,7 +469,7 @@
 </script>
 
 <script>  // More... hidden
-  let btnsMore = document.getElementsByClassName('more-info');
+  var btnsMore = document.getElementsByClassName('more-info');
   for (var i = 0; i < btnsMore.length; i++) {
     btnsMore[i].addEventListener("click", function() {
       let indexRoom = 'room-hidden-'+ this.dataset.room;
@@ -466,22 +486,50 @@
 </script>
 
 <script>//Initialize fotorama manually for rooms.
-  $(function () {
-    let $fotoramaDiv = $('.fotorama-rooms').fotorama();
+  $(document).on('turbolinks:load', function() {
+    $(function () {
 
-    $fotoramaDiv.on('fotorama:fullscreenenter',
-      function (e, fotorama) {        
-        fotorama.setOptions({
-          nav: "thumbs"
+      // Initialize main fotorama
+      $('.fotoramain').fotorama({
+        width: 900,
+        ratio: 3/2,
+        allowfullscreen: true,
+        nav: 'thumbs',
+        loop: true,
+        keyboard: true,
+      })
+
+      //Initialize fotorama manually for rooms
+      var $fotoramaDiv = $('.fotorama-rooms').fotorama();
+
+      $fotoramaDiv.on('fotorama:fullscreenenter',
+        function (e, fotorama) {        
+          fotorama.setOptions({
+            nav: "thumbs"
+          });
         });
-      });
-    
-    $fotoramaDiv.on('fotorama:fullscreenexit',
-    function (e, fotorama) {      
-      fotorama.setOptions({
-        nav: "false"
-      });
-    })
+      
+      $fotoramaDiv.on('fotorama:fullscreenexit',
+      function (e, fotorama) {      
+        fotorama.setOptions({
+          nav: "false"
+        });
+      })
+    });
+  }); 
+</script>
+
+<script>// description more
+  $(document).ready(function(){
+    $('.content_toggle').click(function(){
+      $('.content_block').toggleClass('hide');	
+      if ($('.content_block').hasClass('hide')) {
+        $('.content_toggle').html('<i class="icon-angle-down"></i> Показать далее');
+      } else {
+        $('.content_toggle').html('<i class="icon-angle-up"></i> Свернуть');
+      }		
+      return false;
+    });				
   });
 </script>
 

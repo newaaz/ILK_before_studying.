@@ -14,7 +14,9 @@ class Room < ApplicationRecord
   validates :number, :size, numericality: { greater_than: 0, less_than: 9999 }
 
   validate  :avatar_type_size
-  validate  :image_type_size   
+  validate  :image_type_size  
+  
+  validate  :check_desc_json
 
   after_save  :set_min_price!
 
@@ -47,6 +49,13 @@ private
     description['min_price'] = min_price
     desc_new = description
     update_column(:description, desc_new)    
+  end
+
+  # проверка JSON описания номера
+  def check_desc_json
+    description.each do |desc_item|
+      errors.add(desc_item[0],' - описание слишком длинное (не более 255 символов)') if desc_item[1].size > 255
+    end
   end
 
 end

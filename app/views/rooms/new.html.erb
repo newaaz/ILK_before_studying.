@@ -142,12 +142,28 @@
   });
 </script>
 
-<script>
+<% if @room.name %>
+<!-- failure to save -->
+  <script>
+    var form = document.forms[0]  
+    form.rooms.value = '<%= @room.description["rooms"] %>'
+    form.guests.value = '<%= @room.description["guests"] %>'
+    form.floor.value = '<%= @room.description["floor"] %>'
+    form.desc.value = '<%= @room.description["desc"] %>'
+    form.furniture.value = '<%= @room.description["furniture"] %>'
+    form.bathroom.value = '<%= @room.description["bathroom"] %>'
+    form.in_room.value = '<%= @room.description["in_room"] %>'
+    form.addition.value = '<%= @room.description["addition"] %>'
+  </script>
+<% end %>
 
-  let form = document.forms[0]  
+<script> 
+
+  var form = document.forms[0]  
 
   form.addEventListener('submit', function(event){
     event.preventDefault();
+    form.button.disabled = true;  
 
     var data = {
         "rooms": this.rooms.value,
@@ -160,9 +176,7 @@
         "in_room": this.in_room.value,  
         "addition": this.addition.value               
     };
-    this.desc_json.value = JSON.stringify(data);    
-    
-    console.log(this.desc_json)
+    this.desc_json.value = JSON.stringify(data);     
     
     form.submit();
   })
