@@ -5,4 +5,6 @@
 
 //= link litepicker.js
 
+//= link jquery.maskedinput.min.js
+
 //= link functions.js

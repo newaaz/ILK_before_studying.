@@ -17,40 +17,35 @@
 
 <main class="hotels-show">
 
-<div class="container">
-  
-  <!-- title -->
-  <div class="row">
-    <div class="col-md-7 px-0">
-      <h1 class="d-inline h3"><%= @hotel.name %></h1>&emsp;
-      <i class="icon_set_1_icon-37"></i> <%= @hotel.desc_json["town_name"] %><%= @hotel.address %>
-    </div>
-    <div class="col-md-1">
+<div class="container"> 
+
+   <!-- title -->
+  <div class="row mt-3">
+    <div class="col-md-1 ps-1">
       <% if @current_item %>
         <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
-                                                              class: "btn btn-link text-danger" do %>
-          <i class="fas fa-heart fa-2x"></i>
+                                                              class: "d-inline btn btn-link text-danger" do %>
+          <i class="fas fa-heart fa-lg"></i>
         <% end %>
       <% else %>
         <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
-                                                              class: "btn btn-link" do %>
-          <i class="fas fa-heart fa-2x"></i>
+                                                              class: "d-inline btn btn-link" do %>
+          <i class="fas fa-heart fa-lg"></i>
         <% end %>
       <% end %>   
     </div>
-    <div class="col-md-4">
-      <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
-        <%= link_to "Edit", edit_hotel_path(@hotel) ,class: "btn btn-outline-success btn-sm" %>
-        <%= link_to "+ Room", new_room_path(hotel_id: @hotel.id), class: "btn btn-outline-success btn-sm" %>
-        <%= link_to "Delete", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
-      <% end %>
-    </div>
+    <div class="col-md-11 px-0">
+      <h1 class="d-inline"><%= @hotel.name %></h1>&emsp;
+      <i class="icon_set_1_icon-37"></i> <%= @hotel.desc_json["town_name"] %>, <%= @hotel.address %>
+    </div>    
   </div>
 
   <!-- photo + contacts & map -->
   <div class="row">
     
     <div class="col-md-9 px-0">
+   
+
       <!-- fotorama begin -->        
       <div class="fotoramain">
         <%= link_to image_tag(@hotel.avatar.thumb.url), @hotel.avatar.url %>
@@ -61,41 +56,15 @@
       <!-- fotorama end -->
     </div>
 
-    <div class="col-md-3 pe-0">
+    <div class="col-md-3">   
 
-      <div class="contact-info">
-        <div class="owner-foto">
-          <%= image_tag @hotel.avatar.thumb.url, width: "50px", height: '50px',
-          class: "rounded-circle shadow-sm" %>
-          <span>Тамара Васильевна</span>
-        </div>
-        <div class="owner-detail">
-          <i class="fas fa-mobile-alt fa-fw fa-lg"></i>&nbsp;
-          <a href="tel:+7978819500">+7 978 715 45 00</a>&nbsp;
-          <i class="fab fa-viber fa-lg"></i>&nbsp;
-          <i class="fab fa-whatsapp fa-lg"></i>        
-        </div>
-        <div class="owner-detail">
-          <i class="far fa-envelope fa-fw fa-lg"></i>&nbsp;
-          <a href="mailto:konica_kafa@mail.ru">konica_kafa@mail.ru</a>
-        </div>
-        <div class="owner-detail">
-          <i class="fab fa-skype fa-fw fa-lg"></i>&nbsp;
-          myskypied
-        </div> 
-        <div class="owner-detail">
-          <i class="fas fa-globe fa-fw fa-lg"></i>&nbsp;
-          <a href="https://bootstrap-4.ru/">sunhome.ru</a>
-        </div>
-      </div>
+      <%= render 'contacts' %>      
 
       <div id="map" style="height: 300px" class="border shadow"></div>
 
     </div>
 
-  </div>
-
-  <br>
+  </div>  
 
   <!-- desc & rooms -->
   <div class="row">
@@ -103,7 +72,7 @@
     <div class="col-md-9 px-0">
       
       <!-- DESCRIPTION -->
-      <div class="tabset">
+      <div class="tabset" style="font-size:15px">
 
         <!-- Tab description-->
         <input type="radio" name="tabset" id="tab1" aria-controls="desc" checked>
@@ -129,7 +98,7 @@
 
           <!-- Tab DESC -->
           <section id="desc" class="tab-panel">
-            <strong>Море</strong> ~ <%= @hotel.distance_to_sea %>м. || <strong>Цена от</strong> - <%= @hotel.price_from %><small>руб.</small><br>
+            <strong>Море</strong> ~ <%= @hotel.distance_to_sea %>м. || <strong>Цена от</strong> - <%= @hotel.price_from %><small>руб.</small> || <strong>Работает круглогодично</strong><br>
             <strong>Этажей</strong> : <%= @hotel.desc_json["floors"] %> || <strong>Кол-во зданий</strong> : <span class="text-warning strong">Определить!</span>
             
             <%  if @hotel.description.to_plain_text.size > 626 %>            
@@ -370,7 +339,12 @@
           </section>
 
           <!-- Tab PRICES -->
-          <section id="prices" class="tab-panel">            
+          <section id="prices" class="tab-panel">
+            <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
+              <%= link_to "Edit", edit_hotel_path(@hotel) ,class: "btn btn-outline-success btn-sm" %>
+              <%= link_to "+ Room", new_room_path(hotel_id: @hotel.id), class: "btn btn-outline-success btn-sm" %>
+              <%= link_to "Delete", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+            <% end %>        
             <table class="room__table">
                 <thead>
                   <tr>
@@ -491,7 +465,7 @@
 
       // Initialize main fotorama
       $('.fotoramain').fotorama({
-        width: 900,
+        width: 990,
         ratio: 3/2,
         allowfullscreen: true,
         nav: 'thumbs',

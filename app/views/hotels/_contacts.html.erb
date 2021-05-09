@@ -1,0 +1,78 @@
+<div class="contact-info mb-4">
+
+  <div class="d-flex align-items-center border rounded bg-white shadow mb-2">
+    <div class="flex-shrink-0">
+      <img src="https://mdbootstrap.com/img/new/avatars/2.jpg" alt="John Doe" class="me-2 rounded-start" style="width: 60px; height: 60px;"/>
+    </div>          
+    <div class="flex-grow-1 ps-1">
+      <h6>Мария Георгиевна</h6>    
+      7 (978) 654-87-88 <a href="viber://chat?number=" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Viber"><%= image_tag("viber.png", height: "25px") %></a>
+      <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Whatsapp"><%= image_tag("whatsapp.png", height: "27px") %></a>
+    </div>   
+  </div>
+
+
+  <div class="contact-photo">
+    <%= image_tag @hotel.avatar.thumb.url, width: "50px", height: '50px',
+    class: "rounded-circle shadow-sm" %>
+    <span class="ps-2"><!-- name --></span>
+  </div>
+
+  <div class="contact-numbers">
+    <div class="contact-number">
+      <span class="contact-phone me-3"><!-- phone --></span>
+      <!-- viber + whatsapp -->    
+    </div>
+  </div>
+
+</div>
+
+<% i = 1;  while i < @hotel.desc_json["contacts"].length do %>
+  <%= @hotel.desc_json["contacts"][i]["ow_name"] %>
+  <% i += 1 %>
+<% end %>
+
+<script>
+  var contacts = <%= @hotel.desc_json["contacts"].to_json.html_safe %>
+  // insert first name
+  $('.contact-photo span').append(`${contacts[0]["ow_name"]}`)
+  // insert first phone
+  $('.contact-phone').append(`
+    <a href="tel:+${contacts[0]["ow_phone_clean"]}">            
+      ${contacts[0]["ow_phone"]}
+    </a>`)
+  // if viber? - insert first viber
+  if ( contacts[0]["viber"] == "1" ) {
+    $('.contact-number').append(`
+      <a href="viber://chat?number=%2B${contacts[0]["ow_phone_clean"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Viber"><%= image_tag("viber.png", class: "shadow") %></a>
+    `)
+  }
+  // if whatsapp? - insert first watsapp
+  if ( contacts[0]["whatsapp"] == "1" ) {
+    $('.contact-number').append(`
+      <a href="https://api.whatsapp.com/send?phone=+${contacts[0]["ow_phone_clean"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Whatsapp"><%= image_tag("whatsapp.png", class: "shadow") %></a>
+    `)
+  }
+
+  // if contacts > 1
+  if ( contacts.length > 1 ) {
+    for (var i = 1; i < contacts.length; i++) {
+      var div = document.createElement('div')
+      div.className = "contact-addition"
+      div.innerHTML = `<a href="tel:+${contacts[i]["ow_phone_clean"]}">            
+                        ${contacts[i]["ow_phone"]}
+                       </a><br>`
+      div.innerHTML += `${contacts[i]["ow_name"]}`                 
+      if ( contacts[i]["viber"] == "1" ) {
+        div.innerHTML += `<a href="viber://chat?number=%2B${contacts[0]["ow_phone_clean"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Viber"><%= image_tag("viber.png", class: "shadow") %></a>`
+      }
+      if ( contacts[i]["whatsapp"] == "1" ) {
+        div.innerHTML += `<a href="https://api.whatsapp.com/send?phone=+${contacts[0]["ow_phone_clean"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Whatsapp"><%= image_tag("whatsapp.png", class: "shadow") %></a>`
+      }
+
+      var target = document.querySelector('.contact-numbers')
+      target.appendChild(div);    
+
+    }
+  }
+</script>

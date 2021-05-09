@@ -1,4 +1,7 @@
 <% provide(:title, 'Новый объект жилья') %>
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+<% end %>
 
 <div class="container">
 
@@ -36,7 +39,7 @@
           <div class="col-md-3">
             <span><i class="fas fa-water text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Если море недалеко - можете указать расстояние"></i></span>
             <%= f.label "Расстояние до моря", class: 'form-label' %><small class="text-muted"> (м.)</small> 
-            <%= f.text_field :distance_to_sea, class: 'form-control' %>
+            <%= f.text_field :distance_to_sea, class: 'form-control form-control-sm' %>
           </div>
 
           <div class="col-md-2">
@@ -46,16 +49,17 @@
 
           <div class="col-md-2">
             <label class="form-label">Кол-во этажей</label> <span class="text-danger">*</span>
-            <input name="floors" type="text" class="form-control" required>
+            <input name="floors" type="text" class="form-control form-control-sm" required>
           </div>
 
-          <div class="col-md-2 pt-4 ">
-            <div class="form-check form-switch">
-              <%= f.label :all_year, class: 'form-check-label' %>      
-              <%= f.check_box :all_year, class: 'form-check-input' %><br>
-              <small class="text-muted" style="font-size:12px"> (весь год)</small> 
-            </div>                     
-          </div>
+          <div class="col-md-2 pt-3 mt-1">
+            <ul class="checkbox-tags ps-1">                
+              <li>
+                <%= f.check_box :all_year %>
+                <label class="form-check-label" for="hotel_all_year" data-bs-toggle="tooltip" data-bs-placement="right" title="Включите, если работаете круглогодично">Работает весь год</label>            
+              </li>
+            </ul>                    
+          </div>        
 
         </div> 
         
@@ -102,42 +106,42 @@
           <div class="mb-3">
             <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
             <label class="form-label">Питание</label><span class="text-danger">*</span> 
-            <input name="food" type="text" class="form-control">
+            <input name="food" type="text" class="form-control form-control-sm">
           </div>
           <div class="mb-3">
             <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
             <label class="form-label">Парковка</label><span class="text-danger">*</span> 
-            <input name="parking" type="text" class="form-control">
+            <input name="parking" type="text" class="form-control form-control-sm">
           </div>
           <div class="mb-3">
             <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
             <label class="form-label">Территория</label><span class="text-danger">*</span> 
-            <input name="territory" type="text" class="form-control">
+            <input name="territory" type="text" class="form-control form-control-sm">
           </div>
           <div class="mb-3">
             <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
             <label class="form-label">Трансфер</label><span class="text-danger">*</span> 
-            <input name="transfer" type="text" class="form-control">
+            <input name="transfer" type="text" class="form-control form-control-sm">
           </div>
           <div class="mb-3">
             <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
             <label class="form-label">Сервис</label><span class="text-danger">*</span> 
-            <input name="service" type="text" class="form-control">
+            <input name="service" type="text" class="form-control form-control-sm">
           </div>
           <div class="mb-3">
             <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
             <label class="form-label">Дополнительно</label><span class="text-danger">*</span> 
-            <input name="addition" type="text" class="form-control">
+            <input name="addition" type="text" class="form-control form-control-sm">
           </div>
           <div class="mb-3">
             <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
             <label class="form-label">Дети</label><span class="text-danger">*</span> 
-            <input name="child" type="text" class="form-control">
+            <input name="child" type="text" class="form-control form-control-sm">
           </div>
           <div class="mb-3">
             <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
             <label class="form-label">Домашние животные</label><span class="text-danger">*</span> 
-            <input name="animals" type="text" class="form-control">
+            <input name="animals" type="text" class="form-control form-control-sm">
           </div>
         </div> 
 
@@ -150,11 +154,71 @@
       </div>
 
       <div class="col-md-3 border-start">
+
+        <h3 class='h4 text-center text-success'>Контакты</h3>
+
+        <!-- Phone CONTACTS -->
+        <div class="add-contacts">
+          <div class="contact row gx-1">              
+            <div class="col-md-6">
+              <div class="mb-2">
+                <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                <label class="form-label">телефон</label><span class="text-danger">*</span> 
+                <input name="ow_phone" type="text" class="mask-phone form-control form-control-sm" style="font-size:12px">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-2">
+                <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                <label class="form-label">Имя</label><span class="text-danger">*</span> 
+                <input name="ow_name" type="text" class="form-control form-control-sm" style="font-size:12px">
+              </div>
+            </div>
+            <div class="col">
+              <ul class="ps-0 checkbox-tags">
+                <li>                  
+                  <input type="checkbox" name="viber" id="chk_viber" value="0"/>
+                  <label for="chk_viber"><i class="fab fa-viber fa-lg"></i>&ensp;Есть Viber&nbsp;&nbsp;</label>
+                </li>
+                <li>                  
+                  <input type="checkbox" name="whatsapp" id="chk_whatsapp" value="0"/>
+                  <label for="chk_whatsapp"><i class="fab fa-whatsapp fa-lg"></i>&ensp;Есть Whatsapp</label>
+                </li>
+              </ul>
+            </div>                   
+          </div>
+        </div>
+        <!-- END Phone CONTACTS -->
+        <div class="mb-4"><!-- buttons add/remove contacts -->
+          <button type="button" onclick="add_input()" class="btn btn-primary btn-sm"><span class="icon-user-add-1"></span> Добавить ещё контакт</button>
+          <button type="button" onclick="remove_input()" class="btn btn-danger btn-sm">Убрать</button>
+        </div>
+        <!-- end buttons add/remove contacts -->
+        <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+        <%= f.label :email, class: 'form-label' %> <span class="text-danger">*</span>        
+        <%= f.text_field :email, class:"form-control form-control-sm mb-3" %>
+
+        <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+        <%= f.label :site, class: 'form-label' %> <span class="text-danger">*</span>        
+        <%= f.text_field :site, class:"form-control form-control-sm mb-3" %>
+
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <label class="form-label">VK</label><span class="text-danger">*</span> 
+          <input name="vk" type="text" class="form-control form-control-sm">
+        </div>
+
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <label class="form-label">Instagram</label><span class="text-danger">*</span> 
+          <input name="instagram" type="text" class="form-control form-control-sm">
+        </div>  
+        <a href="javascript: add_input();" class="d-block btn-ilk btn-ilk-grd btn-ocean"><span class="icon-user-add-1"></span> Добавить ещё контакт</a>
         <a href="javascript: insertInfo();" class="btn-ilk">Вставить</a>
         <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-prim">Очистить</a>
-        <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd">Градиент</a>
-        <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd btn-blue">Голубой</a>
-        <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd btn-ocean">Океан</a>
+        <a href="javascript: contactsOutput();" class="btn-ilk btn-ilk-grd">Контакты</a>
+        <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd btn-blue">Голубой</a>        
+
         <h3 class='h4 text-center text-success'>Фотографии</h3>
         <div class="mb-3">
           <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
@@ -166,29 +230,7 @@
           <span style="font-size:18px"><i class="fas fa-images text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Загрузить фотографии номера. Максимальный размер одной фотографии - 4 МБ, не более 35 фотографий"></i></span>
           <%= f.label :images, class: 'form-label' %>      
           <%= f.file_field :images, multiple: true, accept: 'image/jpeg,image/png', class: 'form-control' %>
-        </div>
-
-        <h3 class='h4 text-center text-success'>Контакты</h3>
-
-        <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-        <%= f.label :site, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :site, class:"form-control form-control-sm mb-3" %>
-
-        <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-        <%= f.label :email, class: 'form-label' %> <span class="text-danger">*</span>        
-        <%= f.text_field :email, class:"form-control form-control-sm mb-3" %>
-
-        <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-          <label class="form-label">VK</label><span class="text-danger">*</span> 
-          <input name="vk" type="text" class="form-control">
-        </div>
-
-        <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-          <label class="form-label">Instagram</label><span class="text-danger">*</span> 
-          <input name="instagram" type="text" class="form-control">
-        </div>   
+        </div>         
 
       </div>      
       
@@ -198,15 +240,6 @@
   <% end %>
 
 </div>
-
-<script type="text/javascript"> // check avatar size
-  $("#hotel_avatar").bind("change", function() {
-    const size_in_megabytes = this.files[0].size/1024/1024;
-    if (size_in_megabytes > 4) {
-      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
-    }
-  });
-</script>
 
 <script type="text/javascript"> // ymap
     ymaps.ready(init);
@@ -264,9 +297,12 @@
   </script>
 <% end %>
 
-<script>
-  var form = document.forms[0]
+<script>  // prepare form for sending
 
+  $('.mask-phone').mask('+9 (999) 999-99-99');
+
+  var form = document.forms[0]
+  
   form.addEventListener('submit', function(event){
     
     form.button.disabled = true;  
@@ -284,11 +320,80 @@
         "instagram": this.instagram.value,
         "child": this.child.value,
         "animals": this.animals.value,
-    };
-    this.desc_json.value = JSON.stringify(data);    
-    
+        "contacts": []
+    };       
+    // insert contacts
+    var phoneInputs = $('.add-contacts input[name="ow_phone"]');
+    var nameInputs = $('.add-contacts input[name="ow_name"]');
+    var vibers = $('.add-contacts input[name="viber"]');
+    var whatsapps = $('.add-contacts input[name="whatsapp"]');
+    for (var i = 0; i < phoneInputs.length; i++) {  
+      // проверяем нажаты ли чекбоксы
+      if (vibers[i].checked == true) {
+        vibers[i].value = 1     
+      }
+      if (whatsapps[i].checked == true) {
+        whatsapps[i].value = 1
+      }
+
+      data.contacts.push( {
+        "ow_name":nameInputs[i].value,
+        "ow_phone":phoneInputs[i].value,        
+        "ow_phone_clean":phoneInputs[i].value.replace(/[^0-9]/g, ''),
+        "viber": vibers[i].value,
+        "whatsapp": whatsapps[i].value
+      })         
+    }
+        
+    this.desc_json.value = JSON.stringify(data);  
     form.submit();
-  })
+  }) 
+      
+  // adding new contact fields        
+  function add_input(){ 
+    var inputs = $('.contact');
+    var newId = inputs.length + 1;
+    $('.add-contacts').append(`
+      <div class="contact row gx-1" id="contact-${newId}">              
+        <div class="col-md-6">
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted"></i></span>
+            <label class="form-label">телефон</label>
+            <input name="ow_phone" type="text" class="form-control form-control-sm" style="font-size:12px">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-image text-muted"></i></span>
+            <label class="form-label">Имя</label>
+            <input name="ow_name" type="text" class="form-control form-control-sm" style="font-size:12px">
+          </div>
+        </div> 
+        <div class="col">
+          <ul class="ps-0 checkbox-tags">
+            <li>
+              <input type="checkbox" name="viber" id="chk_viber-${newId}" value="0">
+              <label for="chk_viber-${newId}"><i class="fab fa-viber fa-lg"></i>&ensp;Есть Viber&nbsp;&nbsp;</label>
+            </li>
+            <li>
+              <input type="checkbox" name="whatsapp" id="chk_whatsapp-${newId}" value="0">
+              <label for="chk_whatsapp-${newId}"><i class="fab fa-whatsapp fa-lg"></i>&ensp;Есть Whatsapp</label>
+            </li>
+          </ul>
+        </div>                    
+      </div>
+      
+    `);
+
+    $('.contact input[name="ow_phone"]').addClass('mask-phone')
+    $('.mask-phone').mask('+9 (999) 999-99-99');         
+  }
+  // remove contact fields
+  function remove_input(){
+    var removeId = $('.contact').length
+    $('#contact-' + removeId).remove();
+  }      
+
 
   // !!!!      INSERT HOTEL INFO - DELETE - DELETE!!!!!
   function insertInfo() {   
@@ -313,12 +418,21 @@
     form.elements[38].value = 'Принимаем с животными';
 
 
-    form.elements[42].value = 'kilova.ru';
-    form.elements[43].value = 'jumperka@list.ru';
-    form.elements[44].value = 'mcixabuka';
-    form.elements[45].value = 'kilovagora';
+    form.elements[47].value = 'kilova.ru';
+    form.elements[46].value = 'jumperka@list.ru';
+    form.vk.value = 'mcixabuka';
+    form.instagram.value = 'kilovagora';
 
   }
+</script>
+
+<script type="text/javascript"> // check avatar size
+  $("#hotel_avatar").bind("change", function() {
+    const size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 4) {
+      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+    }
+  });
 </script>
 
 

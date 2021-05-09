@@ -1,0 +1,22 @@
+/* VARIABLES */
+$color-pink: #e04f67;   /* #e04f67 - span ih headers h1,h2 */
+$color-link: #e14d67;   /* #e14d67 - link */
+$color-orange: #ff4500; /* #da502c (градиент кнопки)  #ff4500  (smart menu)  */
+$color-yellow: #f48f24; /* #f48f24  - */
+/* END VARIABLES */
+
+/* Contact info */
+.contact-number {
+	padding: 7px 5px;
+	border-bottom: $color-yellow 1px solid ;
+}
+.contact-phone {
+	a {
+		font-weight: 600;
+		color: $color-orange;
+	}
+	a:hover {
+		color: #cc2d05;
+	}
+}
+

@@ -1,12 +1,21 @@
+/* VARIABLES */
+$color-pink: #e04f67;   /* #e04f67 - span ih headers h1,h2 */
+$color-link: #e14d67;   /* #e14d67 - link */
+$color-orange: #ff4500; /* #da502c (градиент кнопки)  #ff4500  (smart menu)  */
+$color-yellow: #f48f24; /* #f48f24  - */
+/* END VARIABLES */
+
+
 /* Скруглённая белая кнопка с тенью */
 .btn-ilk {
+  text-align: center;
   display: inline-block;
   background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(139, 139, 139, 0.3);
   color: #555;
   border-radius: 25px;
   white-space: nowrap;
-  margin: 3px 0px;
+  margin: 3px auto;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -48,7 +57,7 @@
     display: inline-block;
     position: relative;
     border: none;    
-    background: rgba(0, 0, 0, 0) linear-gradient(to right, #da502c, #f48f24) no-repeat scroll center;
+    background: rgba(0, 0, 0, 0) linear-gradient(to right, $color-orange, $color-yellow) no-repeat scroll center;
     cursor: pointer;
     text-decoration: none;
     color: #ffffff;   
@@ -67,6 +76,66 @@
     }
   }
 }
+
+
+ul.checkbox-tags {
+  font-size: 12px;
+  list-style: none;
+}
+  ul.checkbox-tags li {
+    display: inline; }
+
+  ul.checkbox-tags li label {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(139, 139, 139, 0.3);
+    color: #555;
+    border-radius: 25px;
+    white-space: nowrap;
+    margin: 3px 0px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+    font-weight: 400;
+    padding: 8px 12px;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.25); 
+    box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.25);
+  }
+   
+
+ul.checkbox-tags li label:hover {
+  -webkit-box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37); 
+  box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37);
+}
+
+ul.checkbox-tags li input[type="checkbox"]:checked + label {
+border: 1px solid #065e35;
+background-color: #198754;
+color: #fff;
+-webkit-transition: all .2s;
+-o-transition: all .2s;
+transition: all .2s;
+}
+
+ul.checkbox-tags li input[type="checkbox"] {
+  display: absolute; }
+
+ul.checkbox-tags li input[type="checkbox"] {
+  position: absolute;
+  opacity: 0; }
+
+
+
+
+
+
 
 
 
