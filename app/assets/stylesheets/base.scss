@@ -10,6 +10,14 @@ body {background:#f9f9f9; line-height:22px; color:#444; font-weight: 400;}
   input, textarea { border-color: #B22222};
 }
 
+/* блок полей с ошибками - цены у Отеля */
+.row_with_errors {
+	label {
+		color: #f11c1c;
+		font-weight: 600;
+	}
+}
+
 /* ХЛЕБНЫЕ КРОШКИ */
 .breadcrumbs {  
 	padding: 5px 0;

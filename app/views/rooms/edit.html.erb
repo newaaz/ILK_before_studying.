@@ -8,7 +8,7 @@
 
   <div class="col-md-9 border-end">
 
-    <%= form_with(model: @room, local: true) do |f| %>
+    <%= form_with(model: @room, local: true, html: { name: "room" }) do |f| %>
       <%= render 'shared/error_messages', object: f.object%>
       <%= hidden_field_tag(:hotel_id, params[:hotel_id].to_i) %>
       
@@ -141,7 +141,7 @@
 
 <script>
 
-  var form = document.forms[0]  
+  var form = document.room
   
   var previousRoom = <%= @room.description.to_json.html_safe %>;
   

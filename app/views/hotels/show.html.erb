@@ -66,7 +66,7 @@
 
   </div>  
 
-  <!-- desc & rooms -->
+  <!-- desc & rooms / + NEAR -->
   <div class="row">
     
     <div class="col-md-9 px-0">
@@ -98,14 +98,14 @@
 
           <!-- Tab DESC -->
           <section id="desc" class="tab-panel">
-            <strong>Море</strong> ~ <%= @hotel.distance_to_sea %>м. || <strong>Цена от</strong> - <%= @hotel.price_from %><small>руб.</small> || <strong>Работает круглогодично</strong><br>
-            <strong>Этажей</strong> : <%= @hotel.desc_json["floors"] %> || <strong>Кол-во зданий</strong> : <span class="text-warning strong">Определить!</span>
-            
+            <strong>Море</strong> ~ <%= @hotel.distance_to_sea %>м. || <strong>Цена от</strong> - <%= @hotel.price_from %><small>руб.</small> || <strong>Работает круглогодично</strong> ||
+            <strong>Этажей</strong> : <%= @hotel.desc_json["floors"] %> || <strong>Кол-во зданий</strong> : <span class="strong">1</span>
+            <br>
             <%  if @hotel.description.to_plain_text.size > 626 %>            
-              <a class="content_toggle" href="#"><i class='icon-angle-down'></i> Показать далее</a>
+              <a class="content_toggle btn btn-warning btn-sm" href="#"><i class='icon-angle-down'></i> Показать далее</a>
               <div class="content_block hide">
               <%= @hotel.description %>
-              <a class="content_toggle" href="#"></i></a>
+              <a class="content_toggle" href="#"></a>
               </div>          
             <% else %>
               <%= @hotel.description %>
@@ -384,6 +384,22 @@
 
       </div>
 
+      <!-- PRICES FLAT -->
+      <% if @hotel.desc_json["prices"].any? %>
+        <h3>Календарь цен</h3>
+        <div style="overflow-x:auto;">
+          <div class="room-prices">
+            <% @hotel.desc_json["prices"].each do |price| %>
+              <div class="period">
+                <div class="period__date"><%= Date.parse(price["start_date"]).strftime('%d/%m') %>-<%= Date.parse(price["end_date"]).strftime('%d/%m') %></div>
+                <div class="period__price"><%= price["day_cost"] %><span>руб.</span></div>
+              </div>
+            <% end %>    
+          </div>
+        </div>
+      <% end %>      
+      <!-- END PRICES FLAT -->  
+
       <!-- ROOMS -->      
       <% if @hotel.rooms.any? %>
         <h3 class="mb-4">Номера:</h3>
@@ -394,24 +410,44 @@
     </div>
 
     <div class="col-md-3 pe-0">
-            <!-- NEAR -->
-      <div class="resource_near">
+      <!-- NEAR -->      
+      <div class="resource_near"><!-- Hotels NEAR -->
         <h4>Жильё рядом</h4>
-        <% hotels_near(@hotel).each do |hotel_near| %>
-          <div class="pl-2 media border rounded bg-white shadow-sm mb-2">              
-            <div class="media-body align-self-center">
-              <%= link_to hotel_near.name , hotel_near %>
+        <% hotels_near(@hotel).each do |hotel_near| %>          
+          <div class="d-flex align-items-center border rounded bg-white shadow mb-2"> 
+            <div class="flex-shrink-0">
+              <%= link_to image_tag(hotel_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-start'), hotel_near %>
+            </div>           
+            <div class="flex-grow-1 ps-2">
+              <h6><%= link_to hotel_near.name, hotel_near %></h6>
               <span style="font-size: 18px; color: orangered;">
-              <i class="fas fa-map-marked-alt"></i>
+                <i class="fas fa-map-marked-alt"></i>
               </span>
               <small>~<%= distance_between(@hotel, hotel_near) %>м.</small>
-            </div>
-            <%= link_to image_tag(hotel_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-end img-fluid'), hotel_near %>
+            </div>            
           </div>
         <% end %>
-      </div> <!-- end NEAR -->
+      </div>
+      <div class="resource"><!-- Cafebars NEAR -->
+        <h4>Кафе, бары, рестораны рядом</h4>
+        <% cafebars_near(@hotel).each do |cafebar_near| %>          
+          <div class="d-flex align-items-center border rounded bg-white shadow mb-2">            
+            <div class="flex-grow-1 ps-2">
+              <h6><%= link_to cafebar_near.name, cafebar_near %></h6>
+              <span style="font-size: 18px; color: orangered;">
+                <i class="fas fa-map-marked-alt"></i>
+              </span>
+              <small>~<%= distance_between(@hotel, cafebar_near) %>м.</small>
+            </div>
+            <div class="flex-shrink-0">
+              <%= link_to image_tag(cafebar_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-end'), cafebar_near %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <!-- end NEAR -->
     </div>
-    </div>
+    
 
   </div>
 
