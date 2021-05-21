@@ -2,6 +2,26 @@
 body {background:#f9f9f9; line-height:22px; color:#444; font-weight: 400;}
 
 
+.logo {
+  position: absolute;  
+  z-index: 1200;
+  top: 0px;
+  left: 25px;
+}
+.logo-text {
+	color: #666;
+	font-size: 20px;
+	padding: 0 0 0 150px;
+}
+@media (max-width: 991px) {
+	.logo {
+		display: none;
+	}
+	.logo-text {
+		display: none;
+	}
+}
+
 
 /* Поля с ошибками*/
 .field_with_errors {
@@ -39,11 +59,12 @@ body {background:#f9f9f9; line-height:22px; color:#444; font-weight: 400;}
 
 /* Анимация корзины. Выделение запомненного цветом */
 @keyframes cart-highlight {
-  0% { background: #8f8; }
-  100% { background: none; }
+  0% { color: #ff4500; }
+	50% { color: #ff4500; }
+  100% { color: #777; }
 }
 /* Анимация корзины */
-.cart-highlight { animation: cart-highlight 1s; }
+.cart-highlight i { animation: cart-highlight 1s; }
 
 
 /* FOOTER */

@@ -11,9 +11,8 @@
     
     <script src="https://kit.fontawesome.com/b52c0bb8eb.js" crossorigin="anonymos"></script>
     
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>    
-
-    <%= stylesheet_link_tag 'actiontext', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script> 
+   
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
@@ -26,15 +25,13 @@
       <%= yield(:javascript_plugin_header) %>      
     <% end %>
 
-    <%= javascript_include_tag "smartmenu.js" %>
-
     <%= javascript_include_tag "bs-menukit.js" %>
     
   </head>
 
   <body>
 
-    <%= render 'layouts/headers/header' %>
+    <%= render 'layouts/headers/header_bs' %>
 
     <% flash.each do |message_type, message| %>
       <div class="alert alert-<%= message_type %> alert-dismissible fade show" role="alert">
@@ -50,45 +47,6 @@
     <%= render 'layouts/footer' %>
 
     <div id="toTop"></div><!-- Back to top button -->
-   
-    <script>// smart menu
-      document.addEventListener("turbolinks:load", () => {
-        $(function() {
-          $('#main-menu').smartmenus({
-            showTimeout: 50,
-            hideTimeout: 100,
-            mainMenuSubOffsetX: -1,
-            mainMenuSubOffsetY: 4,
-            subMenusSubOffsetX: 6,
-            subMenusSubOffsetY: -6
-          });
-        });
-      });
-      //Smart Menu
-      document.addEventListener("turbolinks:load", () => {
-        // SmartMenus mobile menu toggle button
-        $(function() {
-          var $mainMenuState = $('#main-menu-state');
-          if ($mainMenuState.length) {
-            // animate mobile menu
-            $mainMenuState.change(function(e) {
-              var $menu = $('#main-menu');
-              if (this.checked) {
-                $menu.hide().slideDown(250, function() { $menu.css('display', ''); });
-              } else {
-                $menu.show().slideUp(250, function() { $menu.css('display', ''); });
-              }
-            });
-            // hide mobile menu beforeunload
-            $(window).bind('beforeunload unload', function() {
-              if ($mainMenuState[0].checked) {
-                $mainMenuState[0].click();
-              }
-            });
-          }
-        });
-      });
-    </script>
     
     <script>
       /* Video modal dialog + Parallax + Scroll to top + Incrementer */
@@ -106,7 +64,7 @@
           $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeOut(300);
         });
 
-        /* Hamburger icon */
+        /* Hamburger icon */        
         var toggles = document.querySelectorAll(".cmn-toggle-switch");
         for (var i = toggles.length - 1; i >= 0; i--) {
           var toggle = toggles[i];
@@ -118,7 +76,7 @@
             (this.classList.contains("active") === true) ? this.classList.remove("active"): this.classList.add("active");
           });
         };
-
+       
         /* Scroll to top*/
         var pxShow = 800; // height on which the button will show
         var scrollSpeed = 500; // how slow / fast you want the button to scroll to top.
