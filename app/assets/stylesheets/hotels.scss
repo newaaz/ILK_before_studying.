@@ -86,7 +86,7 @@ $color-yellow: #f48f24; /* #f48f24  - */
   width: 100%;
 	border: none;
 	border-collapse: separate;
-	border-spacing: 5px;
+	border-spacing: 3px;
   text-align: center;
   font-size: 14px;
 }
@@ -94,11 +94,12 @@ $color-yellow: #f48f24; /* #f48f24  - */
   display: table-cell;
   vertical-align: top;
 	padding: 0;
+	background-color: rgb(225, 225, 225);
 }
 .period__date {
-  background-color: #fec771;
-  font-weight: 500;
-  padding: 0 20px;
+  background-color: #fec771;	
+  font-weight: 600;
+  padding: 0 5px;
 }
 /* Календарь цен */
 
@@ -211,17 +212,3 @@ $color-yellow: #f48f24; /* #f48f24  - */
 	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #f9f9f9 75%)
 }
 
-/* Contact info */
-.contact-number {
-	padding: 7px 5px;
-	border-bottom: $color-yellow 1px solid ;
-}
-.contact-phone {
-	a {
-		font-weight: 600;
-		color: $color-orange;
-	}
-	a:hover {
-		color: #cc2d05;
-	}
-}

@@ -113,12 +113,12 @@
             <input name="parking" type="text" class="form-control form-control-sm">
           </div>
           <div class="mb-3">
-            <span style="font-size:18px"><i class="far fa-square text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Что находится на территории"></i></span>
+            <span style="font-size:18px"><i class="fas fa-home text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Что находится на территории"></i></span>
             <label class="form-label">Территория</label> 
             <input name="territory" type="text" class="form-control form-control-sm">
           </div>
           <div class="mb-3">
-            <span style="font-size:18px"><i class="fas fa-car-side text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Возможен ли трансфер"></i></span>
+            <span style="font-size:18px"><i class="fas fa-car-side text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Возможен ли трансфер?"></i></span>
             <label class="form-label">Трансфер</label>
             <input name="transfer" type="text" class="form-control form-control-sm">
           </div>
@@ -142,6 +142,28 @@
             <label class="form-label">Домашние животные</label><span class="text-danger">*</span> 
             <input name="animals" type="text" class="form-control form-control-sm" required>
           </div>
+<!-- НОВЫЕ ПОЛЯ -->          
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="far fa-clock text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - по договорённости"></i></span>
+            <label class="form-label">Рассчётное время</label>
+            <input name="check_time" type="text" class="form-control form-control-sm">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-history text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - от одной ночи"></i></span>
+            <label class="form-label">Минимальный срок проживания</label>
+            <input name="min_check" type="text" class="form-control form-control-sm">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-wallet text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Только наличные, или принимаете карты. Если можете выдать чек - напишите"></i></span>
+            <label class="form-label">Оплата</label>
+            <input name="payment" type="text" class="form-control form-control-sm">
+          </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="fas fa-star text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Если есть какие-то скидки или акции - напишите об этом"></i></span>
+            <label class="form-label">Скидки и акции</label>
+            <input name="bonus" type="text" class="form-control form-control-sm">
+          </div>
+<!-- END НОВЫЕ ПОЛЯ -->
         </div> 
 
         <div class="d-grid gap-2 col-md-5 mx-auto my-5">
@@ -320,7 +342,7 @@
     
     form.button.disabled = true;  
     event.preventDefault();
-
+    
     var data = {
         "floors": this.floors.value,
         "food": this.food.value,
@@ -333,6 +355,10 @@
         "instagram": this.instagram.value,
         "child": this.child.value,
         "animals": this.animals.value,
+        "check_time": this.check_time.value,
+        "min_check": this.min_check.value,
+        "payment": this.payment.value,
+        "bonus": this.bonus.value,
         "contacts": [],
         "prices": []
     };       
@@ -490,10 +516,13 @@
     form.elements[36].value = 'Услуги за отдельную плату: пользование стиральной машиной. Примечание: если клиент отказывается от бронирования, предоплата не возвращается.';
     form.elements[37].value = 'Принимаем с детьми';
     form.elements[38].value = 'Принимаем с животными';
+    form.check_time.value = 'По договорённости';
+    form.min_check.value = 'От одной ночи';
+    form.payment.value = 'Принимаем карточки, выдаём чеки';
+    form.bonus.value = 'На данный момент акций не предусмотрено';
 
-
-    form.elements[47].value = 'kilova.ru';
-    form.elements[46].value = 'jumperka@list.ru';
+    form.elements[50].value = 'jumperka@list.ru';
+    form.elements[51].value = 'kilova.ru';    
     form.vk.value = 'mcixabuka';
     form.instagram.value = 'kilovagora';
 

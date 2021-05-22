@@ -5,18 +5,78 @@ $color-orange: #ff4500; /* #da502c (градиент кнопки)  #ff4500  (sm
 $color-yellow: #f48f24; /* #f48f24  - */
 /* END VARIABLES */
 
+.contact-info {
+	max-width: 400px;
+	/*
+	padding-top: 15px;	
+	border-radius: 10px;
+	border-top: 2px solid rgb(200, 200, 200);
+	border-bottom: 2px solid rgb(200, 200, 200);
+	
+	background-color: #fff;
+	-webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.25); 
+  box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.25);
+	*/	
+}
+@media (max-width: 991px) {
+	.contact-info {
+		margin-top: 30px;
+	}
+}
+
+.contact-photo {
+	margin: auto;
+	img { 
+		object-fit: cover;
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		display: block;
+		margin-bottom: 10px;		
+	}
+	span {
+		font-style: italic;
+		font-size: 18px;
+		font-weight: 600;
+	}
+}
+
 /* Contact info */
 .contact-number {
 	padding: 7px 5px;
-	border-bottom: $color-yellow 1px solid ;
 }
 .contact-phone {
 	a {
-		font-weight: 600;
-		color: $color-orange;
+		font-weight: 700;
+		
+		/* color: $color-orange; */
 	}
+	/*
 	a:hover {
 		color: #cc2d05;
 	}
+	*/
 }
+.contact-addition {
+	border-top: rgb(200, 200, 200) 1px solid;
+	padding-top: 10px;
+}
+
+.contact-email {	
+	border-top: 1px solid rgb(200, 200, 200);	 	
+	margin-top: 5px;
+	padding-top: 10px;
+	padding-inline-start: 15px;
+	a {
+		color: #444;
+	}
+	a:hover {
+		color: #ff4500;
+	}
+	span {
+		display: block;
+		height: 35px;
+	}
+}
+
 

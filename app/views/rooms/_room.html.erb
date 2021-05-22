@@ -74,6 +74,14 @@
       <i class="icon-angle-down"></i> Подробнее
     </div>
 
+    <!-- редактирование номеров перенести в ЛК -->        
+    <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %><br>
+      <div class="">
+        <%= link_to "Редактировать", edit_room_path(room, hotel_id: @hotel.id),class: "btn btn-outline-primary btn-sm" %>
+        <%= link_to "Удалить номер", room ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
+      </div>
+    <% end %> 
+
   </div>       
 
 </div>
@@ -124,13 +132,5 @@
 
 
 </div><!-- END MORE - HIDDEN -->
-
-<!-- редактирование номеров перенести в ЛК -->        
-<% if current_user && (current_user?(@hotel.user) || current_user.admin?) %><br>
-  <div class="">
-    <%= link_to "Редактировать", edit_room_path(room, hotel_id: @hotel.id),class: "btn btn-outline-primary btn-sm" %>
-    <%= link_to "Удалить номер", room ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
-  </div>
-<% end %> 
 
 <!--END Single room--><br>

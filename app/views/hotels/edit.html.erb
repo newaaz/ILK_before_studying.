@@ -143,6 +143,28 @@
           <label class="form-label">Домашние животные</label><span class="text-danger">*</span> 
           <input name="animals" type="text" class="form-control">
         </div>
+<!-- НОВЫЕ ПОЛЯ -->          
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="far fa-clock text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - по договорённости"></i></span>
+          <label class="form-label">Рассчётное время</label>
+          <input name="check_time" type="text" class="form-control form-control-sm">
+        </div>
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-history text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - от одной ночи"></i></span>
+          <label class="form-label">Минимальный срок проживания</label>
+          <input name="min_check" type="text" class="form-control form-control-sm">
+        </div>
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-wallet text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Только наличные, или принимаете карты. Если можете выдать чек - напишите"></i></span>
+          <label class="form-label">Оплата</label>
+          <input name="payment" type="text" class="form-control form-control-sm">
+        </div>
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="fas fa-star text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Если есть какие-то скидки или акции - напишите об этом"></i></span>
+          <label class="form-label">Скидки и акции</label>
+          <input name="bonus" type="text" class="form-control form-control-sm">
+        </div>
+<!-- END НОВЫЕ ПОЛЯ -->
       </div>
 
       <input type="hidden" name="desc_json">
@@ -159,71 +181,8 @@
         <button type="button" id="add_price" onclick="add_input_price()" class="mt-3 btn btn-success btn-sm">Добавить ещё ценовой период</button>
       </div>
       <script>
-        // show flat prices if any
-        var prices = <%= @hotel.desc_json["prices"].to_json.html_safe %>
-        if ( prices.length > 0 ) {
-          $('.flat-prices-all').show()
-          for ( var i = 0; i < prices.length; i++ ) {
-            $('.flat-prices').append(`
-              <div class="row flat-price" id="flat-price-${i + 1}">
-                <div class="col-3">
-                  <label>Начало периода</label>          
-                  <input type="date" name="start_date" value="${prices[i]["start_date"]}" class="form-control form-control-sm" required>            
-                </div>
-                <div class="col-3">
-                  <label>Конец периода</label>          
-                  <input type="date" name="end_date" value="${prices[i]["end_date"]}" class="form-control form-control-sm" required>
-                </div>
-                <div class="col-3">
-                  <label>Стоимость суток</label>          
-                  <input type="number" name="day_cost" value="${prices[i]["day_cost"]}" class="form-control form-control-sm" required>
-                </div>
-                <div class="col-3 ">
-                  <br>
-                  <button type="button" onclick="remove_input_price(${i + 1})" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                </div>
-              </div>
-            `)
-          }
+  
 
-        }
-        // add input price
-        function add_input_price() {  
-          // появление общего блока с ценами при нажатии "Установить цены"
-          // модифицировать - скорее всего добавить аргумент при вызове этой кнопки 
-          $('.flat-prices-all').show() 
-
-          var inputs = $('.flat-price')
-          var newId = inputs.length + 1
-        
-          $('.flat-prices').append(`
-            <div class="row flat-price" id="flat-price-${newId}">
-              <div class="col-3">
-                <label>Начало периода</label>          
-                <input type="date" name="start_date" class="form-control form-control-sm" required>            
-              </div>
-              <div class="col-3">
-                <label>Конец периода</label>          
-                <input type="date" name="end_date" class="form-control form-control-sm" required>
-              </div>
-              <div class="col-3">
-                <label>Стоимость суток</label>          
-                <input type="number" name="day_cost" class="form-control form-control-sm" required>
-              </div>
-              <div class="col-3 ">
-                <br>
-                <button type="button" onclick="remove_input_price(${newId})" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-              </div>
-            </div>
-          `);    
-        }
-        // remove price field
-        function remove_input_price(removeId) {
-          $('#flat-price-' + removeId).remove()
-          if ( $('.flat-price').length == 0 ) {
-            $('.flat-prices-all').hide()
-          }
-        }
       </script>
           
   </div>
@@ -357,76 +316,107 @@
 </script>
 
 <script>
-
   // ----insert contacts in fields
-  // all contacts
-  var contacts = <%= @hotel.desc_json["contacts"].to_json.html_safe %>
-  // now inputs from main contact
-  var phoneInputs = $('.add-contacts input[name="ow_phone"]');
-  var nameInputs = $('.add-contacts input[name="ow_name"]');
-  var vibers = $('.add-contacts input[name="viber"]');
-  var whatsapps = $('.add-contacts input[name="whatsapp"]');
-  // main contact
-  phoneInputs[0].value = contacts[0]["ow_phone"]
-  nameInputs[0].value = contacts[0]["ow_name"]
-  if ( contacts[0]["viber"] == "1" ) {
-    vibers[0].checked = true
-  }
-  if ( contacts[0]["whatsapp"] == "1" ) {
-    whatsapps[0].checked = true
-  }
-  // other contacts
-  for ( var i = 1; i < contacts.length; i++ ) {      
-    $('.add-contacts').append(`
-      <div class="contact row gx-1" id="contact-${i}">              
-        <div class="col-md-6">
-          <div class="mb-3">
-            <span style="font-size:18px"><i class="fas fa-image text-muted"></i></span>
-            <label class="form-label">телефон</label>
-            <input name="ow_phone" type="text" value="${contacts[i]["ow_phone"]}" class="form-control form-control-sm" style="font-size:12px">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="mb-3">
-            <span style="font-size:18px"><i class="fas fa-image text-muted"></i></span>
-            <label class="form-label">Имя</label>
-            <input name="ow_name" value="${contacts[i]["ow_name"]}" type="text" class="form-control form-control-sm" style="font-size:12px">
-          </div>
-        </div> 
-        <div class="col">
-          <ul class="ps-0 checkbox-tags">
-            <li>
-              <input type="checkbox" name="viber" id="chk_viber-${i}" value="0">
-              <label for="chk_viber-${i}"><i class="fab fa-viber fa-lg"></i>&ensp;Есть Viber&nbsp;&nbsp;</label>
-            </li>
-            <li>
-              <input type="checkbox" name="whatsapp" id="chk_whatsapp-${i}" value="0">
-              <label for="chk_whatsapp-${i}"><i class="fab fa-whatsapp fa-lg"></i>&ensp;Есть Whatsapp</label>
-            </li>
-          </ul>
-        </div>                    
-      </div>
-      
-    `);
-
-    // after creation all inputs, for putting checkboxes
+    // all contacts
+    var contacts = <%= @hotel.desc_json["contacts"].to_json.html_safe %>
+    // now inputs from main contact
+    var phoneInputs = $('.add-contacts input[name="ow_phone"]');
+    var nameInputs = $('.add-contacts input[name="ow_name"]');
     var vibers = $('.add-contacts input[name="viber"]');
     var whatsapps = $('.add-contacts input[name="whatsapp"]');
-    if ( contacts[i]["viber"] == "1" ) {
-      vibers[i].checked = true
+    // main contact
+    phoneInputs[0].value = contacts[0]["ow_phone"]
+    nameInputs[0].value = contacts[0]["ow_name"]
+    if ( contacts[0]["viber"] == "1" ) {
+      vibers[0].checked = true
     }
-    if ( contacts[i]["whatsapp"] == "1" ) {
-      whatsapps[i].checked = true
+    if ( contacts[0]["whatsapp"] == "1" ) {
+      whatsapps[0].checked = true
     }
+    // other contacts
+    for ( var i = 1; i < contacts.length; i++ ) {      
+      $('.add-contacts').append(`
+        <div class="contact row gx-1" id="contact-${i}">              
+          <div class="col-md-6">
+            <div class="mb-3">
+              <span style="font-size:18px"><i class="fas fa-image text-muted"></i></span>
+              <label class="form-label">телефон</label>
+              <input name="ow_phone" type="text" value="${contacts[i]["ow_phone"]}" class="form-control form-control-sm" style="font-size:12px">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <span style="font-size:18px"><i class="fas fa-image text-muted"></i></span>
+              <label class="form-label">Имя</label>
+              <input name="ow_name" value="${contacts[i]["ow_name"]}" type="text" class="form-control form-control-sm" style="font-size:12px">
+            </div>
+          </div> 
+          <div class="col">
+            <ul class="ps-0 checkbox-tags">
+              <li>
+                <input type="checkbox" name="viber" id="chk_viber-${i}" value="0">
+                <label for="chk_viber-${i}"><i class="fab fa-viber fa-lg"></i>&ensp;Есть Viber&nbsp;&nbsp;</label>
+              </li>
+              <li>
+                <input type="checkbox" name="whatsapp" id="chk_whatsapp-${i}" value="0">
+                <label for="chk_whatsapp-${i}"><i class="fab fa-whatsapp fa-lg"></i>&ensp;Есть Whatsapp</label>
+              </li>
+            </ul>
+          </div>                    
+        </div>
+        
+      `);
 
-    $('.contact input[name="ow_phone"]').addClass('mask-phone')
-    $('.mask-phone').mask('+9 (999) 999-99-99');  
-  }
+      // after creation all inputs, for putting checkboxes
+      var vibers = $('.add-contacts input[name="viber"]');
+      var whatsapps = $('.add-contacts input[name="whatsapp"]');
+      if ( contacts[i]["viber"] == "1" ) {
+        vibers[i].checked = true
+      }
+      if ( contacts[i]["whatsapp"] == "1" ) {
+        whatsapps[i].checked = true
+      }
+
+      $('.contact input[name="ow_phone"]').addClass('mask-phone')
+      $('.mask-phone').mask('+9 (999) 999-99-99');  
+    }
+  //
+
+  //--- insert prices in fields if exists
+    var prices = <%= @hotel.desc_json["prices"].to_json.html_safe %>
+    if ( prices.length > 0 ) {
+      $('.flat-prices-all').show()
+      for ( var i = 0; i < prices.length; i++ ) {
+        $('.flat-prices').append(`
+          <div class="row flat-price" id="flat-price-${i + 1}">
+            <div class="col-3">
+              <label>Начало периода</label>          
+              <input type="date" name="start_date" value="${prices[i]["start_date"]}" class="form-control form-control-sm" required>            
+            </div>
+            <div class="col-3">
+              <label>Конец периода</label>          
+              <input type="date" name="end_date" value="${prices[i]["end_date"]}" class="form-control form-control-sm" required>
+            </div>
+            <div class="col-3">
+              <label>Стоимость суток</label>          
+              <input type="number" name="day_cost" value="${prices[i]["day_cost"]}" class="form-control form-control-sm" required>
+            </div>
+            <div class="col-3 ">
+              <br>
+              <button type="button" onclick="remove_input_price(${i + 1})" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </div>
+        `)
+      }
+
+    }
+  //
 
   // work with form
   var form = document.forms.hotel
-
-  form.floors.value = <%= @hotel.desc_json["floors"] %>
+  
+  // insert info in json fields  
+  form.floors.value = '<%= @hotel.desc_json["floors"] %>'
   form.food.value = '<%= @hotel.desc_json["food"] %>'
   form.parking.value = '<%= @hotel.desc_json["parking"] %>'
   form.territory.value = '<%= @hotel.desc_json["territory"] %>'
@@ -435,6 +425,10 @@
   form.addition.value = '<%= @hotel.desc_json["addition"] %>'
   form.child.value = '<%= @hotel.desc_json["child"] %>'
   form.animals.value = '<%= @hotel.desc_json["animals"] %>'
+  form.check_time.value = '<%= @hotel.desc_json["check_time"] %>'
+  form.min_check.value = '<%= @hotel.desc_json["min_check"] %>'
+  form.payment.value = '<%= @hotel.desc_json["payment"] %>'
+  form.bonus.value = '<%= @hotel.desc_json["bonus"] %>'
   form.vk.value = '<%= @hotel.desc_json["vk"] %>'
   form.instagram.value = '<%= @hotel.desc_json["instagram"] %>'
 
@@ -455,6 +449,10 @@
         "instagram": this.instagram.value,
         "child": this.child.value,
         "animals": this.animals.value,
+        "check_time": this.check_time.value,
+        "min_check": this.min_check.value,
+        "payment": this.payment.value,
+        "bonus": this.bonus.value,
         "contacts": [],
         "prices": []
     };
@@ -516,7 +514,7 @@
     form.submit();
   })
 
-  // adding new contact fields        
+  // adding new contact field        
   function add_input(){ 
     var inputs = $('.contact');
     var i = inputs.length;
@@ -555,11 +553,49 @@
     $('.contact input[name="ow_phone"]').addClass('mask-phone')
     $('.mask-phone').mask('+9 (999) 999-99-99');         
   }
-  // remove contact fields
+  // remove contact field
   function remove_input(){
     var removeId = $('.contact').length-1
     $('#contact-' + removeId).remove();
-  } 
+  }
+  // add new price field
+  function add_input_price() {  
+    // появление общего блока с ценами при нажатии "Установить цены"
+    // модифицировать - скорее всего добавить аргумент при вызове этой кнопки 
+    $('.flat-prices-all').show() 
+
+    var inputs = $('.flat-price')
+    var newId = inputs.length + 1
+  
+    $('.flat-prices').append(`
+      <div class="row flat-price" id="flat-price-${newId}">
+        <div class="col-3">
+          <label>Начало периода</label>          
+          <input type="date" name="start_date" class="form-control form-control-sm" required>            
+        </div>
+        <div class="col-3">
+          <label>Конец периода</label>          
+          <input type="date" name="end_date" class="form-control form-control-sm" required>
+        </div>
+        <div class="col-3">
+          <label>Стоимость суток</label>          
+          <input type="number" name="day_cost" class="form-control form-control-sm" required>
+        </div>
+        <div class="col-3 ">
+          <br>
+          <button type="button" onclick="remove_input_price(${newId})" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+        </div>
+      </div>
+    `);    
+  }
+  // remove price field
+  function remove_input_price(removeId) {
+    $('#flat-price-' + removeId).remove()
+    if ( $('.flat-price').length == 0 ) {
+      $('.flat-prices-all').hide()
+    }
+  }
+
 
 </script>
 
