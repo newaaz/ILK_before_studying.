@@ -25,7 +25,7 @@
         <% if @previous_room %>
           <div class="col-md-3">
             <div class="form-label">Предыдущее описание
-              <span style="font-size:14px"><sup><i class="far fa-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Вставить описание из предыдущего номера"></i></sup></span>
+              <span style="font-size:14px"><sup><i class="far fa-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Вставить описание из предыдущего номера (кроме фотографий и цен)"></i></sup></span>
             </div> 
             <a href="javascript: insertInfo();" class="btn btn-success  shadow">Вставить</a>
             <a href="javascript: document.forms[0].reset();" class="btn btn-outline-warning shadow">Очистить</a>
@@ -91,21 +91,38 @@
       
       <!-- Add Price -->
       <h3 class="text-center">Добавление цен:</h3>
-      <div id="prices">
-        <%= f.fields_for :prices do |price| %>
-          <%= render 'price_fields', f: price %>
-        <% end %>     
-        <div class='links'>
-          <br>  
-          <%= link_to_add_association 'Добавить ценовой период', f, :prices, class: "btn btn-success btn-sm" %>
-        </div>
-      </div><!-- end Price -->
+      <div class="flat-prices">
+        <% unless @previous_room %>
+          <div class="row flat-price" id="flat-price-1">
+            <div class="col-3">
+              <label>Начало периода</label>          
+              <input type="date" name="start_date" class="form-control form-control-sm" required >            
+            </div>
+            <div class="col-3">
+              <label>Конец периода</label>          
+              <input type="date" name="end_date" class="form-control form-control-sm" required >
+            </div>
+            <div class="col-3">
+              <label>Стоимость суток</label>          
+              <input type="number" name="day_cost" class="form-control form-control-sm" required >
+            </div>
+            <div class="col-3">
+              <br>
+              <button type="button" onclick="remove_input_price(1)" class="btn btn-outline-danger btn-sm"><i class="icon_set_1_icon-67"></i></button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <button type="button" id="add_price" onclick="add_input_price()" class="mt-3 btn btn-success btn-sm">Добавить ценовой период</button>  
+      <!-- end Price -->
 
-      <br><br><br>
+      <br><br><hr>
+
+      <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
 
       <div class="d-grid gap-2 col-md-5 mx-auto mb-5">
        <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
-          <span class="icon"><i class="fas fa-camera"></i></span>&#8194;Добавить номер
+          <span class="icon"><i class="icon_set_1_icon-11"></i></span>&#8194;Добавить номер
         <% end %> 
       </div>
       
@@ -143,8 +160,7 @@
 </script>
 
 <% if @room.name %>
-<!-- failure to save -->
-  <script>
+  <script>  // failure to save
     var form = document.forms.room 
     form.rooms.value = '<%= @room.description["rooms"] %>'
     form.guests.value = '<%= @room.description["guests"] %>'
@@ -157,6 +173,34 @@
   </script>
 <% end %>
 
+<% if @previous_room %>
+  <script>   // insert date-prices previous room
+    var prices = <%= @previous_room.description['prices'].to_json.html_safe %>
+    for ( var i = 0; i < prices.length; i++ ) {
+      $('.flat-prices').append(`
+        <div class="row flat-price mt-3" id="flat-price-${i+1}">
+          <div class="col-3">
+            <label>Начало периода</label>          
+            <input type="date" name="start_date" value="${prices[i]["start_date"]}" class="form-control form-control-sm" required >            
+          </div>
+          <div class="col-3">
+            <label>Конец периода</label>          
+            <input type="date" name="end_date" value="${prices[i]["end_date"]}" class="form-control form-control-sm" required >
+          </div>
+          <div class="col-3">
+            <label>Стоимость суток</label>          
+            <input type="number" name="day_cost" class="form-control form-control-sm" required >
+          </div>
+          <div class="col-3 ">
+            <br>
+            <button type="button" onclick="remove_input_price(${i+1})" class="btn btn-outline-danger btn-sm"><i class="icon_set_1_icon-67"></i></button>
+          </div>
+        </div>
+      `)
+    }
+  </script>
+<% end %>
+
 <script> 
 
   var form = document.forms.room
@@ -166,20 +210,99 @@
     form.button.disabled = true;  
 
     var data = {
-        "rooms": this.rooms.value,
-        "guests": this.guests.value,
-        "floor": this.floor.value,
+      "rooms": this.rooms.value,
+      "guests": this.guests.value,
+      "floor": this.floor.value,
 
-        "desc": this.desc.value,
-        "furniture": this.furniture.value,
-        "bathroom": this.bathroom.value,  
-        "in_room": this.in_room.value,  
-        "addition": this.addition.value               
-    };
-    this.desc_json.value = JSON.stringify(data);     
-    
+      "desc": this.desc.value,
+      "furniture": this.furniture.value,
+      "bathroom": this.bathroom.value,  
+      "in_room": this.in_room.value,  
+      "addition": this.addition.value,
+      "prices": []              
+    };    
+
+    /// validate and insert Prices
+    var startDateInputs = $('.flat-prices input[name="start_date"]')
+    var endtDateInputs = $('.flat-prices input[name="end_date"]')
+    var dayCostInputs = $('.flat-prices input[name="day_cost"]')
+    // close all alerts
+    var alertList = document.querySelectorAll('.alert')
+    alertList.forEach(function (alert) {
+      new bootstrap.Alert(alert).close()
+    })   
+    // validate and insert in data
+    var arrayPrice = [] // array for min price
+    for ( var i = 0; i < dayCostInputs.length; i++ ) {
+      $(`#flat-price-${i + 1}`).removeClass('row_with_errors')
+      if ( Date.parse(endtDateInputs[i].value) < Date.parse(startDateInputs[i].value) ) { 
+        $(`#flat-price-${i + 1}`).addClass('row_with_errors')
+        $(`#flat-price-${i + 1}`).prepend(`
+        <div class="alert alert-danger alert-dismissible fade show mb-1" role="alert">
+          Начало ценового периода должно быть раньше конца
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      `);    
+        var errors = true
+      }        
+      data.prices.push( {
+        "start_date":startDateInputs[i].value,
+        "end_date": endtDateInputs[i].value,
+        "day_cost": dayCostInputs[i].value
+      } )
+      arrayPrice.push(parseInt(dayCostInputs[i].value)) // array for min price      
+    }
+    // find min price from array
+    data["min_price"] = Math.min.apply(null, arrayPrice);    
+
+    if ( errors == true ) {  
+      form.button.disabled = false;      
+      return
+    }  
+    /// End validate and insert prices
+
+    // send form
+    this.desc_json.value = JSON.stringify(data);
     form.submit();
   })
+
+  // add new PRICE field
+  function add_input_price() {
+    var inputs = $('.flat-price')    
+    var newId = inputs.length + 1
+    $('.flat-prices').append(`
+      <div class="row flat-price mt-3" id="flat-price-${newId}">
+        <div class="col-3">
+          <label>Начало периода</label>          
+          <input type="date" name="start_date" class="form-control form-control-sm" required >            
+        </div>
+        <div class="col-3">
+          <label>Конец периода</label>          
+          <input type="date" name="end_date" class="form-control form-control-sm" required >
+        </div>
+        <div class="col-3">
+          <label>Стоимость суток</label>          
+          <input type="number" name="day_cost" class="form-control form-control-sm" required >
+        </div>
+        <div class="col-3 ">
+          <br>
+          <button type="button" onclick="remove_input_price(${newId})" class="btn btn-outline-danger btn-sm"><i class="icon_set_1_icon-67"></i></button>
+        </div>
+      </div>
+    `);    
+  }
+  // remove PRICE fields
+  function remove_input_price(removeId) {
+    if ( $('.flat-price').length == 1 ) {      
+      var inputs = $(`#flat-price-${removeId} :input`)
+      inputs[0].value = 0
+      inputs[1].value = 0
+      inputs[2].value = 0
+    } else {
+      $('#flat-price-' + removeId).remove()
+    }        
+  }
+
   // insert info previous room
   function insertInfo() {
     let previousRoom = <%= @previous_room.to_json.html_safe %>;
@@ -198,3 +321,5 @@
   }
 
 </script>
+
+

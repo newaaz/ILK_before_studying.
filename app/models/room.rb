@@ -18,9 +18,6 @@ class Room < ApplicationRecord
   
   validate  :check_desc_json
 
-  after_save  :set_min_price!
-
-
 private
 
   # Проверяем главное изображение Avatar через carrierwave
@@ -41,14 +38,6 @@ private
         errors.add(:images, "- одно или несколько изображений превышают допустимый размер - 4 МБ") if image.size > 4.megabytes
       end   
     end
-  end
-
-  # Устанавливаем минимальную цену после сохранения
-  def set_min_price!
-    min_price = prices.minimum(:day_cost)
-    description['min_price'] = min_price
-    desc_new = description
-    update_column(:description, desc_new)    
   end
 
   # проверка JSON описания номера

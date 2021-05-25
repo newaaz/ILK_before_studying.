@@ -141,8 +141,7 @@
             <span style="font-size:18px"><i class="fas fa-dog text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Принимаете или нет с животными, или с какими условиями"></i></span>
             <label class="form-label">Домашние животные</label><span class="text-danger">*</span> 
             <input name="animals" type="text" class="form-control form-control-sm" required>
-          </div>
-<!-- НОВЫЕ ПОЛЯ -->          
+          </div>         
           <div class="mb-3">
             <span style="font-size:18px"><i class="far fa-clock text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - по договорённости"></i></span>
             <label class="form-label">Рассчётное время</label>
@@ -163,12 +162,15 @@
             <label class="form-label">Скидки и акции</label>
             <input name="bonus" type="text" class="form-control form-control-sm">
           </div>
-<!-- END НОВЫЕ ПОЛЯ -->
-        </div> 
+        </div>
 
-        <div class="d-grid gap-2 col-md-5 mx-auto my-5">
+        <br><br><hr>
+
+        <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+
+        <div class="d-grid gap-2 col-md-5 mx-auto my-4">
           <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
-            <span class="icon"><i class="fas fa-camera"></i></span>&#8194;Добавить объявление
+            <span class="icon"><i class="icon_set_1_icon-11"></i></span>&#8194;Добавить объявление
           <% end %> 
         </div>        
 
@@ -327,6 +329,12 @@
     form.addition.value = '<%= @hotel.desc_json["addition"] %>'
     form.child.value = '<%= @hotel.desc_json["child"] %>'
     form.animals.value = '<%= @hotel.desc_json["animals"] %>'
+
+    form.check_time.value = '<%= @hotel.desc_json["check_time"] %>'
+    form.min_check.value = '<%= @hotel.desc_json["min_check"] %>'
+    form.payment.value = '<%= @hotel.desc_json["payment"] %>'
+    form.bonus.value = '<%= @hotel.desc_json["bonus"] %>'
+
     form.vk.value = '<%= @hotel.desc_json["vk"] %>'
     form.instagram.value = '<%= @hotel.desc_json["instagram"] %>'
   </script>
@@ -504,8 +512,8 @@
     form.elements[3].value = 'ул. Полины Осипенко, 24';
     form.elements[4].value = 1;
     form.elements[5].value = 400;
-    form.elements[6].value = 1200;
-    form.elements[7].value = 3;
+    form.elements[6].value = 3;
+    form.elements[7].value = 850;
     form.elements[10].value = 45.0417;
     form.elements[11].value = 35.3668;
     form.elements[31].value = 'оборудованная кухня, возможность готовить еду самостоятельно 2 кухни';

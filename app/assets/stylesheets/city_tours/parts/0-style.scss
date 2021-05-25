@@ -19,11 +19,13 @@ $color-link: #e14d67; /* #e14d67 - link */
 /* END VARIABLES */
 
 
-h1, h2, h3, h4, h5, h6 {color:#333;}
+h1, h2, h4, h5, h6 {color:#333;}
+h3 {color: #222;}
 h3 {font-size:22px;}
 h4 {font-size: 18px;}
 
-h1, h2, h3 {margin-top: 20px;margin-bottom: 10px;}
+h1, h2 {margin-top: 20px;margin-bottom: 10px;}
+h3 {margin-top: 10px;margin-bottom: 5px;}
 
 .main_title {text-align:center; font-size:16px; margin-bottom:30px;}
 .main_title h2 {text-transform: uppercase; font-weight:700; letter-spacing:-1px; font-size:30px; margin-bottom:0;margin-top:0; }
@@ -65,12 +67,14 @@ p {margin: 0 0 20px 0;}
 	padding: 0 !important;
 }
 
+/*
 hr {
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
   border-top: 1px solid #ddd;
 }
+*/
 
 
 

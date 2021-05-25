@@ -36,6 +36,7 @@ class RoomsController<ApplicationController
     else
       # убираем, потому что кроме этого отображаются ошибки валидации
       #flash[:info] = "Не получилось добавить номер"
+      @previous_room = @hotel.rooms.last
       render :new
     end
   end

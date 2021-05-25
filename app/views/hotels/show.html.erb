@@ -42,9 +42,7 @@
   <!-- photo + contacts & map -->
   <div class="row">
     
-    <div class="col-lg-9">
-   
-
+    <div class="col-lg-9"> 
       <!-- fotorama begin -->        
       <div class="fotoramain">
         <%= link_to image_tag(@hotel.avatar.thumb.url), @hotel.avatar.url %>
@@ -86,29 +84,29 @@
         <!-- Tab rules-->
         <input type="radio" name="tabset" id="tab5" aria-controls="rules">
         <label for="tab5">Правила и скидки</label>
+<!--ЦЕНЫ-->
+        <!-- Tab prices-->
+        <% unless @hotel.desc_json["prices"].any? %>
+        <input type="radio" name="tabset" id="tab6" aria-controls="prices">
+        <label for="tab6">Календарь цен</label>
+        <% end %>
 
-         <!-- Tab prices-->
-         <input type="radio" name="tabset" id="tab6" aria-controls="prices">
-         <label for="tab6">Календарь цен</label>
-        
         <div class="tab-panels">
 
           <!-- Tab DESC -->
-          <section id="desc" class="tab-panel">
-            <strong>Море</strong> ~ <%= @hotel.distance_to_sea %>м. || <strong>Цена от</strong> - <%= @hotel.price_from %><small>руб.</small> || <strong>Работает круглогодично</strong> ||
-            <strong>Этажей</strong> : <%= @hotel.desc_json["floors"] %> || <strong>Кол-во зданий</strong> : <span class="strong">1</span>
-            <br>
+          <section id="desc" class="tab-panel">  
             <%  if @hotel.description.to_plain_text.size > 626 %>            
-              <a class="content_toggle btn btn-warning btn-sm" href="#"><i class='icon-angle-down'></i> Показать далее</a>
+              <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
               <div class="content_block hide">
               <%= @hotel.description %>
-              <a class="content_toggle" href="#"></a>
+              <a class="content_toggle" style="color:#ff4500" href="#"></a>
               </div>          
             <% else %>
               <%= @hotel.description %>
             <% end %>
           </section>
-
+          
+          <!-- Tab infrastructure -->
           <section id="infrastructure" class="tab-panel" style="line-height:24px">            
             <table class="table table-striped">
               <tr>
@@ -117,30 +115,44 @@
                 <td><%= @hotel.desc_json["food"] %></td>       
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-61" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Парковка:</th>
                 <td><%= @hotel.desc_json["parking"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-24" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Территория:</th>
                 <td><%= @hotel.desc_json["territory"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-14" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Сервис и услуги:</th>
                 <td><%= @hotel.desc_json["service"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-21" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Трансфер:</th>
                 <td><%= @hotel.desc_json["transfer"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-68" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Дополнительно:</th>
                 <td><%= @hotel.desc_json["addition"] %></td>            
-              </tr>          
+              </tr>
+              <tr>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-23" style="font-size:20px"></i></th>
+                <th scope="row" class="px-0">Кол-во этажей:</th>
+                <td><%= @hotel.desc_json["floors"] %></td>            
+              </tr>
+              <tr>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-83" style="font-size:20px"></i></th>
+                <th scope="row" class="px-0">Работает:</th>
+                <% if @hotel.all_year == false %>
+                  <td>Только в летний период</td>  
+                <% else %>
+                  <td>Круглогодично</td>  
+                <% end %>          
+              </tr>       
             </table>
           </section>    
   
@@ -156,32 +168,32 @@
           <section id="rules" class="tab-panel" style="line-height:24px">
              <table class="table table-striped">
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-83" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Рассчётное время:</th>
                 <td><%= @hotel.desc_json["check_time"] %></td>       
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-53" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Минимальный срок проживания:</th>
                 <td><%= @hotel.desc_json["min_check"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-35" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Оплата:</th>
                 <td><%= @hotel.desc_json["payment"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-81" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Скидки и акции:</th>
                 <td><%= @hotel.desc_json["bonus"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-70" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Размещение детей:</th>
                 <td><%= @hotel.desc_json["child"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="px-1"><i class="icon_set_1_icon-22" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Размещение животных:</th>
                 <td><%= @hotel.desc_json["animals"] %></td>            
               </tr>          
@@ -252,10 +264,9 @@
 
       <!-- ROOMS -->      
       <% if @hotel.rooms.any? %>
-        <h3 class="mb-4">Номера:</h3>
+        <h2 class="mb-3">Номера:</h3>
         <%= render @hotel.rooms %>
-      <% end %>
-      
+      <% end %>      
 
     </div>
 
@@ -383,9 +394,9 @@
     $('.content_toggle').click(function(){
       $('.content_block').toggleClass('hide');	
       if ($('.content_block').hasClass('hide')) {
-        $('.content_toggle').html('<i class="icon-angle-down"></i> Показать далее');
+        $('.content_toggle').html('<i class="icon-angle-down"></i>Показать текст');
       } else {
-        $('.content_toggle').html('<i class="icon-angle-up"></i> Свернуть');
+        $('.content_toggle').html('<i class="icon-angle-up"></i>Свернуть текст');
       }		
       return false;
     });				

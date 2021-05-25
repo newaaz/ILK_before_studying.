@@ -1,37 +1,90 @@
-<div class="contact-info">
+<div class="row">
+  <div class="contact-info col-lg-12 col-md-6">
 
-  <div class="contact-photo text-center">
-    <%= image_tag @hotel.avatar.thumb.url, class: "shadow-sm mx-auto" %>
-    <span><!-- name --></span>
+    <div class="row gx-1 mb-4">
+      <div class="col">
+        <div class="distance-sea">
+          от <span>1<%= @hotel.price_from %></span><small>р.</small>/сутки
+        </div>      
+      </div>
+      <% if @hotel.distance_to_sea %>
+      <div class="col">
+        <div class="distance-sea">
+          море ~ <span><%= @hotel.distance_to_sea %></span><small>м.</small>
+        </div>
+      </div>
+      <% end %>
+    </div> 
+
+    <div class="contact-photo text-center">
+      <%= image_tag @hotel.avatar.thumb.url, class: "shadow-sm mx-auto" %>
+      <span><!-- name --></span>
+    </div>
+
+    <div class="contact-numbers text-center">
+      <div class="contact-number">
+        <span class="contact-phone me-1"><!-- phone --></span>
+        <!-- viber + whatsapp -->    
+      </div>
+    </div>
+
+    <div class="contact-email">
+      <span>
+        <a href="mailto:<%= @hotel.email %>"><i class="icon-mail-6"></i>&nbsp;<%= @hotel.email %></a> 
+      </span>
+      <% unless @hotel.site.blank? %>
+        <span><a href="https://<%= @hotel.site %>" target="_blank">&#127760;&nbsp;<%= @hotel.site %></a></span>      
+      <% end %>
+      <% unless @hotel.desc_json["instagram"].empty? %>
+        <span><a href="https://www.instagram.com/<%= @hotel.desc_json["instagram"] %>" target="_blank">&nbsp;@<%= @hotel.desc_json["instagram"] %></a></span>
+      <% end %>
+      <% unless @hotel.desc_json["vk"].empty? %>
+        <span><a href="https://vk.com/<%= @hotel.desc_json["vk"] %>" target="_blank">&nbsp;vk/<%= @hotel.desc_json["vk"] %></a></span>
+      <% end %>
+    </div>  
+
   </div>
 
-  <div class="contact-numbers text-center">
-    <div class="contact-number">
-      <span class="contact-phone me-1"><!-- phone --></span>
-      <!-- viber + whatsapp -->    
+
+  <div class="col-lg-12 col-md-6">
+    <div class="cashback">
+      КЭШБЭК <span>5%</span>
+    </div>
+    <div class="condition" onclick="showCashbackModal();">
+      Как получить
     </div>
   </div>
+</div>
 
-  <div class="contact-email">
-    <span>
-      <a href="mailto:<%= @hotel.email %>"><i class="icon-mail-6"></i>&nbsp;<%= @hotel.email %></a> 
-    </span>
-    <% unless @hotel.site.blank? %>
-      <span><a href="https://<%= @hotel.site %>" target="_blank">&#127760;&nbsp;<%= @hotel.site %></a></span>      
-    <% end %>
-    <% unless @hotel.desc_json["instagram"].empty? %>
-      <span><a href="https://www.instagram.com/<%= @hotel.desc_json["instagram"] %>" target="_blank">&nbsp;@<%= @hotel.desc_json["instagram"] %></a></span>
-    <% end %>
-    <% unless @hotel.desc_json["vk"].empty? %>
-      <span><a href="https://vk.com/<%= @hotel.desc_json["vk"] %>" target="_blank">&nbsp;vk/<%= @hotel.desc_json["vk"] %></a></span>
-    <% end %>
+
+<!-- Modal -->
+<div class="modal fade" id="conditionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
   </div>
-
 </div>
 
 
 
 <script>
+  
+  function showCashbackModal() {
+    var myModal = new bootstrap.Modal(document.getElementById('conditionModal'))
+    myModal.show()
+  }
+
   var contacts = <%= @hotel.desc_json["contacts"].to_json.html_safe %>
   // insert first name
   $('.contact-photo span').append(`${contacts[0]["ow_name"]}`)

@@ -9,7 +9,7 @@ class HotelsController < ApplicationController
   end
   
   def show
-    @hotel = Hotel.includes(rooms: [:prices]).references(:rooms).order(:number).find(params[:id])
+    @hotel = Hotel.includes(:rooms).references(:rooms).order(:number).find(params[:id])
     # определяем - является ли этот отель запомненным    
     current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Hotel') if @cart
     @current_item = true if current_item
