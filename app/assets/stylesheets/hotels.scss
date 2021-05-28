@@ -12,11 +12,10 @@ $color-yellow: #f48f24; /* #f48f24  - */
 
 
 .room {
-
 	background-color: #fff;
   -webkit-box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37); 
   box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37);
-
+	
 	h4 { font-weight: 600;	color: #222;	}
 	
 	ul {
@@ -48,36 +47,35 @@ $color-yellow: #f48f24; /* #f48f24  - */
 	}
 }
 
+
 .more-info {
 	display: inline-block;
-	background-color: coral;
-	width: 150px;
-	padding: 10px 10px;
+	/* border: 2px solid #ff4500; */
+	outline: 1px solid #444; /* Параметры рамки */
+	color: #444;
+	padding: 7px 10px;
 	border-radius: 4px;
+	text-align: left;
 	cursor: pointer;
+	min-width: 150px;
+	font-weight: 600;
+
+	&:hover {
+		outline: 1px solid #ff893b; /* Параметры рамки */
+		color: #fff;
+		background-color: #ff893b;
+	}
 }
 
 .hidden_content {
 	font-size: 15px;
-	padding-top: 20px;
+	padding-top: 10px;
 	background-color: #fff;
-  -webkit-box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37); 
+  /*
+	-webkit-box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37); 
   box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37);
-
-	table {
-		width: 100%;
-		text-align: center;
-		font-size: 14px;
-
-		th, td {
-			border: 1px solid #999;
-			border-collapse: collapse;
-			padding: 4px 0;
-		}
-
-		th {	background-color: #ffe3d1; color: #444;	}
-	}
-
+	*/
+	
 }
 
 /* Календарь цен */
@@ -100,6 +98,22 @@ $color-yellow: #f48f24; /* #f48f24  - */
   background-color: #fec771;	
   font-weight: 600;
   padding: 0 5px;
+}
+/* Календарь цен ОБЩИЙ */
+.price-calendar {
+	table {
+		width: 100%;
+		text-align: center;
+		font-size: 13px;
+
+		th, td {
+			border: 1px solid #999;
+			
+			padding: 2px 0;
+		}
+
+		th {	background-color: #fec771; color: #444; font-size: 12px;	}
+	}
 }
 /* Календарь цен */
 

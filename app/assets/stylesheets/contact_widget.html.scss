@@ -38,7 +38,7 @@ $color-yellow: #f48f24; /* #f48f24  - */
 	}
 	span {
 		font-style: italic;
-		font-size: 14px;
+		font-size: 16px;
 		font-weight: 600;
 	}
 }
@@ -63,7 +63,7 @@ $color-yellow: #f48f24; /* #f48f24  - */
 .contact-addition {
 	border-top: rgb(200, 200, 200) 1px solid;
 	padding-top: 3px;
-	font-size: 16px;
+	font-weight: 600;
 }
 
 .contact-email {	
@@ -83,17 +83,20 @@ $color-yellow: #f48f24; /* #f48f24  - */
 	}
 }
 
-
 .distance-sea {
 	border-radius: 3px;
 	text-align: center;
 	padding: 5px 1px;
-	color: #fff;
+	color: #777;
+	-webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.5); 
+  box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.5);
 	/*background: rgba(0, 0, 0, 0) linear-gradient(to right, $color-yellow, #fec771) no-repeat scroll center;*/
-	background: rgba(0, 0, 0, 0) linear-gradient(to right, #0e64ac, #1e80c5) no-repeat scroll center;
+	/*background: rgba(0, 0, 0, 0) linear-gradient(to right, #0e64ac, #1e80c5) no-repeat scroll center;*/
+	/*	background: rgba(0, 0, 0, 0) linear-gradient(to right, #a3a3a3, rgb(200, 200, 200), ) no-repeat scroll center;*/
 	span {		
 		font-size: 16px;
 		font-weight: 600;
+		color: #666;
 	}
 }
 

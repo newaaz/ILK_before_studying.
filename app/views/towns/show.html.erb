@@ -4,46 +4,28 @@
   <div class="parallax-content-2">
     <div class="container">
       <div class="row">
-        <div class="col-md-8">
-          <span class="rating">
-						<i class="icon-star voted"></i>
-						<i class="icon-star voted"></i>
-						<i class="icon-star voted"></i>
-						<i class="icon-star voted"></i>
-						<i class="icon-star-empty"></i>
-					</span>
-          <h1><%= @town.name %></h1>
-          <span>Champ de Mars, 5 Avenue Anatole, 75007 Paris.</span>
+        <div class="col-md-8">          
+          <h1><%= @town.name %></h1>          
         </div>
         <div class="col-md-4">
           <div id="price_single_main" class="hotel">
-            from/per night <span><sup>$</sup>95</span>
+            <span><sup></sup></span>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- End section -->
-<div id="position">
+
+<div class="breadcrumbs">
   <div class="container">
-    <ul>
-      <li><a href="#">Home</a>
-      </li>
-      <li><a href="#">Category</a>
-      </li>
-      <li>Page active</li>
-    </ul>
+    <i class="icon-location-outline" style="font-size:15px"></i>
+    <%= link_to "Главная", root_url %>&nbsp;/
+    <%= @town.name %>    
   </div>
 </div>
-<!-- End Position -->
 
-<div class="container">
-
-  <div class="breadcrumbs">    
-    <%= link_to "Главная", root_url %>&nbsp;/&nbsp;
-    <%= @town.name %>
-  </div>
+<div class="container"> 
 
   <br><br>
 
@@ -201,7 +183,7 @@
 
   <div class="row">
 
-    <div class="col-lg-4 wow zoomIn" data-wow-delay="0.2s">
+    <div class="col-lg-4">
       <div class="feature_home">
         <i class="icon_set_1_icon-41"></i>
         <h3><span>+120</span> Premium tours</h3>
@@ -212,7 +194,7 @@
       </div>
     </div>
 
-    <div class="col-lg-4 wow zoomIn" data-wow-delay="0.4s">
+    <div class="col-lg-4">
       <div class="feature_home">
         <i class="icon_set_1_icon-30"></i>
         <h3><span>+1000</span> Customers</h3>
@@ -223,7 +205,7 @@
       </div>
     </div>
 
-    <div class="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
+    <div class="col-lg-4"">
       <div class="feature_home">
         <i class="icon_set_1_icon-57"></i>
         <h3><span>H24 </span> Support</h3>

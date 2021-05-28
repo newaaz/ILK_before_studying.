@@ -7,10 +7,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>   
-    
+    <%= csp_meta_tag %> 
+
     <script src="https://kit.fontawesome.com/b52c0bb8eb.js" crossorigin="anonymos"></script>
-    
+        
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script> 
    
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -31,7 +31,7 @@
 
   <body>
 
-    <%= render 'layouts/headers/header_bs' %>
+    <%= render 'layouts/header' %>
 
     <% flash.each do |message_type, message| %>
       <div class="alert alert-<%= message_type %> alert-dismissible fade show" role="alert">
@@ -52,30 +52,7 @@
       /* Video modal dialog + Parallax + Scroll to top + Incrementer */
       $(function () {
         'use strict';
-        $('.parallax-window').parallax({zIndex:1}); /* Parallax modal*/ 
-        
-        /* Cart header drop down */
-        $('.dropdown-menu').on('click', function (e) {
-          e.stopPropagation();
-        });
-        $('ul#top_tools li .dropdown').hover(function () {
-          $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeIn(300);
-        }, function () {
-          $(this).find('.dropdown-menu').stop(true, true).delay(50).fadeOut(300);
-        });
-
-        /* Hamburger icon */        
-        var toggles = document.querySelectorAll(".cmn-toggle-switch");
-        for (var i = toggles.length - 1; i >= 0; i--) {
-          var toggle = toggles[i];
-          toggleHandler(toggle);
-        };
-        function toggleHandler(toggle) {
-          toggle.addEventListener("click", function (e) {
-            e.preventDefault();
-            (this.classList.contains("active") === true) ? this.classList.remove("active"): this.classList.add("active");
-          });
-        };
+        $('.parallax-window').parallax({zIndex:1}); /* Parallax modal*/  
        
         /* Scroll to top*/
         var pxShow = 800; // height on which the button will show
@@ -92,26 +69,6 @@
         $('#toTop').on('click', function(){
         $('html, body').animate({scrollTop:0}, scrollSpeed);
         return false;
-        });
-
-        /* Input incrementer*/
-        $(".numbers-row").append('<div class="inc button_inc">+</div><div class="dec button_inc">-</div>');
-        $(".button_inc").on('click', function () {
-
-          var $button = $(this);
-          var oldValue = $button.parent().find("input").val();
-
-          if ($button.text() == "+") {
-            var newVal = parseFloat(oldValue) + 1;
-          } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 1) {
-              var newVal = parseFloat(oldValue) - 1;
-            } else {
-              newVal = 0;
-            }
-          }
-          $button.parent().find("input").val(newVal);
         });
       });  
     </script>

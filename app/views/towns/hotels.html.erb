@@ -1,75 +1,73 @@
 <% provide(:title, "Жильё в #{ @town.parent_name }") %>
 
-<div class="town-bg-image" style="background-image: url('<%= @town.avatar.url %>');" >
-  <div class="hero-title text-center">
-    <% unless @hotel_cat %>
-      <h1>Жильё в <%= @town.parent_name %></h1>    
-      Активный отдых Крыму без посредников
-    <% else %>      
-      <h1><%= @hotel_cat %> в <%= @town.parent_name %></h1>
-    <% end %>    
-  </div>  
-</div>
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+<% end %>
 
-<div class="container">
+<section class="parallax-window" data-parallax="scroll" data-image-src="<%= @town.avatar.url %>">
+  <div class="parallax-content-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">          
+          <% unless @hotel_cat %>
+            <h1>Жильё в <%= @town.parent_name %></h1>    
+            <span>Активный отдых Крыму без посредников</span>
+          <% else %>      
+            <h1><%= @hotel_cat %> в <%= @town.parent_name %></h1>
+          <% end %>          
+        </div>
+        <div class="col-md-4">
+          <div id="price_single_main" class="hotel">
+            <span><sup></sup></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <div class="breadcrumbs">    
-    <%= link_to "Главная", root_url %>&nbsp;/&nbsp; 
-    <%= link_to @town.name, @town %>&nbsp;/&nbsp;
+<div class="breadcrumbs">
+  <div class="container">
+    <i class="icon-location-outline" style="font-size:15px"></i>
+    <%= link_to "Главная", root_url %>&nbsp;/
+    <%= link_to @town.name, @town %>&nbsp;/
     <% unless @hotel_cat %>
       Жильё в <%= @town.parent_name %>
     <% else %>
-      <%= link_to "Жильё", hotels_town_path %>&nbsp;/&nbsp;
+      <%= link_to "Жильё", hotels_town_path %>&nbsp;/
       <%= @hotel_cat %>
-    <% end %>
+    <% end %>    
   </div>
+</div>
+
+<div class="container mt-4">
 
   <div class="row">
 
-    <div class="col-9 px-0">
+    <div class="col-lg-3 px-md-4 px-sm-0">      
+
+      <aside>        
+        <div class="hotel-cats">
+          <ul class="">          
+            <li id="all-hotel-cats"><%= link_to "Всё жильё", hotels_town_path %></li>                
+            <% @hotel_categories.each do |hotel_cat| %>
+              <li id="hotel-cat-<%= hotel_cat.id %>">
+                <%= link_to hotel_cat.name, { cat: hotel_cat.id } %>
+              </li> 
+            <% end %>                        
+          </ul>
+        </div>
+      </aside>     
+
+    </div>
+
+    <div class="col-lg-9 px-0">
       <div class="row">
         <%= render @hotels %>
       </div>      
     </div>
 
-    <div class="col-md-3 px-4">
-
-      <aside>
-        <h4>Категории</h4>
-
-        <div class="box_style_cat">
-          <ul id="cat_nav">
-            <li><a href="#" id="active"><i class="icon_set_3_restaurant-10"></i>All restaurants <span>(141)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_3_restaurant-1"></i>Pizza / Italian <span>(20)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_3_restaurant-2"></i>Fast Food <span>(16)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_3_restaurant-3"></i>Japanese <span>(12)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_3_restaurant-4"></i>Chinese <span>(11)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_3_restaurant-5"></i>International <span>(20)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_3_restaurant-8"></i>Coffe bar <span>(08)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_3_restaurant-7"></i>Fish <span>(08)</span></a>
-            </li>
-          </ul>
-        </div>
-
-        <ul>          
-          <li id="all-hotel-cats"><%= link_to "Всё жильё", hotels_town_path %></li>                
-          <% @hotel_categories.each do |hotel_cat| %>
-            <li id="hotel-cat-<%= hotel_cat.id %>">
-              <%= link_to hotel_cat.name, { cat: hotel_cat.id } %>
-            </li> 
-          <% end %>                        
-        </ul>
-        
-      </aside>     
-
-    </div>
+    
 
   </div>
 
@@ -78,9 +76,33 @@
 <script>
   if (document.location.href == "<%= request.original_url %>") {
     if (current_cat =  document.getElementById("hotel-cat-<%= params[:cat] %>")) {
-      current_cat.querySelector('a').classList.add("text-info");
+      current_cat.classList.add("active");
     } else {
-      document.getElementById("all-hotel-cats").querySelector('a').classList.add("text-info");     
+      document.getElementById("all-hotel-cats").classList.add("active");     
     }     
   }
+</script>
+
+<script>//Initialize fotorama manually for rooms.
+  $(document).on('turbolinks:load', function() {
+    $(function () {    
+
+      //Initialize fotorama manually for rooms
+      var $fotoramaDiv = $('.fotorama-rooms').fotorama();
+
+      $fotoramaDiv.on('fotorama:fullscreenenter',
+        function (e, fotorama) {        
+          fotorama.setOptions({
+            nav: "thumbs"
+          });
+        });
+      
+      $fotoramaDiv.on('fotorama:fullscreenexit',
+      function (e, fotorama) {      
+        fotorama.setOptions({
+          nav: "false"
+        });
+      })
+    });
+  }); 
 </script>

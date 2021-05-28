@@ -37,10 +37,10 @@
   </div><!-- End container-->
 </div><!-- End top line-->
 
-<button data-trigger="navbar_main" class="d-lg-none btn btn-warning" type="button">  Show navbar </button>
+<button data-trigger="navbar_main" class="d-lg-none btn btn-warning" type="button">Show navbar</button>
 
 <!--  COMPONENT  -->
-<nav id="navbar_main" class="mobile-offcanvas navbar navbar-expand-md navbar-styled shadow">
+<nav id="navbar_main" class="mobile-offcanvas navbar navbar-expand-md navbar-styled shadow" style="z-index: 900;">
   <div class="container">
 
     <div class="logo-text">
@@ -63,12 +63,18 @@
       </li><!-- END towns -->
       	
       <li><%= link_to "Контакты", contacts_url, class: 'nav-link' %></li>
-      <li><%= link_to "Что рядом?", contacts_url, class: 'nav-link' %></li>
+      <li>
+        <%= link_to contacts_url, class: 'nav-link' do %>
+          <i class="icon-location-outline"></i>Что рядом?
+        <% end %>
+      </li>
 
       <% if logged_in? %>
       
         <li class="nav-item dropdown hover">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="icon-user-outline"></i>Профиль</a>
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            <i class="icon-user-outline"></i>Профиль
+          </a>
           <ul class="dropdown-menu">
             <li><%= link_to "User/show", current_user, class: "dropdown-item" %></li>
             <li><%= link_to "Настройки", edit_user_path(current_user), class: "dropdown-item" %></li>

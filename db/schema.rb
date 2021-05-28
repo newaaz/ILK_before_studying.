@@ -146,14 +146,6 @@ ActiveRecord::Schema.define(version: 2021_04_16_084352) do
     t.index ["hotel_id"], name: "index_orders_on_hotel_id"
   end
 
-  create_table "prices", force: :cascade do |t|
-    t.bigint "room_id", null: false
-    t.date "start_date"
-    t.date "end_date"
-    t.integer "day_cost"
-    t.index ["room_id"], name: "index_prices_on_room_id"
-  end
-
   create_table "rooms", force: :cascade do |t|
     t.string "name"
     t.json "images"
@@ -206,6 +198,5 @@ ActiveRecord::Schema.define(version: 2021_04_16_084352) do
   add_foreign_key "hotels", "users"
   add_foreign_key "line_items", "carts"
   add_foreign_key "orders", "hotels"
-  add_foreign_key "prices", "rooms"
   add_foreign_key "rooms", "hotels"
 end

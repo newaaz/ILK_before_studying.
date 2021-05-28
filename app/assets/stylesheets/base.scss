@@ -47,6 +47,8 @@ body {background:#f9f9f9; line-height:22px; color:#444; font-weight: 400;}
   /*background: rgba(0, 0, 0, 0) linear-gradient(to right, #185a9d, #43cea2) no-repeat scroll center;*/
 	/*background: linear-gradient(#ededed, #fff, #fff, #ededed);*/
 	background-color: #ededed;
+	box-shadow: 0px 1px 7px 0px rgba(0,0,0,0.35);
+	-webkit-box-shadow: 0px 1px 7px 0px rgba(0,0,0,0.35);
 	a {
     color: #666;
     font-size: 13px;

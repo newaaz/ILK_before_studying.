@@ -16,12 +16,9 @@ class RoomsController<ApplicationController
     if params[:hotel_id].to_i == 0
       redirect_to root_url
     else
-      @hotel = Hotel.find(params[:hotel_id].to_i)
-           
-      @previous_room = @hotel.rooms.last
-      
+      @hotel = Hotel.find(params[:hotel_id].to_i)           
+      @previous_room = @hotel.rooms.last      
       @room = Room.new 
-      @room.prices.build
     end
   end
 

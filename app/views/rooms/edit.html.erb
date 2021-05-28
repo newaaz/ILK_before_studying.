@@ -222,7 +222,9 @@
       arrayPrice.push(parseInt(dayCostInputs[i].value)) // array for min price           
     }
     // find min price from array
-    data["min_price"] = Math.min.apply(null, arrayPrice);    
+    data["min_price"] = Math.min.apply(null, arrayPrice);
+    // find max price from array
+    data["max_price"] = Math.max.apply(null, arrayPrice);     
     
     if ( errors == true ) {  
       form.button.disabled = false;      

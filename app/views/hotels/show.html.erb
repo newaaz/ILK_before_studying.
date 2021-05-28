@@ -18,7 +18,7 @@
 
 <div class="container"> 
 
-   <!-- title -->
+  <!-- title -->
   <div class="row mt-3">
     <div class="col-md-1 ps-1">
       <% if @current_item %>
@@ -39,7 +39,7 @@
     </div>    
   </div>
 
-  <!-- photo + contacts & map -->
+  <!-- photo + contacts -->
   <div class="row">
     
     <div class="col-lg-9"> 
@@ -84,24 +84,40 @@
         <!-- Tab rules-->
         <input type="radio" name="tabset" id="tab5" aria-controls="rules">
         <label for="tab5">Правила и скидки</label>
-<!--ЦЕНЫ-->
+
         <!-- Tab prices-->
-        <% unless @hotel.desc_json["prices"].any? %>
-        <input type="radio" name="tabset" id="tab6" aria-controls="prices">
-        <label for="tab6">Календарь цен</label>
+        <% if @hotel.rooms.any? %>
+          <input type="radio" name="tabset" id="tab6" aria-controls="prices">
+          <label for="tab6">Календарь цен</label>
         <% end %>
 
         <div class="tab-panels">
 
           <!-- Tab DESC -->
-          <section id="desc" class="tab-panel">  
+          <section id="desc" class="tab-panel">            
             <%  if @hotel.description.to_plain_text.size > 626 %>            
               <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
+                            
               <div class="content_block hide">
-              <%= @hotel.description %>
-              <a class="content_toggle" style="color:#ff4500" href="#"></a>
+                <%= @hotel.description %>
+                <a class="content_toggle" style="color:#ff4500" href="#"></a>
+
+                <!-- УБРАТЬ -->
+                <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
+                  <%= link_to "Edit", edit_hotel_path(@hotel) ,class: "btn btn-outline-success btn-sm" %>
+                  <%= link_to "+ Room", new_room_path(hotel_id: @hotel.id), class: "btn btn-outline-success btn-sm" %>
+                  <%= link_to "Delete", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+                <% end %>
+
               </div>          
             <% else %>
+
+              <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
+                <%= link_to "Edit", edit_hotel_path(@hotel) ,class: "btn btn-outline-success btn-sm" %>
+                <%= link_to "+ Room", new_room_path(hotel_id: @hotel.id), class: "btn btn-outline-success btn-sm" %>
+                <%= link_to "Delete", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+              <% end %>
+
               <%= @hotel.description %>
             <% end %>
           </section>
@@ -110,42 +126,42 @@
           <section id="infrastructure" class="tab-panel" style="line-height:24px">            
             <table class="table table-striped">
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-58" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Питание:</th>
                 <td><%= @hotel.desc_json["food"] %></td>       
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-61" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-61" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Парковка:</th>
                 <td><%= @hotel.desc_json["parking"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-24" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-24" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Территория:</th>
                 <td><%= @hotel.desc_json["territory"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-14" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-14" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Сервис и услуги:</th>
                 <td><%= @hotel.desc_json["service"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-21" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-21" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Трансфер:</th>
                 <td><%= @hotel.desc_json["transfer"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-68" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-68" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Дополнительно:</th>
                 <td><%= @hotel.desc_json["addition"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-23" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-23" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Кол-во этажей:</th>
                 <td><%= @hotel.desc_json["floors"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-83" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-83" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Работает:</th>
                 <% if @hotel.all_year == false %>
                   <td>Только в летний период</td>  
@@ -158,42 +174,40 @@
   
           <!-- Tab MAP -->
           <section id="place-near" class="tab-panel">
-
             <h5 class="mb-3"><i class="icon_set_1_icon-37"></i> <%= @hotel.desc_json["town_name"] %>, <%= @hotel.address %></h5>
-            <div id="map" style="height: 300px" class="border shadow"></div>
-            
+            <div id="map" style="height: 300px" class="border shadow"></div>            
           </section>
 
           <!-- Tab RULES -->
           <section id="rules" class="tab-panel" style="line-height:24px">
-             <table class="table table-striped">
+            <table class="table table-striped">              
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-83" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-83" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Рассчётное время:</th>
                 <td><%= @hotel.desc_json["check_time"] %></td>       
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-53" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-53" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Минимальный срок проживания:</th>
                 <td><%= @hotel.desc_json["min_check"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-35" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-35" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Оплата:</th>
                 <td><%= @hotel.desc_json["payment"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-81" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-81" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Скидки и акции:</th>
                 <td><%= @hotel.desc_json["bonus"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-70" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-70" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Размещение детей:</th>
                 <td><%= @hotel.desc_json["child"] %></td>            
               </tr>
               <tr>
-                <th scope="row" class="px-1"><i class="icon_set_1_icon-22" style="font-size:20px"></i></th>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-22" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Размещение животных:</th>
                 <td><%= @hotel.desc_json["animals"] %></td>            
               </tr>          
@@ -201,46 +215,33 @@
           </section>
 
           <!-- Tab PRICES -->
-          <section id="prices" class="tab-panel">
-            <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
-              <%= link_to "Edit", edit_hotel_path(@hotel) ,class: "btn btn-outline-success btn-sm" %>
-              <%= link_to "+ Room", new_room_path(hotel_id: @hotel.id), class: "btn btn-outline-success btn-sm" %>
-              <%= link_to "Delete", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
-            <% end %>        
-            <table class="room__table">
+          <% if @hotel.rooms.any? %>
+            <section id="prices" class="tab-panel">                      
+            <h3>Стоимость проживания номер / сутки (руб.)</h3>
+            <div style="overflow-x:auto;" class="price-calendar">
+              <table>
                 <thead>
                   <tr>
-                    <th>Номер</th>
-                    <th>29.04-07.06</th>
-                    <th>08.06-28.06</th>
-                    <th>29.06-19.07</th>
-                    <th>20.07-26.08</th>
-                    <th>27.08-06.09</th>
-                    <th>07.09-30.09</th>
+                    <th>Номер/комната</th>
+                    <% @hotel.rooms.first.description['prices'].each do |price| %>                      
+                      <th><%= Date.parse(price["start_date"]).strftime('%d.%m') %>-<%= Date.parse(price["end_date"]).strftime('%d.%m') %></th>
+                    <% end %>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>2 этаж</td>
-                    <td style="text-align: center; color: #333">3000р</td>
-                    <td style="text-align: center; color: #333">3000р</td>
-                    <td style="text-align: center; color: #333">4000р</td>
-                    <td style="text-align: center; color: #333">4500р</td>
-                    <td style="text-align: center; color: #333">4000р</td>
-                    <td style="text-align: center; color: #333">2800р</td>
-                  </tr>
-                  <tr>
-                    <td>3 этаж</td>
-                    <td style="text-align: center">2500р.</td>
-                    <td style="text-align: center">3000р.</td>
-                    <td style="text-align: center">4000р.</td>
-                    <td style="text-align: center">4500р.</td>
-                    <td style="text-align: center">4000р.</td>
-                    <td style="text-align: center">2800р.</td>
-                  </tr>                       
+                  <% @hotel.rooms.each do |room| %>
+                    <tr>
+                      <td><%= room.name %></td>
+                      <% room.description['prices'].each do |price| %>
+                        <td><%= price['day_cost'] %><small> р.</small></td>                 
+                      <% end %>                    
+                    </tr>   
+                  <% end %>
                 </tbody>
               </table>
-          </section>
+            </div>
+            </section>
+          <% end %>
 
         </div>
 
@@ -248,13 +249,13 @@
 
       <!-- PRICES FLAT -->
       <% if @hotel.desc_json["prices"].any? %>
-        <h3>Календарь цен</h3>
+        <h2>Календарь цен</h2>
         <div style="overflow-x:auto;">
           <div class="room-prices">
             <% @hotel.desc_json["prices"].each do |price| %>
               <div class="period">
-                <div class="period__date"><%= Date.parse(price["start_date"]).strftime('%d/%m') %>-<%= Date.parse(price["end_date"]).strftime('%d/%m') %></div>
-                <div class="period__price"><%= price["day_cost"] %><span>руб.</span></div>
+                <div class="period__date"><%= Date.parse(price["start_date"]).strftime('%d.%m') %>-<%= Date.parse(price["end_date"]).strftime('%d.%m') %></div>
+                <div class="period__price"><%= price["day_cost"] %><span> р.</span></div>
               </div>
             <% end %>    
           </div>
@@ -264,7 +265,7 @@
 
       <!-- ROOMS -->      
       <% if @hotel.rooms.any? %>
-        <h2 class="mb-3">Номера:</h3>
+        <h2 class="mb-3">Номера:</h2>
         <%= render @hotel.rooms %>
       <% end %>      
 
@@ -315,7 +316,56 @@
 
 </main>
 
+<script> // insert Contacts. Modal-cashback
+  
+  function showCashbackModal() {
+    var myModal = new bootstrap.Modal(document.getElementById('conditionModal'))
+    myModal.show()
+  }
 
+  var contacts = <%= @hotel.desc_json["contacts"].to_json.html_safe %>
+  // insert first name
+  $('.contact-photo span').append(`${contacts[0]["ow_name"]}`)
+  // insert first phone
+  $('.contact-phone').append(`
+    <a href="tel:+${contacts[0]["ow_phone_clean"]}">            
+      ${contacts[0]["ow_phone"]}
+    </a>`)
+  // if viber? - insert first viber
+  if ( contacts[0]["viber"] == "1" ) {
+    $('.contact-number').append(`
+      <a href="viber://chat?number=%2B${contacts[0]["ow_phone_clean"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Viber"><%= image_tag("viber_50px.png", width: "35px") %></a>
+    `)
+  }
+  // if whatsapp? - insert first watsapp
+  if ( contacts[0]["whatsapp"] == "1" ) {
+    $('.contact-number').append(`
+      <a href="https://api.whatsapp.com/send?phone=+${contacts[0]["ow_phone_clean"]}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Whatsapp"><%= image_tag("whatsapp_50px.png", width: "35px") %></a>
+    `)
+  }
+
+  // if contacts > 1
+  if ( contacts.length > 1 ) {
+    for (var i = 1; i < contacts.length; i++) {
+      var div = document.createElement('div')
+      div.className = "contact-addition"
+      div.innerHTML = `<span class="d-block fst-italic">${contacts[i]["ow_name"]}</span>` 
+      div.innerHTML += `<a href="tel:+${contacts[i]["ow_phone_clean"]}">            
+                        ${contacts[i]["ow_phone"]}
+                       </a>`                      
+      if ( contacts[i]["viber"] == "1" ) {
+        div.innerHTML += `<a href="viber://chat?number=%2B${contacts[0]["ow_phone_clean"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Viber"><%= image_tag("viber_50px.png", width: "35px") %></a>`
+      }
+      if ( contacts[i]["whatsapp"] == "1" ) {
+        div.innerHTML += `<a href="https://api.whatsapp.com/send?phone=+${contacts[0]["ow_phone_clean"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Whatsapp"><%= image_tag("whatsapp_50px.png", width: "35px") %></a>`
+      }
+      
+      var target = document.querySelector('.contact-numbers')
+      target.appendChild(div);    
+
+    }
+  }
+</script>
 
 <script type="text/javascript"> // map
   ymaps.ready(init);
@@ -402,8 +452,3 @@
     });				
   });
 </script>
-
-
-
-
-

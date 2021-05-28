@@ -13,56 +13,74 @@
     <%= form_with(model: @hotel, local: true, html: { name: "hotel" }) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
 
-      <div class="row mb-3 gx-3">
-        <div class="col-md-5">          
+      <div class="row mb-3 gx-2">
+        <div class="col-lg-5 col-md-6 col-sm-6">          
           <%= f.label :name, class: 'form-label' %> <span class="text-danger">*</span>   
           <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>
         </div>
-        <div class="col-md-3">
-          <%= f.label :town_id, class: 'form-label' %> <span class="text-danger">*</span>            
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <%= f.label :town_id, class: 'form-label' %> <span class="text-danger">*</span>         
           <%= f.collection_select :town_id, Town.order(:number), :id, :name, { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
         </div>
-        <div class="col-md-4">            
-          <%= f.label :address, class: 'form-label' %> <span class="text-danger">*</span> <small class="text-muted"> / без населённого пункта</small>    
+        <div class="col-lg-4 col-md-12 col-sm-12">            
+          <%= f.label :address, class: 'form-label' %> <span class="text-danger">*</span> <small class="form-text text-muted"> / без населённого пункта</small>    
           <%= f.text_field :address, class: 'form-control form-control-sm', required: true %>
         </div>
-      </div> 
+      </div>     
 
-      <div class="row mb-3 gx-2">
+      <div class="row gx-2">
 
-        <div class="col-md-3">            
+        <div class="col-lg-3 col-md-4">            
           <%= f.label :hotel_category_id, class: 'form-label' %> <span class="text-danger">*</span>            
           <%= f.collection_select :hotel_category_id, HotelCategory.order(:number), :id, :name,
             { prompt: "Выбрать..." }, class:"form-select form-select-sm", required: true %>
+        </div>         
+
+        <div class="col-lg-2 col-md-4">
+          <label class="form-label">Кол-во этажей</label> <span class="text-danger">*</span>
+          <input name="floors" type="text" class="form-control form-control-sm" required>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-lg-3 col-md-6">
           <span><i class="fas fa-water text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Если море недалеко - можете указать расстояние"></i></span>
           <%= f.label "Расстояние до моря", class: 'form-label' %><small class="text-muted"> (м.)</small> 
-          <%= f.text_field :distance_to_sea, class: 'form-control' %>
-        </div>
+          <%= f.text_field :distance_to_sea, class: 'form-control form-control-sm' %>
+        </div>          
 
-        <div class="col-md-2">
-          <%= f.label :price_from, class: 'form-label' %> <span class="text-danger">*</span> <small class="text-muted"> (руб.)</small>           
-          <%= f.text_field :price_from, class: 'form-control form-control-sm', required: true %>              
-        </div>
-
-        <div class="col-md-2">
-          <label class="form-label">Кол-во этажей</label> <span class="text-danger">*</span>
-          <input name="floors" type="text" class="form-control" required>
-        </div>
-
-        <div class="col-md-2 pt-3 mt-1">
+        <div class="col-lg-2 col-md-6 pt-3 mt-1">
           <ul class="checkbox-tags ps-1">                
             <li>
               <%= f.check_box :all_year %>
               <label class="form-check-label" for="hotel_all_year" data-bs-toggle="tooltip" data-bs-placement="right" title="Включите, если работаете круглогодично">Работает весь год</label>            
             </li>
           </ul>                    
-        </div>   
+        </div>        
+
+      </div> 
+
+      <div class="row mb-3 gx-2">
+
+        <div class="col-lg-2 col-md-4">
+          <%= f.label :price_from, class: 'form-label' %> <span class="text-danger">*</span> <small class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Минимальная цена за проживание в сутки"> (руб.)</small>           
+          <%= f.text_field :price_from, class: 'form-control form-control-sm', required: true %>              
+        </div>
+
+        <div class="col-lg-2 col-md-4">
+          <label class="form-label">Цена до</label> <span class="text-danger">*</span> <small class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Максимальная цена за проживание в сутки"> (руб.)</small> 
+          <input name="max_price" type="text" class="form-control form-control-sm" required>
+        </div>
+
+        <div class="col-lg-3 col-md-4">
+          <label class="form-label">За номер/ за человека</label> <span class="text-danger">*</span> 
+          <select name="price_type" class="form-select form-select-sm">              
+            <option value="номер">За номер</option>
+            <option value="чел.">За человека</option>  
+          </select>
+        </div>
 
       </div> 
       
+      <!-- map -->
       <div class="row mb-3 pb-3 pt-2 bg-white shadow">
         <h3 class='h4 text-center text-success'>Отметить на карте<span style="font-size:20px;" class="text-danger">*</span></h3>
         <div class="col-md-8">
@@ -142,8 +160,7 @@
           <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
           <label class="form-label">Домашние животные</label><span class="text-danger">*</span> 
           <input name="animals" type="text" class="form-control">
-        </div>
-<!-- НОВЫЕ ПОЛЯ -->          
+        </div>         
         <div class="mb-3">
           <span style="font-size:18px"><i class="far fa-clock text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - по договорённости"></i></span>
           <label class="form-label">Рассчётное время</label>
@@ -164,7 +181,7 @@
           <label class="form-label">Скидки и акции</label>
           <input name="bonus" type="text" class="form-control form-control-sm">
         </div>
-<!-- END НОВЫЕ ПОЛЯ -->
+
       </div>
 
       <input type="hidden" name="desc_json">
@@ -180,13 +197,8 @@
         </div><!-- END FLAT PRICES -->
         <button type="button" id="add_price" onclick="add_input_price()" class="mt-3 btn btn-success btn-sm">Добавить ещё ценовой период</button>
       </div>
-      <script>
-  
-
-      </script>
-          
-  </div>
-  
+             
+  </div>  
 
   <div class="col-md-3 border-start">
 
@@ -416,21 +428,24 @@
   var form = document.forms.hotel
   
   // insert info in json fields  
-  form.floors.value = '<%= @hotel.desc_json["floors"] %>'
-  form.food.value = '<%= @hotel.desc_json["food"] %>'
-  form.parking.value = '<%= @hotel.desc_json["parking"] %>'
-  form.territory.value = '<%= @hotel.desc_json["territory"] %>'
-  form.transfer.value = '<%= @hotel.desc_json["transfer"] %>'
-  form.service.value = '<%= @hotel.desc_json["service"] %>'
-  form.addition.value = '<%= @hotel.desc_json["addition"] %>'
-  form.child.value = '<%= @hotel.desc_json["child"] %>'
-  form.animals.value = '<%= @hotel.desc_json["animals"] %>'
-  form.check_time.value = '<%= @hotel.desc_json["check_time"] %>'
-  form.min_check.value = '<%= @hotel.desc_json["min_check"] %>'
-  form.payment.value = '<%= @hotel.desc_json["payment"] %>'
-  form.bonus.value = '<%= @hotel.desc_json["bonus"] %>'
-  form.vk.value = '<%= @hotel.desc_json["vk"] %>'
-  form.instagram.value = '<%= @hotel.desc_json["instagram"] %>'
+    form.floors.value = '<%= @hotel.desc_json["floors"] %>'
+    form.max_price.value = '<%= @hotel.desc_json["max_price"] %>'
+    form.price_type.value = '<%= @hotel.desc_json["price_type"] %>'
+    form.food.value = '<%= @hotel.desc_json["food"] %>'
+    form.parking.value = '<%= @hotel.desc_json["parking"] %>'
+    form.territory.value = '<%= @hotel.desc_json["territory"] %>'
+    form.transfer.value = '<%= @hotel.desc_json["transfer"] %>'
+    form.service.value = '<%= @hotel.desc_json["service"] %>'
+    form.addition.value = '<%= @hotel.desc_json["addition"] %>'
+    form.child.value = '<%= @hotel.desc_json["child"] %>'
+    form.animals.value = '<%= @hotel.desc_json["animals"] %>'
+    form.check_time.value = '<%= @hotel.desc_json["check_time"] %>'
+    form.min_check.value = '<%= @hotel.desc_json["min_check"] %>'
+    form.payment.value = '<%= @hotel.desc_json["payment"] %>'
+    form.bonus.value = '<%= @hotel.desc_json["bonus"] %>'
+    form.vk.value = '<%= @hotel.desc_json["vk"] %>'
+    form.instagram.value = '<%= @hotel.desc_json["instagram"] %>'
+  //  
 
   form.addEventListener('submit', function(event){    
   
@@ -453,6 +468,8 @@
         "min_check": this.min_check.value,
         "payment": this.payment.value,
         "bonus": this.bonus.value,
+        "max_price": this.max_price.value,
+        "price_type": this.price_type.value,
         "contacts": [],
         "prices": []
     };

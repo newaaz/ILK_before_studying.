@@ -232,7 +232,7 @@
       new bootstrap.Alert(alert).close()
     })   
     // validate and insert in data
-    var arrayPrice = [] // array for min price
+    var arrayPrice = [] // array for MIN and MAX price
     for ( var i = 0; i < dayCostInputs.length; i++ ) {
       $(`#flat-price-${i + 1}`).removeClass('row_with_errors')
       if ( Date.parse(endtDateInputs[i].value) < Date.parse(startDateInputs[i].value) ) { 
@@ -253,7 +253,9 @@
       arrayPrice.push(parseInt(dayCostInputs[i].value)) // array for min price      
     }
     // find min price from array
-    data["min_price"] = Math.min.apply(null, arrayPrice);    
+    data["min_price"] = Math.min.apply(null, arrayPrice);
+    // find max price from array
+    data["max_price"] = Math.max.apply(null, arrayPrice);  
 
     if ( errors == true ) {  
       form.button.disabled = false;      

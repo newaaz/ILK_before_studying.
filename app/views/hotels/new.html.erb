@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-md-9 border-end">
 
-        <div class="row mb-3 gx-3">
+        <div class="row mb-3 gx-2">
           <div class="col-lg-5 col-md-6 col-sm-6">          
             <%= f.label :name, class: 'form-label' %> <span class="text-danger">*</span>   
             <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>
@@ -25,20 +25,15 @@
             <%= f.label :address, class: 'form-label' %> <span class="text-danger">*</span> <small class="form-text text-muted"> / без населённого пункта</small>    
             <%= f.text_field :address, class: 'form-control form-control-sm', required: true %>
           </div>
-        </div> 
+        </div>     
 
-        <div class="row mb-3 gx-2">
+        <div class="row gx-2">
 
           <div class="col-lg-3 col-md-4">            
             <%= f.label :hotel_category_id, class: 'form-label' %> <span class="text-danger">*</span>            
             <%= f.collection_select :hotel_category_id, HotelCategory.order(:number), :id, :name,
              { prompt: "Выбрать..." }, class:"form-select form-select-sm", required: true %>
-          </div>
-
-           <div class="col-lg-2 col-md-4">
-            <%= f.label :price_from, class: 'form-label' %> <span class="text-danger">*</span> <small class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Минимальная цена за проживание в сутки"> (руб.)</small>           
-            <%= f.text_field :price_from, class: 'form-control form-control-sm', required: true %>              
-          </div>
+          </div>         
 
           <div class="col-lg-2 col-md-4">
             <label class="form-label">Кол-во этажей</label> <span class="text-danger">*</span>
@@ -61,6 +56,28 @@
           </div>        
 
         </div> 
+
+        <div class="row mb-3 gx-2">
+
+           <div class="col-lg-2 col-md-4">
+            <%= f.label :price_from, class: 'form-label' %> <span class="text-danger">*</span> <small class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Минимальная цена за проживание в сутки"> (руб.)</small>           
+            <%= f.text_field :price_from, class: 'form-control form-control-sm', required: true %>              
+          </div>
+
+          <div class="col-lg-2 col-md-4">
+            <label class="form-label">Цена до</label> <span class="text-danger">*</span> <small class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Максимальная цена за проживание в сутки"> (руб.)</small> 
+            <input name="max_price" type="text" class="form-control form-control-sm" required>
+          </div>
+
+          <div class="col-lg-3 col-md-4">
+            <label class="form-label">За номер/ за человека</label> <span class="text-danger">*</span> 
+            <select name="price_type" class="form-select form-select-sm">              
+              <option value="номер">За номер</option>
+              <option value="чел.">За человека</option>  
+            </select>
+          </div>
+
+        </div>
         
         <div class="row mb-3 pb-3 pt-2 bg-white shadow"><!-- mark on map -->
           <h3 class='h4 text-center text-success'>Отметить на карте<span style="font-size:20px;" class="text-danger">*</span></h3>
@@ -212,7 +229,7 @@
           </div>
         </div>
         <!-- END Phone CONTACTS -->
-        <div class="mb-4"><!-- buttons add/remove contacts -->
+        <div class="mb-4 mt-2"><!-- buttons add/remove contacts -->
           <button type="button" onclick="add_input()" class="btn btn-primary btn-sm"><span class="icon-user-add-1"></span> Добавить ещё контакт</button>
           <button type="button" onclick="remove_input()" class="btn btn-danger btn-sm">Убрать</button>
         </div><!-- end buttons add/remove contacts -->        
@@ -321,6 +338,10 @@
   <script>
     var form = document.forms[0]  
     form.floors.value = '<%= @hotel.desc_json["floors"] %>'
+
+    form.max_price.value = '<%= @hotel.desc_json["max_price"] %>'
+    form.price_type.value = '<%= @hotel.desc_json["price_type"] %>'
+
     form.food.value = '<%= @hotel.desc_json["food"] %>'
     form.parking.value = '<%= @hotel.desc_json["parking"] %>'
     form.territory.value = '<%= @hotel.desc_json["territory"] %>'
@@ -367,6 +388,8 @@
         "min_check": this.min_check.value,
         "payment": this.payment.value,
         "bonus": this.bonus.value,
+        "max_price": this.max_price.value,
+        "price_type": this.price_type.value,
         "contacts": [],
         "prices": []
     };       
@@ -511,26 +534,30 @@
     form.elements[2].value = 1;    
     form.elements[3].value = 'ул. Полины Осипенко, 24';
     form.elements[4].value = 1;
-    form.elements[5].value = 400;
-    form.elements[6].value = 3;
-    form.elements[7].value = 850;
-    form.elements[10].value = 45.0417;
-    form.elements[11].value = 35.3668;
-    form.elements[31].value = 'оборудованная кухня, возможность готовить еду самостоятельно 2 кухни';
-    form.elements[32].value = 'бесплатная, на территории';
-    form.elements[33].value = 'закрытый двор терраса, место для отдыха мангал, место для барбекю';
-    form.elements[34].value = 'трансфер из аэропорта в Симферополе 2500 руб';
-    form.elements[35].value = 'круглосуточная стойка регистрации бесплатный wi-fi в номерах поздний выезд ранний заезд';
-    form.elements[36].value = 'Услуги за отдельную плату: пользование стиральной машиной. Примечание: если клиент отказывается от бронирования, предоплата не возвращается.';
-    form.elements[37].value = 'Принимаем с детьми';
-    form.elements[38].value = 'Принимаем с животными';
+    form.floors.value      = 3; //5
+    form.elements[6].value = 450;
+
+    form.elements[9].value = 1600; //min price
+    form.max_price.value   = 2800;
+    form.price_type.value  = "чел." 
+        
+    form.elements[12].value = 45.0417;
+    form.elements[13].value = 35.3668;
+    form.food.value = 'оборудованная кухня, возможность готовить еду самостоятельно 2 кухни';
+    form.parking.value = 'бесплатная, на территории';
+    form.territory.value = 'закрытый двор терраса, место для отдыха мангал, место для барбекю';
+    form.transfer.value = 'трансфер из аэропорта в Симферополе 2500 руб';
+    form.service.value = 'круглосуточная стойка регистрации бесплатный wi-fi в номерах поздний выезд ранний заезд';
+    form.addition.value = 'Услуги за отдельную плату: пользование стиральной машиной. Примечание: если клиент отказывается от бронирования, предоплата не возвращается.';
+    form.child.value = 'Принимаем с детьми';
+    form.animals.value = 'Принимаем с животными';
     form.check_time.value = 'По договорённости';
     form.min_check.value = 'От одной ночи';
     form.payment.value = 'Принимаем карточки, выдаём чеки';
     form.bonus.value = 'На данный момент акций не предусмотрено';
 
-    form.elements[50].value = 'jumperka@list.ru';
-    form.elements[51].value = 'kilova.ru';    
+    form.elements[52].value = 'jumperka@list.ru';
+    form.elements[53].value = 'kilova.ru';    
     form.vk.value = 'mcixabuka';
     form.instagram.value = 'kilovagora';
 

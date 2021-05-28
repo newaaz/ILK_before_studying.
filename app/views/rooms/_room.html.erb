@@ -1,136 +1,129 @@
-<!-- Single room  -->
-<div class="row room">
+<div class="room"><!-- Single room  -->
 
-  <div class="col-md-5 px-0">
-    <!-- fotorama begin -->
-    <div class="fotorama-rooms"
-        data-width="100%"
-        data-ratio="3/2"
-        data-allowfullscreen="true"                
-        data-nav="false"
-        data-loop="true"
-        data-keyboard="true"
-        data-auto="false">      
-      <%= link_to image_tag(room.avatar.thumb.url), room.avatar.url %>      
-      <% room.images.each do |image| %> 
-        <%= link_to image_tag(image.thumb.url, width: "100px"), image.url %>            
-      <% end %>
+  <div class="row">
+
+    <div class="col-md-5">
+      <!-- fotorama begin -->
+      <div class="fotorama-rooms"
+          data-width="100%"
+          data-ratio="3/2"
+          data-allowfullscreen="true"                
+          data-nav="false"
+          data-loop="true"
+          data-keyboard="true"
+          data-auto="false">      
+        <%= link_to image_tag(room.avatar.thumb.url), room.avatar.url %>      
+        <% room.images.each do |image| %> 
+          <%= link_to image_tag(image.thumb.url, width: "100px"), image.url %>            
+        <% end %>
+      </div>
+      <!-- fotorama end -->            
     </div>
-    <!-- fotorama end -->            
-  </div>
 
-  <div class="col-md-7 pt-2 px-3">
+    <div class="col-md-7">
 
-    <h4><%= link_to room.name, room %></h4>
+      <h4 class="mt-2 px-2"><%= link_to room.name, room %></h4>
 
-    <ul>
-      <li>
-        <div class="tooltip_styled tooltip-effect-1">
-          <span class="tooltip-item"><i class="icon_set_2_icon-105"></i>
+      <ul>
+        <li>          
+          <span><i class="icon_set_2_icon-105"></i>
             x <%= room.description['guests'] %>
-          </span>
-          <div class="tooltip-content">Вместимость</div>
-          <div class="room_icon">Гостей</div>
-        </div>
-      </li>
-      <li>
-        <div class="tooltip_styled tooltip-effect-4">
-          <span class="tooltip-item"><i class="icon_set_1_icon-23"></i>
+          </span>            
+          <div class="room_icon">Гостей</div>          
+        </li>
+        <li>          
+          <span><i class="icon_set_1_icon-49"></i>
             x <%= room.description['rooms'] %>
-          </span>
-          <div class="tooltip-content">Количество комнат</div>
-          <div class="room_icon">Комнат</div>
-        </div>
-      </li>
-      <li>
-        <div class="tooltip_styled tooltip-effect-4">
-          <span class="tooltip-item"><i class="fas fa-vector-square"></i></span>
-          <div class="tooltip-content">Площадь</div>
-          <div class="room_icon"><%= room.size %> м<sup>2</sup></div>
-        </div>
-      </li> 
-      <li>
-        <div class="tooltip_styled tooltip-effect-4">
-          <span class="tooltip-item"><i class="icon_set_2_icon-111"></i>
+          </span>            
+          <div class="room_icon">Комнат</div>          
+        </li>
+        <li>          
+          <span><i class="icon_set_1_icon-64"></i></span>            
+          <div class="room_icon"><%= room.size %> м<sup>2</sup></div>          
+        </li> 
+        <li>          
+          <span><i class="icon_set_1_icon-23"></i>
             x <%= room.description['floor'] %>
-          </span>
-          <div class="tooltip-content">Душ</div>
-          <div class="room_icon">Этаж</div>
+          </span>            
+          <div class="room_icon">Этаж</div>          
+        </li>          
+      </ul>
+
+      <div class="room-buttons">
+        <div class="row">
+          <div class="col">          
+            <div class="min-price text-end pe-4" style="color: #222">от
+            <strong><%= room.description['min_price'] %></strong> до
+            <strong><%= room.description['max_price'] %></strong><small>₽</small> /сутки</div>
+          </div>
         </div>
-      </li>          
-    </ul>
+        <div class="row text-end pe-2">
+          <div class="col">
 
-    <div class="row">                  
-      <div class="col-md-6 col-sm-12" style="color: #222">от <strong><%= room.description['min_price'] %></strong><small>₽</small> /сутки<br>
-      <small>1 дополнительное место 250₽</small></div>
-      <div class="col-md-6 col-sm-12">                
-        <!-- бронирование -->
-        <%= link_to 'Выбрать этот номер', new_order_path(hotel_id: @hotel.id, room_id: room.id),
-                            class: "btn_full" %>
-      </div>                  
+            <div class="more-info" data-room="<%= room.id %>">
+              <i class="icon-angle-down"></i> Подробнее
+            </div>      
+       
+            <%= link_to 'Выбрать этот номер', new_order_path(hotel_id: @hotel.id, room_id: room.id),
+                class: "btn_1" %>
+
+          </div>
+        </div>
+      </div>     
+
     </div>
 
-    <div class="more-info" data-room="<%= room.id %>">
-      <i class="icon-angle-down"></i> Подробнее
-    </div>
+  </div>          
+
+
+  <!-- MORE - HIDDEN --> 
+  <div class="hidden_content" id="room-hidden-<%= room.id %>" style="display: none;">
+    
+    <table class="table table-striped">
+      <tr>
+        <td class="px-3" colspan="3"><%= room.description['desc'] %></td>
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3"><i class="icon_set_2_icon-104" style="font-size:20px"></i></th>
+        <th scope="row" class="ps-0">Мебель:</th>
+        <td><%= room.description['furniture'] %></td>       
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3"><i class="icon_set_2_icon-111" style="font-size:20px"></i></th>
+        <th scope="row" class="px-0">Санузел/душ/ванна:</th>
+        <td><%= room.description['bathroom'] %></td>            
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3"><i class="icon_set_2_icon-116" style="font-size:20px"></i></th>
+        <th scope="row" class="px-0">В номере:</th>
+        <td><%= room.description['in_room'] %></td>            
+      </tr>
+      <tr>
+        <th scope="row" class="ps-3"><i class="icon_set_1_icon-68" style="font-size:20px"></i></th>
+        <th scope="row" class="px-0">Дополнительно:</th>
+        <td><%= room.description['addition'] %></td>            
+      </tr>          
+    </table>
 
     <!-- редактирование номеров перенести в ЛК -->        
-    <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %><br>
-      <div class="">
+    <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
         <%= link_to "Редактировать", edit_room_path(room, hotel_id: @hotel.id),class: "btn btn-outline-primary btn-sm" %>
         <%= link_to "Удалить номер", room ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
-      </div>
     <% end %> 
-
-  </div>       
-
-</div>
-
-<!-- MORE - HIDDEN --> 
-<div class="row hidden_content" id="room-hidden-<%= room.id %>" style="display: none;">
-  
-  <strong>Описание: </strong><%= room.description['desc'] %><br>  
-  <strong>Мебель: </strong><%= room.description['furniture'] %><br>
-  <strong>Санузел/душ/ванна: </strong><%= room.description['bathroom'] %><br>    
-  <strong>В номере: </strong><%= room.description['in_room'] %><br>  
-  <strong>Дополнительно: </strong><%= room.description['addition'] %><br><br> 
-
-  <h3 class='h4 text-center'>Стоимость проживания</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>29.04-07.06</th>
-        <th>08.06-28.06</th>
-        <th>29.06-19.07</th>
-        <th>20.07-26.08</th>
-        <th>27.08-06.09</th>
-        <th>07.09-30.09</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: center; color: #333">2250р</td>
-        <td style="text-align: center; color: #333">3000р</td>
-        <td style="text-align: center; color: #333">4000р</td>
-        <td style="text-align: center; color: #333">4500р</td>
-        <td style="text-align: center; color: #333">4000р</td>
-        <td style="text-align: center; color: #333">2800р</td>
-      </tr>                    
-    </tbody>
-  </table>
-
-  <div style="overflow-x:auto;">
-    <div class="room-prices">
-      <% room.prices.each do |price| %>
-        <div class="period">
-          <div class="period__date"><%= price.start_date.strftime('%d/%m') %>-<%= price.end_date.to_s(:short) %></div>
-          <div class="period__price"><%= price.day_cost %><span>руб.</span></div>
-        </div>
-      <% end %>    
+    
+    <h4 class="text-center mt-2 px-2">Стоимость проживания номер/сутки(руб.)</h4>  
+    <div style="overflow-x:auto;">
+      <div class="room-prices">
+        <% room.description["prices"].each do |price| %>
+          <div class="period">
+            <div class="period__date"><%= Date.parse(price["start_date"]).strftime('%d.%m') %>-<%= Date.parse(price["end_date"]).strftime('%d.%m') %></div>
+            <div class="period__price"><%= price["day_cost"] %><small> р.</small></div>
+          </div>
+        <% end %>    
+      </div>
     </div>
-  </div>
 
+  </div><!-- END MORE - HIDDEN -->
 
-</div><!-- END MORE - HIDDEN -->
+</div><!--END Single room--><br>
 
-<!--END Single room--><br>

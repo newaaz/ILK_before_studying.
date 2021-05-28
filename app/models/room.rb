@@ -2,9 +2,6 @@ class Room < ApplicationRecord
   
   belongs_to :hotel
 
-  has_many  :prices, dependent: :destroy
-  accepts_nested_attributes_for :prices, reject_if: :all_blank, allow_destroy: true
-  
   mount_uploader  :avatar, PictureUploader
   mount_uploaders :images, PictureUploader
 
