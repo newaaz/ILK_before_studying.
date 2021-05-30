@@ -228,7 +228,7 @@ function show_offcanvas(offcanvas_id){
 	document.body.classList.add('offcanvas-active');
 }
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("turbolinks:load", function(){
 	document.querySelectorAll('[data-trigger]').forEach(function(everyelement){
 		
 		let offcanvas_id = everyelement.getAttribute('data-trigger');

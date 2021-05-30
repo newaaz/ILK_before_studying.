@@ -13,6 +13,7 @@
   }
 }
 
+/* типы жилья */
 .hotel-cats {
 
   ul {
@@ -32,13 +33,17 @@
       display: block;
 	    padding: 7px 10px;
     }
-    a::before {
-      font-family: "fontello";
-      content: "\e89b";
-      position: absolute;
-      right: 15px;
-      top: 6px;
-    } 
+
+    @media (min-width: 992px) {
+      a::before {
+        font-family: "fontello";
+        content: "\e89b";
+        position: absolute;
+        right: 15px;
+        top: 6px;
+      } 
+    }
+   
   }
   li.active {
     a { color: #222; }
@@ -54,5 +59,26 @@
   }
   
 	
+}
+
+@media (max-width: 991px) {
+  .hotel-cats {
+    ul { display: inline;
+      li {
+        display: inline-block;
+        border-radius: 4px;
+        padding-left: 1px;
+        margin-bottom: 1px;
+
+        a {
+          font-size: 12px;
+          position: relative;
+          color: #777;
+          display: block;
+          padding: 4px 5px;
+        }
+      }
+    }
+  }
 }
 

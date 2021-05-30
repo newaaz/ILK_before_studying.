@@ -8,36 +8,66 @@
 
 <div id="top_line">
   <div class="container">
-    <div class="row">      
-      <div class="col-12">
-        <ul id="top_links">
-          <li id="cart">
-            <% if @cart %>
-              <% if @cart.line_items.count > 0 %>                
-                <%= link_to @cart do %>
-                  <i class="icon-heart" style="font-size:14px"></i> Избранное (<%= @cart.line_items.count %>)
-                <% end %>                
-              <% else %>                
-                <%= link_to @cart do %>
-                  <i class="icon-heart-empty" style="font-size:14px"></i> Избранное
-                <% end %>                
-              <% end %>  
-            <% else %>              
-              <%= link_to cart_path('blank') do %>
-                <i class="icon-heart-empty" style="font-size:14px"></i> Избранное
-              <% end %>              
-            <% end %>
-          </li>
-          <% unless logged_in? %>
-            <li><%= link_to "Вход", login_path%> / <%= link_to "Регистрация", signup_path %></li>
-          <% end %>          
-        </ul>
-      </div>
-    </div><!-- End row -->
+    <ul id="top_links">
+      <li id="cart">
+        <% if @cart %>
+          <% if @cart.line_items.count > 0 %>                
+            <%= link_to @cart do %>
+              <i class="icon-heart" style="font-size:14px"></i> Избранное (<%= @cart.line_items.count %>)
+            <% end %>                
+          <% else %>                
+            <%= link_to @cart do %>
+              <i class="icon-heart-empty" style="font-size:14px"></i> Избранное
+            <% end %>                
+          <% end %>  
+        <% else %>              
+          <%= link_to cart_path('blank') do %>
+            <i class="icon-heart-empty" style="font-size:14px"></i> Избранное
+          <% end %>              
+        <% end %>
+      </li>
+      <% unless logged_in? %>
+        <li><%= link_to "Вход", login_path%> / <%= link_to "Регистрация", signup_path %></li>
+      <% end %>          
+    </ul> 
   </div><!-- End container-->
 </div><!-- End top line-->
 
-<button data-trigger="navbar_main" class="d-lg-none btn btn-warning" type="button">Show navbar</button>
+<div class="container-fluid d-lg-none px-1">
+
+  <div class="row gx-1 bg-light shadow">
+    <div class="col-3 ps-3 pt-1">
+      <div class="hamburger-icon" data-trigger="navbar_main">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+    <div class="col-6 text-center">
+      <%= link_to image_tag("logo.png", alt: "Главная", width: "75px"), root_path %>
+    </div> 
+    <div class="col-3 pt-2 pe-3 text-end">
+      <div id="cart-mobile">
+        <% if @cart %>
+          <% if @cart.line_items.count > 0 %>                
+            <%= link_to @cart do %>
+              <i class="icon-heart" style="font-size:30px"></i>(<%= @cart.line_items.count %>)
+            <% end %>                
+          <% else %>                
+            <%= link_to @cart do %>
+              <i class="icon-heart-empty" style="font-size:30px"></i>
+            <% end %>                
+          <% end %>  
+        <% else %>              
+          <%= link_to cart_path('blank') do %>
+            <i class="icon-heart-empty" style="font-size:30px"></i>
+          <% end %>              
+        <% end %>
+      </div>
+    </div>  
+  </div>
+  
+</div>
 
 <!--  COMPONENT  -->
 <nav id="navbar_main" class="mobile-offcanvas navbar navbar-expand-md navbar-styled shadow" style="z-index: 900;">

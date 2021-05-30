@@ -6,7 +6,7 @@
 
 <div class="breadcrumbs">
   <div class="container">
-    <i class="icon-location-outline" style="font-size:15px"></i>
+    <i class="icon-location-outline crumbs-short" style="font-size:15px"></i>
     <%= link_to @hotel.town.name, @hotel.town %>&nbsp;/
     <%= link_to "Жильё", hotels_town_path(@hotel.town) %>&nbsp;/
     <%= link_to @hotel.hotel_category.name, hotels_town_path(@hotel.town, { cat: @hotel.hotel_category.id }) %>&nbsp;/
@@ -24,12 +24,12 @@
       <% if @current_item %>
         <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
                                                               class: "d-inline btn btn-link text-danger" do %>
-          <i class="fas fa-heart fa-lg"></i>
+          <i class="icon-heart"></i>
         <% end %>
       <% else %>
         <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
                                                               class: "d-inline btn btn-link" do %>
-          <i class="fas fa-heart fa-lg"></i>
+          <i class="icon-heart"></i>
         <% end %>
       <% end %>   
     </div>

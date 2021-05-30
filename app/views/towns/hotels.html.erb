@@ -16,7 +16,7 @@
             <h1><%= @hotel_cat %> в <%= @town.parent_name %></h1>
           <% end %>          
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 d-md-none">          
           <div id="price_single_main" class="hotel">
             <span><sup></sup></span>
           </div>
@@ -44,7 +44,7 @@
 
   <div class="row">
 
-    <div class="col-lg-3 px-md-4 px-sm-0">      
+    <div class="col-lg-3 px-lg-4 px-md-2 px-sm-0">      
 
       <aside>        
         <div class="hotel-cats">
@@ -62,12 +62,10 @@
     </div>
 
     <div class="col-lg-9 px-0">
-      <div class="row">
+      <div class="row gx-1">
         <%= render @hotels %>
       </div>      
-    </div>
-
-    
+    </div>    
 
   </div>
 
@@ -83,11 +81,11 @@
   }
 </script>
 
-<script>//Initialize fotorama manually for rooms.
+<script>//Initialize fotorama manually for hotels widget.
   $(document).on('turbolinks:load', function() {
     $(function () {    
 
-      //Initialize fotorama manually for rooms
+      //Initialize fotorama hotels widget.
       var $fotoramaDiv = $('.fotorama-rooms').fotorama();
 
       $fotoramaDiv.on('fotorama:fullscreenenter',

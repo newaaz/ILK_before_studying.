@@ -11,7 +11,7 @@ body {background:#f9f9f9; line-height:22px; color:#444; font-weight: 400;}
 .logo-text {
 	color: #666;
 	font-size: 20px;
-	padding: 0 0 0 150px;
+	padding: 0 0 0 135px;
 }
 @media (max-width: 991px) {
 	.logo {
@@ -21,6 +21,8 @@ body {background:#f9f9f9; line-height:22px; color:#444; font-weight: 400;}
 		display: none;
 	}
 }
+
+/* top-line на мобильном */
 
 
 /* Поля с ошибками*/
@@ -57,7 +59,14 @@ body {background:#f9f9f9; line-height:22px; color:#444; font-weight: 400;}
     color: #444;
   }
 }
-
+.crumbs-short {
+	padding-left: 130px;
+}
+@media (max-width: 991px) {
+	.crumbs-short {
+		padding-left: 0
+	}
+}
 
 /* Анимация корзины. Выделение запомненного цветом */
 @keyframes cart-highlight {

@@ -1,6 +1,21 @@
 cart = document.getElementById("cart")
 cart.innerHTML = "<%= j render(@cart) %>"
 
+cartMob = document.getElementById("cart-mobile")
+cartMob.innerHTML = "<%= j render 'cart_mobile' %>"
+
+addButtonHotel = document.getElementById("add-cart-hotel")
+<% if @new %>
+  addButtonHotel.innerHTML =`
+    <i class="icon-heart"></i> Добавлено
+  `
+<% else %>
+  addButtonHotel.innerHTML =`
+    <i class="icon-heart-empty"></i> В избранное
+  `
+<% end %>
+
+
 btnHeart = document.getElementById("heart-<%= params[:resource_name] %>-<%= params[:resource_id] %>")
 btnHeart.classList.toggle("text-danger")
 

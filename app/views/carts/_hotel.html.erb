@@ -1,94 +1,67 @@
-<div class="strip_all_tour_list wow fadeIn" data-wow-delay="0.1s">
-  <div class="row" id="Hotel-<%= hotel.id %>">
-    <div class="col-lg-4 col-md-4">
-      <div class="wishlist_close">-</div>
-      <div class="img_list">        
-        <%= link_to hotel do %>
-          <div class="ribbon top_rated"></div>                        
-          <%= image_tag hotel.avatar.thumb.url, class: "img-fluid", alt: "Гостиница" %>
-          <div class="short_info"><i class="icon_set_1_icon-6"></i>Hotel</div>
-        <% end %>
-      </div>
+<div class="row mb-3" id="Hotel-<%= hotel.id %>">
+
+  <div class="col-lg-4 col-md-4">    
+    <!-- fotorama begin -->
+    <div class="fotorama-rooms"
+        data-width="100%"
+        data-ratio="3/2"
+        data-allowfullscreen="true"                
+        data-nav="false"
+        data-loop="true"
+        data-keyboard="true"
+        data-auto="false">      
+      <%= link_to image_tag(hotel.avatar.thumb.url) %>      
+      <% hotel.images.each do |image| %> 
+        <%= link_to image_tag(image.thumb.url, width: "100px") %>            
+      <% end %>
     </div>
-    <div class="col-lg-6 col-md-6">
-      <div class="tour_list_desc">
-        <div class="score">Superb<span>9.0</span>
-        </div>
-        <div class="rating"><i class="icon-star voted"></i><i class="icon-star  voted"></i><i class="icon-star  voted"></i><i class="icon-star  voted"></i><i class="icon-star-empty"></i>
-        </div>
-        <%= link_to hotel do %>
-          <h3><strong><%= hotel.name %></strong></h3>
-        <% end %>
-        <p style="font-size: 13px;">Гостиница находится в одном из лучших районов города. До моря идти 7-10 минут неспешным шагом, направится можно на два разных пляжа. Первый пляж "Динамо" - песчанный с ровным песчанным дном.
-          В номерах имеется всё что нужно для комфортного отдыха в Феодосии.</p>
-          <ul class="add_info">
-            <li>
-              <div class="tooltip_styled tooltip-effect-4">
-                <span class="tooltip-item"><i class="icon_set_1_icon-83"></i></span>
-                <div class="tooltip-content">
-                  <h4>Schedule</h4>
-                  <strong>Monday to Friday</strong> 09.00 AM - 5.30 PM
-                  <br>
-                  <strong>Saturday</strong> 09.00 AM - 5.30 PM
-                  <br>
-                  <strong>Sunday</strong> <span class="label label-danger">Closed</span>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="tooltip_styled tooltip-effect-4">
-                <span class="tooltip-item"><i class="icon_set_1_icon-41"></i></span>
-                <div class="tooltip-content">
-                  <h4>Address</h4> Musée du Louvre, 75058 Paris - France
-                  <br>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="tooltip_styled tooltip-effect-4">
-                <span class="tooltip-item"><i class="icon_set_1_icon-97"></i></span>
-                <div class="tooltip-content">
-                  <h4>Languages</h4> English - French - Chinese - Russian - Italian
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="tooltip_styled tooltip-effect-4">
-                <span class="tooltip-item"><i class="icon_set_1_icon-27"></i></span>
-                <div class="tooltip-content">
-                  <h4>Parking</h4> 1-3 Rue Elisée Reclus
-                  <br> 76 Rue du Général Leclerc
-                  <br> 8 Rue Caillaux 94923
-                  <br>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="tooltip_styled tooltip-effect-4">
-                <span class="tooltip-item"><i class="icon_set_1_icon-25"></i></span>
-                <div class="tooltip-content">
-                  <h4>Transport</h4>
-                  <strong>Metro: </strong>Musée du Louvre station (line 1)
-                  <br>
-                  <strong>Bus:</strong> 21, 24, 27, 39, 48, 68, 69, 72, 81, 95
-                  <br>
-                </div>
-              </div>
-            </li>
-            <li>
-              <%= link_to "x", cart_path(@cart, resource_id: hotel.id, resource_name: "Hotel"),
-                  remote: true, method: :delete, class: 'btn btn-danger btn-sm' %>
-            </li>
-          </ul>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2">      
-      <div class="price_list">
-        <div><sup>$</sup>39*<span class="normal_price_list">$99</span><small>*From/Per night</small>
-          <p><a href="single_hotel.html" class="btn_1">Подробнее</a>
-          </p>
-        </div>
-      </div>
-    </div>
+    <!-- fotorama end -->
   </div>
+
+  <div class="col-lg-6 col-md-6">
+
+    <%= link_to hotel do %>
+      <h3><%= hotel.name %></h3>
+    <% end %>
+
+    <div>
+      <i class="icon-wallet" style="font-size:20px"></i>от
+      <span><%= hotel.price_from %></span><small>р.</small>
+      до <span><%= hotel.desc_json["max_price"] %></span><small>р.</small>
+      сут/<%= hotel.desc_json["price_type"] %> 
+    </div>
+    <% if hotel.distance_to_sea %>
+      <div>
+        <i class="icon_set_2_icon-110" style="font-size:22px"></i>море: <%= hotel.distance_to_sea %> м<br>
+      </div>
+    <% end %>   
+
+    <div class="">
+      <a href="tel:+<%= hotel.desc_json["contacts"][0]["ow_phone_clean"] %>">            
+        <%= hotel.desc_json["contacts"][0]["ow_phone"] %>
+      </a>
+      <% if hotel.desc_json["contacts"][0]["viber"] == "1" %>
+        <a href="viber://chat?number=%2B<%= hotel.desc_json["contacts"][0]["ow_phone_clean"] %>" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Viber"><%= image_tag("viber_50px.png", width: "35px") %></a>
+      <% end %>
+      <% if hotel.desc_json["contacts"][0]["viber"] == "1" %>
+        <a href="https://api.whatsapp.com/send?phone=+<%= hotel.desc_json["contacts"][0]["ow_phone_clean"] %>" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Whatsapp"><%= image_tag("whatsapp_50px.png", width: "35px") %></a>
+      <% end %>
+      <%= hotel.desc_json["contacts"][0]["ow_name"] %>
+    </div>
+
+  </div>
+
+  <div class="col-lg-2 col-md-2 pt-2"> 
+
+    <div class="float-end">
+
+    <%= link_to "Убрать", cart_path(@cart, resource_id: hotel.id, resource_name: "Hotel"),
+                          remote: true, method: :delete, class: 'btn btn-outline-danger btn-sm' %>     
+    
+    </div>
+        
+  </div>
+
 </div>
+
+<hr>

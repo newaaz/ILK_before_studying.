@@ -1,0 +1,13 @@
+  <div class="cart-highlight">
+    
+    <% if @cart.line_items.count > 0 %>
+      <%= link_to @cart do %>
+        <i class="icon-heart" style="font-size:30px"></i>(<%= @cart.line_items.count %>)
+      <% end %>
+    <% else %>
+      <%= link_to @cart do %>
+        <i class="icon-heart-empty" style="font-size:30px"></i>
+      <% end %>
+    <% end %>
+  
+  </div>

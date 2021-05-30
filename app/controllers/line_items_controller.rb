@@ -10,13 +10,13 @@ class LineItemsController < ApplicationController
     if current_item           # если такой ресурс уже добавлен в избранное - удаляем
       current_item.destroy
       respond_to do |format|        
-        format.js   
+        format.js
       end      
     else                      # если не добавлен - добавляем
       @line_item = @cart.line_items.build(resource_id: params[:resource_id], resource_name: params[:resource_name])
       respond_to do |format|
         if @line_item.save          
-          format.js        
+          format.js { @new = true }    
         else
           format.html { redirect_back(fallback_location: root_url) }
           flash[:success] = "Не удалось добавить в избранное"

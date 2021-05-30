@@ -133,6 +133,17 @@ ul.checkbox-tags li input[type="checkbox"] {
   opacity: 0; }
 
 
+.hamburger-icon { 
+  cursor: pointer;
+  display: inline-block;
+  .bar {
+    width: 35px;
+    height: 5px;
+    background-color: #ff4500;
+    margin: 6px 0;
+    border-radius: 50px;
+  }
+}
 
 
 

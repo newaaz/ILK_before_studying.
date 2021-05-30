@@ -49,14 +49,14 @@
         </li>          
       </ul>
 
+             
+      <div class="min-price text-end" style="color: #222">от
+        <span><%= room.description['min_price'] %></span> до
+        <span><%= room.description['max_price'] %></span><small>₽</small> /сутки
+      </div>    
+
       <div class="room-buttons">
-        <div class="row">
-          <div class="col">          
-            <div class="min-price text-end pe-4" style="color: #222">от
-            <strong><%= room.description['min_price'] %></strong> до
-            <strong><%= room.description['max_price'] %></strong><small>₽</small> /сутки</div>
-          </div>
-        </div>
+        
         <div class="row text-end pe-2">
           <div class="col">
 

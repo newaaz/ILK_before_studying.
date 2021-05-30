@@ -299,10 +299,10 @@ only screen and (min-device-pixel-ratio: 2) and (max-width: 991px) {
 /* MEDIA QUERIES max-width 767px - MOBILE LANDSCAPE  */
 @media (max-width: 767px) {
 	
-	#top_line {
-		display: none;
+	#top_line {	
+		font-size: 16px;		
 	}
-	
+
 	.strip_all_tour_list {
 		text-align: center;
 	}
@@ -649,11 +649,7 @@ only screen and (min-device-pixel-ratio: 2) and (max-width: 991px) {
 	.map-right #map{
 		height: 375px;
 	}
-	
-	#top_line.visible_on_mobile{
-		display: block;
-	}
-	
+		
 	a#lang_link,
 	a#currency_link {
 		position: relative;
