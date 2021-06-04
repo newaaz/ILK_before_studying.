@@ -21,6 +21,8 @@ class CafebarsController<ApplicationController
 
   def create
     @cafebar = current_user.cafebars.build(cafebar_params)
+    @cafebar.desc_json = JSON.parse(params[:desc_json])
+    @cafebar.desc_json['town_name'] = @cafebar.town.name
     if @cafebar.save
       flash[:success] = "Объект добавлен и ожидает проверки модератором. 
                         При успешной проверке Вам на почту придёт письмо, и страница 
@@ -37,6 +39,8 @@ class CafebarsController<ApplicationController
 
   def update
     @cafebar = Cafebar.find(params[:id])
+    @cafebar.desc_json = JSON.parse(params[:desc_json])
+    @cafebar.desc_json['town_name'] = @cafebar.town.name
     if @cafebar.update(cafebar_params)
       redirect_to cafebar_path
       flash[:info] = 'Объект успешно изменён'
@@ -48,6 +52,7 @@ class CafebarsController<ApplicationController
 
   def destroy
     @cafebar = Cafebar.find(params[:id])
+    @cafebar.destroy
     flash[:info] = 'Объект удалён'
     redirect_to root_url
   end
@@ -61,7 +66,7 @@ private
 
   # Разрешённые параметры
   def cafebar_params
-    params.require(:cafebar).permit(:name, :avatar, :address, :phone, :site, :email, :instagram, :town_id,
+    params.require(:cafebar).permit(:name, :avatar, :address, :phone, :site, :email, :instagram, :town_id, :menu,
                                     :vk, :latitude, :longitude, :description, { images: [], tagcafebar_ids: [] })
   end
 

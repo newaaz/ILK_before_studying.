@@ -1,61 +1,67 @@
-<div class="col-lg-4 col-md-6 px-0 mb-4">
-    <div class="card mx-2 shadow h-100 hotel-card">      
-      
-      <!-- fotorama begin -->
-      <div class="fotorama-rooms"
-          data-width="100%"
-          data-ratio="3/2"
-          data-allowfullscreen="true"                
-          data-nav="false"
-          data-loop="true"
-          data-keyboard="true"
-          data-auto="false">      
-        <%= link_to image_tag(hotel.avatar.thumb.url) %>      
-        <% hotel.images.each do |image| %> 
-          <%= link_to image_tag(image.thumb.url, width: "100px") %>            
-        <% end %>
-      </div>
-      <!-- fotorama end -->
-       
-      <div class="hotel-cart__title"><%= link_to hotel.name, hotel %></div> 
-  
-      <div class="card-body py-1 px-2 hotel-card-body"> 
-        <div class="row">
+<div class="col-6 col-lg-4 px-0 mb-4">
+  <div class="card mx-2 shadow h-100 hotel-card">      
+    
+    <!-- fotorama begin -->
+    <div class="fotorama-rooms"
+        data-width="100%"
+        data-ratio="3/2"
+        data-allowfullscreen="true"                
+        data-nav="false"
+        data-loop="true"
+        data-keyboard="true"
+        data-auto="false">      
+      <%= link_to image_tag(hotel.avatar.thumb.url) %>      
+      <% hotel.images.each do |image| %> 
+        <%= link_to image_tag(image.thumb.url, width: "100px") %>            
+      <% end %>
+    </div>
+    <!-- fotorama end -->
 
-          <div class="col-12">
-            <i class="icon-wallet" style="font-size:20px"></i>от
-            <span><%= hotel.price_from %></span><small>р.</small>
-            до <span><%= hotel.desc_json["max_price"] %></span><small>р.</small>
-            сут/<%= hotel.desc_json["price_type"] %> 
-          </div>
+    <%= link_to hotel do %>
+      
+    <div class="hotel-cart__title"><%= hotel.name %></div> 
+
+      <div class="card-body py-1 px-2 hotel-card-body">
+
+        <div class="mini-desc" style="font-size:15px;">
+            
+          <i class="icon-wallet" style="font-size:20px"></i>от
+          <span><%= hotel.price_from %></span><small>р.</small>
+          до <span><%= hotel.desc_json["max_price"] %></span><small>р.</small>
+          сут/<%= hotel.desc_json["price_type"] %> 
+          
           <% if hotel.distance_to_sea %>
           <div class="col-12">
             <i class="icon_set_2_icon-110" style="font-size:22px"></i>море: <%= hotel.distance_to_sea %> м<br>
           </div>
-          <% end %>         
-        </div>
+          <% end %>
+
+        </div>       
+       
       </div>
 
-      <div class="card-footer px-2">      
+    <% end %>
 
-        <!-- like button -->
-        <% if @cart && @array_resources_ids.include?(hotel.id) %>
-          <%= link_to line_items_path(resource_id: hotel, resource_name: "Hotel"), method: :post, remote: true, id: "heart-Hotel-#{hotel.id}",
-                                            class: "text-danger" do %>
-            <i class="icon-heart"></i>
-          <% end %>
-        <% else %>
-          <%= link_to line_items_path(resource_id: hotel, resource_name: "Hotel"), method: :post, remote: true, id: "heart-Hotel-#{hotel.id}",
-                                                      class: "text-secondary" do %>
-            <i class="icon-heart"></i>
-          <% end %>
+    <div class="card-footer px-2">      
+
+      <!-- like button -->
+      <% if @cart && @array_resources_ids.include?(hotel.id) %>
+        <%= link_to line_items_path(resource_id: hotel.id, resource_name: "Hotel"), method: :post, remote: true, id: "heart-Hotel-#{hotel.id}",
+                                          class: "text-danger" do %>
+          <i class="icon-heart"></i>
         <% end %>
-        
-        <small class="text-muted">
-          |&nbsp;<i class="icon-location-outline"></i>&nbsp;<%= hotel.address %>        
-        </small>
+      <% else %>
+        <%= link_to line_items_path(resource_id: hotel.id, resource_name: "Hotel"), method: :post, remote: true, id: "heart-Hotel-#{hotel.id}",
+                                                    class: "text-secondary" do %>
+          <i class="icon-heart"></i>
+        <% end %>
+      <% end %>
+      
+      <small class="text-muted">
+        |&nbsp;<i class="icon-location-outline"></i>&nbsp;<%= hotel.address %>        
+      </small>
 
-      </div>
     </div>
   </div>
+</div>
 

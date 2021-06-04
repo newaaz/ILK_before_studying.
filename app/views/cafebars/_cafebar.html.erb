@@ -1,42 +1,56 @@
-<div class="col-md-4 isotope-item lower_price higher_ranking">
-  <div class="tour_container">    
-    <div class="img_container">
-      <a href="single_restaurant.html">
-        <%= image_tag cafebar.avatar.thumb.url, class: "img-fluid", alt: "РЕСТОРАН" %>
-        <div class="short_info">
-          <i class="icon_set_3_restaurant-2"></i> Fast food<span class="price"><sup>$</sup>45</span>
-        </div>
-      </a>
-    </div>
-    <div class="tour_title">
-      <%= link_to cafebar do %>
-        <h3><strong><%= cafebar.name %></strong></h3>
+<div class="col-6 col-lg-4 px-0 mb-4">
+
+  <div class="card mx-2 shadow h-100 hotel-card">
+    
+    <!-- fotorama begin -->
+    <div class="fotorama-rooms"
+        data-width="100%"
+        data-ratio="3/2"
+        data-allowfullscreen="true"                
+        data-nav="false"
+        data-loop="true"
+        data-keyboard="true"
+        data-auto="false">      
+      <%= link_to image_tag(cafebar.avatar.thumb.url) %>      
+      <% cafebar.images.each do |image| %> 
+        <%= link_to image_tag(image.thumb.url, width: "100px") %>            
       <% end %>
-      <div class="rating">
-        <i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i><small>(75)</small>
+    </div>
+    <!-- fotorama end -->    
+
+    <%= link_to cafebar do %>      
+      <div class="hotel-cart__title"><%= cafebar.name %></div> 
+      
+      <div class="card-body py-1 px-2">         
+
+        <div class="mini-desc">
+          <%= cafebar.desc_json['mini_desc'] %>
+        </div>   
+     
       </div>
-      <!-- end rating -->
+    <% end %>
+
+    <div class="card-footer px-2">      
 
       <!-- like button -->
-        <% if @cart && @array_resources_ids.include?(cafebar.id) %>
-          <%= button_to line_items_path(resource_id: cafebar, resource_name: "Cafebar"), remote: true, id: "heart-Cafebar-#{cafebar.id}",
-                                            class: "btn btn-link text-danger" do %>
-            <i class="fas fa-heart"></i>
-          <% end %>
-        <% else %>
-          <%= button_to line_items_path(resource_id: cafebar, resource_name: "Cafebar"), remote: true, id: "heart-Cafebar-#{cafebar.id}",
-                                                      class: "btn btn-link" do %>
-            <i class="fas fa-heart"></i>
-          <% end %>
+      <% if @cart && @array_resources_ids.include?(cafebar.id) %>
+        <%= link_to line_items_path(resource_id: cafebar.id, resource_name: "Cafebar"), method: :post, remote: true, id: "heart-Cafebar-#{cafebar.id}",
+                                          class: "text-danger" do %>
+          <i class="icon-heart"></i>
         <% end %>
+      <% else %>
+        <%= link_to line_items_path(resource_id: cafebar.id, resource_name: "Cafebar"), method: :post, remote: true, id: "heart-Cafebar-#{cafebar.id}",
+                                                    class: "text-secondary" do %>
+          <i class="icon-heart"></i>
+        <% end %>
+      <% end %>
+      
+      <small class="text-muted">
+        |&nbsp;<i class="icon-location-outline"></i>&nbsp;<%= cafebar.address %>        
+      </small>
 
-
-
-      <div class="wishlist">
-        <a class="tooltip_flip tooltip-effect-1" href="#"><strong>+</strong><span class="tooltip-content-flip"><span class="tooltip-back">Add to wishlist</span></span></a>
-      </div>
-      <!-- End wish list-->
     </div>
+    
   </div>
-  <!-- End box tour -->
-</div>
+
+</div> 

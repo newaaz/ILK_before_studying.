@@ -29,8 +29,8 @@
     </div>
 
     <div class="contact-email">
-      <span>
-        <a href="mailto:<%= @hotel.email %>"><i class="icon-mail-6"></i>&nbsp;<%= @hotel.email %></a> 
+      <span style="margin-left:-5px;">
+        <a href="mailto:<%= @hotel.email %>"><i class="icon-mail-6" style="font-size:20px;"></i>&nbsp;<%= @hotel.email %></a> 
       </span>
       <% unless @hotel.site.blank? %>
         <span><a href="https://<%= @hotel.site %>" target="_blank">&#127760;&nbsp;<%= @hotel.site %></a></span>      
@@ -54,14 +54,14 @@
     <div class="col-6">
 
     <% if @current_item %>
-      <%= link_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"),
+      <%= link_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel", action_show: "1"),
           method: :post, remote: true, id: "heart-Hotel-#{@hotel.id}", class: "text-secondary" do %>
         <div id="add-cart-hotel" class="add-cart text-center">
           <i class="icon-heart"></i> Добавлено
         </div>
       <% end %>
     <% else %>
-      <%= link_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"),
+      <%= link_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel", action_show: "1"),
           method: :post, remote: true, id: "heart-Hotel-#{@hotel.id}", class: "text-secondary" do %>
         <div  id="add-cart-hotel"  class="add-cart text-center">
           <i class="icon-heart-empty"></i> В избранное

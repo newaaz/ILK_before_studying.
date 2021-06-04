@@ -1360,7 +1360,7 @@ ul.list_order li span {
 
 .img_container {
 	position: relative;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 .tour_container .tour_title {
@@ -1441,6 +1441,7 @@ ul.list_order li span {
 	top: 3px;
 }
 
+/*
 .img_container a:hover img {
 	-webkit-transform: scale(1);
 	transform: scale(1);
@@ -1454,6 +1455,7 @@ ul.list_order li span {
 	-webkit-backface-visibility: hidden;
 }
 
+*/
 .short_info {
 	position: absolute;
 	left: 0;

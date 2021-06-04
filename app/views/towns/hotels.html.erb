@@ -10,11 +10,11 @@
       <div class="row">
         <div class="col-md-8">          
           <% unless @hotel_cat %>
-            <h1>Жильё в <%= @town.parent_name %></h1>    
-            <span>Активный отдых Крыму без посредников</span>
+            <h1>Жильё в <%= @town.parent_name %></h1>           
           <% else %>      
             <h1><%= @hotel_cat %> в <%= @town.parent_name %></h1>
-          <% end %>          
+          <% end %>
+          <span>Активный отдых Крыму без посредников</span>         
         </div>
         <div class="col-md-4 d-md-none">          
           <div id="price_single_main" class="hotel">
@@ -44,24 +44,22 @@
 
   <div class="row">
 
-    <div class="col-lg-3 px-lg-4 px-md-2 px-sm-0">      
+    <aside class="col-lg-3 px-lg-4 px-md-2 px-sm-0">
+            
+      <div class="hotel-cats">
+        <ul class="">          
+          <li id="all-hotel-cats"><%= link_to "Всё жильё", hotels_town_path %></li>                
+          <% @hotel_categories.each do |hotel_cat| %>
+            <li id="hotel-cat-<%= hotel_cat.id %>">
+              <%= link_to hotel_cat.name, { cat: hotel_cat.id } %>
+            </li> 
+          <% end %>                        
+        </ul>
+      </div>       
 
-      <aside>        
-        <div class="hotel-cats">
-          <ul class="">          
-            <li id="all-hotel-cats"><%= link_to "Всё жильё", hotels_town_path %></li>                
-            <% @hotel_categories.each do |hotel_cat| %>
-              <li id="hotel-cat-<%= hotel_cat.id %>">
-                <%= link_to hotel_cat.name, { cat: hotel_cat.id } %>
-              </li> 
-            <% end %>                        
-          </ul>
-        </div>
-      </aside>     
+    </aside>
 
-    </div>
-
-    <div class="col-lg-9 px-0">
+    <div class="col-lg-9 px-1">
       <div class="row gx-1">
         <%= render @hotels %>
       </div>      
@@ -71,7 +69,7 @@
 
 </div>
 
-<script>
+<script>    // active category
   if (document.location.href == "<%= request.original_url %>") {
     if (current_cat =  document.getElementById("hotel-cat-<%= params[:cat] %>")) {
       current_cat.classList.add("active");

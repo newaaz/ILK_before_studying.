@@ -16,35 +16,20 @@
 
 <main class="hotels-show">
 
-<div class="container"> 
+<div class="container">
 
-  <!-- title -->
+  <!-- title + photo + contacts -->
   <div class="row mt-3">
-    <div class="col-md-1 ps-1">
-      <% if @current_item %>
-        <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
-                                                              class: "d-inline btn btn-link text-danger" do %>
-          <i class="icon-heart"></i>
-        <% end %>
-      <% else %>
-        <%= button_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel"), remote: true, id: "heart-Hotel-#{@hotel.id}",
-                                                              class: "d-inline btn btn-link" do %>
-          <i class="icon-heart"></i>
-        <% end %>
-      <% end %>   
-    </div>
-    <div class="col-md-11 px-0">
-      <h1 class="d-inline"><%= @hotel.name %></h1>&emsp;
-      <i class="icon_set_1_icon-37"></i> <%= @hotel.desc_json["town_name"] %>, <%= @hotel.address %>
-    </div>    
-  </div>
-
-  <!-- photo + contacts -->
-  <div class="row">
     
-    <div class="col-lg-9"> 
+    <div class="col-lg-9 px-0">
+
+      <div class="px-2">
+        <h1 class="d-inline"><%= @hotel.name %></h1>&emsp;
+        <i class="icon_set_1_icon-37"></i> <%= @hotel.desc_json["town_name"] %>, <%= @hotel.address %>
+      </div>
+
       <!-- fotorama begin -->        
-      <div class="fotoramain">
+      <div class="fotoramain mt-2">
         <%= link_to image_tag(@hotel.avatar.thumb.url), @hotel.avatar.url %>
         <% @hotel.images.each do |image| %>
           <%= link_to image_tag(image.thumb.url), image.url %>
@@ -91,11 +76,15 @@
           <label for="tab6">Календарь цен</label>
         <% end %>
 
+        <!-- Tab Comments-->
+        <input type="radio" name="tabset" id="tab3" aria-controls="comments">
+        <label for="tab3">Отзывы</label>
+
         <div class="tab-panels">
 
           <!-- Tab DESC -->
           <section id="desc" class="tab-panel">            
-            <%  if @hotel.description.to_plain_text.size > 626 %>            
+            <% if @hotel.description.to_plain_text.size > 626 %>            
               <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
                             
               <div class="content_block hide">
@@ -242,6 +231,11 @@
             </div>
             </section>
           <% end %>
+
+           <!-- Tab COMMENTS -->
+          <section id="comments" class="tab-panel">
+            <div id="wpac-comment"></div>
+          </section>
 
         </div>
 
@@ -452,3 +446,18 @@
     });				
   });
 </script>
+
+<script type="text/javascript">   // widget pack
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Comment', id: 19099});
+  (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = 'https://embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+</script>
+

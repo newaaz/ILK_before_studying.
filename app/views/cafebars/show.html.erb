@@ -1,173 +1,196 @@
 <% provide(:title, @cafebar.name) %>
-<%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+<% end %>
+
+<div class="breadcrumbs">
+  <div class="container">
+    <i class="icon-location-outline crumbs-short" style="font-size:15px"></i>
+    <%= link_to @cafebar.desc_json['town_name'], @cafebar.town %>&nbsp;/
+    <%= link_to "Где поесть", cafebars_town_path(@cafebar.town) %>&nbsp;/
+    <%= @cafebar.name %>
+  </div>
+</div>
+
+<main class="hotels-show">
 
 <div class="container">
+ 
+  <!-- title + photo + contacts -->
+  <div class="row mt-3">
 
-<div class="breadcrumbs">    
-  <%= link_to "Главная", root_url %>&nbsp;/&nbsp;
-  <%= link_to @cafebar.town.name, @cafebar.town %>&nbsp;/&nbsp;
-  <%= link_to "Где поесть", cafebars_town_path(@cafebar.town) %>&nbsp;/&nbsp;
-  <%= @cafebar.name %>
-</div>
+    <div class="col-lg-9 px-0">
+      <!-- title -->
+      <div class="px-2">
+        <h1 class="d-inline"><%= @cafebar.name %></h1>&emsp;
+        <i class="icon_set_1_icon-37"></i> <%= @cafebar.desc_json["town_name"] %>, <%= @cafebar.address %>
+      </div>   
+      
+      <!-- fotorama begin -->                        
+      <div class="fotoramain mt-2"
+        data-width="900"
+        data-ratio="3/2"
+        data-allowfullscreen="true"
+        data-nav="thumbs"
+        data-loop="true"
+        data-keyboard="true">
+        <%= link_to image_tag(@cafebar.avatar.thumb.url), @cafebar.avatar.url %>
+        <% @cafebar.images.each do |image| %>
+          <%= link_to image_tag(image.thumb.url), image.url %>
+        <% end %>
+      </div> 
+      <!-- fotorama end -->    
 
-<div class="row mt-5">
-
-  <div class="col-md-6">
-    <div class="hotel-name">
-      <h1 class="d-inline"><%= @cafebar.name %></h1>, <%= @cafebar.address %>
     </div>
-  </div>
+    <!-- Contacts -->
+    <div class="col-lg-3">
 
-  <div class="col-md-1">
-    <% if @current_item %>
-      <%= button_to line_items_path(resource_id: @cafebar.id, resource_name: "Cafebar"),
-                remote: true, id: "heart-Cafebar-#{@cafebar.id}", class: "btn btn-link text-danger" do %>
-        <i class="fas fa-heart fa-2x"></i>
-      <% end %>
-    <% else %>
-      <%= button_to line_items_path(resource_id: @cafebar.id, resource_name: "Cafebar"),
-                remote: true, id: "heart-Cafebar-#{@cafebar.id}", class: "btn btn-link" do %>
-        <i class="fas fa-heart fa-2x"></i>
-      <% end %>
-    <% end %>    
-  </div>
+      <div class="contact-numbers mt-4 pt-3">
+        <div class="contact-number ps-2">
+          <span class="contact-phone ps-1">
+            <a href="tel:+$<%= @cafebar.desc_json['phone_clean'] %>"><i class="icon_set_1_icon-90" style="font-size:22px;"></i>
+            <%= @cafebar.phone %></a>
+          </span>
+        </div>
+      </div>
 
-  <div class="col-md-3">
-    <% if current_user %>
-      <% if current_user?(@cafebar.user) || current_user.admin? %>
-        <div class="f-right">
-          <%= link_to "Редактировать", edit_cafebar_path(@cafebar) ,class: "btn btn-primary btn-sm" %>
-          <%= link_to "Удалить объект", @cafebar ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
+      <div class="contact-email ps-4 mb-3">
+        <span style="margin-left:-5px;">
+          <a href="mailto:<%= @cafebar.email %>"><i class="icon-mail-6" style="font-size:20px;"></i>
+          <%= @cafebar.email %></a> 
+        </span>
+        <% unless @cafebar.site.blank? %>
+          <span><a href="https://<%= @cafebar.site %>" target="_blank">&#127760;&nbsp;<%= @cafebar.site %></a></span>      
+        <% end %>
+        <% unless @cafebar.instagram.blank? %>
+          <span><a href="https://www.instagram.com/<%= @cafebar.instagram %>" target="_blank">&nbsp;@<%= @cafebar.instagram %></a></span>
+        <% end %>
+        <% unless @cafebar.vk.blank? %>
+          <span><a href="https://vk.com/<%= @cafebar.vk %>" target="_blank">&nbsp;vk/<%= @cafebar.vk %></a></span>
+        <% end %>
+      </div>
+
+      <!-- cart -->
+      <div class="px-3">
+        <% if @current_item %>
+          <%= link_to line_items_path(resource_id: @cafebar.id, resource_name: "Cafebar"),
+              method: :post, remote: true, id: "heart-Cafebar-#{@cafebar.id}", class: "text-secondary" do %>
+            <div id="add-cart-hotel" class="add-cart text-center mx-4">
+              <i class="icon-heart"></i> Добавлено
+            </div>
+          <% end %>
+        <% else %>
+          <%= link_to line_items_path(resource_id: @cafebar.id, resource_name: "Cafebar"),
+              method: :post, remote: true, id: "heart-Cafebar-#{@cafebar.id}", class: "text-secondary" do %>
+            <div  id="add-cart-hotel"  class="add-cart text-center px-4">
+              <i class="icon-heart-empty"></i> В избранное
+            </div>
+          <% end %>
+        <% end %>        
+      </div>
+
+      <!-- tags -->
+      <% if @cafebar.tagcafebars.any? %> 
+        <div class="tags mt-4 px-3">
+          <% @cafebar.tagcafebars.each do |tag| %>        
+            <%= link_to cafebars_town_path(@cafebar.town, { tag: tag.id }) do %>
+              <%= tag.name %>
+            <% end %>         
+          <% end %>
         </div>
       <% end %>
-    <% end %>
-  </div>
 
-</div>
-
-<div class="row mt-5">
-
-  <div class="col-lg-9 col-md-12 p-0">
-    
-    <% if @cafebar.tagcafebars.any? %> 
-    <div class="widget tags">
-      <h4 class="d-inline">Теги</h4> 
-      <% @cafebar.tagcafebars.each do |tag| %>        
-        <%= link_to cafebars_town_path(@cafebar.town, { tag: tag.id }) do %>
-          <%= tag.name %><i class="<%= tag.icon %>"></i>
-        <% end %>         
+      <!-- УБРАТЬ ---------------------------------------- -->
+      <br><br>
+      <% if current_user %>
+      <% if current_user?(@cafebar.user) || current_user.admin? %>
+      <div class="f-right">
+      <%= link_to "Редактировать", edit_cafebar_path(@cafebar) ,class: "btn btn-primary btn-sm" %>
+      <%= link_to "Удалить объект", @cafebar ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
+      </div>
       <% end %>
-    </div>
-    <% end %> 
-    
-    <!-- fotorama begin -->                        
-    <div class="fotorama"
-      data-width="900"
-      data-ratio="3/2"
-      data-allowfullscreen="true"
-      data-nav="thumbs"
-      data-loop="true"
-      data-keyboard="true">
-      <%= link_to image_tag(@cafebar.avatar.thumb.url), @cafebar.avatar.url %>
-      <% @cafebar.images.each do |image| %>
-        <%= link_to image_tag(image.thumb.url), image.url %>
       <% end %>
-    </div> 
-    <!-- fotorama end -->    
 
-  </div>
-
-  <div class="col-lg-3 col-md-6 col-sm-12 shadow-sm">
-
-    <div class="contact-info">
-      <div class="owner-foto">
-        <%= image_tag @cafebar.avatar.thumb.url, width: "50px", height: '50px',
-        class: "rounded-circle shadow-sm" %>
-        <span>Тамара Васильевна</span>
-      </div>
-      <div class="owner-detail">
-        <i class="fas fa-mobile-alt fa-fw fa-lg color-blue"></i>&nbsp;
-        <a href="tel:+7978819500">+7 978 715 45 00</a>&nbsp;
-        <i class="fab fa-viber color-pink fa-lg"></i>&nbsp;
-        <i class="fab fa-whatsapp color-green fa-lg"></i>        
-      </div>
-      <div class="owner-detail">
-        <i class="far fa-envelope fa-fw fa-lg color-blue"></i>&nbsp;
-        <a href="mailto:konica_kafa@mail.ru">konica_kafa@mail.ru</a>
-      </div>
-      <div class="owner-detail">
-        <i class="fab fa-skype fa-fw fa-lg color-blue"></i>&nbsp;
-        myskypied
-      </div> 
-      <div class="owner-detail">
-        <i class="fas fa-globe fa-fw fa-lg color-blue"></i>&nbsp;
-        <a href="https://bootstrap-4.ru/">sunhome.ru</a>
-      </div>
     </div>
-    
-    <div id="map" style="height: 300px" class="border my-3 shadow"></div>    
 
   </div>
 
-</div>
-
-<div class="row mt-20">
+  <!-- Desc & Menu + NEAR -->
+  <div class="row">
     
-  <div class="col-lg-9">
-    <h3>Описание:</h3>
-    <%= @cafebar.description %>
-    <h3>Что в меню:</h3>
-    
-  </div>
+    <div class="col-lg-9">
+      
+      <!-- DESCRIPTION -->
+      <div class="tabset" style="font-size:15px;">
 
-  <div class="col-lg-3 shadow-sm">
-    <!-- NEAR -->      
-    <div class="nears-all">        
-      <div class="resource">
-        <h4>Другие предложения рядом</h4>
-        <% hotels_near(@cafebar).each do |hotel_near| %>
-          <div class="pl-2 media border rounded bg-white shadow-sm mb-2">              
-            <div class="media-body align-self-center">
-              <h6><%= link_to hotel_near.name , hotel_near %></h6>
-              <span style="font-size: 18px; color: orangered;">
-              <i class="fas fa-map-marked-alt"></i>
-              </span>
-              <small>~<%= distance_between(@cafebar, hotel_near) %>м.</small>
-            </div>
-            <%= link_to image_tag(hotel_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-end'), hotel_near %>
-          </div>
-        <% end %>
-      </div> 
-      <div class="resource">
-        <h4>Кафе, бары, рестораны рядом</h4>
-        <% cafebars_near(@cafebar).each do |cafebar_near| %>          
-          <div class="d-flex align-items-center border rounded bg-white shadow mb-2">            
-            <div class="flex-grow-1 ps-2">
-              <h6><%= link_to cafebar_near.name, cafebar_near %></h6>
-              <span style="font-size: 18px; color: orangered;">
-                <i class="fas fa-map-marked-alt"></i>
-              </span>
-              <small>~<%= distance_between(@cafebar, cafebar_near) %>м.</small>
-            </div>
-            <div class="flex-shrink-0">
-              <%= link_to image_tag(cafebar_near.avatar.thumb.url, style: "width: 100px", class: 'rounded-end'), cafebar_near %>
-            </div>
-          </div>
-        <% end %>
+        <!-- Tab description-->
+        <input type="radio" name="tabset" id="tab1" aria-controls="desc" checked>
+        <label for="tab1">Описание</label>
+
+        <!-- Tab menu-->
+        <input type="radio" name="tabset" id="tab7" aria-controls="menu">
+        <label for="tab7">Меню</label> 
+
+        <!-- Tab maps -->
+        <input type="radio" name="tabset" id="tab4" aria-controls="maps">
+        <label for="tab4">На карте</label>
+
+        <div class="tab-panels">
+
+          <!-- Tab DESC -->
+          <section id="desc" class="tab-panel">            
+            <% if @cafebar.description.to_plain_text.size > 626 %>            
+              <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
+                            
+              <div class="content_block hide">
+                <%= @cafebar.description %>
+                <a class="content_toggle" style="color:#ff4500" href="#"></a>
+              </div>          
+            <% else %>
+              <%= @cafebar.description %>
+            <% end %>
+          </section>
+          
+          <!-- Tab menu -->
+          <section id="menu" class="tab-panel">            
+            <% if @cafebar.menu.to_plain_text.size > 626 %>            
+              <a class="menu_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
+              <div class="menu_block hide">
+                <%= @cafebar.menu %>
+                <a class="menu_toggle" style="color:#ff4500" href="#"></a>
+              </div>          
+            <% else %>
+              <%= @cafebar.menu %>
+            <% end %>
+          </section>    
+
+          <!-- Tab MAP -->
+          <section id="maps" class="tab-panel">
+            <h5 class="mb-3"><i class="icon_set_1_icon-37"></i> <%= @cafebar.desc_json["town_name"] %>, <%= @cafebar.address %></h5>
+            <div id="map" style="height: 300px" class="border shadow"></div>            
+          </section>
+        
+        </div>
+
       </div>
-      <div class="resource">
-        <h4>Статьи рядом:</h4>
 
-      </div>        
-    </div>      
-    <!-- END NEAR -->
+      <div id="wpac-comment"></div>
+
+    </div>
+
+    <div class="col-lg-3 pe-0">
+      
+    </div>    
+
   </div>
 
-</div>
+  </div>
 
-</div>
 
-<script type="text/javascript">
+
+</main>
+
+<script type="text/javascript">   // Ymap
   ymaps.ready(init);
   function init(){
     const coords = [<%= @cafebar.latitude %>, <%= @cafebar.longitude %>]      
@@ -183,6 +206,59 @@
   }  
 </script>
 
+<script>//Initialize fotorama manually for rooms.
+  $(document).on('turbolinks:load', function() {
+    $(function () {
+      // Initialize main fotorama
+      $('.fotoramain').fotorama({
+        width: 990,
+        ratio: 3/2,
+        allowfullscreen: true,
+        nav: 'thumbs',
+        loop: true,
+        keyboard: true,
+      })   
+    });
+  }); 
+</script>
+
+<script>// description & menu more
+  $(document).ready(function(){
+    $('.content_toggle').click(function(){
+      $('.content_block').toggleClass('hide');	
+      if ($('.content_block').hasClass('hide')) {
+        $('.content_toggle').html('<i class="icon-angle-down"></i>Показать текст');
+      } else {
+        $('.content_toggle').html('<i class="icon-angle-up"></i>Свернуть текст');
+      }		
+      return false;
+    });
+
+    // menu toggle
+    $('.menu_toggle').click(function(){
+      $('.menu_block').toggleClass('hide');	
+      if ($('.menu_block').hasClass('hide')) {
+        $('.menu_toggle').html('<i class="icon-angle-down"></i>Показать текст');
+      } else {
+        $('.menu_toggle').html('<i class="icon-angle-up"></i>Свернуть текст');
+      }		
+      return false;
+    });				
+  });
+</script>
+
+<script type="text/javascript">   // widget pack
+wpac_init = window.wpac_init || [];
+wpac_init.push({widget: 'Comment', id: 19099});
+(function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = 'https://embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+})();
+</script>
 
 
-</div>

@@ -20,15 +20,17 @@
       <% if @cart %>
         <% if @cart.line_items.any? %>
 
-          <h2 class="mb-3">Объекты, которые Вы отметили:</h2>
+          <h2 class="mb-3">Объекты, которые Вы отметили:</h2>          
 
-          <div class="row">
-            
-          <%= render partial: "carts/hotel", collection: @cart.hotels %>
+          <% if @cart.hotels.any? %>
+            <h3>Отели и гостиницы</h3>              
+            <%= render partial: "carts/hotel", collection: @cart.hotels %>
+          <% end %>
 
-          </div>
-
-          <%= render partial: "carts/cafebar", collection: @cart.cafebars %>              
+          <% if @cart.cafebars.any? %>
+            <h3>Кафе и рестораны</h3> 
+            <%= render partial: "carts/cafebar", collection: @cart.cafebars %>              
+          <% end %>
 
           <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
           <%= link_to "Удалить список", cart_path(@cart, referer_page: @referer_page), method: :delete, class: 'btn btn-outline-danger btn-sm' %>

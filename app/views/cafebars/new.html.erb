@@ -1,97 +1,82 @@
 <% provide(:title, 'Новый объект') %>
 
-<div class="container mb-30">
-  <div class="row justify-content-center">
-    <h1 class='h3'>Новый объект</h1>
-  </div>
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+<% end %>
 
-  <%= form_with(model: @cafebar, local: true) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
+<div class="container mt-5">
+  
+  <h1 class='h3 text-center mb-4'>Новый объект</h1>
+
+  <%= form_with(model: @cafebar, local: true, html: { name: "cafe" }) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
     <div class="row g-3">
 
-      <div class="col-md-9 border-end">
+      <div class="col-lg-9  border-end">
 
-        <div class="row mb-3">
-          <div class="col-4">
-            <span><i class="fas fa-hashtag text-muted"></i></span>
-            <%= f.label :name %><small class="text-muted"> / Название</small>
-            <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>
-            <div class="form-text">подсказки к загрузке  главного фото</div>
+        <div class="row mb-3 gx-2">
+          <div class="col-lg-4 col-md-6">
+            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+            <%= f.label :name %> <span class="text-danger">*</span>  
+            <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>            
           </div>
-          <div class="col-3">
+          <div class="col-lg-4 col-md-6">
             <span>
-              <i class="fas fa-map-signs text-muted"></i>
+              <i class="icon_set_1_icon-8 text-muted"></i>
             </span>
-            <%= f.label :town_id %>              
+            <%= f.label :town_id %> <span class="text-danger">*</span>              
             <%= f.collection_select :town_id, Town.order(:number), :id, :name,
-              { prompt: "Выбрать..." },class:"form-select", required: true %>
+              { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
           </div>
-          <div class="col-5">
+          <div class="col-lg-4 col-md-6">
             <span>
-              <i class="fas fa-map-marker-alt text-muted"></i>
+              <i class="icon_set_1_icon-8 text-muted"></i>
             </span>
-            <%= f.label :address %>
+            <%= f.label :address %> <span class="text-danger">*</span>  
             <small class="text-muted">
               / улица, номер
             </small>
-            <%= f.text_field :address, class: 'form-control', required: true %>
+            <%= f.text_field :address, class: 'form-control form-control-sm', required: true %>
           </div>        
         </div>
 
-        <div class="row mb-3">
-          <div class="col-3">
-            <span><i class="fas fa-mobile-alt text-muted"></i></span>
-            <%= f.label :phone %><small class="text-muted"> / если есть</small>
-            <%= f.text_field :phone, class: 'form-control' %>
-          </div>
-          <div class="col-3">
-            <span><i class="fab fa-internet-explorer text-muted"></i></span>
-            <%= f.label :site %><small class="text-muted"> / если есть </small>
-            <%= f.url_field :site, class: 'form-control' %>              
-          </div>
-          <div class="col-3">
-            <span><i class="far fa-envelope text-muted"></i></span>
-            <%= f.label :email %><small class="text-muted"> / если есть </small>
-            <%= f.email_field :email, class: 'form-control' %>     
-          </div>
+        <!-- mini-desc -->
+        <div class="mb-3">
+          <span style="font-size:18px"><i class="icon_set_1_icon-8 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - Гостеприимный ресторан на берегу моря. Или - Уютное кафе семейного типа с вкусной и недорогой кухней"></i></span>
+          <label class="form-label">О себе в двух словах</label><small class="text-muted"> / Краткое описание в одном предложении</small>
+          <input name="mini_desc" type="text" class="form-control form-control-sm">
         </div>
-
-        <div class="row mb-3">
-          <div class="col-3">
-            <span><i class="fab fa-instagram text-muted"></i></span>
-            <%= f.label :instagram %>
-            <%= f.text_field :instagram, class: 'form-control' %>
-          </div>
-          <div class="col-3">
-            <span><i class="fab fa-vk text-muted"></i></span>
-            <%= f.label :vk %>
-            <%= f.text_field :vk, class: 'form-control' %>
-          </div>
-        </div>       
-        
+        <!-- Desc -->
         <div class="mb-2">
-          <span><i class="fas fa-info-circle text-muted"></i></span>
-          <%= f.label :description %>
-          <small class="text-muted"> / Основной контент статьи</small>
+          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <%= f.label :description %> <span class="text-danger">*</span>
         </div>
-        <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
+        <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
+        <!-- Menu -->
+        <div class="mb-2 mt-3">
+          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <%= f.label :menu %> <span class="text-danger">*</span>
+          <small class="text-muted">/ Что есть в меню</small> 
+        </div>
+        <%= f.rich_text_area :menu, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
 
-        <div class="row mb-4 pb-3">
+
+        <div class="row mb-4 mt-3 pb-3 gx-2">
           <div class="col-md-8">
-            <span><i class="fas fa-map-marker-alt text-muted"></i></span>
-            Отметить на карте
+            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+            Отметить на карте <span class="text-danger">*</span>
             <div id="map" style="height: 300px" class="border"></div>
           </div>
           <div class="col-md-4">
-            <div class="coordinates" style="width: 200px">
+            <div class="coordinates">
               <span>Координаты</span>
               <div class="form-group">              
                 <small class="text-muted">Широта</small>                
-                <%= f.text_field :latitude, class: 'form-control', readonly: true %>
+                <%= f.text_field :latitude, class: 'form-control', readonly: true, required: true %>
               </div>
               <div class="form-group mb-5">              
                 <small class="text-muted">Долгота</small>
-                <%= f.text_field :longitude, class: 'form-control', readonly: true %>
+                <%= f.text_field :longitude, class: 'form-control', readonly: true, required: true %>
               </div>
               <div class="pt-5">
                 <button type="button" id="clear-btn" class="d-block btn btn-outline-secondary btn-sm">Сбросить координаты</button>
@@ -103,42 +88,77 @@
 
         <div class="d-flex justify-content-center">
           <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
-          <%= f.submit "Добавить объект",class:"btn btn-primary"%>
-        </div>    
+          <%= button_tag "Добавить объявление", type: 'submit', class:"btn btn-primary" %>
+
+          <% if logged_in? && current_user.admin? %>
+            <!-- Admin button -->
+            <a href="javascript: insertInfo();" class="btn-ilk">Вставить</a>
+          <% end %>         
+
+        </div>       
 
       </div>
-
-      <div class="col-md-3">             
+      <!-- contacts & photo -->
+      <div class="col-lg-3">             
           
         <div class="row">
-          <div class="col-12">
-            <span><i class="fas fa-image text-muted"></i><%= f.label :avatar %></span>
-            <br>
-            <small class="text-muted mb-2">Здесь подсказки к загрузке  главного фото</small> 
-            <%= f.file_field :avatar, accept: 'image/*' %>
-          </div>         
-        </div>      
-        
-        <br><br>
-
-        <div class="row">
-          <span><i class="fas fa-images text-muted"></i> Остальные изображения</span>          
-          <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
-          <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
-        </div>
-
-        <br>     
-
-        <div class="row">
+          <!-- contacts -->          
           <div class="col">
-            <div class="form-group mb-4">
-              <%= f.label 'Выберите теги' %>            
+            <h3 class='h4 text-center text-success'>Контакты</h3>
+            <div class="mb-3">
+              <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+              <%= f.label :phone %><small class="text-muted"> / если есть</small>
+              <%= f.text_field :phone, class: 'mask-phone form-control form-control-sm' %>
+            </div>
+            <div class="mb-3">            
+              <div class="mb-1">
+                <i class="icon_set_1_icon-8 text-muted"></i>
+                <%= f.label :site %><small class="text-muted"> / если есть </small>
+              </div>
+              <div class="input-group input-group-sm">
+                <span class="input-group-text">https://</span>
+                <%= f.text_field :site, class: 'form-control' %>
+              </div>            
+            </div>
+            <div class="mb-3">
+              <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+              <%= f.label :email %><small class="text-muted"> / если есть </small>
+              <%= f.email_field :email, class: 'form-control form-control-sm' %>     
+            </div>
+            <div class="mb-3">
+              <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+              <%= f.label :instagram %><small class="text-muted"> / если есть </small>
+              <%= f.text_field :instagram, class: 'form-control form-control-sm' %>
+            </div>
+            <div class="mb-3">
+              <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+              <%= f.label :vk %><small class="text-muted"> / если есть </small>
+              <%= f.text_field :vk, class: 'form-control form-control-sm' %>
+            </div>
+            <!-- images -->
+            <h3 class='h4 text-center text-success'>Фотографии</h3>
+            <div class="mb-3">
+              <i class="icon_set_1_icon-8 text-muted"></i><%= f.label :avatar %> <span class="text-danger">*</span>
+              <small class="text-muted mb-2">Здесь подсказки к загрузке  главного фото</small> 
+              <%= f.file_field :avatar, accept: 'image/*', required: true %>
+            </div>
+            <div class="mb-3">
+              <i class="icon_set_1_icon-8 text-muted"></i> Остальные изображения     
+              <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
+              <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
+            </div>
+            <!-- tags -->
+            <h3 class='h4 text-center text-success'>Категории</h3>          
+            <div class="form-group">
+              <%= f.label 'Выберите несколько', class:"ps-1" %>            
               <%= f.collection_select :tagcafebar_ids, Tagcafebar.order(:name), :id, :name,
-                { include_blank: false }, class:"form-select", size: 8,
-                      multiple: true %>                
+                { include_blank: false }, class:"form-select", size: 8, required: true,
+                      multiple: true %>
+              <input type="hidden" name="desc_json">               
             </div>
           </div>
-        </div>
+                  
+        </div>       
 
       </div>
 
@@ -188,7 +208,7 @@
     }
 </script>
 
-<!-- avatar check -->
+<!-- avatar, mask-phone, work with form -->
 <script type="text/javascript">
   // check avatar size
   $("#cafebar_avatar").bind("change", function() {
@@ -197,4 +217,57 @@
       alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
     }
   });
+
+  // Mask phone
+  $('.mask-phone').mask('+9 (999) 999-99-99');
+
+  var form = document.forms.cafe
+
+  // On Submit
+  form.addEventListener('submit', function(event){
+    
+    form.button.disabled = true;  
+    event.preventDefault();
+    
+    var data = {
+        "phone_clean": this[26].value.replace(/[^0-9]/g, ''),
+        "mini_desc": this.mini_desc.value     
+    };   
+
+    this.desc_json.value = JSON.stringify(data);  
+    form.submit();
+  })
+
 </script>
+
+<% if @cafebar.name %>
+  <!-- failure to save -->
+  <script>
+    var form = document.forms.cafe 
+    form.mini_desc.value = '<%= @cafebar.desc_json["mini_desc"] %>'    
+  </script>
+<% end %>
+
+<% if logged_in? && current_user.admin? %>
+  <!--  insert info (Admin) -->
+  <script>    
+    function insertInfo() {   
+      var form = document.forms.cafe
+      form.elements[1].value = 'Кафе-ресторан "Велес"';
+      form.elements[2].value = 1;    
+      form.elements[3].value = 'ул. Володарского 31 Б';
+
+      form.mini_desc.value = 'Уютное кафе семейного типа со вкусной и недорогой кухней'
+
+      form.elements[45].value = '+7 (846) 546-54-65';
+      form.elements[46].value = 'https://kilova.ru/';
+      form.elements[47].value = 'voskod@mail.ru';
+      form.elements[48].value = 'kilovagora';
+      form.elements[49].value = 'mcixabuka';
+
+      form.elements[41].value = 45.0415;
+      form.elements[42].value = 35.3666;      
+    }
+  </script>            
+<% end %>
+

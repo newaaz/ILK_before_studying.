@@ -229,11 +229,13 @@
           </div>
         </div>
         <!-- END Phone CONTACTS -->
-        <div class="mb-4 mt-2"><!-- buttons add/remove contacts -->
+
+        <!-- buttons add/remove contacts -->
+        <div class="mb-4 mt-2">
           <button type="button" onclick="add_input()" class="btn btn-primary btn-sm"><span class="icon-user-add-1"></span> Добавить ещё контакт</button>
           <button type="button" onclick="remove_input()" class="btn btn-danger btn-sm">Убрать</button>
-        </div><!-- end buttons add/remove contacts -->        
-
+        </div>       
+        <!-- end buttons add/remove contacts --> 
         <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
         <%= f.label :email, class: 'form-label' %>        
         <%= f.text_field :email, class:"form-control form-control-sm mb-3" %>
@@ -367,6 +369,7 @@
 
   var form = document.forms.hotel
   
+  // On Submit
   form.addEventListener('submit', function(event){
     
     form.button.disabled = true;  
