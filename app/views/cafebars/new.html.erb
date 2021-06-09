@@ -44,6 +44,10 @@
         <div class="mb-3">
           <span style="font-size:18px"><i class="icon_set_1_icon-8 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - Гостеприимный ресторан на берегу моря. Или - Уютное кафе семейного типа с вкусной и недорогой кухней"></i></span>
           <label class="form-label">О себе в двух словах</label><small class="text-muted"> / Краткое описание в одном предложении</small>
+           <% if logged_in? && current_user.admin? %>
+            <!-- Admin button -->
+            <a href="javascript: insertInfo();">Вставить</a>
+          <% end %>  
           <input name="mini_desc" type="text" class="form-control form-control-sm">
         </div>
         <!-- Desc -->
@@ -89,12 +93,6 @@
         <div class="d-flex justify-content-center">
           <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
           <%= button_tag "Добавить объявление", type: 'submit', class:"btn btn-primary" %>
-
-          <% if logged_in? && current_user.admin? %>
-            <!-- Admin button -->
-            <a href="javascript: insertInfo();" class="btn-ilk">Вставить</a>
-          <% end %>         
-
         </div>       
 
       </div>

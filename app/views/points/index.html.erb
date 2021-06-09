@@ -1,0 +1,39 @@
+<% provide(:title, 'Все Поинты') %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-9">
+
+<%= link_to 'Новый Поинт', new_point_path, class: 'btn btn-primary btn-sm' %>
+
+<br>
+<br>
+
+<section id="categories">
+  <table class="table">
+    <thead>
+      <th>id#</th>
+      <th>Название</th>
+      <th>Город</th>
+      <th>Действия</th>
+    </thead>
+    <tbody>
+      <% @points.each do |point| %>
+        <tr>
+          <td><%= point.id %></td>
+          <td><%= link_to point.name, point %></td>
+          <td><%= point.desc_json['town_name'] %></td>
+          <td>
+            <%= link_to 'Edit', edit_point_path(point), class: 'btn btn-warning btn-sm' %>
+            <%= link_to "Удалить", point_path(point), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
+
+
+    </div>
+  </div>
+</div>

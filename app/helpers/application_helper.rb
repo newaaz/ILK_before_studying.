@@ -38,4 +38,13 @@ module ApplicationHelper
     cafebars.where(latitude: min_lat..max_lat, longitude: min_long..max_long).where.not(id: resource.id)
   end
 
+  # Возвращаем соседние ресурсы (resources) с источником (source)
+  def resources_near(source, resources)
+    min_lat = source.latitude - 0.0090
+    max_lat = source.latitude + 0.0090
+    min_long = source.longitude - 0.0127
+    max_long = source.longitude + 0.0128
+    objects = source.town.send(resources).where(latitude: min_lat..max_lat, longitude: min_long..max_long).where.not(id: source.id)
+  end
+
 end

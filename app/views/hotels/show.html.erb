@@ -1,8 +1,42 @@
 <% provide(:title, @hotel.name) %>
 <% content_for(:javascript_plugin_header) do %>
   <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+  <script type="text/javascript">   // widget pack
+    $(document).on('turbolinks:load', function() {
+      wpac_init = window.wpac_init || [];
+      wpac_init.push({widget: 'Comment', id: 19099});
+      (function() {
+          if ('WIDGETPACK_LOADED' in window) return;
+          WIDGETPACK_LOADED = true;
+          var mc = document.createElement('script');
+          mc.type = 'text/javascript';
+          mc.async = true;
+          mc.src = 'https://embed.widgetpack.com/widget.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+      })();
+    })
+  </script>
+  <script type="text/javascript"> // map
+    ymaps.ready(init);
+    function init(){
+      const coords = [<%= @hotel.latitude %>, <%= @hotel.longitude %>]      
+      var myMap = new ymaps.Map("map", {
+          center: coords,
+          zoom: 14,
+          behaviors: ['drag','dblClickZoom', 'multiTouch']
+      });    
+      var myPlacemark = new ymaps.Placemark(coords, {
+        balloonContentHeader: 'Однажды',
+        balloonContentBody: 'В студеную зимнюю пору',
+        balloonContentFooter: 'Мы пошли в гору',
+        hintContent: 'Зимние происшествия'
+      }, {
+        preset: "islands#blueHomeIcon"
+      });
+      myMap.geoObjects.add(myPlacemark);
+    };  
+  </script>
 <% end %>
-
 
 <div class="breadcrumbs">
   <div class="container">
@@ -361,27 +395,6 @@
   }
 </script>
 
-<script type="text/javascript"> // map
-  ymaps.ready(init);
-  function init(){
-    const coords = [<%= @hotel.latitude %>, <%= @hotel.longitude %>]      
-    var myMap = new ymaps.Map("map", {
-        center: coords,
-        zoom: 14,
-        behaviors: ['drag','dblClickZoom', 'multiTouch']
-    });    
-    var myPlacemark = new ymaps.Placemark(coords, {
-      balloonContentHeader: 'Однажды',
-      balloonContentBody: 'В студеную зимнюю пору',
-      balloonContentFooter: 'Мы пошли в гору',
-      hintContent: 'Зимние происшествия'
-    }, {
-      preset: "islands#blueHomeIcon"
-    });
-    myMap.geoObjects.add(myPlacemark);
-  };  
-</script>
-
 <script>  // More... hidden
   var btnsMore = document.getElementsByClassName('more-info');
   for (var i = 0; i < btnsMore.length; i++) {
@@ -447,17 +460,5 @@
   });
 </script>
 
-<script type="text/javascript">   // widget pack
-  wpac_init = window.wpac_init || [];
-  wpac_init.push({widget: 'Comment', id: 19099});
-  (function() {
-      if ('WIDGETPACK_LOADED' in window) return;
-      WIDGETPACK_LOADED = true;
-      var mc = document.createElement('script');
-      mc.type = 'text/javascript';
-      mc.async = true;
-      mc.src = 'https://embed.widgetpack.com/widget.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
-  })();
-</script>
+
 

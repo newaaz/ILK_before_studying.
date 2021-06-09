@@ -20,16 +20,21 @@
       <% if @cart %>
         <% if @cart.line_items.any? %>
 
-          <h2 class="mb-3">Объекты, которые Вы отметили:</h2>          
+          <h1 class="mb-3 h2">Объекты, которые Вы отметили:</h1>          
 
           <% if @cart.hotels.any? %>
-            <h3>Отели и гостиницы</h3>              
+            <h2>Отели и гостиницы</h2>              
             <%= render partial: "carts/hotel", collection: @cart.hotels %>
           <% end %>
 
           <% if @cart.cafebars.any? %>
-            <h3>Кафе и рестораны</h3> 
+            <h2>Кафе и рестораны</h2> 
             <%= render partial: "carts/cafebar", collection: @cart.cafebars %>              
+          <% end %>
+
+          <% if @cart.points.any? %>
+            <h2>Интересные места и достопримечательности</h2> 
+            <%= render partial: "carts/point", collection: @cart.points %>              
           <% end %>
 
           <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>

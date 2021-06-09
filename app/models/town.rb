@@ -2,6 +2,7 @@ class Town < ApplicationRecord
 
   has_many  :hotels, dependent: :destroy
   has_many  :cafebars, dependent: :destroy
+  has_many  :points, dependent: :destroy
 
   default_scope { order(:number) }
 

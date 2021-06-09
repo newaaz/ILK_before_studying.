@@ -1,0 +1,212 @@
+<% provide(:title, 'Новое Место') %>
+
+<div class="container mt-5">
+  
+  <h1 class='h3 text-center mb-4'>Новое Место</h1>
+
+  <%= form_with(model: @point, local: true, html: { name: "point" }) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="row g-3">
+
+      <div class="col-lg-9  border-end">
+
+        <div class="row mb-3 gx-2">
+          <div class="col-lg-4 col-md-6 mb-3">
+            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+            <%= f.label :name %> <span class="text-danger">*</span>  
+            <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>            
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <span>
+              <i class="icon_set_1_icon-8 text-muted"></i>
+            </span>
+            <%= f.label :town_id %> <span class="text-danger">*</span>              
+            <%= f.collection_select :town_id, Town.order(:number), :id, :name,
+              { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <span>
+              <i class="icon_set_1_icon-8 text-muted"></i>
+            </span>
+            <%= f.label :address %>
+            <small class="text-muted">
+              / улица, номер
+            </small>
+            <%= f.text_field :address, class: 'form-control form-control-sm' %>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <%= f.label :point_category_id, class: 'form-label' %> <span class="text-danger">*</span>            
+            <%= f.collection_select :point_category_id, PointCategory.order(:number), :id, :name,
+             { prompt: "Выбрать..." }, class:"form-select form-select-sm", required: true %>
+          </div>
+          <div class="col pt-4">
+            <% if logged_in? && current_user.admin? %>
+              <!-- Admin button -->
+              <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd">Вставить</a>
+            <% end %>   
+          </div>     
+        </div>
+
+        <!-- Desc -->
+        <div class="mb-2">
+          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <%= f.label :description %> <span class="text-danger">*</span>
+        </div>
+        <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
+  
+        <!-- how to get -->   
+        <div class="mt-3">
+          <%= f.label :how_to_get, class: 'form-label' %>          
+          <%= f.text_area :how_to_get, class:"form-control", rows:3 %>
+        </div>
+
+
+        <!-- map -->
+        <div class="row mb-4 mt-3 pb-3 gx-2">
+          <div class="col-md-8">
+            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+            Отметить на карте
+            <div id="map" style="height: 300px" class="border mt-2"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="coordinates mt-4">
+              <span>Координаты</span>
+              <div class="form-group">              
+                <small class="text-muted">Широта</small>                
+                <%= f.text_field :latitude, class: 'form-control', readonly: true %>
+              </div>
+              <div class="form-group mb-5">              
+                <small class="text-muted">Долгота</small>
+                <%= f.text_field :longitude, class: 'form-control', readonly: true %>
+              </div>
+              <div class="pt-5">
+                <button type="button" id="clear-btn" class="d-block btn btn-outline-secondary btn-sm">Сбросить координаты</button>
+                <small class="text-muted">С пустыми координатами карта отображаться не будет</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
+          <%= button_tag "Добавить Место", type: 'submit', class:"btn btn-primary" %>
+        </div>       
+
+      </div>
+      <!-- contacts & photo -->
+      <div class="col-lg-3">             
+          
+        <div class="row">
+          <!-- contacts -->          
+          <div class="col">
+            <h3 class='h4 text-center text-success'>Контакты</h3>            
+            <!-- images -->
+            <h3 class='h4 text-center text-success'>Фотографии</h3>
+            <div class="mb-3">
+              <i class="icon_set_1_icon-8 text-muted"></i><%= f.label :avatar %> <span class="text-danger">*</span>
+              <small class="text-muted mb-2">Здесь подсказки к загрузке  главного фото</small> 
+              <%= f.file_field :avatar, accept: 'image/*', required: true %>
+            </div>
+            <div class="mb-3">
+              <i class="icon_set_1_icon-8 text-muted"></i> Остальные изображения     
+              <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
+              <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
+            </div>  
+            <input type="hidden" name="desc_json">           
+          </div>
+                  
+        </div>       
+
+      </div>
+
+    </div>            
+
+  <% end %>
+
+</div>
+
+<!-- YMAP -->
+<script type="text/javascript">
+  ymaps.ready(init);
+  function init(){
+      
+    var myMap = new ymaps.Map("map", {
+        center: [45.15, 34.52],
+        zoom: 8,
+        controls: ['zoomControl'],
+        behaviors: ['drag','dblClickZoom', 'multiTouch']
+    });      
+
+    myMap.events.add('click', function (e) {
+      if (!myMap.balloon.isOpen()) {
+          var coords = e.get('coords');
+          myMap.balloon.open(coords, {
+              contentBody:'<p>Вы отметили новое место на карте.</p>' +
+                  '<p>Координаты места: ' + [
+                  coords[0].toPrecision(6),
+                  coords[1].toPrecision(6),
+                  ].join(', ') + '</p>',
+              contentFooter:'Чтобы изменить координаты щёлкните в другом месте'
+          });
+
+          document.getElementById('point_latitude').value = coords[0].toPrecision(6)
+          document.getElementById('point_longitude').value = coords[1].toPrecision(6)
+      }
+      else {
+          myMap.balloon.close();
+      }
+    });
+
+  }
+
+  document.getElementById('clear-btn').onclick = function(e) {
+    document.getElementById('point_latitude').value = ''
+    document.getElementById('point_longitude').value = ''
+  }
+</script>
+
+<!-- avatar, mask-phone, work with form -->
+<script type="text/javascript">
+  // check avatar size
+  $("#point_avatar").bind("change", function() {
+    const size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 4) {
+      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+    }
+  });
+
+  var form = document.forms.point
+
+  // On Submit
+  form.addEventListener('submit', function(event){
+    
+    form.button.disabled = true;  
+    event.preventDefault();
+    
+    var data = {
+        "phone": this[1].value,
+    };   
+
+    this.desc_json.value = JSON.stringify(data);  
+    form.submit();
+  })
+
+</script>
+
+
+<% if logged_in? && current_user.admin? %>
+  <!--  insert info (Admin) -->
+  <script>    
+    function insertInfo() {   
+      var form = document.forms.point
+      form.elements[1].value = 'Комсомольский парк';
+      form.elements[2].value = 1;    
+      form.elements[3].value = 'ул. Володарского 31 Б';
+      form.elements[4].value = 2;
+      form.elements[23].value = 'На маршрутке №2 или №4. Остановка "Комсомольский Парк"';
+      form.elements[24].value = 45.0425;
+      form.elements[25].value = 35.3766;  
+    }
+  </script>            
+<% end %>
+

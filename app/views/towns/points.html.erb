@@ -1,0 +1,113 @@
+<% provide(:title, "Поинты в #{ @town.parent_name }") %>
+
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+<% end %>
+
+<section class="parallax-window" data-parallax="scroll" data-image-src="<%= @town.avatar.url %>">
+  <div class="parallax-content-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">          
+          <% if @point_cat %>
+						<h1><%= @point_cat %> в <%= @town.parent_name %></h1>
+					<% else %>
+						<h1>Поинты в <%= @town.parent_name %></h1>
+					<% end %>          
+          <span>Интересные и необходимые места, достопримечательности</span>          
+        </div>
+        <div class="col-md-4 d-md-none">          
+          <div id="price_single_main" class="hotel">
+            <span><sup></sup></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="breadcrumbs">
+  <div class="container">
+    <i class="icon-location-outline" style="font-size:15px"></i>
+    <%= link_to "Главная", root_url %>&nbsp;/
+    <%= link_to @town.name, @town %>&nbsp;/
+    <% unless @points_cat %>
+				Поинты в <%= @town.parent_name %>
+			<% else %>
+				<%= link_to "Поинты", points_town_path %>&nbsp;/
+				<%= @point_cat.name %>
+			<% end %>    
+  </div>
+</div>
+
+<div class="container mt-4">
+
+	<div class="row">
+
+		<aside class="col-lg-3 px-lg-4 px-md-2 px-sm-0">
+			<div class="hotel-cats">
+        <ul class="">          
+          <li id="all-point-cats"><%= link_to "Все поинты", points_town_path %></li>                
+          <% @point_categories.each do |point_cat| %>
+            <li id="point-cat-<%= point_cat.id %>">
+              <%= link_to point_cat.name, { cat: point_cat.id } %>
+            </li> 
+          <% end %>                        
+        </ul>
+      </div>
+		</aside>
+	
+		<div class="col-lg-9 px-1">
+			<div class="row gx-1">
+				<%= render @points %>
+			</div>      
+		</div>
+
+	</div>
+
+</div>
+
+<script>    // active category
+  if (document.location.href == "<%= request.original_url %>") {
+    if (current_cat =  document.getElementById("point-cat-<%= params[:cat] %>")) {
+      current_cat.classList.add("active");
+    } else {
+      document.getElementById("all-point-cats").classList.add("active");     
+    }     
+  }
+</script>
+
+<script>//Initialize fotorama manually for hotels widget.
+  $(document).on('turbolinks:load', function() {
+    $(function () {    
+
+      //Initialize fotorama hotels widget.
+      var $fotoramaDiv = $('.fotorama-rooms').fotorama();
+
+      $fotoramaDiv.on('fotorama:fullscreenenter',
+        function (e, fotorama) {        
+          fotorama.setOptions({
+            nav: "thumbs"
+          });
+        });
+      
+      $fotoramaDiv.on('fotorama:fullscreenexit',
+      function (e, fotorama) {      
+        fotorama.setOptions({
+          nav: "false"
+        });
+      })
+    });
+  }); 
+</script>
+
+
+
+
+
+
+
+
+
+
+

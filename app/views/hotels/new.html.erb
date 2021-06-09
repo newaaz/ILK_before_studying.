@@ -77,6 +77,10 @@
             </select>
           </div>
 
+          <% if logged_in? && current_user.admin? %>
+            <div class="col pt-4"><a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd btn-blue">Вставить</a></div>
+          <% end %>
+
         </div>
         
         <div class="row mb-3 pb-3 pt-2 bg-white shadow"><!-- mark on map -->
@@ -181,15 +185,13 @@
           </div>
         </div>
 
-        <br><br><hr>
+        <br><br><hr>       
 
-        <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+        <div class="d-flex justify-content-center">
+          <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
+          <%= button_tag "Добавить объявление", type: 'submit', class:"btn btn-primary" %>    
+        </div>     
 
-        <div class="d-grid gap-2 col-md-5 mx-auto my-4">
-          <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
-            <span class="icon"><i class="icon_set_1_icon-11"></i></span>&#8194;Добавить объявление
-          <% end %> 
-        </div>        
 
       </div>
 
@@ -254,12 +256,7 @@
           <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
           <label class="form-label">Instagram</label><small class="text-muted"> (если есть)</small> 
           <input name="instagram" type="text" class="form-control form-control-sm">
-        </div>  
-        <a href="javascript: add_input();" class="d-block btn-ilk btn-ilk-grd btn-ocean"><span class="icon-user-add-1"></span> Добавить ещё контакт</a>
-        <a href="javascript: insertInfo();" class="btn-ilk">Вставить</a>
-        <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-prim">Очистить</a>
-        <a href="javascript: contactsOutput();" class="btn-ilk btn-ilk-grd">Контакты</a>
-        <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd btn-blue">Голубой</a>        
+        </div>
 
         <h3 class='h4 text-center text-success'>Фотографии</h3>
         <div class="mb-3">
@@ -529,7 +526,8 @@
     if ( $('.flat-price').length ==0 ) { $('#add_price').hide() }
   }  
 
-  // !!!!      INSERT HOTEL INFO - DELETE - DELETE!!!!!
+  <% if logged_in? && current_user.admin? %>
+  //  INSERT HOTEL INFO
   function insertInfo() {   
     var form = document.forms.hotel
     
@@ -565,6 +563,8 @@
     form.instagram.value = 'kilovagora';
 
   }
+  <% end %>
+
 </script>
 
 <script type="text/javascript"> // check avatar size

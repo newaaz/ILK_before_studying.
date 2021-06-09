@@ -36,17 +36,55 @@
 <div class="container-fluid d-lg-none px-1">
 
   <div class="row gx-1 bg-light shadow">
-    <div class="col-3 ps-3 pt-1">
+
+    <div class="col-2 ps-3 pt-1">
       <div class="hamburger-icon" data-trigger="navbar_main">
         <div class="bar"></div>
         <div class="bar"></div>
         <div class="bar"></div>
       </div>
     </div>
-    <div class="col-6 text-center">
+
+    <div class="col-3 text-center">
       <%= link_to image_tag("logo.png", alt: "Главная", width: "75px"), root_path %>
-    </div> 
-    <div class="col-3 pt-2 pe-3 text-end">
+    </div>
+
+    <div class="col-4 text-center pt-1">
+      <ul class="navbar-nav">
+        <!-- -------- menu item -------- -->
+        <li class="nav-item dropdown hover">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Феодосия</a>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"> Dropdown item 1 </a></li>
+            <li><a class="dropdown-item" href="#"> Dropdown item 2 <i class="icon-arrow"></i> </a>
+            <ul class="submenu dropdown-menu">
+              <li><a class="dropdown-item" href="#">Submenu item 1</a></li>
+              <li><a class="dropdown-item" href="#">Submenu item 2</a></li>
+              <li><a class="dropdown-item" href="#">Submenu item 3 <i class="icon-arrow"></i> </a>
+                <ul class="submenu dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Multi level 1</a></li>
+                    <li><a class="dropdown-item" href="#">Multi level 2</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item" href="#">Submenu item 4</a></li>
+              <li><a class="dropdown-item" href="#">Submenu item 5</a></li>
+            </ul>
+            </li>
+            <li><a class="dropdown-item" href="#"> Dropdown item 3 <i class="icon-arrow"></i> </a>
+              <ul class="submenu dropdown-menu">
+                <li><a class="dropdown-item" href="#">Submenu item 1</a></li>
+                <li><a class="dropdown-item" href="#">Submenu item 2</a></li>
+                <li><a class="dropdown-item" href="#">Submenu item 3</a></li>
+            </ul>
+            </li>
+            <li><a class="dropdown-item" href="#"> Dropdown item 4 </a>
+            </ul>
+        </li>
+        <!-- -------- menu item end// -------- -->  
+      </ul>
+    </div>
+
+    <div class="col-3 pt-2 pe-3 text-end">    
       <div id="cart-mobile">
         <% if @cart %>
           <% if @cart.line_items.count > 0 %>                
@@ -64,7 +102,8 @@
           <% end %>              
         <% end %>
       </div>
-    </div>  
+    </div> 
+
   </div>
   
 </div>
@@ -82,6 +121,20 @@
     </div>
   
     <ul class="navbar-nav ms-auto">
+
+      <% if @town %>
+        <li class="nav-item dropdown hover">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            <i class="icon_set_1_icon-61" style="font-size:18px;"></i><%= @town.name %>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Жильё в #{@town.parent_name}", hotels_town_path(@town), class: "dropdown-item" %></li>
+            <li><%= link_to "Где поесть в #{@town.parent_name}", cafebars_town_path(@town), class: 'dropdown-item' %></li>
+            <li><%= link_to "Поинты #{@town.parent_name}", points_town_path(@town), class: 'dropdown-item' %></li>
+          </ul>
+        </li>
+      <% end %>
+
       <!--  towns  -->
       <li class="nav-item dropdown hover">
         <a class="nav-link  dropdown-toggle" href="#" data-bs-toggle="dropdown">Города</a>
@@ -93,6 +146,7 @@
       </li><!-- END towns -->
       	
       <li><%= link_to "Контакты", contacts_url, class: 'nav-link' %></li>
+
       <li>
         <%= link_to contacts_url, class: 'nav-link' do %>
           <i class="icon-location-outline"></i>Что рядом?
@@ -109,7 +163,8 @@
             <li><%= link_to "User/show", current_user, class: "dropdown-item" %></li>
             <li><%= link_to "Настройки", edit_user_path(current_user), class: "dropdown-item" %></li>
             <li><%= link_to "Новая гостиница", new_hotel_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Новое кафе", new_cafebar_path, class: "dropdown-item" %></li>  
+            <li><%= link_to "Новое кафе", new_cafebar_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Новый поинт", new_point_path, class: "dropdown-item" %></li>  
             <li><%= link_to "Выход", logout_path, method: :delete, class: "dropdown-item" %></li>  
           </ul>
         </li>
@@ -124,6 +179,8 @@
               <li><%= link_to "Гостиницы", hotels_path, class: "dropdown-item" %></li>
               <li><%= link_to "Кафе", cafebars_path, class: "dropdown-item" %></li>
               <li><%= link_to "Теги для кафе", tagcafebars_path, class: "dropdown-item" %></li>
+              <li><%= link_to "Типы Point", point_categories_path, class: "dropdown-item" %></li>
+              <li><%= link_to "Points", points_path, class: "dropdown-item" %></li>
               <li><%= link_to "Выход", logout_path, method: :delete, class: "dropdown-item" %></li>
             </ul>
           </li>

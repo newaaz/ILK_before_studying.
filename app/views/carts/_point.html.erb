@@ -1,0 +1,46 @@
+<div class="row mb-3" id="Point-<%= point.id %>">
+
+  <div class="col-lg-4 col-md-4">    
+    <!-- fotorama begin -->
+    <div class="fotorama-rooms"
+        data-width="100%"
+        data-ratio="3/2"
+        data-allowfullscreen="true"                
+        data-nav="false"
+        data-loop="true"
+        data-keyboard="true"
+        data-auto="false">      
+      <%= link_to image_tag(point.avatar.thumb.url) %>      
+      <% point.images.each do |image| %> 
+        <%= link_to image_tag(image.thumb.url, width: "100px") %>            
+      <% end %>
+    </div>
+    <!-- fotorama end -->
+  </div>
+
+  <div class="col-lg-6 col-md-6">
+
+    <%= link_to point do %>
+      <h3><%= point.name %></h3>
+    <% end %>   
+
+    <div class="">
+      <%= point.how_to_get %>
+    </div>
+
+  </div>
+
+  <div class="col-lg-2 col-md-2 pt-2"> 
+
+    <div class="float-end">
+
+    <%= link_to "Убрать", cart_path(@cart, resource_id: point.id, resource_name: "Point"),
+                          remote: true, method: :delete, class: 'btn btn-outline-danger btn-sm' %>     
+    
+    </div>
+        
+  </div>
+
+</div>
+
+<hr>

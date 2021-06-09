@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_01_165000) do
+ActiveRecord::Schema.define(version: 2021_06_05_061651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,6 +147,36 @@ ActiveRecord::Schema.define(version: 2021_06_01_165000) do
     t.index ["hotel_id"], name: "index_orders_on_hotel_id"
   end
 
+  create_table "point_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "avatar"
+    t.integer "number", limit: 2, default: 1
+  end
+
+  create_table "points", force: :cascade do |t|
+    t.string "name"
+    t.string "avatar"
+    t.json "images"
+    t.string "address"
+    t.text "how_to_get"
+    t.json "desc_json"
+    t.integer "rating", limit: 2, default: 10
+    t.integer "random_id", limit: 2, default: 1
+    t.boolean "enabled", default: true
+    t.boolean "activated", default: false
+    t.boolean "deleted", default: false
+    t.bigint "user_id", null: false
+    t.bigint "town_id", null: false
+    t.bigint "point_category_id", null: false
+    t.decimal "longitude", precision: 6, scale: 4
+    t.decimal "latitude", precision: 6, scale: 4
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["point_category_id"], name: "index_points_on_point_category_id"
+    t.index ["town_id"], name: "index_points_on_town_id"
+    t.index ["user_id"], name: "index_points_on_user_id"
+  end
+
   create_table "rooms", force: :cascade do |t|
     t.string "name"
     t.json "images"
@@ -199,5 +229,8 @@ ActiveRecord::Schema.define(version: 2021_06_01_165000) do
   add_foreign_key "hotels", "users"
   add_foreign_key "line_items", "carts"
   add_foreign_key "orders", "hotels"
+  add_foreign_key "points", "point_categories"
+  add_foreign_key "points", "towns"
+  add_foreign_key "points", "users"
   add_foreign_key "rooms", "hotels"
 end

@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   has_many  :hotels, dependent: :destroy
   has_many  :cafebars, dependent: :destroy
+  has_many  :points, dependent: :destroy
 
   before_save :downcase_email
   before_create :create_activation_digest

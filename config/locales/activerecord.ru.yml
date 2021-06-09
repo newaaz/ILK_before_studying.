@@ -8,7 +8,19 @@ ru:
       order: 'Заявка'
       price: 'Стоимость'
       cafebar: 'Кафе/Ресторан'
-    attributes:      
+      point: 'Поинт'
+    attributes:
+      point:
+        name:   "Название"
+        avatar: "Главное изображение"
+        images: "Изображения"
+        address:  "Адрес"
+        how_to_get: "Как добраться"
+        description:  "Описание"
+        town_id:  "Населённый пункт"
+        point_category_id:  "Категория"
+        latitude: 'Требуется широта,'
+        longitude: 'Требуется долгота,'
       post:
         title:   'Название'
         content: 'Содержание:'

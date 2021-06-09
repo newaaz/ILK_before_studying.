@@ -30,17 +30,22 @@
   <br><br>
 
   <div class="row">
-    <div class="col-9">
+    <div class="col-6">
       <%= link_to "Жильё в #{@town.parent_name}", hotels_town_path,
-                  class: 'btn btn-primary btn-sm' %>
-    </div>  
+          class: 'btn btn-primary btn-sm' %>
+    </div> 
+
+		<div class="col-6">
+			<%= link_to "Поинты #{@town.parent_name}", points_town_path,
+      		class: 'btn btn-warning btn-sm' %>
+		</div> 
   </div>
 
 	<br>
 	<br>
 
 	<%= link_to "Где поесть в #{@town.parent_name}", cafebars_town_path,
-									class: 'btn btn-success btn-sm' %>
+			class: 'btn btn-success btn-sm' %>
 
 	<br>
 

@@ -1,0 +1,264 @@
+<% provide(:title, @point.name) %>
+
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+  <script type="text/javascript">   // widget pack
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({widget: 'Comment', id: 19099});
+    (function() {
+        if ('WIDGETPACK_LOADED' in window) return;
+        WIDGETPACK_LOADED = true;
+        var mc = document.createElement('script');
+        mc.type = 'text/javascript';
+        mc.async = true;
+        mc.src = 'https://embed.widgetpack.com/widget.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  </script>
+
+  <% unless @point.latitude.blank? %>
+  <script type="text/javascript">   // Ymap
+    ymaps.ready(init);
+    function init(){
+      const coords = [<%= @point.latitude %>, <%= @point.longitude %>]      
+      var myMap = new ymaps.Map("map", {
+          center: coords,
+          zoom: 14,
+          behaviors: ['drag','dblClickZoom', 'multiTouch']
+      });    
+      var myPlacemark = new ymaps.Placemark(coords, {}, {
+        preset: "islands#blueStarIcon"
+      });
+      myMap.geoObjects.add(myPlacemark);
+    }  
+  </script>
+  <% end %>
+
+<% end %>
+
+<div class="breadcrumbs">
+  <div class="container">
+    <i class="icon-location-outline crumbs-short" style="font-size:15px"></i>
+    <%= link_to @point.desc_json['town_name'], @point.town %>&nbsp;/
+    <%= link_to "Поинты", points_town_path(@point.town) %>&nbsp;/
+    <%= @point.name %>
+  </div>
+</div>
+
+<main class="hotels-show">
+
+<div class="container">
+ 
+  <!-- title + fotorama + contacts -->
+  <div class="row mt-3">
+
+    <div class="col-lg-9 px-0">
+      <!-- title -->
+      <div class="px-2">
+        <h1 class="d-inline"><%= @point.name %></h1>&emsp;
+        <% if @point.address.blank? %>
+          <i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>
+        <% else %>
+          <i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>, <%= @point.address %>
+        <% end %>        
+      </div>   
+      
+      <!-- fotorama begin -->                        
+      <div class="fotoramain mt-2"
+        data-width="900"
+        data-ratio="3/2"
+        data-allowfullscreen="true"
+        data-nav="thumbs"
+        data-loop="true"
+        data-keyboard="true">
+        <%= link_to image_tag(@point.avatar.thumb.url), @point.avatar.url %>
+        <% @point.images.each do |image| %>
+          <%= link_to image_tag(image.thumb.url), image.url %>
+        <% end %>
+      </div> 
+      <!-- fotorama end -->    
+
+    </div>
+    <!-- Contacts -->
+    <div class="col-lg-3">
+
+      <!-- cart -->
+      <div class="px-3">
+        <% if @current_item %>
+          <%= link_to line_items_path(resource_id: @point.id, resource_name: "Point", action_show: "1"),
+              method: :post, remote: true, id: "heart-Point-#{@point.id}", class: "text-secondary" do %>
+            <div id="add-cart-hotel" class="add-cart text-center mx-4">
+              <i class="icon-heart"></i> Добавлено
+            </div>
+          <% end %>
+        <% else %>
+          <%= link_to line_items_path(resource_id: @point.id, resource_name: "Point", action_show: "1"),
+              method: :post, remote: true, id: "heart-Point-#{@point.id}", class: "text-secondary" do %>
+            <div  id="add-cart-hotel"  class="add-cart text-center px-4">
+              <i class="icon-heart-empty"></i> В избранное
+            </div>
+          <% end %>
+        <% end %>        
+      </div>
+
+      <!-- cats -->
+      <div class="mt-4">
+        <div class="hotel-cats">
+          <ul class="">          
+            <li id="all-point-cats"><%= link_to "Все поинты", points_town_path(@point.town) %></li>                
+            <% @point_categories.each do |point_cat| %>
+              <% unless point_cat.id == @point.point_category.id %>
+                <li id="point-cat-<%= point_cat.id %>">             
+                  <%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %>
+                </li> 
+              <% else %>
+                <li id="point-cat-<%= point_cat.id %>" class="active">             
+                  <%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %>
+                </li> 
+              <% end %>           
+            <% end %>                        
+          </ul>
+        </div>
+      </div>
+
+      <% unless @point.longitude.blank? %>
+        <!-- Near -->
+        <% resources_near(@point, "hotels").each do |hotel_near| %>
+          <%= hotel_near.name %>
+        <% end %>
+        <hr>
+        <% resources_near(@point, "cafebars").each do |hotel_near| %>
+          <%= hotel_near.name %>
+        <% end %>
+      <% end %>
+   
+    </div>
+
+  </div>
+
+  <!-- Desc & Menu + NEAR -->
+  <div class="row">
+    
+    <div class="col-lg-9">
+      
+      <!-- DESCRIPTION -->
+      <div class="tabset" style="font-size:15px;">
+
+        <!-- Tab description-->
+        <input type="radio" name="tabset" id="tab1" aria-controls="desc" checked>
+        <label for="tab1">Описание</label>
+
+        <!-- Tab menu-->
+        <% unless @point.how_to_get.blank? %>
+          <input type="radio" name="tabset" id="tab7" aria-controls="menu">
+          <label for="tab7">Как добраться</label>
+        <% end %>
+
+        <!-- Tab maps -->
+        <% unless @point.latitude.blank? %>
+          <input type="radio" name="tabset" id="tab4" aria-controls="maps">
+          <label for="tab4">На карте</label>
+        <% end %>
+
+        <div class="tab-panels">
+
+          <!-- Tab DESC -->
+          <section id="desc" class="tab-panel">            
+            <% if @point.description.to_plain_text.size > 626 %>            
+              <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
+                            
+              <div class="content_block hide">
+                <%= @point.description %>
+                <a class="content_toggle" style="color:#ff4500" href="#"></a>
+
+                <hr> <!--EDIT DELETE  -->
+                <% if current_user && (current_user?(@point.user) || current_user.admin?) %>
+                  <%= link_to "Edit", edit_point_path(@point) ,class: "btn btn-outline-success btn-sm" %>
+                  <%= link_to "Delete", @point, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+                <% end %>
+
+              </div>          
+            <% else %>
+              <%= @point.description %>
+                <hr> <!--EDIT DELETE  -->
+                <% if current_user && (current_user?(@point.user) || current_user.admin?) %>
+                  <%= link_to "Edit", edit_point_path(@point) ,class: "btn btn-outline-success btn-sm" %>
+                  <%= link_to "Delete", @point, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+                <% end %>
+            <% end %>
+          </section>
+          
+          <!-- Tab how to get -->
+          <% unless @point.how_to_get.blank? %>
+          <section id="menu" class="tab-panel">            
+            <%= @point.how_to_get %>
+          </section>
+          <% end %>    
+
+          <!-- Tab MAP -->
+          <% unless @point.latitude.blank? %>
+            <section id="maps" class="tab-panel">
+              <% if @point.address.blank? %>
+                <h5 class="mb-3"><i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %></h5>
+              <% else %>
+                <h5 class="mb-3"><i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>, <%= @point.address %></h5>
+              <% end %> 
+              
+              <div id="map" style="height: 300px" class="border shadow"></div>            
+            </section>
+          <% end %>
+
+        </div>
+
+      </div>
+
+      <hr>
+      <h3 class="mt-5">Отзывы</h3>
+      <div id="wpac-comment" class="mt-3"></div>
+
+    </div>
+
+    <div class="col-lg-3 pe-0">
+      
+    </div>    
+
+  </div>
+
+  </div>
+
+
+
+</main>
+
+<script>//Initialize fotorama manually for rooms.
+  $(document).on('turbolinks:load', function() {
+    $(function () {
+      // Initialize main fotorama
+      $('.fotoramain').fotorama({
+        width: 990,
+        ratio: 3/2,
+        allowfullscreen: true,
+        nav: 'thumbs',
+        loop: true,
+        keyboard: true,
+      })   
+    });
+  }); 
+</script>
+
+<script>// description & menu more
+  $(document).ready(function(){
+    $('.content_toggle').click(function(){
+      $('.content_block').toggleClass('hide');	
+      if ($('.content_block').hasClass('hide')) {
+        $('.content_toggle').html('<i class="icon-angle-down"></i>Показать текст');
+      } else {
+        $('.content_toggle').html('<i class="icon-angle-up"></i>Свернуть текст');
+      }		
+      return false;
+    });			
+  });
+</script>
+
+
+

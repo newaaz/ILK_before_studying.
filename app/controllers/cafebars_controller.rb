@@ -10,6 +10,7 @@ class CafebarsController<ApplicationController
 
   def show
     @cafebar = Cafebar.find(params[:id])
+    @town = @cafebar.town
     # определяем - является ли этот отель запомненным    
     current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Cafebar') if @cart
     @current_item = true if current_item
