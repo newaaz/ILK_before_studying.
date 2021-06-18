@@ -1,0 +1,329 @@
+<% provide(:title, @service.name) %>
+
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+  <script type="text/javascript">   // widget pack
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({widget: 'Comment', id: 19099});
+    (function() {
+        if ('WIDGETPACK_LOADED' in window) return;
+        WIDGETPACK_LOADED = true;
+        var mc = document.createElement('script');
+        mc.type = 'text/javascript';
+        mc.async = true;
+        mc.src = 'https://embed.widgetpack.com/widget.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  </script>
+
+  <% unless @service.latitude.blank? %>
+  <script type="text/javascript">   // Ymap
+    ymaps.ready(init);
+    function init(){
+      const coords = [<%= @service.latitude %>, <%= @service.longitude %>]      
+      var myMap = new ymaps.Map("map", {
+          center: coords,
+          zoom: 14,
+          behaviors: ['drag','dblClickZoom', 'multiTouch']
+      });    
+      var myPlacemark = new ymaps.Placemark(coords, {}, {
+        preset: "islands#blueStarIcon"
+      });
+      myMap.geoObjects.add(myPlacemark);
+    }  
+  </script>
+  <% end %>
+
+<% end %>
+
+<section class="parallax-window" data-parallax="scroll" data-image-src="<%= @service.avatar.url %>">
+  <div class="parallax-content-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h1><%= @service.name %></h1>
+          <span>            
+            <% if @service.address.blank? %>
+              <%= @service.desc_json['cat_name'] %>
+            <% else %>
+              <%= @service.desc_json['cat_name'] %>, <%= @service.address %>
+            <% end %>
+          </span>         
+        </div>
+        <div class="col-md-4 d-md-none">          
+          <div id="price_single_main" class="hotel">
+            <span><sup></sup></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="breadcrumbs">
+  <div class="container">
+    <i class="icon-location-outline" style="font-size:15px"></i>
+    <%= link_to @town.name, @town %>&nbsp;/
+    <%= link_to "Услуги и сервисы", services_town_path(@town) %>&nbsp;/
+    <%= @service.name %>
+  </div>
+</div>
+
+<div class="container">
+ 
+  <!-- fotorama + contacts -->
+  <div class="row mt-3">
+
+    <div class="col-lg-9 px-0">      
+      <!-- fotorama begin -->                        
+      <div class="fotoramain mt-2"
+        data-width="900"
+        data-ratio="3/2"
+        data-allowfullscreen="true"
+        data-nav="thumbs"
+        data-loop="true"
+        data-keyboard="true">
+        <%= link_to image_tag(@service.avatar.thumb.url), @service.avatar.url %>
+        <% @service.images.each do |image| %>
+          <%= link_to image_tag(image.thumb.url), image.url %>
+        <% end %>
+      </div> 
+      <!-- fotorama end -->
+    </div>
+    
+    <div class="col-lg-3">
+      <!-- Contacts -->
+      <div class="contact-numbers mt-4 pt-3">
+        <div class="contact-number ps-2">
+          <span class="contact-phone ps-1">
+            <a href="tel:+$<%= @service.desc_json['phone_clean'] %>"><i class="icon_set_1_icon-90" style="font-size:22px;"></i>
+            <%= @service.desc_json['phone'] %></a>
+          </span>
+        </div>
+      </div>
+      <div class="contact-email ps-4 mb-3"><!-- vk etc -->
+        <% unless @service.desc_json['vk'].blank? %>
+          <span><a href="https://vk.com/<%= @service.desc_json['vk'] %>" target="_blank">&nbsp;vk/<%= @service.desc_json['vk'] %></a></span>
+        <% end %>
+        <% unless @service.desc_json['instagram'].blank? %>
+          <span><a href="https://www.instagram.com/<%= @service.desc_json['instagram'] %>" target="_blank">&nbsp;@<%= @service.desc_json['instagram'] %></a></span>
+        <% end %>
+        <% unless @service.desc_json['site'].blank? %>
+          <span><a href="https://<%= @service.desc_json['site'] %>" target="_blank">&#127760;&nbsp;<%= @service.desc_json['site'] %></a></span>      
+        <% end %>
+        <% unless @service.desc_json['email'].blank? %>
+          <span style="margin-left:-5px;">
+            <a href="mailto:<%= @service.desc_json['email'] %>"><i class="icon-mail-6" style="font-size:20px;"></i>
+            <%= @service.desc_json['email'] %></a> 
+          </span>
+        <% end %>
+      </div>
+
+      <!-- cart -->
+      <div class="px-3">
+        <% if @current_item %>
+          <%= link_to line_items_path(resource_id: @service.id, resource_name: "Service", action_show: "1"),
+              method: :post, remote: true, id: "heart-Service-#{@service.id}", class: "text-secondary" do %>
+            <div id="add-cart-hotel" class="add-cart text-center mx-4">
+              <i class="icon-heart"></i> Добавлено
+            </div>
+          <% end %>
+        <% else %>
+          <%= link_to line_items_path(resource_id: @service.id, resource_name: "Service", action_show: "1"),
+              method: :post, remote: true, id: "heart-Service-#{@service.id}", class: "text-secondary" do %>
+            <div  id="add-cart-hotel"  class="add-cart text-center mx-4">
+              <i class="icon-heart-empty"></i> В избранное
+            </div>
+          <% end %>
+        <% end %>        
+      </div>
+
+      <!--EDIT DELETE  -->
+      <% if current_user && (current_user?(@service.user) || current_user.admin?) %>
+        <div class="mt-4 text-center">
+          <%= link_to "Edit", edit_service_path(@service) ,class: "btn btn-outline-success btn-sm" %>
+          <%= link_to "Delete", @service, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+        </div>
+      <% end %>
+
+    </div>
+
+  </div>
+
+  <!-- Desc & Price & Addition + NEAR -->
+  <div class="row">
+    
+    <div class="col-lg-9">
+      
+      <!-- DESCRIPTION -->
+      <div class="tabset" style="font-size:15px;">
+
+        <!-- Tab description-->
+        <input type="radio" name="tabset" id="tab1" aria-controls="desc" checked>
+        <label for="tab1">Описание</label>
+
+        <!-- Tab Price -->
+        <% unless @service.price.blank? %>
+          <input type="radio" name="tabset" id="tab2" aria-controls="price" checked>
+          <label for="tab2">Цена</label>
+        <% end %>
+
+        <!-- Tab Addition -->
+        <% unless @service.addition.blank? %>
+          <input type="radio" name="tabset" id="tab3" aria-controls="addition" checked>
+          <label for="tab3">Дополнительно</label>
+        <% end %>
+
+        <!-- Tab maps -->
+        <% unless @service.latitude.blank? %>
+          <input type="radio" name="tabset" id="tab4" aria-controls="maps" checked>
+          <label for="tab4">На карте</label>
+        <% end %>
+
+        <!-- Tab comments-->
+        <input type="radio" name="tabset" id="tab5" aria-controls="comments" checked>
+        <label for="tab5">Отзывы</label>
+
+        <div class="tab-panels">
+
+          <!-- section DESC -->
+          <section id="desc" class="tab-panel">            
+            <% if @service.description.to_plain_text.size > 626 %>            
+              <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
+              <div class="content_block hide">
+                <%= @service.description %>
+                <a class="content_toggle" style="color:#ff4500" href="#"></a>           
+              </div>          
+            <% else %>
+              <%= @service.description %>               
+            <% end %>
+          </section>
+
+          <!-- section Price -->
+          <% unless @service.price.blank? %>
+            <section id="price" class="tab-panel">                   
+              <% if @service.price.to_plain_text.size > 626 %>            
+                <a class="menu_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
+                <div class="menu_block hide">
+                  <%= @service.price %>
+                  <a class="menu_toggle" style="color:#ff4500" href="#"></a>           
+                </div>          
+              <% else %>
+                <%= @service.price %>               
+              <% end %>
+            </section>
+          <% end %>
+
+          <!-- section Addition -->
+          <% unless @service.addition.blank? %>
+            <section id="addition" class="tab-panel">                   
+              <% if @service.addition.to_plain_text.size > 626 %>            
+                <a class="addition_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
+                <div class="addition_block hide">
+                  <%= @service.addition %>
+                  <a class="addition_toggle" style="color:#ff4500" href="#"></a>           
+                </div>          
+              <% else %>
+                <%= @service.addition %>               
+              <% end %>
+            </section>
+          <% end %>
+
+          <!-- section Tab MAP -->
+          <% unless @service.latitude.blank? %>
+            <section id="maps" class="tab-panel">
+              <% if @service.address %>
+                <h5 class="mb-3"><i class="icon_set_1_icon-37"></i> <%= @service.address %></h5>
+              <% end %> 
+              
+              <div id="map" style="height: 300px" class="border shadow"></div>            
+            </section>
+          <% end %>
+
+          <!-- section Tab Comments -->
+          <section id="comments" class="tab-panel">            
+            <div id="wpac-comment" class="mt-3"></div>
+          </section> 
+
+        </div>
+
+      </div>    
+      
+
+    </div>
+
+    <div class="col-lg-3 pe-0">
+      <!-- cats -->
+      <div class="hotel-cats">
+        <ul class="">          
+          <li><%= link_to "Все Услуги и сервисы", services_town_path(@town) %></li>                
+          <% @service_categories.each do |service_cat| %>
+            <% if service_cat.id == @service.service_category.id %>
+              <li>
+                <%= link_to service_cat.name, services_town_path(@town, { cat: service_cat.id }) %>
+              </li> 
+            <% else %>
+              <li class="active">
+                <%= link_to service_cat.name, services_town_path(@town, { cat: service_cat.id }) %>
+              </li> 
+            <% end %>
+          <% end %>                        
+        </ul>
+      </div>
+
+    </div>    
+
+  </div>
+
+</div>
+
+
+<script>//Initialize fotorama manually for rooms.
+  $(document).on('turbolinks:load', function() {
+    $(function () {
+      // Initialize main fotorama
+      $('.fotoramain').fotorama({
+        width: 990,
+        ratio: 3/2,
+        allowfullscreen: true,
+        nav: 'thumbs',
+        loop: true,
+        keyboard: true,
+      })   
+    });
+  }); 
+</script>
+
+<script>// description & add & price more
+  $(document).ready(function(){
+    $('.content_toggle').click(function(){
+      $('.content_block').toggleClass('hide');	
+      if ($('.content_block').hasClass('hide')) {
+        $('.content_toggle').html('<i class="icon-angle-down"></i>Показать текст');
+      } else {
+        $('.content_toggle').html('<i class="icon-angle-up"></i>Свернуть текст');
+      }		
+      return false;
+    });
+    // menu (price) toggle
+    $('.menu_toggle').click(function(){
+      $('.menu_block').toggleClass('hide');	
+      if ($('.menu_block').hasClass('hide')) {
+        $('.menu_toggle').html('<i class="icon-angle-down"></i>Показать текст');
+      } else {
+        $('.menu_toggle').html('<i class="icon-angle-up"></i>Свернуть текст');
+      }		
+      return false;
+    });
+    // addition toggle
+    $('.addition_toggle').click(function(){
+      $('.addition_block').toggleClass('hide');	
+      if ($('.addition_block').hasClass('hide')) {
+        $('.addition_toggle').html('<i class="icon-angle-down"></i>Показать текст');
+      } else {
+        $('.addition_toggle').html('<i class="icon-angle-up"></i>Свернуть текст');
+      }		
+      return false;
+    });	
+  });
+</script>

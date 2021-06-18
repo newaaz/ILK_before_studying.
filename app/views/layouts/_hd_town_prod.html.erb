@@ -1,0 +1,10 @@
+<li class="nav-item dropdown hover">
+  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+    <i class="icon_set_1_icon-61" style="font-size:18px;"></i><%= @town.name %>
+  </a>
+  <ul class="dropdown-menu">
+    <li><%= link_to "Жильё в #{@town.parent_name}", hotels_town_path(@town), class: "dropdown-item" %></li>
+    <li><%= link_to "Где поесть в #{@town.parent_name}", cafebars_town_path(@town), class: 'dropdown-item' %></li>
+    <li><%= link_to "Поинты #{@town.parent_name}", points_town_path(@town), class: 'dropdown-item' %></li>
+  </ul>
+</li>

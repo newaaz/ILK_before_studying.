@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_05_061651) do
+ActiveRecord::Schema.define(version: 2021_06_11_180234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,6 +190,40 @@ ActiveRecord::Schema.define(version: 2021_06_05_061651) do
     t.index ["hotel_id"], name: "index_rooms_on_hotel_id"
   end
 
+  create_table "service_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "avatar"
+    t.integer "number", limit: 2, default: 1
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name"
+    t.string "avatar"
+    t.json "images"
+    t.string "address"
+    t.json "desc_json"
+    t.integer "rating", limit: 2, default: 10
+    t.integer "random_id", limit: 2, default: 1
+    t.boolean "enabled", default: true
+    t.boolean "activated", default: false
+    t.boolean "deleted", default: false
+    t.decimal "longitude", precision: 6, scale: 4
+    t.decimal "latitude", precision: 6, scale: 4
+    t.bigint "user_id", null: false
+    t.bigint "service_category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_category_id"], name: "index_services_on_service_category_id"
+    t.index ["user_id"], name: "index_services_on_user_id"
+  end
+
+  create_table "services_towns", id: false, force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "town_id", null: false
+    t.index ["service_id"], name: "index_services_towns_on_service_id"
+    t.index ["town_id"], name: "index_services_towns_on_town_id"
+  end
+
   create_table "tagcafebars", force: :cascade do |t|
     t.string "name"
     t.string "icon"
@@ -233,4 +267,8 @@ ActiveRecord::Schema.define(version: 2021_06_05_061651) do
   add_foreign_key "points", "towns"
   add_foreign_key "points", "users"
   add_foreign_key "rooms", "hotels"
+  add_foreign_key "services", "service_categories"
+  add_foreign_key "services", "users"
+  add_foreign_key "services_towns", "services"
+  add_foreign_key "services_towns", "towns"
 end

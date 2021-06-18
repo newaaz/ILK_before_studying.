@@ -79,6 +79,7 @@
       <!-- fotorama end -->    
 
     </div>
+
     <!-- Contacts -->
     <div class="col-lg-3">
 
@@ -105,14 +106,14 @@
       <div class="mt-4">
         <div class="hotel-cats">
           <ul class="">          
-            <li id="all-point-cats"><%= link_to "Все поинты", points_town_path(@point.town) %></li>                
+            <li><%= link_to "Все поинты", points_town_path(@point.town) %></li>                
             <% @point_categories.each do |point_cat| %>
               <% unless point_cat.id == @point.point_category.id %>
-                <li id="point-cat-<%= point_cat.id %>">             
+                <li>             
                   <%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %>
                 </li> 
               <% else %>
-                <li id="point-cat-<%= point_cat.id %>" class="active">             
+                <li class="active">             
                   <%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %>
                 </li> 
               <% end %>           
@@ -190,9 +191,9 @@
           
           <!-- Tab how to get -->
           <% unless @point.how_to_get.blank? %>
-          <section id="menu" class="tab-panel">            
-            <%= @point.how_to_get %>
-          </section>
+            <section id="menu" class="tab-panel">            
+              <%= @point.how_to_get %>
+            </section>
           <% end %>    
 
           <!-- Tab MAP -->
@@ -213,7 +214,7 @@
       </div>
 
       <hr>
-      <h3 class="mt-5">Отзывы</h3>
+      <h3 class="mt-3">Отзывы</h3>
       <div id="wpac-comment" class="mt-3"></div>
 
     </div>

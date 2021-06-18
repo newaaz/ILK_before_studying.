@@ -1,0 +1,46 @@
+<div class="row mb-3" id="Service-<%= service.id %>">
+
+  <div class="col-lg-4 col-md-4">    
+    <!-- fotorama begin -->
+    <div class="fotorama-rooms"
+        data-width="100%"
+        data-ratio="3/2"
+        data-allowfullscreen="true"                
+        data-nav="false"
+        data-loop="true"
+        data-keyboard="true"
+        data-auto="false">      
+      <%= link_to image_tag(service.avatar.thumb.url) %>      
+      <% service.images.each do |image| %> 
+        <%= link_to image_tag(image.thumb.url, width: "100px") %>            
+      <% end %>
+    </div>
+    <!-- fotorama end -->
+  </div>
+
+  <div class="col-lg-6 col-md-6">
+
+    <%= link_to service do %>
+      <h3><%= service.name %></h3>
+    <% end %>   
+
+    <div class="">
+      Контакты
+    </div>
+
+  </div>
+
+  <div class="col-lg-2 col-md-2 pt-2"> 
+
+    <div class="float-end">
+
+    <%= link_to "Убрать", cart_path(@cart, resource_id: service.id, resource_name: "Service"),
+                          remote: true, method: :delete, class: 'btn btn-outline-danger btn-sm' %>     
+    
+    </div>
+        
+  </div>
+
+</div>
+
+<hr>

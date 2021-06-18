@@ -17,6 +17,10 @@ class Point < ApplicationRecord
   validate  :image_type_size
   validate  :description_embeds
 
+  after_save  :set_town_and_cat!
+
+  #TODO: сделать проверку полей json на длину текста
+
 private
 
   # Проверяем главное изображение Avatar carrierwave
@@ -55,6 +59,12 @@ private
         errors.add(:description, "должно содержать только изображения формата JPG или PNG") unless attach.content_type.in?(%('image/jpeg image/png'))
       end
     end
+  end
+
+  def set_town_and_cat!
+    desc_json['town_name'] = town.name
+    desc_json['cat_name'] = point_category.name
+    update_column(:desc_json, desc_json)
   end
 
 end

@@ -1,27 +1,31 @@
-class Cafebar < ApplicationRecord
+class Service < ApplicationRecord
 
   belongs_to :user
-  belongs_to :town
+  belongs_to :service_category
 
-  has_and_belongs_to_many :tagcafebars
+  has_and_belongs_to_many :towns
 
   has_rich_text :description
-  has_rich_text :menu
+  has_rich_text :addition
+  has_rich_text :price
 
   mount_uploader  :avatar, PictureUploader
   mount_uploaders :images, PictureUploader
 
-  validates :name, :address, :avatar, :description, :menu, presence: true
+  validates :name, :avatar, :description, presence: true
 
   validate  :avatar_type_size
   validate  :image_type_size
-  validate  :coordinates
+
   validate  :description_embeds
-  validate  :menu_embeds
+  validate  :addition_embeds
+  validate  :price_embeds
 
-  after_save  :set_town!
+  after_save  :set_cat_name!
 
-private
+  #TODO: сделать проверку полей json на длину текста  
+
+  private
 
   # Проверяем главное изображение Avatar carrierwave
   def avatar_type_size
@@ -61,26 +65,36 @@ private
     end
   end
 
-  # Проверяем прикреплённые файлы Action Text'a :menu
-  def menu_embeds 
+  # Проверяем прикрепленные файлы Action Text'a :addition
+  def addition_embeds 
     #@max_byte_size = 5.megabytes
-    @attachments = rich_text_menu.body.attachments
+    @attachments = rich_text_addition.body.attachments
     if @attachments.any?
-      errors.add(:menu, 'Нельзя загружать более 20 изображений') if @attachments.size > 20
+      errors.add(:addition, 'Нельзя загружать более 2 изображений') if @attachments.size > 2
       @attachments.each do |attach|
-        errors.add(:menu, ' - одно из используемых в тексте изображений больше 3МБ') if attach.byte_size > 3.megabytes
-        errors.add(:menu, 'можно загружать только изображения') unless attach.image? 
-        errors.add(:menu, "должно содержать только изображения формата JPG или PNG") unless attach.content_type.in?(%('image/jpeg image/png'))
+        errors.add(:addition, ' - одно из используемых в тексте изображений больше 3МБ') if attach.byte_size > 3.megabytes
+        errors.add(:addition, 'можно загружать только изображения') unless attach.image? 
+        errors.add(:addition, "должно содержать только изображения формата JPG или PNG") unless attach.content_type.in?(%('image/jpeg image/png'))
       end
     end
   end
 
-  def coordinates
-    errors.add(:latitude, 'Нужно отметить объект на карте') if latitude.nil? || longitude.nil?
+  # Проверяем прикрепленные файлы Action Text'a :addition
+  def price_embeds 
+    #@max_byte_size = 5.megabytes
+    @attachments = rich_text_price.body.attachments
+    if @attachments.any?
+      errors.add(:price, 'Нельзя загружать более 2 изображений') if @attachments.size > 2
+      @attachments.each do |attach|
+        errors.add(:price, ' - одно из используемых в тексте изображений больше 3МБ') if attach.byte_size > 3.megabytes
+        errors.add(:price, 'можно загружать только изображения') unless attach.image? 
+        errors.add(:price, "должно содержать только изображения формата JPG или PNG") unless attach.content_type.in?(%('image/jpeg image/png'))
+      end
+    end
   end
 
-  def set_town!
-    desc_json['town_name'] = town.name
+  def set_cat_name!
+    desc_json['cat_name'] = service_category.name
     update_column(:desc_json, desc_json)
   end
 

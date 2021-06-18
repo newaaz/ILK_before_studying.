@@ -1,6 +1,6 @@
 class TownsController < ApplicationController
 
-  before_action :user_admin, except: [:show, :hotels, :cafebars]
+  before_action :user_admin, except: [:show, :hotels, :cafebars, :points]
 
   def index
     @towns = Town.all    
@@ -54,8 +54,8 @@ class TownsController < ApplicationController
     if params[:cat].blank?
       @hotels = @town.hotels.select(:id, :avatar, :images, :name, :price_from, :distance_to_sea, :desc_json, :address)
     else
-      @hotels = @town.hotels.where(hotel_category: params[:cat].to_i)
-      @hotel_cat = HotelCategory.find(params[:cat].to_i).name
+      @hotels = @town.hotels.select(:id, :avatar, :images, :name, :price_from, :distance_to_sea, :desc_json, :address).where(hotel_category: params[:cat].to_i)
+      @hotels_cat = HotelCategory.find(params[:cat].to_i).name
     end
 
     # определяем массив запомненных ID отелей, если есть @cart
@@ -102,13 +102,34 @@ class TownsController < ApplicationController
       @points = @town.points.select(:id, :avatar, :images, :name, :desc_json)
     else
       @points = @town.points.select(:id, :avatar, :images, :name, :desc_json).where(point_category: params[:cat].to_i)
-      @point_cat = PointCategory.find(params[:cat].to_i).name
+      @points_cat = PointCategory.find(params[:cat].to_i).name
     end
 
-    # определяем массив запомненных ID отелей, если есть @cart
+    # определяем массив запомненных ID Points, если есть @cart
     if @cart
       @array_resources_ids = []
       @cart.line_items.where(resource_name: "Point").each do |line_item|
+        @array_resources_ids << line_item.resource_id
+      end
+    end
+  end
+
+  # Метод выводит Услуги/Сервисы (Services)
+  def services
+    #debugger
+    @town = Town.find(params[:id])
+    @service_categories = ServiceCategory.all
+    if params[:cat].blank?
+      @services = @town.services.select(:id, :avatar, :images, :name, :desc_json)
+    else
+      @services = @town.services.select(:id, :avatar, :images, :name, :desc_json).where(service_category: params[:cat].to_i)
+      @services_cat = ServiceCategory.find(params[:cat].to_i).name
+    end
+
+    # определяем массив запомненных ID Services, если есть @cart
+    if @cart
+      @array_resources_ids = []
+      @cart.line_items.where(resource_name: "Service").each do |line_item|
         @array_resources_ids << line_item.resource_id
       end
     end

@@ -4,6 +4,8 @@ class Town < ApplicationRecord
   has_many  :cafebars, dependent: :destroy
   has_many  :points, dependent: :destroy
 
+  has_and_belongs_to_many :services
+
   default_scope { order(:number) }
 
   mount_uploader  :avatar, PictureUploader

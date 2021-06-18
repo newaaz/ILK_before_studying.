@@ -1,0 +1,296 @@
+<% provide(:title, 'Изменение услуги') %>
+
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+
+<div class="container mt-5">
+  
+  <h1 class='h3 text-center mb-4'>Изменение услуги</h1>
+
+  <%= form_with(model: @service, local: true, html: { name: "service" }) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="row g-3">
+
+      <div class="col-lg-9  border-end">
+
+        <div class="row mb-3 gx-2">
+
+          <div class="col-lg-4 col-md-6 mb-3">
+            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+            <%= f.label :name %> <span class="text-danger">*</span>  
+            <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>            
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <span>
+              <i class="icon_set_1_icon-8 text-muted"></i>
+            </span>
+            <%= f.label :service_category_id %> <span class="text-danger">*</span>              
+            <%= f.collection_select :service_category_id, ServiceCategory.order(:number), :id, :name,
+              { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <span>
+              <i class="icon_set_1_icon-8 text-muted"></i>
+            </span>
+            <%= f.label :address %>
+            <small class="text-muted">
+              / улица, номер
+            </small>
+            <%= f.text_field :address, class: 'form-control form-control-sm' %>
+          </div>     
+
+        </div>
+
+        <!-- Desc -->
+        <div class="mb-2">
+          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <%= f.label :description %> <span class="text-danger">*</span>
+        </div>
+        <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
+        <!-- Prices -->
+        <div class="mb-2 mt-3">
+          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <%= f.label :price %>
+        </div>
+        <%= f.rich_text_area :price, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
+        <!-- Addition -->
+        <div class="mb-2 mt-3">
+          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <%= f.label :addition %>
+        </div>
+        <%= f.rich_text_area :addition, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
+        
+        <!-- map -->
+        <div class="row mb-4 mt-3 pb-3 gx-2">
+          <div class="col-md-8">
+            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+            Отметить на карте
+            <div id="map" style="height: 300px" class="border mt-2"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="coordinates mt-4">
+              <span>Координаты</span>
+              <div class="form-group">              
+                <small class="text-muted">Широта</small>                
+                <%= f.text_field :latitude, class: 'form-control', readonly: true %>
+              </div>
+              <div class="form-group mb-5">              
+                <small class="text-muted">Долгота</small>
+                <%= f.text_field :longitude, class: 'form-control', readonly: true %>
+              </div>
+              <div class="pt-5">
+                <button type="button" id="clear-btn" class="d-block btn btn-outline-secondary btn-sm">Сбросить координаты</button>
+                <small class="text-muted">С пустыми координатами карта отображаться не будет</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
+          <%= button_tag "Сохранить изменения", type: 'submit', class:"btn btn-primary" %>
+        </div>       
+
+      </div>
+      <!-- contacts & photo -->
+      <div class="col-lg-3">             
+          
+        <div class="row">
+                  
+          <div class="col">
+            <!-- contacts -->  
+            <h3 class='h4 text-center text-success'>Контакты</h3>
+            <div class="mb-3"><!-- phone -->
+              <span style="font-size:18px"><i class="icon_set_1_icon-62 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+              <label class="form-label">Телефон</label><small class="text-muted"> (если есть)</small> 
+              <input name="phone" type="text" class="mask-phone form-control form-control-sm">
+            </div>
+            <div class="mb-3"><!-- vk -->           
+              <div class="mb-1">
+                <i class="icon_set_1_icon-8 text-muted"></i>
+                <label class="form-label">ВКонтакте</label><small class="text-muted"> (если есть)</small>
+              </div>
+              <div class="input-group input-group-sm">
+                <span class="input-group-text">vk.com/</span>
+                <input name="vk" type="text" class="form-control form-control-sm">
+              </div>            
+            </div>
+            <div class="mb-3"><!-- insta -->           
+              <div class="mb-1">
+                <i class="icon_set_1_icon-8 text-muted"></i>
+                <label class="form-label">Instagram</label><small class="text-muted"> (если есть)</small>
+              </div>
+              <div class="input-group input-group-sm">
+                <span class="input-group-text">instagram.com/</span>
+                <input name="instagram" type="text" class="form-control form-control-sm">
+              </div>            
+            </div>
+            <div class="mb-3"><!-- site -->          
+              <div class="mb-1">
+                <i class="icon_set_1_icon-8 text-muted"></i>
+                <label class="form-label">Сайт</label><small class="text-muted"> (если есть)</small>
+              </div>
+              <div class="input-group input-group-sm">
+                <span class="input-group-text">https://</span>
+                <input name="site" type="text" class="form-control form-control-sm">
+              </div>            
+            </div>
+            <div class="mb-3">
+              <span style="font-size:18px"><i class="icon_set_1_icon-84" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+              <label class="form-label">Email</label><small class="text-muted"> (если есть)</small>
+              <input name="email" type="text" class="form-control form-control-sm">
+            </div>          
+            <!-- images -->
+            <h3 class='h4 text-center text-success'>Фотографии</h3>
+            <div class="mb-3">
+              <i class="icon_set_1_icon-8 text-muted"></i><%= f.label :avatar %> <span class="text-danger">*</span>
+              <small class="text-muted mb-2">Здесь подсказки к загрузке  главного фото</small> 
+              <%= f.file_field :avatar, accept: 'image/*' %>
+            </div>
+            <div class="mb-3">
+              <i class="icon_set_1_icon-8 text-muted"></i> Остальные изображения     
+              <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
+              <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
+            </div>
+             <!-- towns -->
+            <h3 class='h4 text-center text-success'>К каким населённым пунктам относится</h3>          
+            <div class="form-group">
+              <%= f.label 'Выберите один или несколько', class:"ps-1" %>            
+              <%= f.collection_select :town_ids, Town.order(:name), :id, :name,
+                { include_blank: false }, class:"form-select", size: 8, required: true, multiple: true %>
+            </div> 
+            <input type="hidden" name="desc_json"><!-- hidden -->           
+          </div>
+                  
+        </div>       
+
+      </div>
+
+    </div>            
+
+  <% end %>
+
+</div>
+
+
+<% if @service.latitude.blank? %><!-- YMAP -->
+  <script type="text/javascript">
+    ymaps.ready(init);
+    function init(){
+        
+      var myMap = new ymaps.Map("map", {
+          center: [45.15, 34.52],
+          zoom: 8,
+          controls: ['zoomControl'],
+          behaviors: ['drag','dblClickZoom', 'multiTouch']
+      });      
+
+      myMap.events.add('click', function (e) {
+        if (!myMap.balloon.isOpen()) {
+            var coords = e.get('coords');
+            myMap.balloon.open(coords, {
+                contentBody:'<p>Вы отметили новое место на карте.</p>' +
+                    '<p>Координаты места: ' + [
+                    coords[0].toPrecision(6),
+                    coords[1].toPrecision(6),
+                    ].join(', ') + '</p>',
+                contentFooter:'Чтобы изменить координаты щёлкните в другом месте'
+            });
+
+            document.getElementById('service_latitude').value = coords[0].toPrecision(6)
+            document.getElementById('service_longitude').value = coords[1].toPrecision(6)
+        }
+        else {
+            myMap.balloon.close();
+        }
+      });
+
+    }
+
+    document.getElementById('clear-btn').onclick = function(e) {
+      document.getElementById('service_latitude').value = ''
+      document.getElementById('service_longitude').value = ''
+    }
+  </script>
+<% else %>
+  <script type="text/javascript">  
+    ymaps.ready(init);
+    function init(){
+      const coords = [<%= @service.latitude %>, <%= @service.longitude %>]
+      var myMap = new ymaps.Map("map", {
+          center: coords,
+          zoom: 16,
+          controls: ['zoomControl'],
+          behaviors: ['drag','dblClickZoom', 'multiTouch']
+      });
+
+      var myPlacemark = new ymaps.Placemark(coords, {}, {
+        preset: "islands#darkOrangeStarIcon",        
+        // Балун будем открывать и закрывать кликом по иконке метки.
+        hideIconOnBalloonOpen: false,
+        draggable: true
+      });
+      myMap.geoObjects.add(myPlacemark);
+
+      myPlacemark.events.add('dragend', function(e) {
+        var newCoords = myPlacemark.geometry.getCoordinates()
+        document.getElementById('service_latitude').value = newCoords[0].toPrecision(6)
+        document.getElementById('service_longitude').value = newCoords[1].toPrecision(6)
+
+      })
+
+      document.getElementById('clear-btn').onclick = function(e) {
+        //myMap.geoObjects.remove(myPlacemark)
+        document.getElementById('service_latitude').value = ''
+        document.getElementById('service_longitude').value = ''
+      }
+    }    
+  </script>
+<% end %>
+
+<!-- avatar, mask-phone, work with form -->
+<script type="text/javascript">
+  // check avatar size
+  $("#service_avatar").bind("change", function() {
+    const size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 4) {
+      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+    }
+  });
+
+  // Mask phone
+  $('.mask-phone').mask('+9(999)999-99-99');
+
+  var form = document.forms.service
+
+  // fill in the fields
+    form.phone.value =  '<%= @service.desc_json['phone'] %>'
+    form.vk.value = '<%= @service.desc_json['vk'] %>'
+    form.instagram.value = '<%= @service.desc_json['instagram'] %>'
+    form.site.value = '<%= @service.desc_json['site'] %>'
+    form.email.value = '<%= @service.desc_json['email']  %>'
+
+  // On Submit
+  form.addEventListener('submit', function(event){
+    
+    form.button.disabled = true;  
+    event.preventDefault();
+    
+    var data = {
+      "phone": this.phone.value,
+      "vk": this.vk.value,
+      "instagram": this.instagram.value,
+      "site": this.site.value,
+      "email": this.email.value,
+    };   
+
+    this.desc_json.value = JSON.stringify(data);  
+    form.submit();
+  })
+
+</script>
+

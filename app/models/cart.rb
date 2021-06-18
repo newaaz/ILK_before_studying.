@@ -29,6 +29,15 @@ class Cart < ApplicationRecord
     Point.find(array_point_ids)
   end
 
+  # find checked services
+  def services
+    array_service_ids = []
+    line_items.where('resource_name = ?', 'Service').each do |line_item|
+      array_service_ids << line_item.resource_id
+    end
+    Service.find(array_service_ids)
+  end
+
 end
 
 

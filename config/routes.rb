@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get :hotels, on: :member
     get :cafebars, on: :member
     get :points, on: :member
+    get :services, on: :member
   end
   resources :hotels
   resources :rooms
@@ -38,6 +39,9 @@ Rails.application.routes.draw do
   resources :tagcafebars, except: :show
 
   resources :points  
-  resources :point_categories, except: :show  
+  resources :point_categories, except: :show
+
+  resources :services
+  resources :service_categories, except: :show  
 
 end

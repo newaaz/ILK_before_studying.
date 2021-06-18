@@ -1,7 +1,7 @@
-<% provide(:title, "Поинты в #{ @town.parent_name }") %>
+<% provide(:title, "Услуги и сервисы в #{ @town.parent_name }") %>
 
 <% content_for(:javascript_plugin_header) do %>
-  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
 <% end %>
 
 <section class="parallax-window" data-parallax="scroll" data-image-src="<%= @town.avatar.url %>">
@@ -9,10 +9,10 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8">          
-          <% if @points_cat %>
-						<h1><%= @points_cat %> в <%= @town.parent_name %></h1>
+          <% if @services_cat %>
+						<h1><%= @services_cat %> в <%= @town.parent_name %></h1>
 					<% else %>
-						<h1>Поинты в <%= @town.parent_name %></h1>
+						<h1>Услуги и сервисы в <%= @town.parent_name %></h1>
 					<% end %>          
           <span>Интересные и необходимые места, достопримечательности</span>          
         </div>
@@ -31,12 +31,12 @@
     <i class="icon-location-outline" style="font-size:15px"></i>
     <%= link_to "Главная", root_url %>&nbsp;/
     <%= link_to @town.name, @town %>&nbsp;/
-    <% unless @points_cat.blank? %>
-      <%= link_to "Поинты", points_town_path %>&nbsp;/
-      <%= @points_cat %>				
+    <% unless @services_cat.blank? %>
+      <%= link_to "Услуги и сервисы", services_town_path %>&nbsp;/
+      <%= @services_cat %>				
     <% else %>
-      Поинты в <%= @town.parent_name %>
-    <% end %>    
+      Услуги и сервисы в <%= @town.parent_name %>
+    <% end %>     
   </div>
 </div>
 
@@ -47,10 +47,10 @@
 		<aside class="col-lg-3 px-lg-4 px-md-2 px-sm-0">
 			<div class="hotel-cats">
         <ul class="">          
-          <li id="all-point-cats"><%= link_to "Все поинты", points_town_path %></li>                
-          <% @point_categories.each do |point_cat| %>
-            <li id="point-cat-<%= point_cat.id %>">
-              <%= link_to point_cat.name, { cat: point_cat.id } %>
+          <li id="all-service-cats"><%= link_to "Все Услуги и сервисы", services_town_path %></li>                
+          <% @service_categories.each do |service_cat| %>
+            <li id="service-cat-<%= service_cat.id %>">
+              <%= link_to service_cat.name, { cat: service_cat.id } %>
             </li> 
           <% end %>                        
         </ul>
@@ -59,7 +59,7 @@
 	
 		<div class="col-lg-9 px-1">
 			<div class="row gx-1">
-				<%= render @points %>
+				<%= render @services %>
 			</div>      
 		</div>
 
@@ -67,20 +67,19 @@
 
 </div>
 
-<script>    // active category
-  if (document.location.href == "<%= request.original_url %>") {
-    if (current_cat =  document.getElementById("point-cat-<%= params[:cat] %>")) {
-      current_cat.classList.add("active");
-    } else {
-      document.getElementById("all-point-cats").classList.add("active");     
-    }     
-  }
-</script>
-
-<script>//Initialize fotorama manually for hotels widget.
+<script>//fotorama, active category
   $(document).on('turbolinks:load', function() {
-    $(function () {    
+    // active category
+    if (document.location.href == "<%= request.original_url %>") {
+      if (current_cat =  document.getElementById("service-cat-<%= params[:cat] %>")) {
+        current_cat.classList.add("active");
+      }
+      else {
+        document.getElementById("all-service-cats").classList.add("active");     
+      }     
+    }
 
+    $(function () {
       //Initialize fotorama hotels widget.
       var $fotoramaDiv = $('.fotorama-rooms').fotorama();
 
@@ -92,11 +91,11 @@
         });
       
       $fotoramaDiv.on('fotorama:fullscreenexit',
-      function (e, fotorama) {      
-        fotorama.setOptions({
-          nav: "false"
-        });
-      })
+        function (e, fotorama) {      
+          fotorama.setOptions({
+            nav: "false"
+          });
+        })
     });
   }); 
 </script>

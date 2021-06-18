@@ -1,20 +1,20 @@
-class PointCategoriesController<ApplicationController
+class ServiceCategoriesController<ApplicationController
 
   before_action :user_admin
 
   def index
-    @point_categories = PointCategory.all
+    @service_categories = ServiceCategory.all
   end
 
   def new
-    @point_category = PointCategory.new    
+    @service_category = ServiceCategory.new    
   end
 
   def create
-    @point_category = PointCategory.new(category_params)
-    if @point_category.save
+    @service_category = ServiceCategory.new(category_params)
+    if @service_category.save
       flash[:success] = "Категория успешно создана"
-      redirect_to point_categories_path
+      redirect_to service_categories_path
     else
       flash[:info] = "Категория не создана"
       render :new
@@ -22,13 +22,13 @@ class PointCategoriesController<ApplicationController
   end
 
   def edit
-    @point_category = PointCategory.find(params[:id])    
+    @service_category = ServiceCategory.find(params[:id])    
   end
 
   def update
-    @point_category = PointCategory.find(params[:id])
-    if @point_category.update(category_params)
-      redirect_to point_categories_path
+    @service_category = ServiceCategory.find(params[:id])
+    if @service_category.update(category_params)
+      redirect_to service_categories_path
       flash.now[:info] = 'Категория успешно обновлена'
     else
       flash.now[:info] = 'Категория не обновлена'
@@ -37,17 +37,17 @@ class PointCategoriesController<ApplicationController
   end
 
   def destroy
-    @point_category = PointCategory.find(params[:id])
-    @point_category.destroy
+    @service_category = ServiceCategory.find(params[:id])
+    @service_category.destroy
     flash[:info] = 'Категория удалена'
-    redirect_to point_categories_path
+    redirect_to service_categories_path
   end
 
 private
 
   # Разрешённые параметры
   def category_params
-    params.require(:point_category).permit(:name, :number, :avatar)
+    params.require(:service_category).permit(:name, :number, :avatar)
   end
 
   def user_admin

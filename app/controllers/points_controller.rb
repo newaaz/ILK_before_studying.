@@ -12,7 +12,7 @@ class PointsController<ApplicationController
     @point = Point.find(params[:id])
     @point_categories = PointCategory.all
     @town = @point.town
-    # определяем - является ли этот отель запомненным    
+    # определяем - является ли этот Поинт запомненным    
     current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Point') if @cart
     @current_item = true if current_item 
   end
@@ -25,8 +25,7 @@ class PointsController<ApplicationController
     #debugger
     @point = current_user.points.build(point_params)
     @point.desc_json = JSON.parse(params[:desc_json])
-    @point.desc_json['town_name'] = @point.town.name
-    @point.desc_json['cat_name'] = @point.point_category.name
+    # set Desc_json: town_name & cat_name -> in Model (after_save)
     if @point.save
       flash[:success] = "Объект добавлен и ожидает проверки модератором. 
                         При успешной проверке Вам на почту придёт письмо, и страница 
@@ -44,8 +43,7 @@ class PointsController<ApplicationController
   def update
     @point = Point.find(params[:id])
     @point.desc_json = JSON.parse(params[:desc_json])
-    @point.desc_json['town_name'] = @point.town.name
-    @point.desc_json['cat_name'] = @point.point_category.name
+    # set Desc_json: town_name & cat_name -> in Model (after_save) 
     if @point.update(point_params)
       redirect_to point_path
       flash[:info] = 'Объект успешно изменён'

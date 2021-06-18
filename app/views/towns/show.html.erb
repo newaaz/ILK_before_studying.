@@ -5,7 +5,8 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8">          
-          <h1><%= @town.name %></h1>          
+          <h1><%= @town.name %></h1>  
+					<span>Страница города</span>         
         </div>
         <div class="col-md-4">
           <div id="price_single_main" class="hotel">
@@ -44,8 +45,19 @@
 	<br>
 	<br>
 
-	<%= link_to "Где поесть в #{@town.parent_name}", cafebars_town_path,
-			class: 'btn btn-success btn-sm' %>
+	<div class="row">
+    <div class="col-6">
+    	<%= link_to "Где поесть в #{@town.parent_name}", cafebars_town_path,
+					class: 'btn btn-success btn-sm' %> 
+    </div> 
+
+		<div class="col-6">
+			<%= link_to "Услуги и сервисы #{@town.parent_name}", services_town_path,
+      		class: 'btn btn-info btn-sm' %>
+		</div> 
+  </div>
+
+	
 
 	<br>
 

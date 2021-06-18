@@ -1,0 +1,51 @@
+<div class="col-6 col-lg-4 px-0 mb-4">
+
+  <div class="card mx-2 shadow h-100 hotel-card">
+    
+    <!-- fotorama begin -->
+    <div class="fotorama-rooms"
+        data-width="100%"
+        data-ratio="3/2"
+        data-allowfullscreen="true"                
+        data-nav="false"
+        data-loop="true"
+        data-keyboard="true"
+        data-auto="false">      
+      <%= link_to image_tag(service.avatar.thumb.url) %>      
+      <% service.images.each do |image| %> 
+        <%= link_to image_tag(image.thumb.url, width: "100px") %>            
+      <% end %>
+    </div>
+    <!-- fotorama end -->    
+
+    
+    <%= link_to service_path(service, town_id: @town.id) do %>
+      <div class="hotel-cart__title">
+        <%= service.name %>
+      </div>
+    <% end %>  
+
+    <div class="card-footer px-2">      
+
+      <!-- like button -->
+      <% if @cart && @array_resources_ids.include?(service.id) %>
+        <%= link_to line_items_path(resource_id: service.id, resource_name: "Service"), method: :post, remote: true, id: "heart-Service-#{service.id}",
+                                          class: "text-danger" do %>
+          <i class="icon-heart"></i>
+        <% end %>
+      <% else %>
+        <%= link_to line_items_path(resource_id: service.id, resource_name: "Service"), method: :post, remote: true, id: "heart-Service-#{service.id}",
+                                                    class: "text-secondary" do %>
+          <i class="icon-heart"></i>
+        <% end %>
+      <% end %>
+      
+      <small class="text-muted">
+        |&nbsp;<i class="icon-set_1_icon-48"></i>&nbsp;<%= service.desc_json['cat_name'] %>        
+      </small>
+
+    </div>
+    
+  </div>
+
+</div> 

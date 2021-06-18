@@ -11,7 +11,7 @@ class CafebarsController<ApplicationController
   def show
     @cafebar = Cafebar.find(params[:id])
     @town = @cafebar.town
-    # определяем - является ли этот отель запомненным    
+    # определяем - является ли этот Cafebar запомненным    
     current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Cafebar') if @cart
     @current_item = true if current_item
   end
@@ -23,7 +23,6 @@ class CafebarsController<ApplicationController
   def create
     @cafebar = current_user.cafebars.build(cafebar_params)
     @cafebar.desc_json = JSON.parse(params[:desc_json])
-    @cafebar.desc_json['town_name'] = @cafebar.town.name
     if @cafebar.save
       flash[:success] = "Объект добавлен и ожидает проверки модератором. 
                         При успешной проверке Вам на почту придёт письмо, и страница 
@@ -40,8 +39,7 @@ class CafebarsController<ApplicationController
 
   def update
     @cafebar = Cafebar.find(params[:id])
-    @cafebar.desc_json = JSON.parse(params[:desc_json])
-    @cafebar.desc_json['town_name'] = @cafebar.town.name
+    @cafebar.desc_json = JSON.parse(params[:desc_json])    
     if @cafebar.update(cafebar_params)
       redirect_to cafebar_path
       flash[:info] = 'Объект успешно изменён'

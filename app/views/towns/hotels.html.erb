@@ -9,10 +9,10 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8">          
-          <% unless @hotel_cat %>
+          <% unless @hotels_cat %>
             <h1>Жильё в <%= @town.parent_name %></h1>           
           <% else %>      
-            <h1><%= @hotel_cat %> в <%= @town.parent_name %></h1>
+            <h1><%= @hotels_cat %> в <%= @town.parent_name %></h1>
           <% end %>
           <span>Активный отдых Крыму без посредников</span>         
         </div>
@@ -31,11 +31,11 @@
     <i class="icon-location-outline" style="font-size:15px"></i>
     <%= link_to "Главная", root_url %>&nbsp;/
     <%= link_to @town.name, @town %>&nbsp;/
-    <% unless @hotel_cat %>
+    <% unless @hotels_cat %>
       Жильё в <%= @town.parent_name %>
     <% else %>
       <%= link_to "Жильё", hotels_town_path %>&nbsp;/
-      <%= @hotel_cat %>
+      <%= @hotels_cat %>
     <% end %>    
   </div>
 </div>

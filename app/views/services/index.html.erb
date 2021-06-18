@@ -1,0 +1,39 @@
+<% provide(:title, 'Все Услуги') %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-9">
+
+<%= link_to 'Новый сервис', new_service_path, class: 'btn btn-primary btn-sm' %>
+
+<br>
+<br>
+
+<section id="categories">
+  <table class="table">
+    <thead>
+      <th>id#</th>
+      <th>Название</th>
+      <th>Город</th>
+      <th>Действия</th>
+    </thead>
+    <tbody>
+      <% @services.each do |service| %>
+        <tr>
+          <td><%= service.id %></td>
+          <td><%= link_to service.name, service %></td>
+          <td>Города</td>
+          <td>
+            <%= link_to 'Edit', edit_service_path(service), class: 'btn btn-warning btn-sm' %>
+            <%= link_to "Удалить", service_path(service), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
+
+
+    </div>
+  </div>
+</div>

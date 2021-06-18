@@ -70,9 +70,10 @@
       <!-- fotorama end -->    
 
     </div>
-    <!-- Contacts -->
+   
     <div class="col-lg-3">
 
+       <!-- Contacts -->
       <div class="contact-numbers mt-4 pt-3">
         <div class="contact-number ps-2">
           <span class="contact-phone ps-1">
@@ -83,10 +84,12 @@
       </div>
 
       <div class="contact-email ps-4 mb-3">
-        <span style="margin-left:-5px;">
-          <a href="mailto:<%= @cafebar.email %>"><i class="icon-mail-6" style="font-size:20px;"></i>
-          <%= @cafebar.email %></a> 
-        </span>
+        <% unless @cafebar.email.blank? %>
+          <span style="margin-left:-5px;">
+            <a href="mailto:<%= @cafebar.email %>"><i class="icon-mail-6" style="font-size:20px;"></i>
+            <%= @cafebar.email %></a> 
+          </span>
+        <% end %>
         <% unless @cafebar.site.blank? %>
           <span><a href="https://<%= @cafebar.site %>" target="_blank">&#127760;&nbsp;<%= @cafebar.site %></a></span>      
         <% end %>

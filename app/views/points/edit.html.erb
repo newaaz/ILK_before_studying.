@@ -1,8 +1,8 @@
-<% provide(:title, 'Новое Место') %>
+<% provide(:title, 'Изменение Поинта') %>
 
 <div class="container mt-5">
   
-  <h1 class='h3 text-center mb-4'>Новое Место</h1>
+  <h1 class='h3 text-center mb-4'>Изменение Поинта</h1>
 
   <%= form_with(model: @point, local: true, html: { name: "point" }) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
