@@ -1,6 +1,6 @@
 <% provide(:title, @cafebar.name) %>
 <% content_for(:javascript_plugin_header) do %>
-  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
   <script type="text/javascript">   // widget pack
     wpac_init = window.wpac_init || [];
     wpac_init.push({widget: 'Comment', id: 19099});
@@ -29,6 +29,7 @@
       myMap.geoObjects.add(myPlacemark);
     }  
   </script>
+  <script src="https://yastatic.net/share2/share.js"></script>
 <% end %>
 
 <div class="breadcrumbs">
@@ -130,13 +131,18 @@
         </div>
       <% end %>
 
+      <div class="social-links text-center mt-3">
+        Поделиться:<br>  
+        <div class="ya-share2 mt-2 mb-4" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
+      </div> 
+
       <!-- УБРАТЬ ---------------------------------------- -->
       <br><br>
       <% if current_user %>
       <% if current_user?(@cafebar.user) || current_user.admin? %>
-      <div class="f-right">
-      <%= link_to "Редактировать", edit_cafebar_path(@cafebar) ,class: "btn btn-primary btn-sm" %>
-      <%= link_to "Удалить объект", @cafebar ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
+      <div class="text-center">
+      <%= link_to "Редактировать", edit_cafebar_path(@cafebar) ,class: "btn btn-outline-primary btn-sm" %>
+      <%= link_to "Удалить", @cafebar ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
       </div>
       <% end %>
       <% end %>

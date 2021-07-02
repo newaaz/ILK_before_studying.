@@ -1,6 +1,6 @@
 class TownsController < ApplicationController
 
-  before_action :user_admin, except: [:show, :hotels, :cafebars, :points]
+  before_action :user_admin, except: [:show, :hotels, :cafebars, :points, :services]
 
   def index
     @towns = Town.all    
@@ -8,7 +8,8 @@ class TownsController < ApplicationController
   
   def show
     @town = Town.find(params[:id])
-    @hotels = @town.hotels
+    #TODO: убрать вывод всех отелей
+    @hotel = Hotel.find(140)
   end
   
   def new

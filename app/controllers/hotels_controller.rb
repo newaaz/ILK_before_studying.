@@ -11,9 +11,18 @@ class HotelsController < ApplicationController
   def show
     @hotel = Hotel.includes(:rooms).references(:rooms).order(:number).find(params[:id])
     @town = @hotel.town
+    
     # определяем - является ли этот отель запомненным    
     current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Hotel') if @cart
     @current_item = true if current_item
+
+    # подготавливаем строку к SEO-description
+    if @hotel.distance_to_sea.blank?
+      @seo_description = "От #{@hotel.price_from}руб. Жильё и активный отдых в Крыму на сайте Люблю Крым - ilovekrim.ru"
+    else
+      @seo_description = "От #{@hotel.price_from}руб. До моря #{@hotel.distance_to_sea}м. Жильё и активный отдых в Крыму на сайте Люблю Крым - ilovekrim.ru"
+    end
+    
   end
   
   def new

@@ -1,4 +1,4 @@
-<% provide(:title, @point.name) %>
+<% provide(:title, @active.name) %>
 
 <% content_for(:javascript_plugin_header) do %>
   <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
@@ -16,11 +16,11 @@
     })();
   </script>
 
-  <% unless @point.latitude.blank? %>
+  <% unless @active.latitude.blank? %>
   <script type="text/javascript">   // Ymap
     ymaps.ready(init);
     function init(){
-      const coords = [<%= @point.latitude %>, <%= @point.longitude %>]      
+      const coords = [<%= @active.latitude %>, <%= @active.longitude %>]      
       var myMap = new ymaps.Map("map", {
           center: coords,
           zoom: 14,
@@ -41,10 +41,10 @@
 <div class="breadcrumbs">
   <div class="container">
     <i class="icon-location-outline crumbs-short" style="font-size:15px"></i>
-    <%= link_to @point.desc_json['town_name'], @point.town %>&nbsp;/
-    <%= link_to "Поинты", points_town_path(@point.town) %>&nbsp;/
-    <%= link_to @point.desc_json['cat_name'], points_town_path(@point.town, { cat: @point.point_category.id }) %>&nbsp;/
-    <%= @point.name %>
+    <%= link_to @town.name, @town %>&nbsp;/
+    Добавить ссылку&nbsp;/
+    Добавить ссылку&nbsp;/
+    <%= @active.name %>
   </div>
 </div>
 
@@ -58,12 +58,7 @@
     <div class="col-lg-9 px-0">
       <!-- title -->
       <div class="px-2">
-        <h1 class="d-inline"><%= @point.name %></h1>&emsp;
-        <% if @point.address.blank? %>
-          <i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>
-        <% else %>
-          <i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>, <%= @point.address %>
-        <% end %>        
+        <h1 class="d-inline"><%= @active.name %></h1>&emsp;                
       </div>   
       
       <!-- fotorama begin -->                        
@@ -74,8 +69,8 @@
         data-nav="thumbs"
         data-loop="true"
         data-keyboard="true">
-        <%= link_to image_tag(@point.avatar.thumb.url), @point.avatar.url %>
-        <% @point.images.each do |image| %>
+        <%= link_to image_tag(@active.avatar.thumb.url), @active.avatar.url %>
+        <% @active.images.each do |image| %>
           <%= link_to image_tag(image.thumb.url), image.url %>
         <% end %>
       </div> 
@@ -86,38 +81,20 @@
     <!-- Contacts -->
     <div class="col-lg-3 px-3"> 
 
-      <!-- cats -->
-      <div class="mt-5">
-        <div class="hotel-cats">
-          <ul class="">          
-            <li><%= link_to "Все поинты", points_town_path(@point.town) %></li>                
-            <% @point_categories.each do |point_cat| %>
-              <% unless point_cat.id == @point.point_category.id %>
-                <li>             
-                  <%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %>
-                </li> 
-              <% else %>
-                <li class="active">             
-                  <%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %>
-                </li> 
-              <% end %>           
-            <% end %>                        
-          </ul>
-        </div>
-      </div>
+
 
       <!-- cart -->
       <div class="px-3 mt-4">
         <% if @current_item %>
-          <%= link_to line_items_path(resource_id: @point.id, resource_name: "Point", action_show: "1"),
-              method: :post, remote: true, id: "heart-Point-#{@point.id}", class: "text-secondary" do %>
+          <%= link_to line_items_path(resource_id: @active.id, resource_name: "Active", action_show: "1"),
+              method: :post, remote: true, id: "heart-Active-#{@active.id}", class: "text-secondary" do %>
             <div id="add-cart-hotel" class="add-cart text-center mx-4">
               <i class="icon-heart"></i> Добавлено
             </div>
           <% end %>
         <% else %>
-          <%= link_to line_items_path(resource_id: @point.id, resource_name: "Point", action_show: "1"),
-              method: :post, remote: true, id: "heart-Point-#{@point.id}", class: "text-secondary" do %>
+          <%= link_to line_items_path(resource_id: @active.id, resource_name: "Active", action_show: "1"),
+              method: :post, remote: true, id: "heart-Active-#{@active.id}", class: "text-secondary" do %>
             <div  id="add-cart-hotel"  class="add-cart text-center px-4">
               <i class="icon-heart-empty"></i> В избранное
             </div>
@@ -130,16 +107,7 @@
         <div class="ya-share2 mt-2" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
       </div>   
 
-      <% unless @point.longitude.blank? %>
-        <!-- Near -->
-        <% resources_near(@point, "hotels").each do |hotel_near| %>
-          <%= hotel_near.name %>
-        <% end %>
-        <hr>
-        <% resources_near(@point, "cafebars").each do |hotel_near| %>
-          <%= hotel_near.name %>
-        <% end %>
-      <% end %>
+   
    
     </div>
 
@@ -155,16 +123,10 @@
 
         <!-- Tab description-->
         <input type="radio" name="tabset" id="tab1" aria-controls="desc" checked>
-        <label for="tab1">Описание</label>
-
-        <!-- Tab menu-->
-        <% unless @point.how_to_get.blank? %>
-          <input type="radio" name="tabset" id="tab7" aria-controls="menu">
-          <label for="tab7">Как добраться</label>
-        <% end %>
+        <label for="tab1">Описание</label>  
 
         <!-- Tab maps -->
-        <% unless @point.latitude.blank? %>
+        <% unless @active.latitude.blank? %>
           <input type="radio" name="tabset" id="tab4" aria-controls="maps">
           <label for="tab4">На карте</label>
         <% end %>
@@ -173,46 +135,34 @@
 
           <!-- Tab DESC -->
           <section id="desc" class="tab-panel">            
-            <% if @point.description.to_plain_text.size > 626 %>            
+            <% if @active.description.to_plain_text.size > 626 %>            
               <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
                             
               <div class="content_block hide">
-                <%= @point.description %>
+                <%= @active.description %>
                 <a class="content_toggle" style="color:#ff4500" href="#"></a>
 
                 <hr> <!--EDIT DELETE  -->
-                <% if current_user && (current_user?(@point.user) || current_user.admin?) %>
-                  <%= link_to "Edit", edit_point_path(@point) ,class: "btn btn-outline-success btn-sm" %>
-                  <%= link_to "Delete", @point, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+                <% if current_user && (current_user?(@active.user) || current_user.admin?) %>
+                  <%= link_to "Edit", edit_active_path(@point) ,class: "btn btn-outline-success btn-sm" %>
+                  <%= link_to "Delete", @active, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
                 <% end %>
 
               </div>          
             <% else %>
-              <%= @point.description %>
+              <%= @active.description %>
                 <hr> <!--EDIT DELETE  -->
-                <% if current_user && (current_user?(@point.user) || current_user.admin?) %>
-                  <%= link_to "Edit", edit_point_path(@point) ,class: "btn btn-outline-success btn-sm" %>
-                  <%= link_to "Delete", @point, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
+                <% if current_user && (current_user?(@active.user) || current_user.admin?) %>
+                  <%= link_to "Edit", edit_active_path(@active) ,class: "btn btn-outline-success btn-sm" %>
+                  <%= link_to "Delete", @active, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
                 <% end %>
             <% end %>
           </section>
-          
-          <!-- Tab how to get -->
-          <% unless @point.how_to_get.blank? %>
-            <section id="menu" class="tab-panel">            
-              <%= @point.how_to_get %>
-            </section>
-          <% end %>    
 
           <!-- Tab MAP -->
-          <% unless @point.latitude.blank? %>
+          <% unless @active.latitude.blank? %>
             <section id="maps" class="tab-panel">
-              <% if @point.address.blank? %>
-                <h5 class="mb-3"><i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %></h5>
-              <% else %>
-                <h5 class="mb-3"><i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>, <%= @point.address %></h5>
-              <% end %> 
-              
+              <h5 class="mb-3"><i class="icon_set_1_icon-37"></i><%= @town.name %></h5>              
               <div id="map" style="height: 300px" class="border shadow"></div>            
             </section>
           <% end %>

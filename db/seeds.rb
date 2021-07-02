@@ -13,7 +13,8 @@ HotelCategory.create(name: "Дома под ключ", number: 5)
 HotelCategory.create(name: "Частный сектор", number: 6)
 HotelCategory.create(name: "Эллинги", number: 7)
 HotelCategory.create(name: "Пансионаты", number: 8)
-
+HotelCategory.create(name: "Бюджетное жильё", number: 9)
+HotelCategory.create(name: "Другое", number: 10)
 # Town.destroy_all
 
 

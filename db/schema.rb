@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_11_180234) do
+ActiveRecord::Schema.define(version: 2021_07_02_122152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,12 @@ ActiveRecord::Schema.define(version: 2021_06_11_180234) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
+  create_table "active_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "avatar"
+    t.integer "number", limit: 2, default: 1
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -51,6 +57,37 @@ ActiveRecord::Schema.define(version: 2021_06_11_180234) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "actives", force: :cascade do |t|
+    t.string "name"
+    t.string "avatar"
+    t.json "images"
+    t.integer "price"
+    t.json "desc_json"
+    t.string "seo_keywords"
+    t.string "seo_description"
+    t.integer "rating", limit: 2, default: 10
+    t.integer "random_id", limit: 2, default: 1
+    t.integer "promouted", limit: 2, default: 0
+    t.boolean "enabled", default: true
+    t.boolean "activated", default: false
+    t.boolean "deleted", default: false
+    t.decimal "longitude", precision: 6, scale: 4
+    t.decimal "latitude", precision: 6, scale: 4
+    t.bigint "user_id", null: false
+    t.bigint "active_category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["active_category_id"], name: "index_actives_on_active_category_id"
+    t.index ["user_id"], name: "index_actives_on_user_id"
+  end
+
+  create_table "actives_towns", id: false, force: :cascade do |t|
+    t.bigint "active_id", null: false
+    t.bigint "town_id", null: false
+    t.index ["active_id"], name: "index_actives_towns_on_active_id"
+    t.index ["town_id"], name: "index_actives_towns_on_town_id"
   end
 
   create_table "cafebars", force: :cascade do |t|
@@ -254,6 +291,10 @@ ActiveRecord::Schema.define(version: 2021_06_11_180234) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "actives", "active_categories"
+  add_foreign_key "actives", "users"
+  add_foreign_key "actives_towns", "actives"
+  add_foreign_key "actives_towns", "towns"
   add_foreign_key "cafebars", "towns"
   add_foreign_key "cafebars", "users"
   add_foreign_key "cafebars_tagcafebars", "cafebars"

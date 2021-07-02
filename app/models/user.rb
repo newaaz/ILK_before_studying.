@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many  :cafebars, dependent: :destroy
   has_many  :points, dependent: :destroy
   has_many  :services, dependent: :destroy
+  has_many  :actives, dependent: :destroy
 
   before_save :downcase_email
   before_create :create_activation_digest

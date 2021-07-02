@@ -1,3 +1,9 @@
+.resources-title {
+  h2 { display: inline; }
+  a { margin-left: 10px; }
+}
+
+
 .hotel-cart__title {
   font-weight: 600;
   text-align: center;
@@ -50,17 +56,17 @@
     }
    
   }
-  li.active {
+  li.active {    
     a { color: #222; }
     background-color: #fff;
     -webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.6); 
-    box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.6);
+    box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.6);    
   }
   li:hover {
-    a { color: #222; }
-    background-color: #fff;
+    a { color: #333; }
+    /* background-color: #fff; */
     -webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.6); 
-    box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.6);
+    box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.6);    
   }
   
 	
@@ -87,4 +93,29 @@
     margin-bottom: 20px;
   }
 }
+
+/* TOWN CATEGORIES bg-image */
+.cat-bg-image {
+  position: relative; 
+}
+.cat-bg-image:hover {
+  box-shadow: 0px 1px 7px 0px rgba(0,0,0,0.35);
+	-webkit-box-shadow: 0px 1px 7px 0px rgba(0,0,0,0.35);
+}
+.cat-bg-title {
+  /* text-transform: uppercase; */
+  font-weight: 600;
+  letter-spacing: 1px;
+  width: 100%;  
+  color: white;  
+  position: absolute; 
+  bottom: 0;   
+  /* background: rgba(0, 0, 0, 0.6);   Black see-through */  
+  background: linear-gradient(to bottom,transparent,rgb(26, 26, 26)); 
+  padding: 40px 5px 5px 5px; /* если с градиентом то pt надо делать выше */
+  text-align: center;
+}
+/* END TOWN CATEGORIES */
+
+ 
 

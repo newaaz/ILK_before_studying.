@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
   <head>
 
     <title><%= full_title(yield(:title)) %></title>
+    <%= yield(:seo_tags) %> 
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
-    <%= csp_meta_tag %> 
-
-    <script src="https://kit.fontawesome.com/b52c0bb8eb.js" crossorigin="anonymos"></script>
-        
+    <%= csp_meta_tag %>
+            
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script> 
    
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>

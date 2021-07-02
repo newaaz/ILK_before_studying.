@@ -20,14 +20,14 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]  
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
-  resources :hotel_categories, except: :show
-  
   resources :towns do
     get :hotels, on: :member
     get :cafebars, on: :member
     get :points, on: :member
     get :services, on: :member
   end
+
+  resources :hotel_categories, except: :show
   resources :hotels
   resources :rooms
   resources :orders, except: [:edit, :update, :destroy]
@@ -42,6 +42,9 @@ Rails.application.routes.draw do
   resources :point_categories, except: :show
 
   resources :services
-  resources :service_categories, except: :show  
+  resources :service_categories, except: :show
+
+  resources :actives
+  resources :active_categories, except: :show
 
 end

@@ -14,7 +14,7 @@ body {background:#f9f9f9; font-size:13px; line-height:20px; font-family:"Montser
 --------*/
 
 /* VARIABLES */
-$color-pink: #e04f67; /* #e04f67 - span ih headers h1,h2 */
+$color-pink: #06c; /* #e04f67 - span ih headers h1,h2 */
 $color-link: #e14d67; /* #e14d67 - link */
 /* END VARIABLES */
 
@@ -25,13 +25,16 @@ h3 {font-size:22px;}
 h4 {font-size: 18px;}
 
 h1, h2 {margin-top: 20px;margin-bottom: 10px;}
-h3 {margin-top: 10px;margin-bottom: 5px;}
+h3 {margin-top: 10px;margin-bottom: 5px;} 
 
-.main_title {text-align:center; font-size:16px; margin-bottom:30px;}
+.main_title {text-align:center; font-size:16px; margin-bottom:20px;}
 .main_title h2 {text-transform: uppercase; font-weight:700; letter-spacing:-1px; font-size:30px; margin-bottom:0;margin-top:0; }
 .main_title p {font-weight:300; font-size:20px; color: #555;}
 
 h2 span, h3 span, h4 span, h5 span, h6 span{color:$color-pink;}
+
+.main_title h1 {text-transform: uppercase; font-weight:700; letter-spacing:-1px; font-size:30px; margin-bottom:0;margin-top:0; }
+h1 span, h3 span, h4 span, h5 span, h6 span{color:$color-pink;}
 
 .box_style_1 h3.inner{ 
 	margin:-30px -30px 20px -30px; 

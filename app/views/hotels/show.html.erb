@@ -1,6 +1,27 @@
-<% provide(:title, @hotel.name) %>
+<% provide(:title, "#{@hotel.name} - #{@hotel.desc_json['cat_name']} в #{@hotel.desc_json['town_parent_name']}") %>
+
+<% content_for(:seo_tags) do %>
+
+  <% if @hotel.desc_json['seo_description'].blank? %>
+    <meta name="description"        content="<%= @seo_description %>">
+    <meta property="og:description" content="<%= @seo_description %>"/>
+  <% else %>
+    <meta name="description"        content="<%= @hotel.desc_json['seo_description'] %>">
+    <meta property="og:description" content="<%= @hotel.desc_json['seo_description'] %>"/>
+  <% end %>
+
+  <meta name="keywords"           content="<%= @hotel.desc_json['town_name'].downcase %> жильё,<%= @hotel.desc_json['town_name'].downcase %> <%= @hotel.desc_json['cat_name'].downcase %>,<%= @hotel.desc_json['seo_keywords'] %>, бронирование, гостиницы, жильё у моря">  
+
+  <meta property="og:title"       content="<%= @hotel.name + 'в ' + @town.parent_name %>" />
+  <meta property="og:type"        content="product" />
+  <meta property="og:url"         content="<%= url_for(:only_path => false) %>" />
+  <meta property="og:image"       content="<%= @hotel.avatar.current_path %>" />  
+  <meta property="og:site_name"   content="Люблю Крым">
+  <meta property="og:locale"      content="ru_RU">
+<% end %>
+
 <% content_for(:javascript_plugin_header) do %>
-  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
   <script type="text/javascript">   // widget pack
     $(document).on('turbolinks:load', function() {
       wpac_init = window.wpac_init || [];
@@ -36,6 +57,7 @@
       myMap.geoObjects.add(myPlacemark);
     };  
   </script>
+  <script src="https://yastatic.net/share2/share.js"></script>
 <% end %>
 
 <div class="breadcrumbs">
@@ -72,9 +94,14 @@
       <!-- fotorama end -->
     </div>
 
-    <div class="col-lg-3">   
+    <div class="col-lg-3 px-4">   
 
-      <%= render 'contacts' %>      
+      <%= render 'contacts' %>
+      
+      <div class="social-links text-center mt-3">
+        Поделиться:<br>  
+        <div class="ya-share2 mt-2 mb-4" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
+      </div>          
 
     </div>
 

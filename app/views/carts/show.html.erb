@@ -1,7 +1,7 @@
 <% provide(:title, "Запомненное") %>
 
 <% content_for(:javascript_plugin_header) do %>
-  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
 <% end %>
 
 <div class="collapse" id="collapseMap">

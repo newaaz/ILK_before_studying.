@@ -71,7 +71,9 @@ private
 
   # Устанавливаем название города в JSON-описание отеля
   def set_town_name!
-    desc_json['town_name'] = town.name    
+    desc_json['town_name'] = town.name
+    desc_json['town_parent_name'] = town.parent_name
+    desc_json['cat_name'] = hotel_category.name  
     update_column(:desc_json, desc_json)  
   end
 

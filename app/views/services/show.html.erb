@@ -1,7 +1,19 @@
-<% provide(:title, @service.name) %>
+<% provide(:title, "#{@service.name} - #{@service.desc_json['cat_name']} в #{@town.parent_name}") %>
+
+<% content_for(:seo_tags) do %>
+  <meta name="description"        content="<%= @service.desc_json['seo_description'] %>">
+  <meta name="keywords"           content="<%= @service.desc_json['seo_keywords'] %>, постоянное ключевое слово">  
+  <meta property="og:title"       content="<%= @service.name + 'в ' + @town.parent_name %>" />
+  <meta property="og:type"        content="product" />
+  <meta property="og:url"         content="<%= url_for(:only_path => false) %>" />
+  <meta property="og:image"       content="<%= @service.avatar.current_path %>" />
+  <meta property="og:description" content="<%= @service.desc_json['seo_description'] %>" />
+  <meta property="og:site_name" content="Люблю Крым">
+  <meta property="og:locale" content="ru_RU">
+<% end %>
 
 <% content_for(:javascript_plugin_header) do %>
-  <%= javascript_pack_tag 'main/fotorama', 'data-turbolinks-track': 'reload'%>
+  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
   <script type="text/javascript">   // widget pack
     wpac_init = window.wpac_init || [];
     wpac_init.push({widget: 'Comment', id: 19099});
@@ -17,22 +29,24 @@
   </script>
 
   <% unless @service.latitude.blank? %>
-  <script type="text/javascript">   // Ymap
-    ymaps.ready(init);
-    function init(){
-      const coords = [<%= @service.latitude %>, <%= @service.longitude %>]      
-      var myMap = new ymaps.Map("map", {
-          center: coords,
-          zoom: 14,
-          behaviors: ['drag','dblClickZoom', 'multiTouch']
-      });    
-      var myPlacemark = new ymaps.Placemark(coords, {}, {
-        preset: "islands#blueStarIcon"
-      });
-      myMap.geoObjects.add(myPlacemark);
-    }  
-  </script>
+    <script type="text/javascript">   // Ymap
+      ymaps.ready(init);
+      function init(){
+        const coords = [<%= @service.latitude %>, <%= @service.longitude %>]      
+        var myMap = new ymaps.Map("map", {
+            center: coords,
+            zoom: 14,
+            behaviors: ['drag','dblClickZoom', 'multiTouch']
+        });    
+        var myPlacemark = new ymaps.Placemark(coords, {}, {
+          preset: "islands#blueStarIcon"
+        });
+        myMap.geoObjects.add(myPlacemark);
+      }  
+    </script>
   <% end %>
+
+  <script src="https://yastatic.net/share2/share.js"></script>
 
 <% end %>
 
@@ -65,6 +79,7 @@
     <i class="icon-location-outline" style="font-size:15px"></i>
     <%= link_to @town.name, @town %>&nbsp;/
     <%= link_to "Услуги и сервисы", services_town_path(@town) %>&nbsp;/
+    <%= link_to @service.desc_json['cat_name'], services_town_path(@town, { cat: @service.service_category.id }) %>&nbsp;/
     <%= @service.name %>
   </div>
 </div>
@@ -137,6 +152,11 @@
           <% end %>
         <% end %>        
       </div>
+
+      <div class="social-links text-center my-4">
+        Поделиться:<br>  
+        <div class="ya-share2 mt-2" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
+      </div>  
 
       <!--EDIT DELETE  -->
       <% if current_user && (current_user?(@service.user) || current_user.admin?) %>
@@ -249,7 +269,6 @@
 
       </div>    
       
-
     </div>
 
     <div class="col-lg-3 pe-0">
@@ -259,11 +278,11 @@
           <li><%= link_to "Все Услуги и сервисы", services_town_path(@town) %></li>                
           <% @service_categories.each do |service_cat| %>
             <% if service_cat.id == @service.service_category.id %>
-              <li>
+              <li class="active">
                 <%= link_to service_cat.name, services_town_path(@town, { cat: service_cat.id }) %>
               </li> 
             <% else %>
-              <li class="active">
+              <li>
                 <%= link_to service_cat.name, services_town_path(@town, { cat: service_cat.id }) %>
               </li> 
             <% end %>

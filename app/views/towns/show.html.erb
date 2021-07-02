@@ -1,4 +1,18 @@
-<% provide(:title, @town.name) %>
+<% provide(:title, "#{@town.name} - жильё и активный отдых без посредников") %>
+
+<% content_for(:seo_tags) do %>  
+
+  <meta name="keywords"           content="<%= @town.name %> отдых 2021, жильё в <%= @town.parent_name %>, конные прогулки в <%= @town.parent_name %>">  
+	<meta name="description"        content="Жильё и активный отдых в <%= @town.parent_name %> без посредников. Морские, воздушные, конные и другие прогулки. Интересные места и достопримечательности, услуги и сервисы в <%= @town.parent_name %>">
+  
+  <meta property="og:title"       content="<%= @town.name %>" />
+	<meta property="og:description" content="Жильё и активный отдых в <%= @town.parent_name %> без посредников. Морские, воздушные, конные и другие прогулки. Интересные места и достопримечательности, услуги и сервисы в <%= @town.parent_name %>"/>
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="<%= url_for(:only_path => false) %>" />
+  <meta property="og:image"       content="<%= @town.avatar.current_path %>" />  
+  <meta property="og:site_name"   content="Люблю Крым - ilovekrim.ru">
+  <meta property="og:locale"      content="ru_RU">
+<% end %>
 
 <section class="parallax-window" data-parallax="scroll" data-image-src="<%= @town.avatar.url %>">
   <div class="parallax-content-2">
@@ -26,9 +40,153 @@
   </div>
 </div>
 
-<div class="container"> 
+<main class="town">
 
-  <br><br>
+<div class="container">
+
+	<div class="main_title mt-3">
+		<h1>Жильё, отдых, услуги и развлечения в <span><%= @town.parent_name %></span> 2021</h1>
+		<p>
+			А также кафе, рестораны, достопримечательности и интересные места.
+		</p>
+	</div>
+
+	<div class="resources-title">
+		<h2>Жильё:</h2>
+		<%= link_to "(Все варианты)", hotels_town_path %>
+	</div>
+	
+	<div class="row"><!-- hotels -->
+		<div class="col-6 col-lg-2 p-1">
+			<a href="/towns/<%= @town.id %>/hotels?cat=2">
+				<div class="cat-bg-image">
+					<img src="<%= @town.avatar_for_cat("hotels", 1) %>" alt="Avatar" class="img-fluid">
+					<div class="cat-bg-title">Гостевые дома</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-6 col-lg-2 p-1">
+			<a href="/towns/<%= @town.id %>/hotels?cat=2">
+				<div class="cat-bg-image">
+					<img src="<%= @town.avatar_for_cat("hotels", 2) %>" alt="Avatar" class="img-fluid">
+					<div class="cat-bg-title">Гостиницы</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-6 col-lg-2 p-1">
+			<a href="/towns/<%= @town.id %>/hotels?cat=2">
+				<div class="cat-bg-image">
+					<img src="<%= @town.avatar_for_cat("hotels", 3) %>" alt="Avatar" class="img-fluid">
+					<div class="cat-bg-title">Отели</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-6 col-lg-2 p-1">
+			<a href="/towns/<%= @town.id %>/hotels?cat=2">
+				<div class="cat-bg-image">
+					<img src="<%= @town.avatar_for_cat("hotels", 4) %>" alt="Avatar" class="img-fluid">
+					<div class="cat-bg-title">Квартиры</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-6 col-lg-2 p-1">
+			<a href="/towns/<%= @town.id %>/hotels?cat=2">
+				<div class="cat-bg-image">
+					<img src="<%= @town.avatar_for_cat("hotels", 5) %>" alt="Avatar" class="img-fluid">
+					<div class="cat-bg-title">Дома под ключ</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-6 col-lg-2 p-1">
+			<a href="/towns/<%= @town.id %>/hotels?cat=2">
+				<div class="cat-bg-image">
+					<img src="<%= @town.avatar_for_cat("hotels", 6) %>" alt="Avatar" class="img-fluid">
+					<div class="cat-bg-title">Частный сектор</div>
+				</div>
+			</a>
+		</div>		
+
+	
+	</div><!-- END hotels -->
+
+</div>
+
+<br><br>
+
+<div class="bg-white"><!-- actions -->
+	<div class="container">
+		<div class="row">
+			
+			<aside class="col-lg-3">
+				
+				<div class="resources-title">
+					<h2>Активный отдых</h2>		
+				</div>
+
+				<div class="hotel-cats">
+					<ul class="">          
+						<li id="all-hotel-cats"><a href="/towns/1/hotels">Все активности</a></li>                
+						<li id="hotel-cat-1">
+							<a href="/towns/1/hotels?cat=1">Морские прогулки</a>
+						</li> 
+						<li id="hotel-cat-2">
+							<a href="/towns/1/hotels?cat=2">Конные прогулки</a>
+						</li> 
+						<li id="hotel-cat-3">
+							<a href="/towns/1/hotels?cat=3">Воздушные прогулки</a>
+						</li> 
+						<li id="hotel-cat-4">
+							<a href="/towns/1/hotels?cat=4">Мото прогулки</a>
+						</li> 
+						<li id="hotel-cat-5">
+							<a href="/towns/1/hotels?cat=5">Пешие экскурсии</a>
+						</li> 
+						<li id="hotel-cat-6">
+							<a href="/towns/1/hotels?cat=6">Горы</a>
+						</li> 
+						<li id="hotel-cat-7">
+							<a href="/towns/1/hotels?cat=7">Другое</a>
+						</li> 				
+					</ul>
+				</div>       
+
+			</aside>
+
+			<div class="col-lg-9 p-1">
+				<div class="row gx-0">
+					<div class="col-lg-4 col-4">
+						<%= link_to image_tag(Active.last.avatar.thumb_active.url, alt: "Главная", class: 'img-fluid'), root_path %>	
+					</div>
+					<div class="col-lg-4 col-4">
+						<%= link_to image_tag(@hotel.images[1].url, alt: "Главная", class: 'img-fluid'), root_path %>	
+					</div>
+					<div class="col-lg-4 col-4">
+						<%= link_to image_tag(@hotel.images[2].url, alt: "Главная", class: 'img-fluid'), root_path %>	
+					</div>
+					<div class="col-lg-4 col-4">
+						<%= link_to image_tag(@hotel.images[4].url, alt: "Главная", class: 'img-fluid'), root_path %>	
+					</div>
+					<div class="col-lg-4 col-4">
+						<%= link_to image_tag(@hotel.images[3].url, class: 'img-fluid'), root_path %>	
+					</div>
+						<div class="col-lg-4 col-4">
+						<%= link_to image_tag(@hotel.images[5].url, class: 'img-fluid'), root_path %>	
+					</div>
+				</div>
+			</div>
+		
+		</div>
+	</div>	
+</div><!-- END actions -->
+
+<br><br>
+
+<div class="container">
 
   <div class="row">
     <div class="col-6">
@@ -259,6 +417,8 @@
         
 </div>
 <!-- End container -->
+
+</main>
 
 
 
