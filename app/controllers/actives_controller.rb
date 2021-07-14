@@ -10,17 +10,18 @@ class ActivesController<ApplicationController
 
   def show
     @active = Active.find(params[:id])
-    @service_categories = ServiceCategory.select(:id, :name).all
+    # @service_categories = ServiceCategory.select(:id, :name).all
     # определение города к которому относится сервис
     #FIXME: сейчас город определяется если заходить со страницы города, проработать другие варианты определения города - например с помощью определения местоположения
     if params[:town_id].blank?
-      @town = Town.first
+      #FIXME: реализовать оптимальное определение города
+      @town = @active.towns.first
     else
       @town = Town.find(params[:town_id].to_i)
     end
     
     # определяем - является ли этот сервис запомненным    
-    current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Service') if @cart
+    current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Active') if @cart
     @current_item = true if current_item 
   end
 
@@ -49,10 +50,44 @@ class ActivesController<ApplicationController
   def update
     @active = Active.find(params[:id])
     @active.desc_json = JSON.parse(params[:desc_json])
-    # set Desc_json: cat_name -> in Model (after_save)  
+    # set Desc_json: cat_name -> in Model (after_save)
+    
+    # Запоминаем категорию ресурса и список его городов
+    old_cat = @active.active_category.id
+    old_towns = @active.town_ids
+
     if @active.update(active_params)
-      redirect_to active_path
+
+      # сравниваем старые и новые значение. Если есть изменения - 
+      # запускаем циклы для старых и новых городов
+      if old_cat != @active.active_category.id || old_towns != @active.town_ids
+      
+        # В старых городах уменьшаем или удаляем позиции
+        towns = Town.find(old_towns)
+        towns.each do |town|
+          counter = town.category_counters.where(cat_type: 'actives', cat_id: old_cat).first
+          if counter.cat_count == 1
+            counter.destroy
+          else
+            counter.update_column(:cat_count, counter.cat_count-1)
+          end
+        end
+
+        # В новых городах добавляем или создаем позиции
+        @active.towns.each do |town|
+          counter = town.category_counters.where(cat_type: 'actives', cat_id: @active.active_category.id).first
+          if counter
+            counter.update_column(:cat_count, counter.cat_count+1)
+          else
+            counter = town.category_counters.build(cat_type: 'actives', cat_id: @active.active_category.id, cat_name: @active.active_category.name )
+            counter.save
+          end
+        end
+      
+      end
+
       flash[:info] = 'Активный отдых успешно изменён'
+      redirect_to active_path      
     else
       flash.now[:warning] = 'Не получилось изменить'
       render :edit
@@ -61,9 +96,26 @@ class ActivesController<ApplicationController
 
   def destroy
     @active = Active.find(params[:id])
+
+    # Для определения счётчика    
+    cat_id = @active.active_category.id
+    town_ids = @active.town_ids
+
     @active.destroy
+
+    # находим и уменьшаем или удаляем счётчик В КАЖДОМ ГОРОДЕ
+    towns = Town.find(town_ids)
+    towns.each do |town|
+      counter = town.category_counters.where(cat_type: 'actives', cat_id: cat_id).first
+      if counter.cat_count == 1
+        counter.destroy
+      else
+        counter.update_column(:cat_count, counter.cat_count-1)
+      end
+    end
+    
     flash[:info] = 'Активный отдых удалён'
-    redirect_to root_url
+    redirect_to @active.user
   end
 
 private

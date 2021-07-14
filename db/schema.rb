@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_02_122152) do
+ActiveRecord::Schema.define(version: 2021_07_02_190015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,15 @@ ActiveRecord::Schema.define(version: 2021_07_02_122152) do
   end
 
   create_table "carts", force: :cascade do |t|
+  end
+
+  create_table "category_counters", force: :cascade do |t|
+    t.bigint "town_id", null: false
+    t.string "cat_type"
+    t.integer "cat_id"
+    t.integer "cat_count", limit: 2, default: 1
+    t.string "cat_name"
+    t.index ["town_id"], name: "index_category_counters_on_town_id"
   end
 
   create_table "hotel_categories", force: :cascade do |t|
@@ -299,6 +308,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_122152) do
   add_foreign_key "cafebars", "users"
   add_foreign_key "cafebars_tagcafebars", "cafebars"
   add_foreign_key "cafebars_tagcafebars", "tagcafebars"
+  add_foreign_key "category_counters", "towns"
   add_foreign_key "hotels", "hotel_categories"
   add_foreign_key "hotels", "towns"
   add_foreign_key "hotels", "users"

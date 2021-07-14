@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     get :cafebars, on: :member
     get :points, on: :member
     get :services, on: :member
+    get :actives, on: :member
   end
 
   resources :hotel_categories, except: :show

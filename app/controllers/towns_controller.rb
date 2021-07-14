@@ -8,12 +8,11 @@ class TownsController < ApplicationController
   
   def show
     @town = Town.find(params[:id])
-    #TODO: убрать вывод всех отелей
-    @hotel = Hotel.find(140)
+    @town_cats = @town.category_counters 
   end
   
   def new
-    @town = Town.new
+    @town_new = Town.new
   end
 
   def create
@@ -131,6 +130,28 @@ class TownsController < ApplicationController
     if @cart
       @array_resources_ids = []
       @cart.line_items.where(resource_name: "Service").each do |line_item|
+        @array_resources_ids << line_item.resource_id
+      end
+    end
+  end
+
+  # Выводим активности города
+  def actives
+    @town = Town.find(params[:id])
+    @active_categories = ActiveCategory.all    
+
+    # вывод с категориями
+    if params[:cat].blank?
+      @actives = @town.actives.select(:id, :avatar, :images, :name, :price, :desc_json)
+    else
+      @actives = @town.actives.select(:id, :avatar, :images, :name, :price, :desc_json).where(active_category: params[:cat].to_i)
+      @actives_cat = ActiveCategory.find(params[:cat].to_i).name
+    end
+
+    # определяем массив запомненных ID Actives, если есть @cart
+    if @cart
+      @array_resources_ids = []
+      @cart.line_items.where(resource_name: "Active").each do |line_item|
         @array_resources_ids << line_item.resource_id
       end
     end

@@ -19,6 +19,8 @@ class Point < ApplicationRecord
 
   after_save  :set_town_and_cat!
 
+  after_create  :set_town_category_counter
+
   #TODO: сделать проверку полей json на длину текста
 
 private
@@ -65,6 +67,18 @@ private
     desc_json['town_name'] = town.name
     desc_json['cat_name'] = point_category.name
     update_column(:desc_json, desc_json)
+  end
+
+  # добавляем в город счётчик категорий
+  def set_town_category_counter
+    counter = town.category_counters.where(cat_type: 'points', cat_id: point_category.id).first
+
+    if counter
+      counter.update_column(:cat_count, counter.cat_count+1)
+    else
+      counter = town.category_counters.build(cat_type: 'points', cat_id: point_category.id, cat_name: point_category.name )
+      counter.save
+    end
   end
 
 end

@@ -57,68 +57,39 @@
 	</div>
 	
 	<div class="row"><!-- hotels -->
-		<div class="col-6 col-lg-2 p-1">
-			<a href="/towns/<%= @town.id %>/hotels?cat=2">
-				<div class="cat-bg-image">
-					<img src="<%= @town.avatar_for_cat("hotels", 1) %>" alt="Avatar" class="img-fluid">
-					<div class="cat-bg-title">Гостевые дома</div>
-				</div>
-			</a>
-		</div>
 
-		<div class="col-6 col-lg-2 p-1">
-			<a href="/towns/<%= @town.id %>/hotels?cat=2">
-				<div class="cat-bg-image">
-					<img src="<%= @town.avatar_for_cat("hotels", 2) %>" alt="Avatar" class="img-fluid">
-					<div class="cat-bg-title">Гостиницы</div>
-				</div>
-			</a>
-		</div>
-
-		<div class="col-6 col-lg-2 p-1">
-			<a href="/towns/<%= @town.id %>/hotels?cat=2">
-				<div class="cat-bg-image">
-					<img src="<%= @town.avatar_for_cat("hotels", 3) %>" alt="Avatar" class="img-fluid">
-					<div class="cat-bg-title">Отели</div>
-				</div>
-			</a>
-		</div>
-
-		<div class="col-6 col-lg-2 p-1">
-			<a href="/towns/<%= @town.id %>/hotels?cat=2">
-				<div class="cat-bg-image">
-					<img src="<%= @town.avatar_for_cat("hotels", 4) %>" alt="Avatar" class="img-fluid">
-					<div class="cat-bg-title">Квартиры</div>
-				</div>
-			</a>
-		</div>
-
-		<div class="col-6 col-lg-2 p-1">
-			<a href="/towns/<%= @town.id %>/hotels?cat=2">
-				<div class="cat-bg-image">
-					<img src="<%= @town.avatar_for_cat("hotels", 5) %>" alt="Avatar" class="img-fluid">
-					<div class="cat-bg-title">Дома под ключ</div>
-				</div>
-			</a>
-		</div>
-
-		<div class="col-6 col-lg-2 p-1">
-			<a href="/towns/<%= @town.id %>/hotels?cat=2">
-				<div class="cat-bg-image">
-					<img src="<%= @town.avatar_for_cat("hotels", 6) %>" alt="Avatar" class="img-fluid">
-					<div class="cat-bg-title">Частный сектор</div>
-				</div>
-			</a>
-		</div>		
-
+		<% @town_cats.where(cat_type: 'hotels').each do |cat| %>
+			<div class="col-6 col-lg-2 p-1">
+				<a href="/towns/<%= @town.id %>/hotels?cat=<%= cat.cat_id %>">
+					<div class="cat-bg-image">
+						<img src="<%= @town.avatar_for_cat("hotels", cat.cat_id) %>" alt="<%= "#{cat.cat_name} в #{@town.parent_name}" %>" class="img-fluid">
+						<div class="cat-bg-title"><%= cat.cat_name %> (<%= cat.cat_count %>)</div>
+					</div>
+				</a>
+			</div>
+		<% end %>		
 	
-	</div><!-- END hotels -->
+	</div><!-- END hotels -->	
+
+
+<!-- ДЛЯ ТЕСТА СЧЁТЧИКА КАТЕГОРИЙ -->
+<br><br>
+<div class="row">
+	<% @town_cats.each do |counter| %>
+		<div class="col">
+			Город: <strong><%= counter.town_id %></strong> <br>
+			Тип:	<strong><%= counter.cat_type %></strong> <br>
+			ID:  <strong><%= counter.cat_id %></strong>		Кол-во: <strong><%= counter.cat_count %></strong>  <br>
+			Name: <strong><%= counter.cat_name %></strong>
+		</div>
+	<% end %>
+</div>
 
 </div>
 
 <br><br>
 
-<div class="bg-white"><!-- actions -->
+<div class="bg-white"><!-- actives -->
 	<div class="container">
 		<div class="row">
 			
@@ -129,60 +100,21 @@
 				</div>
 
 				<div class="hotel-cats">
-					<ul class="">          
-						<li id="all-hotel-cats"><a href="/towns/1/hotels">Все активности</a></li>                
-						<li id="hotel-cat-1">
-							<a href="/towns/1/hotels?cat=1">Морские прогулки</a>
-						</li> 
-						<li id="hotel-cat-2">
-							<a href="/towns/1/hotels?cat=2">Конные прогулки</a>
-						</li> 
-						<li id="hotel-cat-3">
-							<a href="/towns/1/hotels?cat=3">Воздушные прогулки</a>
-						</li> 
-						<li id="hotel-cat-4">
-							<a href="/towns/1/hotels?cat=4">Мото прогулки</a>
-						</li> 
-						<li id="hotel-cat-5">
-							<a href="/towns/1/hotels?cat=5">Пешие экскурсии</a>
-						</li> 
-						<li id="hotel-cat-6">
-							<a href="/towns/1/hotels?cat=6">Горы</a>
-						</li> 
-						<li id="hotel-cat-7">
-							<a href="/towns/1/hotels?cat=7">Другое</a>
-						</li> 				
+					<ul>          
+						<li><a href="/towns/<%= @town.id %>/actives">Все активности</a></li>
+						<% @town_cats.where(cat_type: 'actives').each do |cat| %>							
+							<li><a href="/towns/<%= @town.id %>/actives?cat=<%= cat.cat_id %>"><%= cat.cat_name %> (<%= cat.cat_count %>)</a></li>
+						<% end %>	
 					</ul>
 				</div>       
 
 			</aside>
 
-			<div class="col-lg-9 p-1">
-				<div class="row gx-0">
-					<div class="col-lg-4 col-4">
-						<%= link_to image_tag(Active.last.avatar.thumb_active.url, alt: "Главная", class: 'img-fluid'), root_path %>	
-					</div>
-					<div class="col-lg-4 col-4">
-						<%= link_to image_tag(@hotel.images[1].url, alt: "Главная", class: 'img-fluid'), root_path %>	
-					</div>
-					<div class="col-lg-4 col-4">
-						<%= link_to image_tag(@hotel.images[2].url, alt: "Главная", class: 'img-fluid'), root_path %>	
-					</div>
-					<div class="col-lg-4 col-4">
-						<%= link_to image_tag(@hotel.images[4].url, alt: "Главная", class: 'img-fluid'), root_path %>	
-					</div>
-					<div class="col-lg-4 col-4">
-						<%= link_to image_tag(@hotel.images[3].url, class: 'img-fluid'), root_path %>	
-					</div>
-						<div class="col-lg-4 col-4">
-						<%= link_to image_tag(@hotel.images[5].url, class: 'img-fluid'), root_path %>	
-					</div>
-				</div>
-			</div>
+			
 		
 		</div>
 	</div>	
-</div><!-- END actions -->
+</div><!-- END actives -->
 
 <br><br>
 
@@ -204,13 +136,18 @@
 	<br>
 
 	<div class="row">
-    <div class="col-6">
+    <div class="col">
     	<%= link_to "Где поесть в #{@town.parent_name}", cafebars_town_path,
 					class: 'btn btn-success btn-sm' %> 
     </div> 
 
-		<div class="col-6">
+		<div class="col">
 			<%= link_to "Услуги и сервисы #{@town.parent_name}", services_town_path,
+      		class: 'btn btn-info btn-sm' %>
+		</div> 
+
+		<div class="col-">
+			<%= link_to "Активный отдых #{@town.parent_name}", actives_town_path,
       		class: 'btn btn-info btn-sm' %>
 		</div> 
   </div>

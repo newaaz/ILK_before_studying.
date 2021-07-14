@@ -25,6 +25,8 @@ class Hotel < ApplicationRecord
 
   after_save  :set_town_name!
 
+  after_create  :set_town_category_counter
+
 private
 
   # Проверяем главное изображение Avatar через carrierwave
@@ -66,6 +68,18 @@ private
   def check_desc_json
     desc_json.each do |desc_item|
       errors.add(desc_item[0],' - описание слишком длинное (не более 255 символов)') if desc_item[1].size > 255
+    end
+  end
+
+  # добавляем в город счётчик категорий
+  def set_town_category_counter
+    counter = town.category_counters.where(cat_type: 'hotels', cat_id: hotel_category.id).first
+
+    if counter
+      counter.update_column(:cat_count, counter.cat_count+1)
+    else
+      counter = town.category_counters.build(cat_type: 'hotels', cat_id: hotel_category.id, cat_name: hotel_category.name )
+      counter.save
     end
   end
 

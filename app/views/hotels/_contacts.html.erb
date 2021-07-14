@@ -4,13 +4,13 @@
     <div class="row gx-1 mb-4">
       <div class="col">
         <div class="distance-sea">
-          от <span><%= @hotel.price_from %></span><small>р.</small>/сутки
+          от <span><%= @hotel.price_from %></span><small>р</small>/сутки
         </div>      
       </div>
       <% if @hotel.distance_to_sea %>
       <div class="col">
         <div class="distance-sea">
-          море ~ <span><%= @hotel.distance_to_sea %></span><small>м.</small>
+          море ~ <span><%= @hotel.distance_to_sea %></span><small>м</small>
         </div>
       </div>
       <% end %>
@@ -28,24 +28,30 @@
       </div>
     </div>
 
-    <div class="contact-email">
-      <span style="margin-left:-5px;">
-        <a href="mailto:<%= @hotel.email %>"><i class="icon-mail-6" style="font-size:20px;"></i>&nbsp;<%= @hotel.email %></a> 
+    <div class="contact-email mb-3">
+      <span style="margin-left:-2px;">
+        <a href="mailto:<%= @hotel.email %>"><%= image_tag("icons/email_sm.png", width: "20px") %>&nbsp;&nbsp;<%= @hotel.email %></a> 
       </span>
       <% unless @hotel.site.blank? %>
         <span><a href="https://<%= @hotel.site %>" target="_blank">&#127760;&nbsp;<%= @hotel.site %></a></span>      
       <% end %>
       <% unless @hotel.desc_json["instagram"].empty? %>
-        <span><a href="https://www.instagram.com/<%= @hotel.desc_json["instagram"] %>" target="_blank">&nbsp;@<%= @hotel.desc_json["instagram"] %></a></span>
+        <span><a href="https://www.instagram.com/<%= @hotel.desc_json["instagram"] %>" target="_blank">
+        <%= image_tag("icons/instagram_sm.png", width: "20px") %>
+        &nbsp;<%= @hotel.desc_json["instagram"] %></a>
+        </span>
       <% end %>
       <% unless @hotel.desc_json["vk"].empty? %>
-        <span><a href="https://vk.com/<%= @hotel.desc_json["vk"] %>" target="_blank">&nbsp;vk/<%= @hotel.desc_json["vk"] %></a></span>
+        <span><a href="https://vk.com/<%= @hotel.desc_json["vk"] %>" target="_blank">
+          <%= image_tag("icons/vk_sm.png", width: "20px") %>
+          &nbsp;<%= @hotel.desc_json["vk"] %></a>
+        </span>
       <% end %>
     </div>  
 
   </div>
 
-  <div class="row gx-1">
+  <div class="row gx-1 mb-3">
     <div class="col-6">
       <div class="send-owner text-center">
         <i class="icon-mail-6"></i> Написать

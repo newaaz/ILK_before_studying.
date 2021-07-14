@@ -23,6 +23,8 @@ class Service < ApplicationRecord
 
   after_save  :set_cat_name!
 
+  after_create  :set_town_category_counter
+
   #TODO: сделать проверку полей json на длину текста  
 
   private
@@ -96,6 +98,19 @@ class Service < ApplicationRecord
   def set_cat_name!
     desc_json['cat_name'] = service_category.name
     update_column(:desc_json, desc_json)
+  end
+
+  # добавляем в город счётчик категорий
+  def set_town_category_counter
+    towns.each do |town|
+      counter = town.category_counters.where(cat_type: 'services', cat_id: service_category.id).first
+      if counter
+        counter.update_column(:cat_count, counter.cat_count+1)
+      else
+        counter = town.category_counters.build(cat_type: 'services', cat_id: service_category.id, cat_name: service_category.name )
+        counter.save
+      end
+    end
   end
 
 end

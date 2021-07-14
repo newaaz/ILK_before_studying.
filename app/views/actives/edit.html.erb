@@ -1,0 +1,394 @@
+<% provide(:title, 'Изменение данных') %>
+
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<div class="container mt-5">
+  
+  <h1 class='h3 text-center mb-4'>Изменение данных</h1>
+  <p>Все поля со звёздочками <span class="text-danger">*</span> - нужно заполнить</p>
+
+  <%= form_with(model: @active, local: true, html: { name: "active" }) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="row g-3">
+
+      <div class="col-lg-9  border-end">
+
+        <div class="row mb-3 gx-2">
+
+          <div class="col-lg-5 col-md-6"><!-- name -->
+            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+            <%= f.label :name %> <span class="text-danger">*</span>  
+            <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>           
+          </div>
+
+          <div class="col-lg-3 col-md-6"><!-- category -->
+            <span>
+              <i class="icon_set_1_icon-8 text-muted"></i>
+            </span>
+            <%= f.label :active_category_id %> <span class="text-danger">*</span>              
+            <%= f.collection_select :active_category_id, ActiveCategory.order(:number), :id, :name,
+              { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
+          </div>
+          
+          <div class="col-lg-2 col-md-6"><!-- price -->
+            <span>
+              <i class="icon_set_1_icon-8 text-muted"></i>
+            </span>
+            <%= f.label :price %> <span class="text-danger">*</span> <small class="form-text text-muted">руб</small>        
+            <%= f.text_field :price, class: 'form-control form-control-sm', required: true %>
+          </div>
+          <div class="col-lg-2 col-md-4">
+            <label for="price_type">чел / тур</label> <span class="text-danger">*</span>              
+            <select class="form-select form-select-sm" required="required" name="price_type" id="price_type">
+              <option value="чел">С человека</option>
+              <option value="тур">За тур</option>              
+            </select>        
+          </div> 
+
+        </div>
+
+        <!-- Desc -->
+        <div class="mb-2">
+          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <%= f.label :description %> <span class="text-danger">*</span>
+        </div>
+        <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
+        
+        <div class="mt-3"><!-- addition -->
+          <label for="textarea1" class="form-label">Дополнительно</label><small class="text-muted"> (Что брать с собой, условия, время и т.д.)</small>
+          <textarea name="addition" class="form-control" id="textarea1" rows="3"></textarea>
+        </div>
+
+        <div class="mt-3"><!-- prices -->
+          <label for="textarea1" class="form-label">О ценах</label><small class="text-muted"> (есть ли детские билеты и т.д.)</small>
+          <textarea name="prices" class="form-control" id="textarea1" rows="2"></textarea>
+        </div>
+
+        <!-- map -->
+        <div class="row mb-4 mt-3 pb-3 gx-2">
+          <div class="col-md-8">
+            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+            Отметить на карте
+            <div id="map" style="height: 300px" class="border mt-2"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="coordinates mt-4">
+              <span>Координаты</span>
+              <div class="form-group">              
+                <small class="text-muted">Широта</small>                
+                <%= f.text_field :latitude, class: 'form-control', readonly: true %>
+              </div>
+              <div class="form-group mb-5">              
+                <small class="text-muted">Долгота</small>
+                <%= f.text_field :longitude, class: 'form-control', readonly: true %>
+              </div>
+              <div class="pt-5">
+                <button type="button" id="clear-btn" class="d-block btn btn-outline-secondary btn-sm">Сбросить координаты</button>
+                <small class="text-muted">С пустыми координатами карта отображаться не будет</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
+          <%= button_tag "Сохранить изменения", type: 'submit', class:"btn btn-primary" %>
+        </div>
+
+      </div><!-- end col-9 -->
+
+      
+      <div class="col-lg-3"><!-- contacts & photo -->            
+          
+        <div class="row">
+                   
+          <div class="col">
+
+            <% if logged_in? && current_user.admin? %>
+              <!-- Admin button -->
+              <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd">Вставить</a>
+            <% end %>
+            <!-- contacts -->  
+            <h3 class='h4 text-center text-success'>Контакты</h3>            
+            <!-- Phone CONTACTS -->
+            <div class="add-contacts">
+              <div class="contact row gx-1">              
+                <div class="col-lg-6 col-md-12">
+                  <div class="mb-2">
+                    <span style="font-size:18px">
+                    <label class="form-label">№ телефона</label><span class="text-danger">*</span> 
+                    <input name="phone" type="text" class="mask-phone form-control form-control-sm" style="font-size:12px" required>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                  <div class="mb-2">
+                    <span style="font-size:18px">
+                    <label class="form-label">Имя</label><span class="text-danger">*</span> 
+                    <input name="ow_name" type="text" class="form-control form-control-sm" style="font-size:12px" required >
+                  </div>
+                </div>
+                <div class="col">
+                  <ul class="ps-0 checkbox-tags">
+                    <li>                  
+                      <input type="checkbox" name="viber" id="chk_viber" value="0"/>
+                      <label for="chk_viber"><i class="fab fa-viber fa-lg"></i>&ensp;Есть Viber&nbsp;&nbsp;</label>
+                    </li>
+                    <li>                  
+                      <input type="checkbox" name="whatsapp" id="chk_whatsapp" value="0"/>
+                      <label for="chk_whatsapp"><i class="fab fa-whatsapp fa-lg"></i>&ensp;Есть Whatsapp</label>
+                    </li>
+                  </ul>
+                </div>                   
+              </div>
+            </div>
+            <!-- END Phone CONTACTS -->
+            <div class="my-3"><!-- vk -->           
+              <div class="mb-1">
+                <i class="icon_set_1_icon-8 text-muted"></i>
+                <label class="form-label">ВКонтакте</label><small class="text-muted"> (если есть)</small>
+              </div>
+              <div class="input-group input-group-sm">
+                <span class="input-group-text">vk.com/</span>
+                <input name="vk" type="text" class="form-control form-control-sm">
+              </div>            
+            </div>
+            <div class="mb-3"><!-- insta -->           
+              <div class="mb-1">
+                <i class="icon_set_1_icon-8 text-muted"></i>
+                <label class="form-label">Instagram</label><small class="text-muted"> (если есть)</small>
+              </div>
+              <div class="input-group input-group-sm">
+                <span class="input-group-text">instagram.com/</span>
+                <input name="instagram" type="text" class="form-control form-control-sm">
+              </div>            
+            </div>
+            <div class="mb-3"><!-- site -->          
+              <div class="mb-1">
+                <i class="icon_set_1_icon-8 text-muted"></i>
+                <label class="form-label">Сайт</label><small class="text-muted"> (если есть)</small>
+              </div>
+              <div class="input-group input-group-sm">
+                <span class="input-group-text">https://</span>
+                <input name="site" type="text" class="form-control form-control-sm">
+              </div>            
+            </div>
+            <div class="mb-3"><!-- email -->
+              <span style="font-size:18px"><i class="icon_set_1_icon-84" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+              <label class="form-label">Email</label><small class="text-muted"> (если есть)</small>
+              <input name="email" type="text" class="form-control form-control-sm">
+            </div>
+        
+            <!-- images -->
+            <h3 class='h4 text-center text-success'>Фотографии</h3>
+            <div class="mb-3">
+              <i class="icon_set_1_icon-8 text-muted"></i><%= f.label :avatar %> <span class="text-danger">*</span>
+              <small class="text-muted mb-2">Здесь подсказки к загрузке  главного фото</small> 
+              <%= f.file_field :avatar, accept: 'image/*' %>
+            </div>
+            <div class="mb-3">
+              <i class="icon_set_1_icon-8 text-muted"></i> Остальные изображения     
+              <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
+              <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
+            </div>
+            <!-- towns -->
+            <h3 class='h4 text-center text-success'>К каким населённым пунктам относится</h3>          
+            <div class="form-group">
+              <%= f.label 'Выберите один или несколько', class:"ps-1" %> <span class="text-danger">*</span>         
+              <%= f.collection_select :town_ids, Town.order(:name), :id, :name,
+                { include_blank: false }, class:"form-select", size: 8, required: true, multiple: true %>
+            </div>
+            
+            <!-- SEO TAGS -->
+            <div class="seo-tags mt-5">
+              <p>
+                <a class="btn btn-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  Добавить SEO-теги <span class="icon-down-open-1"></span>
+                </a>
+                <small class="text-muted">
+                - если не знаете что это такое - можно пропустить. Система автоматически вставит стандартные
+              </small>
+              </p>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <div class="mb-3"><!-- keyword --> 
+                    <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                    <label class="form-label">Ключевые слова (keywords)</label>
+                    <input name="seo_keywords" type="text" class="form-control form-control-sm">
+                  </div>                
+                  <div class="mt-3"><!-- desc --> 
+                    <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                    <label class="form-label" for="point_how_to_get">Описание (description)</label>          
+                    <textarea name="seo_description" class="form-control" rows="3" name=""></textarea>
+                  </div>
+                </div>
+              </div>  
+            </div>
+            <!-- END SEO TAGS -->
+            
+            
+            <input type="hidden" name="desc_json"><!-- hidden -->   
+          </div>
+                  
+        </div>       
+
+      </div>
+
+    </div>            
+
+  <% end %>
+
+</div>
+
+<!-- YMAP -->
+<% if @active.latitude.blank? %><!-- YMAP -->
+  <script type="text/javascript">
+    ymaps.ready(init);
+    function init(){
+        
+      var myMap = new ymaps.Map("map", {
+          center: [45.15, 34.52],
+          zoom: 8,
+          controls: ['zoomControl'],
+          behaviors: ['drag','dblClickZoom', 'multiTouch']
+      });      
+
+      myMap.events.add('click', function (e) {
+        if (!myMap.balloon.isOpen()) {
+            var coords = e.get('coords');
+            myMap.balloon.open(coords, {
+                contentBody:'<p>Вы отметили новое место на карте.</p>' +
+                    '<p>Координаты места: ' + [
+                    coords[0].toPrecision(6),
+                    coords[1].toPrecision(6),
+                    ].join(', ') + '</p>',
+                contentFooter:'Чтобы изменить координаты щёлкните в другом месте'
+            });
+
+            document.getElementById('active_latitude').value = coords[0].toPrecision(6)
+            document.getElementById('active_longitude').value = coords[1].toPrecision(6)
+        }
+        else {
+            myMap.balloon.close();
+        }
+      });
+
+    }
+
+    document.getElementById('clear-btn').onclick = function(e) {
+      document.getElementById('active_latitude').value = ''
+      document.getElementById('active_longitude').value = ''
+    }
+  </script>
+<% else %>
+  <script type="text/javascript">  
+    ymaps.ready(init);
+    function init(){
+      const coords = [<%= @active.latitude %>, <%= @active.longitude %>]
+      var myMap = new ymaps.Map("map", {
+          center: coords,
+          zoom: 16,
+          controls: ['zoomControl'],
+          behaviors: ['drag','dblClickZoom', 'multiTouch']
+      });
+
+      var myPlacemark = new ymaps.Placemark(coords, {}, {
+        preset: "islands#darkOrangeStarIcon",        
+        // Балун будем открывать и закрывать кликом по иконке метки.
+        hideIconOnBalloonOpen: false,
+        draggable: true
+      });
+      myMap.geoObjects.add(myPlacemark);
+
+      myPlacemark.events.add('dragend', function(e) {
+        var newCoords = myPlacemark.geometry.getCoordinates()
+        document.getElementById('active_latitude').value = newCoords[0].toPrecision(6)
+        document.getElementById('active_longitude').value = newCoords[1].toPrecision(6)
+
+      })
+
+      document.getElementById('clear-btn').onclick = function(e) {
+        //myMap.geoObjects.remove(myPlacemark)
+        document.getElementById('active_latitude').value = ''
+        document.getElementById('active_longitude').value = ''
+      }
+    }    
+  </script>
+<% end %>
+
+<!-- avatar, mask-phone, work with form -->
+<script type="text/javascript">
+  // check avatar size
+  $("#active_avatar").bind("change", function() {
+    const size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 4) {
+      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+    }
+  });
+
+  // Mask phone
+  $('.mask-phone').mask('+9(999) 999-99-99');
+
+  var form = document.forms.active
+  // insert desc-json
+    form.addition.value = '<%= @active.desc_json['addition'] %>'
+    form.prices.value = '<%= @active.desc_json['prices'] %>'
+
+    form.phone.value =  '<%= @active.desc_json['phone'] %>'
+    form.ow_name.value =  '<%= @active.desc_json['ow_name'] %>'
+    <% if @active.desc_json['viber'] == "1" %>
+      form.viber.value = 1
+      form.viber.checked =  1
+    <% end %>
+    <% if @active.desc_json['whatsapp'] == "1" %>
+      form.whatsapp.value = 1
+      form.whatsapp.checked =  1
+    <% end %>  
+
+    form.vk.value = '<%= @active.desc_json['vk'] %>'
+    form.instagram.value = '<%= @active.desc_json['instagram'] %>'
+    form.site.value = '<%= @active.desc_json['site'] %>'
+    form.email.value = '<%= @active.desc_json['email']  %>'
+
+    form.seo_keywords.value =  '<%= @active.desc_json['seo_keywords']  %>'
+    form.seo_description.value = '<%= @active.desc_json['seo_keywords']  %>'
+
+  // On Submit
+  form.addEventListener('submit', function(event){
+    
+    form.button.disabled = true;  
+    event.preventDefault();
+
+    if (form.viber.checked == true) {
+      form.viber.value = 1
+    }
+     if (form.whatsapp.checked == true) {
+      form.whatsapp.value = 1
+    }
+    
+    var data = {
+        "addition": this.addition.value,
+        "price_type": this.price_type.value,
+        "prices":     this.prices.value,
+        "phone": this.phone.value,
+        "phone_clean": this.phone.value.replace(/[^0-9]/g, ''),
+        "ow_name":  this.ow_name.value,
+        "viber":    this.viber.value,
+        "whatsapp": this.whatsapp.value,
+        "vk": this.vk.value,
+        "instagram": this.instagram.value,
+        "site": this.site.value,
+        "email": this.email.value,
+        "seo_keywords": this.seo_keywords.value,
+        "seo_description": this.seo_description.value,
+    };   
+
+    this.desc_json.value = JSON.stringify(data);  
+    form.submit();
+  })
+
+</script>
+
+
+

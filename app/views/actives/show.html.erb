@@ -41,9 +41,10 @@
 <div class="breadcrumbs">
   <div class="container">
     <i class="icon-location-outline crumbs-short" style="font-size:15px"></i>
+    <%= link_to "Главная", root_url %>&nbsp;/
     <%= link_to @town.name, @town %>&nbsp;/
-    Добавить ссылку&nbsp;/
-    Добавить ссылку&nbsp;/
+    <%= link_to "Активный отдых", actives_town_path(@town) %>&nbsp;/
+    <%= link_to @active.desc_json['cat_name'], actives_town_path(@town, { cat: @active.active_category.id }) %>&nbsp;/
     <%= @active.name %>
   </div>
 </div>
@@ -51,15 +52,16 @@
 <main class="hotels-show">
 
 <div class="container">
- 
-  <!-- title + fotorama + contacts -->
-  <div class="row mt-3">
 
-    <div class="col-lg-9 px-0">
-      <!-- title -->
-      <div class="px-2">
-        <h1 class="d-inline"><%= @active.name %></h1>&emsp;                
-      </div>   
+  <!-- title -->
+  <div class="px-2 mt-3">
+    <h1 class="d-inline"><%= @active.name %></h1>&emsp;                
+  </div>   
+ 
+  <!-- fotorama + contacts -->
+  <div class="row mt-2">
+
+    <div class="col-lg-9 px-0">  
       
       <!-- fotorama begin -->                        
       <div class="fotoramain mt-2"
@@ -79,9 +81,64 @@
     </div>
 
     <!-- Contacts -->
-    <div class="col-lg-3 px-3"> 
+    <div class="col-lg-3 px-3">
 
+      <!-- prices -->
+      <div class="px-3 mt-4">
+        <div class="distance-sea mb-2">
+          <span><%= @active.price %></span><small>р</small> /
+          <%= @active.desc_json['price_type'] %>
+        </div>
+        <% if @active.desc_json['prices'] %>    
+          <%= @active.desc_json['prices'] %>
+        <% end %>
+      </div>
 
+      <div class="contact-photo text-center mt-4">        
+        <span><%= @active.desc_json["ow_name"] %></span>
+      </div>
+
+      <div class="contact-numbers text-center">
+        <div class="contact-number">
+          <span class="contact-phone me-1"><a href="tel:+<%= @active.desc_json["phone_clean"] %>">            
+            <%= @active.desc_json["phone"] %></a>
+          </span>
+          <% if @active.desc_json["viber"] == "1" %>
+            <a href="viber://chat?number=%2B$<%= @active.desc_json["phone_clean"] %>" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Viber"><%= image_tag("viber_50px.png", width: "35px") %></a>
+          <% end %>
+          <% if @active.desc_json["whatsapp"] == "1" %>
+            <a href="https://api.whatsapp.com/send?phone=+$<%= @active.desc_json["phone_clean"] %>" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Написать в Whatsapp"><%= image_tag("whatsapp_50px.png", width: "35px") %></a>
+          <% end %>  
+        </div>
+      </div>
+
+      <div class="contact-email">
+       
+        <% unless @active.desc_json["instagram"].empty? %>
+          <span><a href="https://www.instagram.com/<%= @active.desc_json["instagram"] %>" target="_blank">
+            <%= image_tag("icons/instagram_sm.png", width: "20px") %>
+            &nbsp;<%= @active.desc_json["instagram"] %>
+          </a></span>
+        <% end %>
+        <% unless @active.desc_json["vk"].empty? %>
+          <span><a href="https://vk.com/<%= @active.desc_json["vk"] %>" target="_blank">
+            <%= image_tag("icons/vk_sm.png", width: "20px") %>
+            &nbsp;<%= @active.desc_json["vk"] %>
+          </a></span>
+        <% end %>
+        <% unless @active.desc_json["email"].empty? %>          
+          <span><a href="mailto:<%= @active.desc_json["email"] %>">
+            <%= image_tag("icons/email_sm.png", width: "20px") %>
+            &nbsp;<%= @active.desc_json["email"] %>
+          </a></span>         
+        <% end %>
+        <% unless @active.desc_json["site"].empty? %>          
+           <span><a href="https://<%= @active.desc_json["site"] %>" target="_blank">
+              &#127760;&nbsp;<%= @active.desc_json["site"] %></a>
+          </span>
+        <% end %>
+
+      </div> 
 
       <!-- cart -->
       <div class="px-3 mt-4">
@@ -100,14 +157,12 @@
             </div>
           <% end %>
         <% end %>        
-      </div>
+      </div>  
 
-      <div class="social-links text-center my-4">
-        Поделиться:<br>  
+      <div class="social-links text-center mt-5">
+        <h4>Поделиться</h4> 
         <div class="ya-share2 mt-2" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
       </div>   
-
-   
    
     </div>
 
@@ -131,6 +186,12 @@
           <label for="tab4">На карте</label>
         <% end %>
 
+        <!-- Tab addition -->
+        <% if @active.desc_json['addition'] %>
+          <input type="radio" name="tabset" id="tab2" aria-controls="addition">
+          <label for="tab2">Дополнительно</label>
+        <% end %>
+
         <div class="tab-panels">
 
           <!-- Tab DESC -->
@@ -144,7 +205,7 @@
 
                 <hr> <!--EDIT DELETE  -->
                 <% if current_user && (current_user?(@active.user) || current_user.admin?) %>
-                  <%= link_to "Edit", edit_active_path(@point) ,class: "btn btn-outline-success btn-sm" %>
+                  <%= link_to "Edit", edit_active_path(@active) ,class: "btn btn-outline-success btn-sm" %>
                   <%= link_to "Delete", @active, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
                 <% end %>
 
@@ -162,8 +223,14 @@
           <!-- Tab MAP -->
           <% unless @active.latitude.blank? %>
             <section id="maps" class="tab-panel">
-              <h5 class="mb-3"><i class="icon_set_1_icon-37"></i><%= @town.name %></h5>              
               <div id="map" style="height: 300px" class="border shadow"></div>            
+            </section>
+          <% end %>
+
+          <!-- Tab addition -->
+          <% if @active.desc_json['addition'] %>
+            <section id="addition" class="tab-panel">
+              <%= @active.desc_json['addition'] %>     
             </section>
           <% end %>
 

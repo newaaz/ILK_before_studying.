@@ -41,6 +41,7 @@
 <div class="breadcrumbs">
   <div class="container">
     <i class="icon-location-outline crumbs-short" style="font-size:15px"></i>
+    <%= link_to "Главная", root_url %>&nbsp;/
     <%= link_to @point.desc_json['town_name'], @point.town %>&nbsp;/
     <%= link_to "Поинты", points_town_path(@point.town) %>&nbsp;/
     <%= link_to @point.desc_json['cat_name'], points_town_path(@point.town, { cat: @point.point_category.id }) %>&nbsp;/

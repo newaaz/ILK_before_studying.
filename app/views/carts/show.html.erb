@@ -42,6 +42,11 @@
             <%= render partial: "carts/service", collection: @cart.services %>              
           <% end %>
 
+          <% if @cart.actives.any? %>
+            <h2>Активный отдых</h2> 
+            <%= render partial: "carts/active", collection: @cart.actives %>              
+          <% end %>
+
           <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
           <%= link_to "Удалить список", cart_path(@cart, referer_page: @referer_page), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
         

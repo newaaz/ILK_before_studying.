@@ -1,0 +1,49 @@
+<div class="col-6 col-lg-4 px-0 mb-4">
+
+  <div class="card mx-2 shadow h-100 hotel-card">
+    
+    <!-- fotorama begin -->
+    <div class="fotorama-rooms"
+        data-width="100%"
+        data-ratio="3/2"
+        data-allowfullscreen="true"                
+        data-nav="false"
+        data-loop="true"
+        data-keyboard="true"
+        data-auto="false">      
+      <%= link_to image_tag(active.avatar.thumb.url) %>      
+      <% active.images.each do |image| %> 
+        <%= link_to image_tag(image.thumb.url, width: "100px") %>            
+      <% end %>
+    </div>
+    <!-- fotorama end -->    
+
+    
+    <%= link_to active_path(active, town_id: @town.id) do %>
+      <div class="hotel-cart__title">
+        <%= active.name %>
+      </div>
+    <% end %>  
+
+    <div class="card-footer px-2">      
+
+      <!-- like button -->
+      <% if @cart && @array_resources_ids.include?(active.id) %>
+        <%= link_to line_items_path(resource_id: active.id, resource_name: "Active"), method: :post, remote: true, id: "heart-Active-#{active.id}",
+                                          class: "text-danger" do %>
+          <i class="icon-heart"></i> 
+        <% end %>
+      <% else %>
+        <%= link_to line_items_path(resource_id: active.id, resource_name: "Active"), method: :post, remote: true, id: "heart-Active-#{active.id}",
+                                                    class: "text-secondary" do %>
+          <i class="icon-heart"></i> 
+        <% end %>
+      <% end %>
+
+      |&nbsp;&nbsp;<%= active.price %><small>р</small> / <%= active.desc_json['price_type'] %>     
+
+    </div>
+    
+  </div>
+
+</div> 

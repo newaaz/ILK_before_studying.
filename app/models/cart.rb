@@ -38,6 +38,15 @@ class Cart < ApplicationRecord
     Service.find(array_service_ids)
   end
 
+  # find checked actives
+  def actives
+    array_active_ids = []
+    line_items.where('resource_name = ?', 'Active').each do |line_item|
+      array_active_ids << line_item.resource_id
+    end
+    Active.find(array_active_ids)
+  end
+
 end
 
 

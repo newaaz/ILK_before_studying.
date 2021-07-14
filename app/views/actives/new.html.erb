@@ -7,6 +7,7 @@
 <div class="container mt-5">
   
   <h1 class='h3 text-center mb-4'>Новая Активность</h1>
+  <p>Все поля со звёздочками <span class="text-danger">*</span> - нужно заполнить</p>
 
   <%= form_with(model: @active, local: true, html: { name: "active" }) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
@@ -16,13 +17,13 @@
 
         <div class="row mb-3 gx-2">
 
-          <div class="col-lg-4 col-md-6 mb-3">
+          <div class="col-lg-5 col-md-6"><!-- name -->
             <span><i class="icon_set_1_icon-8 text-muted"></i></span>
             <%= f.label :name %> <span class="text-danger">*</span>  
-            <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>            
+            <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>           
           </div>
 
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-3 col-md-6"><!-- category -->
             <span>
               <i class="icon_set_1_icon-8 text-muted"></i>
             </span>
@@ -30,17 +31,21 @@
             <%= f.collection_select :active_category_id, ActiveCategory.order(:number), :id, :name,
               { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
           </div>
-
-          <div class="col-lg-4 col-md-6">
+          
+          <div class="col-lg-2 col-md-6"><!-- price -->
             <span>
               <i class="icon_set_1_icon-8 text-muted"></i>
             </span>
-            <%= f.label :address %>
-            <small class="text-muted">
-              / улица, номер
-            </small>
-            <%= f.text_field :address, class: 'form-control form-control-sm' %>
-          </div>     
+            <%= f.label :price %> <span class="text-danger">*</span> <small class="form-text text-muted">руб</small>        
+            <%= f.text_field :price, class: 'form-control form-control-sm', required: true %>
+          </div>
+          <div class="col-lg-2 col-md-4">
+            <label for="price_type">чел / тур</label> <span class="text-danger">*</span>              
+            <select class="form-select form-select-sm" required="required" name="price_type" id="price_type">
+              <option value="чел">С человека</option>
+              <option value="тур">За тур</option>              
+            </select>        
+          </div> 
 
         </div>
 
@@ -51,6 +56,16 @@
         </div>
         <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
         
+        <div class="mt-3"><!-- addition -->
+          <label for="textarea1" class="form-label">Дополнительно</label><small class="text-muted"> (Что брать с собой, условия, время и т.д.)</small>
+          <textarea name="addition" class="form-control" id="textarea1" rows="3"></textarea>
+        </div>
+
+        <div class="mt-3"><!-- prices -->
+          <label for="textarea1" class="form-label">О ценах</label><small class="text-muted"> (есть ли детские билеты и т.д.)</small>
+          <textarea name="prices" class="form-control" id="textarea1" rows="2"></textarea>
+        </div>
+
         <!-- map -->
         <div class="row mb-4 mt-3 pb-3 gx-2">
           <div class="col-md-8">
@@ -97,12 +112,39 @@
             <% end %>
             <!-- contacts -->  
             <h3 class='h4 text-center text-success'>Контакты</h3>            
-            <div class="mb-3"><!-- phone -->
-              <span style="font-size:18px"><i class="icon_set_1_icon-62 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-              <label class="form-label">Телефон</label><small class="text-muted"> (если есть)</small> 
-              <input name="phone" type="text" class="mask-phone form-control form-control-sm">
+            <!-- Phone CONTACTS -->
+            <div class="add-contacts">
+              <div class="contact row gx-1">              
+                <div class="col-lg-6 col-md-12">
+                  <div class="mb-2">
+                    <span style="font-size:18px">
+                    <label class="form-label">№ телефона</label><span class="text-danger">*</span> 
+                    <input name="phone" type="text" class="mask-phone form-control form-control-sm" style="font-size:12px" required>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                  <div class="mb-2">
+                    <span style="font-size:18px">
+                    <label class="form-label">Имя</label><span class="text-danger">*</span> 
+                    <input name="ow_name" type="text" class="form-control form-control-sm" style="font-size:12px" required >
+                  </div>
+                </div>
+                <div class="col">
+                  <ul class="ps-0 checkbox-tags">
+                    <li>                  
+                      <input type="checkbox" name="viber" id="chk_viber" value="0"/>
+                      <label for="chk_viber"><i class="fab fa-viber fa-lg"></i>&ensp;Есть Viber&nbsp;&nbsp;</label>
+                    </li>
+                    <li>                  
+                      <input type="checkbox" name="whatsapp" id="chk_whatsapp" value="0"/>
+                      <label for="chk_whatsapp"><i class="fab fa-whatsapp fa-lg"></i>&ensp;Есть Whatsapp</label>
+                    </li>
+                  </ul>
+                </div>                   
+              </div>
             </div>
-            <div class="mb-3"><!-- vk -->           
+            <!-- END Phone CONTACTS -->
+            <div class="my-3"><!-- vk -->           
               <div class="mb-1">
                 <i class="icon_set_1_icon-8 text-muted"></i>
                 <label class="form-label">ВКонтакте</label><small class="text-muted"> (если есть)</small>
@@ -159,30 +201,30 @@
             </div>
             
             <!-- SEO TAGS -->
-              <div class="seo-tags mt-5">
-                <p>
-                  <a class="btn btn-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    Добавить SEO-теги <span class="icon-down-open-1"></span>
-                  </a>
-                  <small class="text-muted">
-                  - если не знаете что это такое - можно пропустить. Система автоматически вставит стандартные
-                </small>
-                </p>
-                <div class="collapse" id="collapseExample">
-                  <div class="card card-body">
-                    <div class="mb-3"><!-- keyword --> 
-                      <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-                      <label class="form-label">Ключевые слова (keywords)</label>
-                      <input name="seo_keywords" type="text" class="form-control form-control-sm">
-                    </div>                
-                    <div class="mt-3"><!-- desc --> 
-                      <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-                      <label class="form-label" for="point_how_to_get">Описание (description)</label>          
-                      <textarea name="seo_description" class="form-control" rows="3" name=""></textarea>
-                    </div>
+            <div class="seo-tags mt-5">
+              <p>
+                <a class="btn btn-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  Добавить SEO-теги <span class="icon-down-open-1"></span>
+                </a>
+                <small class="text-muted">
+                - если не знаете что это такое - можно пропустить. Система автоматически вставит стандартные
+              </small>
+              </p>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <div class="mb-3"><!-- keyword --> 
+                    <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                    <label class="form-label">Ключевые слова (keywords)</label>
+                    <input name="seo_keywords" type="text" class="form-control form-control-sm">
+                  </div>                
+                  <div class="mt-3"><!-- desc --> 
+                    <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                    <label class="form-label" for="point_how_to_get">Описание (description)</label>          
+                    <textarea name="seo_description" class="form-control" rows="3" name=""></textarea>
                   </div>
-                </div>  
-              </div>
+                </div>
+              </div>  
+            </div>
             <!-- END SEO TAGS -->
             
             
@@ -234,15 +276,15 @@
   }
 
   document.getElementById('clear-btn').onclick = function(e) {
-    document.getElementById('service_latitude').value = ''
-    document.getElementById('service_longitude').value = ''
+    document.getElementById('active_latitude').value = ''
+    document.getElementById('active_longitude').value = ''
   }
 </script>
 
 <!-- avatar, mask-phone, work with form -->
 <script type="text/javascript">
   // check avatar size
-  $("#service_avatar").bind("change", function() {
+  $("#active_avatar").bind("change", function() {
     const size_in_megabytes = this.files[0].size/1024/1024;
     if (size_in_megabytes > 4) {
       alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
@@ -259,10 +301,23 @@
     
     form.button.disabled = true;  
     event.preventDefault();
+
+    if (form.viber.checked == true) {
+      form.viber.value = 1
+    }
+     if (form.whatsapp.checked == true) {
+      form.whatsapp.value = 1
+    }
     
     var data = {
+        "addition": this.addition.value,
+        "price_type": this.price_type.value,
+        "prices":     this.prices.value,
         "phone": this.phone.value,
         "phone_clean": this.phone.value.replace(/[^0-9]/g, ''),
+        "ow_name":  this.ow_name.value,
+        "viber":    this.viber.value,
+        "whatsapp": this.whatsapp.value,
         "vk": this.vk.value,
         "instagram": this.instagram.value,
         "site": this.site.value,
@@ -281,18 +336,35 @@
   <!--  insert info (Admin) -->
   <script>    
     function insertInfo() {   
-      var form = document.forms.service
-      form.elements[1].value = 'Такси "Maxim"';
+      var form = document.forms.active
+      form.elements[1].value = 'Конные прогулки "Эчки Даг"';
       form.elements[2].value = 3;    
-      form.elements[3].value = 'ул. Володарского 31 Б';
-      form.elements[58].value = 45.0423;
-      form.elements[59].value = 35.3666;
+      form.elements[3].value = 1200;
+
+      form.addition.value = `Порядок проведения и условия участия. Проведение полета зависит от погоды, поэтому после бронирования в день полета вы созваниваетесь с инструктором, который сообщит вам во сколько необходимо подъехать к автостанции Коктебеля. С ним вы отправляетесь на полет.`     
+
+      form.prices.value = `	15 минут	20 минут	30 минут	40 минут. Взрослый (обычный). Билет для одного участника.3150	4200	5250	7350`
+
+      form.elements[25].value = 45.0423
+      form.elements[26].value = 35.3666
+      
       form.phone.value =  '+7(978) 254-11-56'
+      form.ow_name.value =  'Илья'
+      form.viber.value =  1
+      form.whatsapp.value =  1
+      form.viber.checked =  1
+      form.whatsapp.checked =  1
+      
       form.vk.value = 'mcixabuka'
       form.instagram.value = 'kilovagora'
       form.site.value = 'kilova.ru'
       form.email.value = 'email_32@mail.ru'
-      form.elements[70].value = 1;    
+
+      form.elements[40].value = 1
+
+      form.seo_keywords.value =  'Коктебель, Полеты на параплане, Параплан, отдых, экстрим, тур, активность, заказать'
+      form.seo_description.value =  'Полет на параплане в тандеме с инструктором станет удивительным и захватывающим дух подарком для любителей активного отдыха и романтиков. Это потрясающая возможность летать «как птица, чувствуя голос ветра». Полет в тандеме с инструктором — наиболее безопасная возможность подняться в воздух и почувствовать себя невесомо, как зонтик одуванчика.'
+       
     }
   </script>            
 <% end %>
@@ -301,11 +373,28 @@
   <!-- failure to save -->
   <script>
     var form = document.forms.active
+
+    form.addition.value = '<%= @active.desc_json['addition'] %>'
+    form.prices.value = '<%= @active.desc_json['prices'] %>'
+
     form.phone.value =  '<%= @active.desc_json['phone'] %>'
+    form.ow_name.value =  '<%= @active.desc_json['ow_name'] %>'
+    <% if @active.desc_json['viber'] == "1" %>
+      form.viber.value = 1
+      form.viber.checked =  1
+    <% end %>
+    <% if @active.desc_json['whatsapp'] == "1" %>
+      form.whatsapp.value = 1
+      form.whatsapp.checked =  1
+    <% end %>  
+
     form.vk.value = '<%= @active.desc_json['vk'] %>'
     form.instagram.value = '<%= @active.desc_json['instagram'] %>'
     form.site.value = '<%= @active.desc_json['site'] %>'
     form.email.value = '<%= @active.desc_json['email']  %>'
+
+    form.seo_keywords.value =  '<%= @active.desc_json['seo_keywords']  %>'
+    form.seo_description.value = '<%= @active.desc_json['seo_keywords']  %>'
   </script>
 <% end %>
 

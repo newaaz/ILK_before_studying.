@@ -3,6 +3,7 @@ class Town < ApplicationRecord
   has_many  :hotels, dependent: :destroy
   has_many  :cafebars, dependent: :destroy
   has_many  :points, dependent: :destroy
+  has_many  :category_counters, dependent: :destroy
 
   has_and_belongs_to_many :services
   has_and_belongs_to_many :actives

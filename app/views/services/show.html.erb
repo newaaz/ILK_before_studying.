@@ -77,6 +77,7 @@
 <div class="breadcrumbs">
   <div class="container">
     <i class="icon-location-outline" style="font-size:15px"></i>
+    <%= link_to "Главная", root_url %>&nbsp;/
     <%= link_to @town.name, @town %>&nbsp;/
     <%= link_to "Услуги и сервисы", services_town_path(@town) %>&nbsp;/
     <%= link_to @service.desc_json['cat_name'], services_town_path(@town, { cat: @service.service_category.id }) %>&nbsp;/

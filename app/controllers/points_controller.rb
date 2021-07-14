@@ -44,7 +44,35 @@ class PointsController<ApplicationController
     @point = Point.find(params[:id])
     @point.desc_json = JSON.parse(params[:desc_json])
     # set Desc_json: town_name & cat_name -> in Model (after_save) 
+    
+    # запоминаем старое значение категории и города
+    old_cat = @point.point_category.id
+    old_town = @point.town.id
+    
     if @point.update(point_params)
+
+      # сравниваем старые и новые значения после обновления
+      if old_cat != @point.point_category.id || old_town != @point.town.id  # или params[:town_id] - так запроса к БД не будет
+    
+        # находим старую запись счётчика и меняем её (или вообще удаляем)
+        counter = Town.find(old_town).category_counters.where(cat_type: 'points', cat_id: old_cat).first
+        if counter.cat_count == 1
+          counter.destroy
+        else
+          counter.update_column(:cat_count, counter.cat_count-1)
+        end
+
+        # находим или создаём новую запись счётчика
+        counter = @point.town.category_counters.where(cat_type: 'points', cat_id: params[:point][:point_category_id].to_i).first
+        if counter
+          counter.update_column(:cat_count, counter.cat_count+1)
+        else
+          counter = @point.town.category_counters.build(cat_type: 'points', cat_id: @point.point_category.id, cat_name: @point.point_category.name )
+          counter.save
+        end
+
+      end
+
       redirect_to point_path
       flash[:info] = 'Объект успешно изменён'
     else
@@ -55,9 +83,23 @@ class PointsController<ApplicationController
 
   def destroy
     @point = Point.find(params[:id])
+
+    # для нахождения счётчика
+    town = @point.town
+    cat_id = @point.point_category.id
+
     @point.destroy
+
+    # находим и уменьшаем или удаляем счётчик
+    counter = town.category_counters.where(cat_type: 'points', cat_id: cat_id).first
+    if counter.cat_count == 1
+      counter.destroy
+    else
+      counter.update_column(:cat_count, counter.cat_count-1)
+    end
+
     flash[:info] = 'Объект удалён'
-    redirect_to root_url
+    redirect_to @point.user
   end
 
 private
