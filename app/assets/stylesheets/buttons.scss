@@ -14,7 +14,7 @@ $color-yellow: #f48f24; /* #f48f24  - */
   border: 1px solid rgba(139, 139, 139, 0.3);
   color: #555;
   border-radius: 25px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   margin: 3px auto;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -25,7 +25,7 @@ $color-yellow: #f48f24; /* #f48f24  - */
   -webkit-transition: all .2s;
   -o-transition: all .2s;
   transition: all .2s;
-  font-weight: 600;    
+     
   padding: 8px 16px;
   cursor: pointer;
   -webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.25); 
@@ -74,6 +74,80 @@ $color-yellow: #f48f24; /* #f48f24  - */
     &.btn-ocean {
       background: rgba(0, 0, 0, 0) linear-gradient(to right, #0e64ac, #1e80c5) no-repeat scroll center;
     }
+  }
+}
+/* ссылки на другие ресурсы на страницах ресурсов */
+.other-resources {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(139, 139, 139, 0.3);
+  color: #555;
+  border-radius: 25px;
+  /* white-space: nowrap; */
+  margin: 3px auto;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-transition: all .2s;
+  -o-transition: all .2s;
+  transition: all .2s;
+     
+  padding: 8px 16px;
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.25); 
+  box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.25);
+
+  &:hover {    
+    -webkit-box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37); 
+    box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37);
+    color: #222;
+  }
+  &:active {
+    position: relative;
+    top: 2px;
+  }
+}
+/* ссылки на другие ресурсы на страницах ресурсов - ON SMALL screen */
+.other-resources-sm {  
+  text-align: center;
+  font-size: 12px;
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(139, 139, 139, 0.3);
+  color: #555;
+  border-radius: 25px;
+  /* white-space: nowrap; */
+  margin: 3px auto;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-transition: all .2s;
+  -o-transition: all .2s;
+  transition: all .2s;
+     
+  padding: 8px 16px;
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.25); 
+  box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.25);
+
+  &:hover {    
+    -webkit-box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37); 
+    box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37);
+    color: #222;
+  }
+  &:active {
+    position: relative;
+    top: 2px;
   }
 }
 

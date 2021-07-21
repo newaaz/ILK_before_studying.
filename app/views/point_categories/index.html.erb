@@ -22,7 +22,7 @@
         <tr>
           <td><%= category.number %></td>
           <td><%= category.name %></td>
-          <td><%= image_tag category.avatar.thumb.url %></td>
+          <td><%= category.avatar %></td>
           <td>
             <%= link_to 'Edit', edit_point_category_path(category), class: 'btn btn-warning btn-sm' %>
             <%= link_to "Удалить", point_category_path(category), method: :delete, class: 'btn btn-outline-danger btn-sm' %>

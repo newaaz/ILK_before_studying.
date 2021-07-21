@@ -23,7 +23,7 @@
       <div class="mb-3">
         <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
         <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
-        <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
+        <%= f.text_field :avatar, class:"form-control" %>
       </div>
 
       <br>

@@ -10,6 +10,7 @@ class HotelsController < ApplicationController
   
   def show
     @hotel = Hotel.includes(:rooms).references(:rooms).order(:number).find(params[:id])
+    #TODO: рефакторить ВЕЗДЕ определение города включая счётчики категорий - @hotel.town.includes(:cat_counter)
     @town = @hotel.town
     
     # определяем - является ли этот отель запомненным    

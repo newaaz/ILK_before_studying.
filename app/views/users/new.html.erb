@@ -1,39 +1,41 @@
 <% provide(:title, 'Регистрация') %>
 
-<div class="row justify-content-center mt-4">
-  <%= link_to image_tag('logo_large.png', class:'mx-auto d-block'), root_path %>
-</div>
-
-<h1 class="h3 mt-4 mb-4 font-weight-normal text-center">Регистрация</h1>
-
 <%= form_with(model: @user, local: true) do |f| %>
 <%= render 'shared/error_messages', object: f.object %>
-<div class="row justify-content-center">
-  <div class="col-md-4">  
-  
-    <div class="form-group">
+  <main class="form-signin text-center" style="max-width: 390px;width: 100%;margin: auto;">
+
+    <%= link_to image_tag('logo_large.png', class:'my-4'), root_path %>    
+    <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
+   
+    <div class="form-group text-start">
       <%= f.label :email %>
-      <%= f.email_field :email, class:"form-control", autofocus: true %>
+      <%= f.email_field :email, class:"form-control mt-2 mb-3", autofocus: true %>
     </div>
-    <div class="form-group">
-      <%= f.label :password %>
-      <%= f.password_field :password, class:"form-control" %>
-      <small class="form-text text-muted text-center">Используйте пароль не меньше шести символов</small>
+    <div class="form-group text-start">
+      <%= f.label :password %><small class="form-text text-muted ">&nbsp; / Используйте пароль не меньше шести символов</small>
+      <%= f.password_field :password, class:"form-control mt-2 mb-2" %>      
     </div>
-    <div class="form-group">
+    <div class="form-group text-start">
         <%= f.label :password_confirmation, "Подтверждение пароля" %>
-        <%= f.password_field :password_confirmation, class:"form-control" %>
+        <%= f.password_field :password_confirmation, class:"form-control mt-2 mb-3" %>
     </div>
-    <div class="checkbox mb-3 text-center">
-        <small>
-          <input type="checkbox" id="politics" onclick="check();" value="" autocomplete="off" required>
-          Я даю <a href="ссылка на страницу согласия">согласие на обработку персональных данных.</a>
-        </small>
+
+    <div class="mb-4 mt-3">
+      <input type="checkbox" id="politics" onclick="check();" value="" class="form-check-input" autocomplete="off" required />
+      <label class="form-check-label" for="politics"><small>
+        Я даю <a href="ссылка на страницу согласия">согласие на обработку персональных данных.</a></small>
+      </label> 
     </div>
-    <%= f.submit "Зарегистрироваться",class:"btn btn-primary btn-block", disabled:""%>  
-  </div>
-</div>
+
+    <%= f.submit "Зарегистрироваться", class:"w-75 btn btn-lg btn-primary mb-4", disabled:"" %>    
+  </main>  
 <% end %>
+
+
+
+
+
+
 <script>
   function check() {
     var submit = document.getElementsByName('commit')[0];

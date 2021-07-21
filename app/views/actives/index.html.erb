@@ -1,3 +1,51 @@
-<% @actives.each do |active| %>
-  <h1><%= link_to active.name, active %></h1>
-<% end %>
+<% provide(:title, 'Все Активности') %>
+
+<div class="container mt-5">
+  
+
+  <%= link_to 'Новый Поинт', new_point_path, class: 'btn btn-primary btn-sm' %>
+
+  <br><br>
+
+  <table class="table">
+    <thead>
+      <th>id#</th>
+      <th>Название</th>
+      <th>Категория</th>
+      <th>Действия</th>
+      <th>Активно?</th>
+      <th>Promo</th>
+    </thead>
+    <tbody>
+      <% @actives.each do |active| %>
+        <tr>
+          <td><%= active.id %></td>
+          <td><%= link_to active.name, active %></td>
+          <td><%= active.desc_json['cat_name'] %></td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+            <%= link_to 'Edit', edit_active_path(active), class: 'btn btn-warning btn-sm' %>
+            <%= link_to "Удалить", active_path(active), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+            </div>
+          </td>
+          <td><%= link_to "#{active.activated}", change_activated_active_path(active) %></td>
+          <td>
+            <%= form_with(url: change_promo_active_path(active)) do |f| %>
+
+              <div class="input-group">
+                <%= f.text_field :promouted, local: true, value: active.promouted, class: 'form-control form-control-sm' %>
+                <%= button_tag "Change", type: 'submit', class:"btn btn-sm btn-success" %>
+              </div>  
+            <% end %>
+        
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+
+</div><!-- END CONTAINER  -->
+
+
+

@@ -57,7 +57,6 @@
 	</div>
 	
 	<div class="row"><!-- hotels -->
-
 		<% @town_cats.where(cat_type: 'hotels').each do |cat| %>
 			<div class="col-6 col-lg-2 p-1">
 				<a href="/towns/<%= @town.id %>/hotels?cat=<%= cat.cat_id %>">
@@ -67,160 +66,125 @@
 					</div>
 				</a>
 			</div>
-		<% end %>		
-	
+		<% end %>	
 	</div><!-- END hotels -->	
 
-
-<!-- ДЛЯ ТЕСТА СЧЁТЧИКА КАТЕГОРИЙ -->
-<br><br>
-<div class="row">
-	<% @town_cats.each do |counter| %>
-		<div class="col">
-			Город: <strong><%= counter.town_id %></strong> <br>
-			Тип:	<strong><%= counter.cat_type %></strong> <br>
-			ID:  <strong><%= counter.cat_id %></strong>		Кол-во: <strong><%= counter.cat_count %></strong>  <br>
-			Name: <strong><%= counter.cat_name %></strong>
-		</div>
-	<% end %>
-</div>
-
-</div>
+</div><!-- END container --->
 
 <br><br>
 
 <div class="bg-white"><!-- actives -->
 	<div class="container">
-		<div class="row">
-			
-			<aside class="col-lg-3">
-				
-				<div class="resources-title">
+		<div class="row">			
+			<aside class="col-lg-3">				
+				<div class="resources-title pt-3">
 					<h2>Активный отдых</h2>		
 				</div>
-
-				<div class="hotel-cats">
+				<div class="hotel-cats mt-2">
 					<ul>          
 						<li><a href="/towns/<%= @town.id %>/actives">Все активности</a></li>
 						<% @town_cats.where(cat_type: 'actives').each do |cat| %>							
 							<li><a href="/towns/<%= @town.id %>/actives?cat=<%= cat.cat_id %>"><%= cat.cat_name %> (<%= cat.cat_count %>)</a></li>
 						<% end %>	
 					</ul>
-				</div>       
-
+				</div>
 			</aside>
-
-			
-		
+			<div class="col-lg-9 p-1">
+				<div class="row gx-0">
+					<% @promo_actives.each do |active| %>
+						<div class="col-lg-4 col-6">
+							<%= link_to image_tag(active.avatar.thumb_active.url, alt: "Главная", class: 'img-fluid'), active_path(active, town_id: @town.id) %>	
+						</div>
+					<% end %>
+				</div>
+			</div>		
 		</div>
 	</div>	
 </div><!-- END actives -->
 
-<br><br>
+<br><br><br>
 
-<div class="container">
-
-  <div class="row">
-    <div class="col-6">
-      <%= link_to "Жильё в #{@town.parent_name}", hotels_town_path,
-          class: 'btn btn-primary btn-sm' %>
-    </div> 
-
-		<div class="col-6">
-			<%= link_to "Поинты #{@town.parent_name}", points_town_path,
-      		class: 'btn btn-warning btn-sm' %>
-		</div> 
-  </div>
-
-	<br>
-	<br>
-
-	<div class="row">
-    <div class="col">
-    	<%= link_to "Где поесть в #{@town.parent_name}", cafebars_town_path,
-					class: 'btn btn-success btn-sm' %> 
-    </div> 
-
-		<div class="col">
-			<%= link_to "Услуги и сервисы #{@town.parent_name}", services_town_path,
-      		class: 'btn btn-info btn-sm' %>
-		</div> 
-
-		<div class="col-">
-			<%= link_to "Активный отдых #{@town.parent_name}", actives_town_path,
-      		class: 'btn btn-info btn-sm' %>
-		</div> 
-  </div>
-
+<div class="container"><!-- Points -->
 	
+	<div class="resources-title">
+		<%= link_to points_town_path do %>
+		<h2>Интересные места, достопримечательности в <%= @town.parent_name %> (все)</h2>
+		<% end %>		
+	</div>	
+	
+	<div class="row mt-4">
+	
+		<% @point_cats.each do |cat| %>
+		
+			<div class="col point-cat">
+				<a href="/towns/<%= @town.id %>/points?cat=<%= cat.cat_id %>">
+					<%= image_tag("icons/#{cat.cat_name}.png", width: "75px", class: "mx-auto d-block") %>
+					<span>
+						<%= cat.cat_name %>
+					</span>
+				</a>			
+			</div>
+			
+		<% end %>
+	
+	</div>	
 
-	<br>
+</div><!-- END POINTS -->
 
+<div class="bg-white py-4"><!-- Services -->
+	<div class="container">
+
+		<div class="main_title">
+			<h2>Услуги и сервисы в <span><%= @town.parent_name %></span></h2>
+			<p>Доставка еды, такси, прокат и многое другое</p>
+		</div>
+
+		<div class="row gx-3 service-cats">
+
+			<div class="col-6 col-lg-4 px-lg-5">
+				<a href="/towns/<%= @town.id %>/services">
+					<div class="service-cat">						
+						<i class="icon_set_1_icon-87" style="font-size:22px;"></i>&nbsp;
+						Все сервисы/услуги						
+					</div>
+				</a>
+			</div>
+				
+			<% @service_cats.each do |cat| %>
+				<div class="col-6 col-lg-4 px-lg-5">
+					<a href="/towns/<%= @town.id %>/services?cat=<%= cat.id %>">
+						<div class="service-cat">						
+							<i class="<%= cat.avatar %>" style="font-size:22px;"></i>&nbsp;
+							<%= cat.name %>						
+						</div>
+					</a>
+				</div>				
+			<% end %>				
+		
+		</div>
+	</div>	
+</div><!-- END Services -->
+
+<div class="container mt-5"><!-- Towns near -->
+	<div class="main_title">
+		<h2>Населённые пункты рядом</h2>			
+	</div>
+	<div class="row gx-1">
+		<div class="col-4">
+			<img src="<%= Town.where("number = ?", @town.number).first.avatar.url %>" alt="Laptop" class="img-fluid">
+		</div>
+		<div class="col-4">
+			<img src="<%= @town.avatar.url %>" alt="Laptop" class="img-fluid">
+		</div>
+		<div class="col-4">Город справа</div>
+	</div>
 </div>
-
 
 <div class="white_bg">
 	<div class="container margin_60">
-		<div class="main_title">
-			<h2>Other <span>Popular</span> tours</h2>
-			<p>
-				Quisque at tortor a libero posuere laoreet vitae sed arcu. Curabitur consequat.
-			</p>
-		</div>
-		<div class="row add_bottom_45">
-			<div class="col-lg-4 other_tours">
-				<ul>
-					<li><a href="#"><i class="icon_set_1_icon-3"></i>Tour Eiffel<span class="other_tours_price">$42</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-30"></i>Shopping tour<span class="other_tours_price">$35</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-44"></i>Versailles tour<span class="other_tours_price">$20</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-3"></i>Montparnasse skyline<span class="other_tours_price">$26</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-44"></i>Pompidue<span class="other_tours_price">$26</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-3"></i>Senna River tour<span class="other_tours_price">$32</span></a>
-					</li>
-				</ul>
-			</div>
-			<div class="col-lg-4 other_tours">
-				<ul>
-					<li><a href="#"><i class="icon_set_1_icon-1"></i>Notredame<span class="other_tours_price">$48</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-4"></i>Lafaiette<span class="other_tours_price">$55</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-30"></i>Trocadero<span class="other_tours_price">$76</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-3"></i>Open Bus tour<span class="other_tours_price">$55</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-30"></i>Louvre museum<span class="other_tours_price">$24</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-3"></i>Madlene Cathedral<span class="other_tours_price">$24</span></a>
-					</li>
-				</ul>
-			</div>
-			<div class="col-lg-4 other_tours">
-				<ul>
-					<li><a href="#"><i class="icon_set_1_icon-37"></i>Montparnasse<span class="other_tours_price">$36</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-1"></i>D'Orsey museum<span class="other_tours_price">$28</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-50"></i>Gioconda Louvre musuem<span class="other_tours_price">$44</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-44"></i>Tour Eiffel<span class="other_tours_price">$56</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-50"></i>Ladefanse<span class="other_tours_price">$16</span></a>
-					</li>
-					<li><a href="#"><i class="icon_set_1_icon-44"></i>Notredame<span class="other_tours_price">$26</span></a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<!-- End row -->
 
 		<div class="banner colored">
-			<h4>Discover our Top tours <span>from $34</span></h4>
+			<h4>Получайте кэшбэк <span>5%</span> при бронировании жилья и активного отдыха </h4>
 			<p>
 				Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in.
 			</p>

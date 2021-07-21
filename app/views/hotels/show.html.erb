@@ -63,6 +63,7 @@
 <div class="breadcrumbs">
   <div class="container">
     <i class="icon-location-outline crumbs-short" style="font-size:15px"></i>
+    <%= link_to "Главная", root_url %>&nbsp;/
     <%= link_to @hotel.town.name, @hotel.town %>&nbsp;/
     <%= link_to "Жильё", hotels_town_path(@hotel.town) %>&nbsp;/
     <%= link_to @hotel.hotel_category.name, hotels_town_path(@hotel.town, { cat: @hotel.hotel_category.id }) %>&nbsp;/
@@ -98,8 +99,8 @@
 
       <%= render 'contacts' %>
       
-      <div class="social-links text-center mt-3">
-        Поделиться:<br>  
+      <div class="social-links text-center mt-4">
+        <h4 style="color: #666">Поделиться</h4>  
         <div class="ya-share2 mt-2 mb-4" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
       </div>          
 

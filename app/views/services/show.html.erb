@@ -112,25 +112,33 @@
       <div class="contact-numbers mt-4 pt-3">
         <div class="contact-number ps-2">
           <span class="contact-phone ps-1">
-            <a href="tel:+$<%= @service.desc_json['phone_clean'] %>"><i class="icon_set_1_icon-90" style="font-size:22px;"></i>
+            <a href="tel:+$<%= @service.desc_json['phone_clean'] %>"><i class="icon-mobile-6" style="font-size:22px;"></i>
             <%= @service.desc_json['phone'] %></a>
           </span>
         </div>
       </div>
-      <div class="contact-email ps-4 mb-3"><!-- vk etc -->
-        <% unless @service.desc_json['vk'].blank? %>
-          <span><a href="https://vk.com/<%= @service.desc_json['vk'] %>" target="_blank">&nbsp;vk/<%= @service.desc_json['vk'] %></a></span>
+      <div class="contact-email ps-4 my-3 pt-3"><!-- vk etc -->
+        <% unless @service.desc_json["vk"].empty? %>
+          <span><a href="https://vk.com/<%= @service.desc_json["vk"] %>" target="_blank">
+            <%= image_tag("icons/vk_sm.png", width: "20px") %>
+            &nbsp;<%= @service.desc_json["vk"] %>
+          </a></span>
         <% end %>
-        <% unless @service.desc_json['instagram'].blank? %>
-          <span><a href="https://www.instagram.com/<%= @service.desc_json['instagram'] %>" target="_blank">&nbsp;@<%= @service.desc_json['instagram'] %></a></span>
+        <% unless @service.desc_json["instagram"].empty? %>
+          <span><a href="https://www.instagram.com/<%= @service.desc_json["instagram"] %>" target="_blank">
+            <%= image_tag("icons/instagram_sm.png", width: "20px") %>
+            &nbsp;<%= @service.desc_json["instagram"] %>
+          </a></span>
+        <% end %>        
+        <% unless @service.desc_json["email"].empty? %>          
+          <span><a href="mailto:<%= @service.desc_json["email"] %>">
+            <%= image_tag("icons/email_sm.png", width: "20px") %>
+            &nbsp;<%= @service.desc_json["email"] %>
+          </a></span>         
         <% end %>
-        <% unless @service.desc_json['site'].blank? %>
-          <span><a href="https://<%= @service.desc_json['site'] %>" target="_blank">&#127760;&nbsp;<%= @service.desc_json['site'] %></a></span>      
-        <% end %>
-        <% unless @service.desc_json['email'].blank? %>
-          <span style="margin-left:-5px;">
-            <a href="mailto:<%= @service.desc_json['email'] %>"><i class="icon-mail-6" style="font-size:20px;"></i>
-            <%= @service.desc_json['email'] %></a> 
+        <% unless @service.desc_json["site"].empty? %>          
+           <span><a href="https://<%= @service.desc_json["site"] %>" target="_blank">
+              &#127760;&nbsp;<%= @service.desc_json["site"] %></a>
           </span>
         <% end %>
       </div>
@@ -155,7 +163,7 @@
       </div>
 
       <div class="social-links text-center my-4">
-        Поделиться:<br>  
+        <h4 style="color: #666">Поделиться</h4>  
         <div class="ya-share2 mt-2" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
       </div>  
 

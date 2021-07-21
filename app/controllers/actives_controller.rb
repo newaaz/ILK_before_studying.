@@ -4,6 +4,7 @@ class ActivesController<ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
+    #TODO: реализовать общую проверку адимновских методов
     redirect_to root_url unless current_user && current_user.admin
     @actives = Active.all.order(created_at: :desc)
   end
@@ -116,6 +117,29 @@ class ActivesController<ApplicationController
     
     flash[:info] = 'Активный отдых удалён'
     redirect_to @active.user
+  end
+
+  # Изменяет статус активации
+  def change_activated
+    #TODO: реализовать общую проверку адимновских методов
+    redirect_to root_url unless current_user && current_user.admin
+
+    active = Active.find(params[:id])
+    active.toggle!(:activated)
+
+    # отправляем владельцу письмо об активации
+
+    redirect_back(fallback_location: actives_path)
+  end
+
+  # Изменяет параметр продвижения (реклама, промо)
+  def change_promo
+    #TODO: реализовать общую проверку адимновских методов
+    redirect_to root_url unless current_user && current_user.admin
+   
+    active = Active.find(params[:id])
+    active.update_column(:promouted, params[:promouted].to_i)
+    redirect_back(fallback_location: actives_path)
   end
 
 private

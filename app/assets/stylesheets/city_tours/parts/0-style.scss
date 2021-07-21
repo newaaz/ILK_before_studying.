@@ -475,32 +475,7 @@ ul#top_links a:hover{
 	vertical-align: middle;
 }
 
-/*Update version 1.1*/
-#general_rating {
-	font-size: 18px;
-	margin: 10px 0 20px 0;
-}
 
-#general_rating .rating {
-	display: inline;
-}
-
-#rating_summary ul {
-	list-style: none;
-	margin: 0 0 -5px 0;
-	padding: 0;
-}
-
-#rating_summary ul li {
-	margin-bottom: 5px;
-}
-
-#rating_summary ul li .rating {
-	display: inline-block;
-	font-size: 14px;
-	float: right;
-}
-/*End Update version 1.1*/
 
 /*-------- 2.4 Cart - Payment - Confirmation --------*/
 
@@ -1458,40 +1433,6 @@ ul.list_order li span {
 	-webkit-backface-visibility: hidden;
 }
 
-*/
-.short_info {
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	background: -webkit-linear-gradient(top,transparent,#000);
-    background: linear-gradient(to bottom,transparent,#000);
-	width: 100%;
-	padding: 45px 10px 8px 5px;
-	color: #fff;
-}
-
-.short_info i {
-	font-size: 25px;
-	display: inline-block;
-	vertical-align: middle;
-	font-weight: normal;
-	font-style: normal;
-	padding: 0;
-	margin: 0;
-}
-
-.short_info .price {
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	display: inline-block;
-}
-
-.short_info .price sup {
-	font-size: 18px;
-	position: relative;
-	top: -5px;
-}
 
 /* Ribbons */
 .ribbon {

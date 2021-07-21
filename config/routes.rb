@@ -45,7 +45,10 @@ Rails.application.routes.draw do
   resources :services
   resources :service_categories, except: :show
 
-  resources :actives
+  resources :actives do
+    get :change_activated, on: :member
+    post :change_promo, on: :member
+  end
   resources :active_categories, except: :show
 
 end

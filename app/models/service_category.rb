@@ -4,7 +4,7 @@ class ServiceCategory < ApplicationRecord
 
   default_scope { order(:number) }
 
-  mount_uploader  :avatar, PictureUploader
+  # mount_uploader  :avatar, PictureUploader
 
   validates :name, presence: true
 

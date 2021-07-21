@@ -1,8 +1,50 @@
 .resources-title {
-  h2 { display: inline; }
-  a { margin-left: 10px; }
+  h2 {
+    display: inline;  
+  } 
 }
 
+.point-cat {
+  border-radius: 15px;
+  border: 1px solid rgb(197, 197, 197);
+  padding-top: 10px;
+  padding-bottom: 5px;
+  text-align: center;
+  margin: 0 5px 30px 5px;
+  box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.25);
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.25);
+
+  a {
+    color: #444;
+    &:hover { color: #222; }
+  }
+
+  img { margin-bottom: 10px; }
+
+  span { font-weight: 600; }
+
+  &:hover {
+    box-shadow: 0px 1px 7px 0px rgba(0,0,0,0.35);
+    -webkit-box-shadow: 0px 1px 7px 0px rgba(0,0,0,0.35);
+    border: 1px solid #fff;
+  }
+}
+.service-cats {
+  a { color: #555; &:hover { color: #333; } }
+}
+.service-cat {
+  padding: 5px 0 10px 0;
+  border-bottom: 1px solid #ededed;  
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+}
+@media (max-width: 991px) {
+  .service-cat {
+    font-size: 14px;
+  }
+}
 
 .hotel-cart__title {
   font-weight: 600;
@@ -116,6 +158,13 @@
   text-align: center;
 }
 /* END TOWN CATEGORIES */
+
+/* links in mobile menu */
+.menu-link {
+  color: #666;
+  font-size: 15px;
+  font-weight: 600;
+}
 
  
 

@@ -33,7 +33,7 @@
   </div><!-- End container-->
 </div><!-- End top line-->
 
-<div class="container-fluid d-lg-none px-1">
+<div class="container-fluid d-lg-none px-1"><!-- mobile menu -->
 
   <div class="row gx-1 bg-light shadow">
 
@@ -45,64 +45,44 @@
       </div>
     </div>
 
-    <div class="col-3 text-center">
+    <div class="col-2 text-end">
       <%= link_to image_tag("logo.png", alt: "Главная", width: "75px"), root_path %>
     </div>
 
-    <div class="col-4 text-center pt-1">
-      <ul class="navbar-nav">
-        <!-- -------- menu item -------- -->
-        <li class="nav-item dropdown hover">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Феодосия</a>
-            <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#"> Dropdown item 1 </a></li>
-            <li><a class="dropdown-item" href="#"> Dropdown item 2 <i class="icon-arrow"></i> </a>
-            <ul class="submenu dropdown-menu">
-              <li><a class="dropdown-item" href="#">Submenu item 1</a></li>
-              <li><a class="dropdown-item" href="#">Submenu item 2</a></li>
-              <li><a class="dropdown-item" href="#">Submenu item 3 <i class="icon-arrow"></i> </a>
-                <ul class="submenu dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Multi level 1</a></li>
-                    <li><a class="dropdown-item" href="#">Multi level 2</a></li>
-                </ul>
-              </li>
-              <li><a class="dropdown-item" href="#">Submenu item 4</a></li>
-              <li><a class="dropdown-item" href="#">Submenu item 5</a></li>
-            </ul>
-            </li>
-            <li><a class="dropdown-item" href="#"> Dropdown item 3 <i class="icon-arrow"></i> </a>
-              <ul class="submenu dropdown-menu">
-                <li><a class="dropdown-item" href="#">Submenu item 1</a></li>
-                <li><a class="dropdown-item" href="#">Submenu item 2</a></li>
-                <li><a class="dropdown-item" href="#">Submenu item 3</a></li>
-            </ul>
-            </li>
-            <li><a class="dropdown-item" href="#"> Dropdown item 4 </a>
-            </ul>
-        </li>
-        <!-- -------- menu item end// -------- -->  
-      </ul>
+    <div class="col-5 text-center pt-1 pe-2">
+      <% if @town %>      
+          <ul class="navbar-nav">          
+            <li class="nav-item dropdown hover"><!-- menu item -->
+              <a class="nav-link dropdown-toggle menu-link" href="#" data-bs-toggle="dropdown">
+                <i class="icon_set_1_icon-61" style="font-size:18px;"></i><%= @town.name %>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Страница города", town_path(@town), class: "dropdown-item" %></li>
+                <li><%= link_to "Жильё в #{@town.parent_name}", hotels_town_path(@town), class: "dropdown-item" %></li>
+                <li><%= link_to "Активный отдых в #{@town.parent_name}", actives_town_path(@town), class: "dropdown-item" %></li>
+                <li><%= link_to "Услуги и сервисы #{@town.parent_name}", services_town_path(@town), class: "dropdown-item" %></li>
+                <li><%= link_to "Места в #{@town.parent_name}", points_town_path(@town), class: 'dropdown-item' %></li>
+                <li><%= link_to "Где поесть в #{@town.parent_name}", cafebars_town_path(@town), class: 'dropdown-item' %></li>
+              </ul>
+            </li><!--  menu item end -->            
+          </ul>      
+      <% end %>
     </div>
 
-    <div class="col-3 pt-2 pe-3 text-end">    
-      <div id="cart-mobile">
-        <% if @cart %>
-          <% if @cart.line_items.count > 0 %>                
-            <%= link_to @cart do %>
-              <i class="icon-heart" style="font-size:30px"></i>(<%= @cart.line_items.count %>)
-            <% end %>                
-          <% else %>                
-            <%= link_to @cart do %>
-              <i class="icon-heart-empty" style="font-size:30px"></i>
-            <% end %>                
-          <% end %>  
-        <% else %>              
-          <%= link_to cart_path('blank') do %>
-            <i class="icon-heart-empty" style="font-size:30px"></i>
-          <% end %>              
-        <% end %>
-      </div>
-    </div> 
+    <div class="col-3 text-end pt-1 pe-2">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown hover">
+          <a class="nav-link  dropdown-toggle menu-link" href="#" data-bs-toggle="dropdown">
+            <i class="icon-location-outline"></i>Города
+          </a>
+          <ul class="dropdown-menu">
+            <% Town.select(:id, :name).all.each do |town| %>
+              <li><%= link_to town.name, town, class: "dropdown-item" %></li>
+            <% end %>
+          </ul>
+        </li>            
+      </ul>
+    </div>
 
   </div>
   
@@ -124,16 +104,26 @@
 
       <!-- Town -->  
       <% if @town %>
-        <% if Rails.env.production? %>
-          <%= render 'layouts/hd_town_prod' %>
-        <% else %>
-          <%= render 'layouts/hd_town_dev' %>
-        <% end %>        
+        <li class="nav-item dropdown hover"><!-- menu item -->
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            <i class="icon_set_1_icon-61" style="font-size:16px;"></i><%= @town.name %>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Страница города", town_path(@town), class: "dropdown-item" %></li>
+            <li><%= link_to "Жильё в #{@town.parent_name}", hotels_town_path(@town), class: "dropdown-item" %></li>
+            <li><%= link_to "Активный отдых в #{@town.parent_name}", actives_town_path(@town), class: "dropdown-item" %></li>
+            <li><%= link_to "Услуги и сервисы #{@town.parent_name}", services_town_path(@town), class: "dropdown-item" %></li>
+            <li><%= link_to "Места в #{@town.parent_name}", points_town_path(@town), class: 'dropdown-item' %></li>
+            <li><%= link_to "Где поесть в #{@town.parent_name}", cafebars_town_path(@town), class: 'dropdown-item' %></li>
+          </ul>
+        </li><!--  menu item end -->        
       <% end %>
 
       <!--  towns  -->
       <li class="nav-item dropdown hover">
-        <a class="nav-link  dropdown-toggle" href="#" data-bs-toggle="dropdown">Города</a>
+        <a class="nav-link  dropdown-toggle" href="#" data-bs-toggle="dropdown">
+          <i class="icon-location-outline"></i>Города
+        </a>
           <ul class="dropdown-menu">
             <% Town.select(:id, :name).all.each do |town| %>
               <li><%= link_to town.name, town, class: "dropdown-item" %></li>

@@ -8,7 +8,20 @@ class TownsController < ApplicationController
   
   def show
     @town = Town.find(params[:id])
-    @town_cats = @town.category_counters 
+    # счётчик всех категорий
+    @town_cats = @town.category_counters
+    # рекламные активности
+    @promo_actives = @town.actives.select(:id, :avatar, :name, :price).where("promouted = ?", 10).take(6)
+    # категории достопримечательностей имеющие объекты
+    @point_cats = @town_cats.where(cat_type: 'points')
+
+    # Определяем существующие категории сервисов
+    array_ids = []
+    @town_cats.where(cat_type: 'services').each do |counter|
+      array_ids << counter.cat_id
+    end
+    @service_cats = ServiceCategory.find(array_ids)
+
   end
   
   def new
@@ -50,7 +63,11 @@ class TownsController < ApplicationController
   # Метод выводит всё жильё принадлежащее городу
   def hotels
     @town = Town.find(params[:id])
-    @hotel_categories = HotelCategory.all
+
+    # @hotel_categories = HotelCategory.all
+    # определяем категории через счётчик
+    @hotel_categories = @town.category_counters.where(cat_type: 'hotels')
+
     if params[:cat].blank?
       @hotels = @town.hotels.select(:id, :avatar, :images, :name, :price_from, :distance_to_sea, :desc_json, :address)
     else
@@ -94,10 +111,12 @@ class TownsController < ApplicationController
   end
 
   # Метод выводит все Points (места, достопримечательности)
-  def points
-    #debugger
+  def points    
     @town = Town.find(params[:id])
-    @point_categories = PointCategory.all
+    # @point_categories = PointCategory.all
+    # определяем категории через счётчик
+    @point_categories = @town.category_counters.where(cat_type: 'points')
+    
     if params[:cat].blank?
       @points = @town.points.select(:id, :avatar, :images, :name, :desc_json)
     else
@@ -115,10 +134,11 @@ class TownsController < ApplicationController
   end
 
   # Метод выводит Услуги/Сервисы (Services)
-  def services
-    #debugger
+  def services    
     @town = Town.find(params[:id])
-    @service_categories = ServiceCategory.all
+    # @service_categories = ServiceCategory.all
+    # определяем категории через счётчик
+    @service_categories = @town.category_counters.where(cat_type: 'services')
     if params[:cat].blank?
       @services = @town.services.select(:id, :avatar, :images, :name, :desc_json)
     else
@@ -138,7 +158,9 @@ class TownsController < ApplicationController
   # Выводим активности города
   def actives
     @town = Town.find(params[:id])
-    @active_categories = ActiveCategory.all    
+    # @active_categories = ActiveCategory.all
+    # определяем категории через счётчик
+    @active_categories = @town.category_counters.where(cat_type: 'actives')   
 
     # вывод с категориями
     if params[:cat].blank?

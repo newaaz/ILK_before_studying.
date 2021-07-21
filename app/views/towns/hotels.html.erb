@@ -45,24 +45,42 @@
   <div class="row">
 
     <aside class="col-lg-3 px-lg-4 px-md-2 px-sm-0">
-            
-      <div class="hotel-cats">
+      <span style="font-size:17px;font-weight:600;"><i class="icon-hospital"></i> Где жить в <%= @town.parent_name %>:</span>
+      <div class="hotel-cats mt-3">
         <ul class="">          
           <li id="all-hotel-cats"><%= link_to "Всё жильё", hotels_town_path %></li>                
           <% @hotel_categories.each do |hotel_cat| %>
-            <li id="hotel-cat-<%= hotel_cat.id %>">
-              <%= link_to hotel_cat.name, { cat: hotel_cat.id } %>
+            <li id="hotel-cat-<%= hotel_cat.cat_id %>">
+              <%= link_to hotel_cat.cat_name, { cat: hotel_cat.cat_id } %>
             </li> 
           <% end %>                        
         </ul>
-      </div>       
+      </div>
+
+      <!-- other resources on large screen -->
+      <div class="d-none d-sm-none d-md-block mt-5">
+        <span style="font-size:17px;font-weight:600;"><i class="icon-star-2"></i> Ещё в <%= @town.parent_name %>:</span>
+        <%= link_to "Активный отдых в #{@town.parent_name}", actives_town_path, class: 'other-resources mt-3' %>
+        <%= link_to "Интересные места и достопримечательности #{@town.parent_name}", points_town_path, class: 'other-resources' %>
+        <%= link_to "Услуги и сервисы в #{@town.parent_name}", services_town_path, class: 'other-resources' %>
+        <%= link_to "Кафе / Бары в #{@town.parent_name}", cafebars_town_path, class: 'other-resources' %>
+      </div>
 
     </aside>
 
     <div class="col-lg-9 px-1">
       <div class="row gx-1">
         <%= render @hotels %>
-      </div>      
+      </div>
+       <!-- other resources on small screen -->
+      <div class="d-sm-block d-md-none px-2 mt-4">
+        <span class="icon-star-2"></span>
+        <span style="font-size:17px;font-weight:600;">Ещё в <%= @town.parent_name %>:</span>
+        <%= link_to "Активный отдых в #{@town.parent_name}", actives_town_path, class: 'other-resources-sm' %>
+        <%= link_to "Интересные места и достопримечательности #{@town.parent_name}", points_town_path, class: 'other-resources-sm' %>
+        <%= link_to "Услуги и сервисы в #{@town.parent_name}", services_town_path, class: 'other-resources-sm' %>
+        <%= link_to "Кафе / Бары в #{@town.parent_name}", cafebars_town_path, class: 'other-resources-sm' %>
+      </div>     
     </div>    
 
   </div>

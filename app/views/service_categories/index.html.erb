@@ -22,7 +22,7 @@
         <tr>
           <td><%= category.number %></td>
           <td><%= category.name %></td>
-          <td><%= image_tag category.avatar.thumb.url %></td>
+          <td><i class="<%= category.avatar %>" style="font-size:22px;"></i></td>
           <td>
             <%= link_to 'Edit', edit_service_category_path(category), class: 'btn btn-warning btn-sm' %>
             <%= link_to "Удалить", service_category_path(category), method: :delete, class: 'btn btn-outline-danger btn-sm' %>

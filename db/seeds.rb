@@ -26,14 +26,30 @@ PointCategory.create(name: "Музеи", number: 5)
 PointCategory.create(name: "Театры", number: 6)
 PointCategory.create(name: "Рынки", number: 7)
 PointCategory.create(name: "Места для фото", number: 8)
+# PointCategory.create(name: "Стадионы", number: 9)
 
 # Добавляем категории Услуг и Сервисов
 ServiceCategory.destroy_all
-ServiceCategory.create(name: "Доставка еды", number: 1)
-ServiceCategory.create(name: "Такси", number: 2)
-ServiceCategory.create(name: "Прокат авто", number: 3)
+ServiceCategory.create(name: "Доставка еды", avatar: "icon_set_1_icon-14", number: 1)
+ServiceCategory.create(name: "Такси", avatar: "icon_set_1_icon-21", number: 2)
+ServiceCategory.create(name: "Прокат авто", avatar: "icon-right-dir-1", number: 3)
+ServiceCategory.create(name: "Спортзалы", avatar: "icon_set_2_icon-117", number: 4)
+ServiceCategory.create(name: "Пляжи", avatar: "icon_set_2_icon-108", number: 4)
+ServiceCategory.create(name: "Детские комнаты", avatar: "icon_set_1_icon-70", number: 5)
+ServiceCategory.create(name: "Частные клиники", avatar: "icon-ambulance", number: 5)
+ServiceCategory.create(name: "Ремонт телефонов", avatar: "icon-mobile-6", number: 9)
 
-# Добавляем категории Кафе-ресторанов
+ServiceCategory.create(name: "Эвакуатор", avatar: "icon-right-dir-1", number: 9)
+ServiceCategory.create(name: "Прачечные", avatar: "icon-right-dir-1", number: 9)
+ServiceCategory.create(name: "Ремонт обуви", avatar: "icon-right-dir-1", number: 9)
+ServiceCategory.create(name: "Теннис", avatar: "icon-right-dir-1", number: 9)
+ServiceCategory.create(name: "Массаж", avatar: "icon-right-dir-1", number: 9)
+ServiceCategory.create(name: "Бильярд", avatar: "icon-right-dir-1", number: 9)
+ServiceCategory.create(name: "Бани / Сауны", avatar: "icon-right-dir-1", number: 9)
+ServiceCategory.create(name: "Парикмахерские", avatar: "icon-right-dir-1", number: 9)
+
+
+# Добавляем теги-категории Кафе-ресторанов
 Tagcafebar.destroy_all
 Tagcafebar.create(name: "Доставка еды")
 Tagcafebar.create(name: "Суши")

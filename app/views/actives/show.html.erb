@@ -112,20 +112,19 @@
         </div>
       </div>
 
-      <div class="contact-email">
-       
-        <% unless @active.desc_json["instagram"].empty? %>
-          <span><a href="https://www.instagram.com/<%= @active.desc_json["instagram"] %>" target="_blank">
-            <%= image_tag("icons/instagram_sm.png", width: "20px") %>
-            &nbsp;<%= @active.desc_json["instagram"] %>
-          </a></span>
-        <% end %>
+      <div class="contact-email pt-3">
         <% unless @active.desc_json["vk"].empty? %>
           <span><a href="https://vk.com/<%= @active.desc_json["vk"] %>" target="_blank">
             <%= image_tag("icons/vk_sm.png", width: "20px") %>
             &nbsp;<%= @active.desc_json["vk"] %>
           </a></span>
         <% end %>
+        <% unless @active.desc_json["instagram"].empty? %>
+          <span><a href="https://www.instagram.com/<%= @active.desc_json["instagram"] %>" target="_blank">
+            <%= image_tag("icons/instagram_sm.png", width: "20px") %>
+            &nbsp;<%= @active.desc_json["instagram"] %>
+          </a></span>
+        <% end %>     
         <% unless @active.desc_json["email"].empty? %>          
           <span><a href="mailto:<%= @active.desc_json["email"] %>">
             <%= image_tag("icons/email_sm.png", width: "20px") %>
@@ -160,7 +159,7 @@
       </div>  
 
       <div class="social-links text-center mt-5">
-        <h4>Поделиться</h4> 
+        <h4 style="color: #666">Поделиться</h4>  
         <div class="ya-share2 mt-2" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
       </div>   
    

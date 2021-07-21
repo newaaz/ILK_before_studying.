@@ -1,29 +1,27 @@
 <% provide(:title, 'Авторизация') %>
 
-<div class="row justify-content-center mt-4">
-  <%= link_to image_tag('logo_large.png', class:'mx-auto d-block'), root_path %>
-</div>
+<main class="form-signin text-center">
+  <%= form_with(url: login_path, scope: :session, local: true) do |f| %>
 
-<h1 class="h3 mt-4 mb-4 font-weight-normal text-center">Авторизация</h1>
+    <%= link_to image_tag('logo_large.png', class:'my-4'), root_path %>    
+    <h1 class="h3 mb-3 fw-normal">Авторизация</h1>
+   
+    <%= f.email_field :email, class:"form-control", placeholder: "Email", autofocus: true %> 
+    
+    <%= f.password_field :password, class:"form-control", placeholder:"Пароль" %>     
 
-<%= form_with(url: login_path, scope: :session, local: true, class: 'form-signin') do |f| %>
+    <div class="mb-4 mt-3">
+      <%= f.check_box :remember_me, class:"form-check-input" %>
+      <%= f.label :remember_me, "Запомнить меня", class: "form-check-label" %>      
+    </div>
 
-  <%= label_tag :email, "E-mail", class:"sr-only" %>
-  <%= f.email_field :email, class:"form-control", placeholder: "Email", autofocus: true %>
+    <%= f.submit "Войти", class:"w-75 btn btn-lg btn-primary mb-4" %>
 
-  <%= label_tag :password, "Пароль", class:"sr-only" %>
-  <%= f.password_field :password, id:"inputPassword1", class:"form-control", placeholder:"Пароль" %>
-
-  <div class="checkbox mb-3 text-center">
-    <%= f.check_box :remember_me %><span>&nbsp;&nbsp;Запомнить меня</span>
-  </div>
+    <small>
+      <p>Новый пользователь? <%= link_to "Зарегистрироваться", signup_path%><br>
+        <%= link_to "Забыли пароль", new_password_reset_path %>
+      </p>      
+    </small>    
   
-  <%= f.submit "Войти", class:"w-100 btn btn-lg btn-primary" %>
-  <br>
-  <br>
-  <small>
-    <p align="center">Новый пользователь? <%= link_to "Зарегистрироваться", signup_path%></p>
-    <p align="center"><%= link_to "Забыли пароль", new_password_reset_path %></p>    
-  </small>
-  <p class="mt-5 mb-3 text-muted text-center">&copy;&nbsp;Ilovekrim.ru&nbsp;2021</p>
-<% end %>
+  <% end %>
+</main>
