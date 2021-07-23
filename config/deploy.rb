@@ -1,11 +1,11 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.16.0"
 
-set :application, "ilk"
-set :repo_url, "git@bitbucket.org:ilovekrim/ilk.git"
+set :application, "ilktest"
+set :repo_url, "git@bitbucket.org:ilovekrim/ilktest.git"
 
 # Deploy to the user's home directory
-set :deploy_to, "/home/deploy1aaz/#{fetch :application}"
+set :deploy_to, "/home/deploy1test/#{fetch :application}"
 
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 
