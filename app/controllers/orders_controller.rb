@@ -25,10 +25,17 @@ class OrdersController<ApplicationController
   def create
     @hotel = Hotel.find(params[:hotel_id].to_i)
     @order = @hotel.orders.build(order_params)
-    @order[:user_id] = current_user[:id] if current_user
+
+    #TODO: что-то придумать когда заявку делает незарегистрированный пользователь
+    if current_user
+      @order[:user_id] = current_user[:id]
+    else
+      # владельцем исходящих заявок от незарегистрированных пользователей становится админ
+      @order[:user_id] = User.find_by('email = ?', 'newaz@mail.ru').id
+    end
 
     if @order.save
-      # Отправка писем владельцу жилья и гостю
+      #TODO: Отправка писем владельцу жилья и гостю
       #UserMailer.owner_user_reservation(@order).deliver_now
       #UserMailer.guest_reservation(@order).deliver_now
       flash[:success] = "Ваша заявка отправлена, в ближайшее время с Вами должны связаться по указанным контактам"      

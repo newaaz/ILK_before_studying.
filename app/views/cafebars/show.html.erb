@@ -45,6 +45,13 @@
 
 <div class="container">
  
+  <% unless @cafebar.activated? %>
+    <div class="alert alert-info alert-dismissible fade show mt-4" role="alert">
+      Пока страница видна только Вам. Объект ждёт проверки модератором и активации.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+
   <!-- title + photo + contacts -->
   <div class="row mt-3">
 
@@ -74,8 +81,18 @@
    
     <div class="col-lg-3">
 
+      <!-- tags -->
+      <% if @cafebar.tagcafebars.any? %> 
+        <div class="tags mt-3 px-3">
+          <%= link_to "Все", cafebars_town_path(@cafebar.town) %>
+          <% @cafebar.tagcafebars.each do |tag| %>        
+            <%= link_to tag.name, cafebars_town_path(@cafebar.town, { tag: tag.id }) %>                  
+          <% end %>
+        </div>
+      <% end %>
+
        <!-- Contacts -->
-      <div class="contact-numbers mt-4 pt-3">
+      <div class="contact-numbers mt-3 pt-3">
         <div class="contact-number ps-2">
           <span class="contact-phone ps-1">
             <a href="tel:+$<%= @cafebar.desc_json['phone_clean'] %>"><i class="icon_set_1_icon-90" style="font-size:22px;"></i>
@@ -120,16 +137,6 @@
           <% end %>
         <% end %>        
       </div>
-
-      <!-- tags -->
-      <% if @cafebar.tagcafebars.any? %> 
-        <div class="tags mt-4 px-3">
-          <%= link_to "Все", cafebars_town_path(@cafebar.town) %>
-          <% @cafebar.tagcafebars.each do |tag| %>        
-            <%= link_to tag.name, cafebars_town_path(@cafebar.town, { tag: tag.id }) %>                  
-          <% end %>
-        </div>
-      <% end %>
 
       <div class="social-links text-center mt-3">
         <h4 style="color: #666">Поделиться</h4>    

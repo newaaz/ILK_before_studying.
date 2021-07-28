@@ -1,0 +1,26 @@
+<div class="row mb-4 bg-white rounded-3 shadow">
+
+  <div class="col-lg-4 ps-lg-0">
+    <%= link_to image_tag(service.avatar.url, class: "img-fluid rounded-start"), service %>
+  </div>
+
+  <div class="col-lg-8">
+    <%= link_to service do %>
+      <h4 style="font-weight:600"><%= service.name %>&emsp;(ID - <%= service.id %>)</h4>      
+    <% end %>
+
+    <% unless service.activated? %>
+      <p><span class="text-secondary">Объявление ещё не активировано</span></p>  
+    <% end %>    
+    
+    <%= service.desc_json['cat_name'] %>
+    <br>    
+    <br>
+    
+    <%= link_to 'Редактировать', edit_service_path(service), class: 'btn btn-outline-primary btn-sm' %>    
+
+    <%= link_to "Удалить", service_path(service), method: :delete, data: { confirm: "Вы уверены?" }, class: 'btn btn-outline-danger btn-sm' %>
+    
+  </div>
+
+</div>

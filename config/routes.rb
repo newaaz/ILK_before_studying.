@@ -15,7 +15,10 @@ Rails.application.routes.draw do
   # login & logout
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'   
+  delete '/logout', to: 'sessions#destroy'
+
+  # change resource activation
+  get '/change_activated', to: 'application#change_activated'
  
   resources :account_activations, only: [:edit]  
   resources :password_resets,     only: [:new, :create, :edit, :update]
@@ -45,8 +48,7 @@ Rails.application.routes.draw do
   resources :services
   resources :service_categories, except: :show
 
-  resources :actives do
-    get :change_activated, on: :member
+  resources :actives do    
     post :change_promo, on: :member
   end
   resources :active_categories, except: :show

@@ -1,0 +1,93 @@
+            <div class="row"><!-- avatar   info -->
+              <div class="col-lg-3 border">
+                <% if @user.avatar.blank? %>
+                  <%= image_tag("icons/user.png", width: "120px", class: "d-block") %>
+                  Загрузить фото можно в пункте "Настройки"
+                <% else %>
+                  <%= image_tag(@user.avatar.thumb_user.url, class: "rounded-circle") %>
+                <% end %>
+              </div>
+              <div class="col-lg-9 d-flex align-items-center">
+                <div class="user-info">
+                  <% if @user.name.blank? %><!-- name -->
+                    Имя не заполнено
+                    <br>
+                  <% else %>
+                    <%= @user.name %>
+                    <br>
+                  <% end %>
+                  <%= @user.email %><!-- email -->
+                  <br>
+                  <% if @user.phone.blank? %><!-- phone -->
+                    Номер телефона не заполнен
+                    <br>
+                  <% else %>
+                    <%= @user.phone %>
+                    <br>
+                  <% end %>
+                </div>                
+              </div>
+            </div>
+
+            <!-- collapse -->
+            <div class="user-edit-collapse mt-4">
+              
+              <p>
+                <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseUser" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  Редактировать профиль <span class="icon-down-open-mini"></span>
+                </a>
+              </p>
+
+              <div class="collapse" id="collapseUser">
+
+                <div class="col-lg-6">
+                  <%= form_with(model: @user, local: true) do |f| %>
+                    <%= render 'shared/error_messages', object: f.object %>
+
+                    <div class="mb-3">
+                      <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                      <%= f.label :avatar, class: 'form-label' %>                        
+                      <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :name %>
+                      <%= f.text_field :name, class: 'form-control' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :phone %>
+                      <%= f.text_field :phone, class: 'mask-phone form-control' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :email %>
+                      <%= f.email_field :email, class: 'form-control' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :password %>
+                      <%= f.password_field :password, class: 'form-control' %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :password_confirmation %>
+                      <%= f.password_field :password_confirmation, class: 'form-control' %>
+                    </div>
+
+                    <br>
+
+                    <%= f.submit "Сохранить изменения", class:"btn btn-primary" %>
+
+                  <% end %><br>
+
+                  <%= link_to "Удалить свой аккаунт", @user, method: :delete,
+                      data: {confirm: "Вы уверены? Вместе с аккаунтом удалятся все Ваши объявления и статьи"},
+                      class: "btn btn-outline-danger btn-sm" %>
+
+                </div>              
+
+              </div>
+              
+            </div>
+            <!-- END collapse -->

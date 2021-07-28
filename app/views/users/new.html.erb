@@ -2,10 +2,10 @@
 
 <%= form_with(model: @user, local: true) do |f| %>
 <%= render 'shared/error_messages', object: f.object %>
-  <main class="form-signin text-center" style="max-width: 390px;width: 100%;margin: auto;">
+  <main class="form-signin text-center" style="max-width: 420px;width: 100%;margin: auto;">
 
     <%= link_to image_tag('logo_large.png', class:'my-4'), root_path %>    
-    <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
+    <h1 class="h3 mb-3 fw-normal">Регистрация</h1>    
    
     <div class="form-group text-start">
       <%= f.label :email %>
@@ -23,17 +23,13 @@
     <div class="mb-4 mt-3">
       <input type="checkbox" id="politics" onclick="check();" value="" class="form-check-input" autocomplete="off" required />
       <label class="form-check-label" for="politics"><small>
-        Я даю <a href="ссылка на страницу согласия">согласие на обработку персональных данных.</a></small>
+        Даю <a href="ссылка на страницу согласия">согласие на обработку персональных данных.</a></small>
       </label> 
-    </div>
+    </div> 
 
     <%= f.submit "Зарегистрироваться", class:"w-75 btn btn-lg btn-primary mb-4", disabled:"" %>    
   </main>  
 <% end %>
-
-
-
-
 
 
 <script>

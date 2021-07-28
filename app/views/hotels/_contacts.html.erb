@@ -17,7 +17,12 @@
     </div>    
 
     <div class="contact-photo text-center">
-      <%= image_tag @hotel.avatar.thumb.url, class: "shadow-sm mx-auto" %>
+      <% if @hotel.user.avatar.blank? %>
+        <%= image_tag @hotel.avatar.thumb.url, class: "shadow-sm mx-auto" %>                  
+      <% else %>
+        <%= image_tag(@hotel.user.avatar.thumb_user.url, class: "shadow-sm mx-auto") %>
+      <% end %>
+      
       <span><!-- name --></span>
     </div>
 
@@ -79,7 +84,7 @@
     </div>
   </div>
 
-  <div class="col-lg-12 col-md-6 px-1 mt-2">
+  <div class="col-lg-12 col-md-6 px-1 mt-2"><!-- cashback -->
     <div class="cashback" tabindex="0" data-bs-trigger="focus" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="Top popover">
       КЭШБЭК <span>5%</span>
     </div>
@@ -87,6 +92,19 @@
       Как получить
     </div>
   </div>
+
+  <%= link_to new_order_path(hotel_id: @hotel.id), class:"text-center mt-4 px-1" do %>
+    <div class="more-info w-100 text-center" style="font-size:14px;font-weight:600;">
+      Отправить заявку
+    </div>
+  <% end %>
+      
+  <div class="social-links text-center mt-4">
+    <h4 style="color: #666">Поделиться</h4>  
+    <div class="ya-share2 mt-2 mb-4" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
+  </div>
+
+
 </div>
 
 

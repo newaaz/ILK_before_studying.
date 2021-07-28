@@ -16,7 +16,7 @@ class Hotel < ApplicationRecord
   validates :price_from, numericality: { greater_than: 0, less_than: 999999 }
   validates :distance_to_sea, numericality: { allow_nil: true, greater_than: 0, less_than: 30000 }
 
-  validate  :avatar_type_size
+  validate  :avatar_type_size 
   validate  :image_type_size
 
   validate  :description_embeds
@@ -27,9 +27,11 @@ class Hotel < ApplicationRecord
 
   after_create  :set_town_category_counter
 
+  scope :activated, -> { where(activated: true) }
+
 private
 
-  # Проверяем главное изображение Avatar через carrierwave
+  # Проверяем главное изображение Avatar загруженное через carrierwave
   def avatar_type_size
     # эта проверка на тип файла проверяется самим загрузчиком
     #errors.add(:avatar, "должно иметь формат JPEG или PNG") unless avatar.content_type.in?(%('image/jpeg image/png'))

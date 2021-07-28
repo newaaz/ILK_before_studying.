@@ -1,0 +1,28 @@
+<div class="row mb-4 bg-white rounded-3 shadow">
+
+  <div class="col-lg-4 ps-lg-0">
+    <%= link_to image_tag(cafebar.avatar.url, class: "img-fluid rounded-start"), cafebar %>
+  </div>
+
+  <div class="col-lg-8">
+    <%= link_to cafebar do %>
+      <h4 style="font-weight:600"><%= cafebar.name %>&emsp;(ID - <%= cafebar.id %>)</h4>      
+    <% end %>
+
+    <% unless cafebar.activated? %>
+      <p><span class="text-secondary">Объявление ещё не активировано</span></p>  
+    <% end %>
+
+
+
+    <%= cafebar.desc_json['town_name'] %>
+    <br>    
+    <br>
+    
+    <%= link_to 'Редактировать', edit_cafebar_path(cafebar), class: 'btn btn-outline-primary btn-sm' %>    
+
+    <%= link_to "Удалить", cafebar_path(cafebar), method: :delete, data: { confirm: "Вы уверены?" }, class: 'btn btn-outline-danger btn-sm' %>
+    
+  </div>
+
+</div>

@@ -28,6 +28,11 @@
 # config DB
 /config/database.yml
 
+# files for deploy from Capistrano
+Capfile
+/config/deploy.rb
+/config/deploy/production.rb
+
 /public/packs
 /public/packs-test
 /node_modules

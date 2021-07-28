@@ -1,0 +1,26 @@
+<table class="table table-striped table-responsive">
+  <thead>
+    <th>№</th>
+    <th>Куда</th>
+    <th>Номер</th>
+    <th>Заезд</th>
+    <th>Выезд</th>
+    <th>ФИО</th>
+    <th>Перейти</th>
+  </thead>
+  <tbody>
+    <% @hotel_out_orders.each do |order| %>
+      <tr>
+        <td><%= order.id %></td>
+        <td><%= link_to order.hotel.name, order.hotel %></td>
+        <% if order.room_name %><td><%= order.room_name %></td><% else %><td>-- // --</td><% end %>
+        <td><%= order.check_in.strftime('%d.%m.%y') %></td>
+        <td><%= order.check_out.strftime('%d.%m.%y') %></td>
+        <td><%= order.guest_name %></td>
+        <td>
+          <%= link_to 'Заявка', order, class: 'btn btn-success btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

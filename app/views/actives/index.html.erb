@@ -3,7 +3,7 @@
 <div class="container mt-5">
   
 
-  <%= link_to 'Новый Поинт', new_point_path, class: 'btn btn-primary btn-sm' %>
+  <%= link_to 'Новая Активность', new_active_path, class: 'btn btn-primary btn-sm' %>
 
   <br><br>
 
@@ -28,7 +28,7 @@
             <%= link_to "Удалить", active_path(active), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
             </div>
           </td>
-          <td><%= link_to "#{active.activated}", change_activated_active_path(active) %></td>
+          <td><%= link_to "#{active.activated}", change_activated_path(model: "Active", id: active.id) %></td>
           <td>
             <%= form_with(url: change_promo_active_path(active)) do |f| %>
 

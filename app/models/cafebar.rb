@@ -21,6 +21,8 @@ class Cafebar < ApplicationRecord
 
   after_save  :set_town!
 
+  scope :activated, -> { where(activated: true) }
+
 private
 
   # Проверяем главное изображение Avatar carrierwave

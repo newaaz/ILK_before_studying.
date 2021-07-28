@@ -1,0 +1,30 @@
+<div class="row mb-4 bg-white rounded-3 shadow">
+
+  <div class="col-lg-4 ps-lg-0">
+    <%= link_to image_tag(point.avatar.url, class: "img-fluid rounded-start"), point %>
+  </div>
+
+  <div class="col-lg-8">
+    <%= link_to point do %>
+      <h4 style="font-weight:600"><%= point.name %>&emsp;(ID - <%= point.id %>)</h4>      
+    <% end %>
+
+    <% unless point.activated? %>
+      <p><span class="text-secondary">Объявление ещё не активировано</span></p>  
+    <% end %>
+
+
+
+    <%= point.desc_json['town_name'] %>
+    <br>  
+    <%= point.desc_json['cat_name'] %>
+    <br>    
+    <br>
+    
+    <%= link_to 'Редактировать', edit_point_path(point), class: 'btn btn-outline-primary btn-sm' %>    
+
+    <%= link_to "Удалить", point_path(point), method: :delete, data: { confirm: "Вы уверены?" }, class: 'btn btn-outline-danger btn-sm' %>
+    
+  </div>
+
+</div>

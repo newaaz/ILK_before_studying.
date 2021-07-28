@@ -10,6 +10,15 @@ class CafebarsController<ApplicationController
 
   def show
     @cafebar = Cafebar.find(params[:id])
+
+    # проверяем активацию ресурса
+    unless @cafebar.activated?
+      unless current_user && (current_user?(@cafebar.user) || current_user.admin?)
+        flash[:info] = 'Объект ждёт проверки модератором и активации'
+        redirect_back(fallback_location: root_url)
+      end
+    end
+
     @town = @cafebar.town
     # определяем - является ли этот Cafebar запомненным    
     current_item = @cart.line_items.find_by(resource_id: params[:id], resource_name: 'Cafebar') if @cart
@@ -25,9 +34,12 @@ class CafebarsController<ApplicationController
     @cafebar.desc_json = JSON.parse(params[:desc_json])
     if @cafebar.save
       flash[:success] = "Объект добавлен и ожидает проверки модератором. 
-                        При успешной проверке Вам на почту придёт письмо, и страница 
-                        будет доступна для просмотра всем посетителям сайта"
+                        При успешной проверке Вам на почту придёт письмо, что страница активирована и  
+                        доступна для просмотра всем посетителям сайта"
       redirect_to @cafebar
+      # Отправляем админу письмо о создании ресурса
+      #TODO: Включить отправку письма при создании ресурса
+      # UserMailer.resource_create(@cafebar).deliver_now
     else
       render 'new'
     end
@@ -53,7 +65,9 @@ class CafebarsController<ApplicationController
     @cafebar = Cafebar.find(params[:id])
     @cafebar.destroy
     flash[:info] = 'Объект удалён'
-    redirect_to root_url
+
+
+    redirect_back(fallback_location: @cafebar.user)
   end
 
 private

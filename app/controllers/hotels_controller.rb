@@ -10,6 +10,15 @@ class HotelsController < ApplicationController
   
   def show
     @hotel = Hotel.includes(:rooms).references(:rooms).order(:number).find(params[:id])
+
+    # проверяем активацию ресурса
+    unless @hotel.activated?
+      unless current_user && (current_user?(@hotel.user) || current_user.admin?)
+        flash[:info] = 'Объект ждёт проверки модератором и активации'
+        redirect_back(fallback_location: root_url)
+      end
+    end
+
     #TODO: рефакторить ВЕЗДЕ определение города включая счётчики категорий - @hotel.town.includes(:cat_counter)
     @town = @hotel.town
     
@@ -34,8 +43,11 @@ class HotelsController < ApplicationController
     @hotel = current_user.hotels.build(hotel_params)
     @hotel.desc_json = JSON.parse(params[:desc_json])
     if @hotel.save
-      flash[:success] = "Объект успешно создан"
+      flash[:success] = "Объект добавлен и ожидает проверки модератором. При успешной проверке Вам на почту придёт письмо, сообщающее об активации страницы и доступности к просмотру всем посетителям сайта"
       redirect_to @hotel
+      # Отправляем админу письмо о создании ресурса
+      #TODO: Включить отправку письма при создании ресурса
+      # UserMailer.resource_create(@hotel).deliver_now
     else
       render 'new'
     end

@@ -19,8 +19,8 @@ class UserMailer < ApplicationMailer
     mail to: "ilk-ui@ya.ru", subject: "Пользователь: #{@user.email} активирован"
   end
 
-    # Отправляем владельцу жилья уведомление, что у него появилась новая заявка
-    # Orders/create
+  # Отправляем владельцу жилья уведомление, что у него появилась новая заявка
+  # Orders/create
   def owner_user_reservation(order)
     @order = order
     mail to: @order.owner_user.email, subject: "Заявка на бронирование № #{@order.id}. Отправитель: #{@order.guest_name}"
@@ -33,6 +33,17 @@ class UserMailer < ApplicationMailer
     mail to: @order.guest_email, subject: "Спасибо за бронирование через наш сервис"
   end
 
+  # Отправляем админу письмо о создании ресурса
+  def resource_create(resource)
+    @resource = resource
+    #TODO: Изменить почту админа
+    mail to: "newaz@mail.ru", subject: "#{@resource.model_name.name}:#{@resource.name} создан"
+  end
 
+  # Отправляем письмо когда ресурс активирован (универсальный для всех ресурсов)
+  def change_activated(resource)
+    @resource = resource
+    mail to: @resource.user.email, subject: "#{@resource.name} - страница активирована и опубликована"
+  end
   
 end

@@ -1,80 +1,117 @@
-<% provide(:title, "Профиль пользователя") %>
+<% provide(:title, "Личный Кабинет") %>
+
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+<% end %>
 
 <div class="container">
 
-<h1>Профиль пользователя - users#show</h1>
-<h3><%= @user.email %></h3>
-<% if @user.name %><%= @user.name %><% end %>
-
-<br><br>
-
-<%= link_to "Новая гостиница", new_hotel_path %>
-
-<br><br>
-
-<% @user.hotels.each do |hotel| %>
-  <%= link_to hotel.name, hotel %>
-  <br>
-<% end %>
-
-<br><br>
-
-<div class="row">
-  <div class="col-md-2">
-    Left Sidebar
+  <div class="row">
+    <div class="col-md-12">
+      <hr />
+      <h3>Личный кабинет</h3>
+      <hr />
+    </div>
   </div>
-  <div class="col-md-10 dashboard-content">
-        
-    <h4 class="mb-4">Заявки на бронирование (Входящие)</h4>
 
-    <% unless @orders.nil? %>
-      <table class="table table-striped table-responsive">
-        <thead>
-          <th>№</th>
-          <% unless current_user.hotels.count == 1 %><th>Куда</th><% end %>
-          <th>Номер</th>
-          <th>Заезд</th>
-          <th>Выезд</th>
-          <th>ФИО</th>
-          <th>Перейти</th>
-        </thead>
-        <tbody>
-          <% @orders.each do |order| %>
-            <tr>
-              <td><%= order.id %></td>
-              <% unless current_user.hotels.count == 1 %><td><%= link_to order.hotel.name, order.hotel %></td><% end %>
-              <% if order.room_name %><td><%= order.room_name %></td><% else %><td>-- // --</td><% end %>
-              <td><%= order.check_in %></td>
-              <td><%= order.check_out %></td>
-              <td><%= order.guest_name %></td>
-              <td>
-                <%= link_to 'Заявка', order, class: 'btn btn-success btn-sm' %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <% else %>
-      Заявок пока нет
-    <% end %>    
+  <div class="row">
 
-    <hr>
+    <div class="col-md-3"><!-- SIDEBAR -->
+      <%= render partial: "users/sidebar" %>
+    </div>
 
-    <!-- outgoing_orders --> 
-    <h4 class="mb-4 text-success">Заявки на бронирование (Исходящие)</h4>
-    <% if @outgoing_orders.any? %>
-      <% @outgoing_orders.each do |order| %>
-        <%= order.id %>|<% if order.room_name %><td><%= order.room_name %></td><% else %><td>-- // --</td><% end %>|
-        <%= link_to 'Заявка', order, class: 'btn btn-success btn-sm' %>
-        <br>
-      <% end %>
-    <% else %>
-      Вы ещё не отправляли заявки на бронирование
-    <% end %>
-  
+    <div class="col-md-9">
+      
+      <div class="tab-content">
+        <!-- ПРОФИЛЬ -->
+        <article class="tab-pane fade show active" role="tabpanel" aria-labelledby="lorem-left-tab" id="lorem-left">
+          <section>
+            <%= render partial: "users/profile" %>
+          </section>
+        </article><!-- END профиль -->
+
+        <% if @hotels.any? %><!-- HOTELS and ORDERS -->          
+          <article class="tab-pane fade show" role="tabpanel" aria-labelledby="hotels-left-tab" id="hotels-left">
+            <section>
+              <%= render partial: "users/hotel", collection: @hotels %>
+            </section>
+          </article>
+          <article class="tab-pane fade show" role="tabpanel" aria-labelledby="orders-left-tab" id="orders-left">
+            <section>
+              <% if @hotel_orders.any? %>
+                <%= render partial: "users/hotel_order" %>
+              <% else %>
+                <h3>Заявок пока нет</h3>
+              <% end %>
+            </section>
+          </article>    
+        <% end %><!-- END Hotels and Orders -->
+
+        <% if @actives.any? %><!-- ACTIVES -->          
+          <article class="tab-pane fade show" role="tabpanel" aria-labelledby="actives-left-tab" id="actives-left">
+            <section>
+              <%= render partial: "users/active", collection: @actives %>
+            </section>
+          </article>          
+        <% end %><!-- END ACTIVES -->
+
+        <% if @cafebars.any? %><!-- CAFEBARS -->          
+          <article class="tab-pane fade" role="tabpanel" aria-labelledby="cafebars-left-tab" id="cafebars-left">
+            <section>
+              <%= render partial: "users/cafebar", collection: @cafebars %>
+            </section>
+          </article>          
+        <% end %><!-- END CAFEBARS -->
+
+        <% if @points.any? %><!-- POINTS -->          
+          <article class="tab-pane fade show" role="tabpanel" aria-labelledby="points-left-tab" id="points-left">
+            <section>
+              <%= render partial: "users/point", collection: @points %>
+            </section>
+          </article>          
+        <% end %><!-- END POINTS -->
+
+        <% if @services.any? %><!-- SERVICES -->          
+          <article class="tab-pane fade show" role="tabpanel" aria-labelledby="services-left-tab" id="services-left">
+            <section>
+              <%= render partial: "users/service", collection: @services %>
+            </section>
+          </article>          
+        <% end %><!-- END SERVICES -->
+
+        <% if @hotel_out_orders.any? %><!-- HOTEL OUT ORDERS -->          
+          <article class="tab-pane fade show" role="tabpanel" aria-labelledby="hotel_out_orders-left-tab" id="hotel_out_orders-left">
+            <section>
+              <%= render partial: "users/hotel_out_order" %>
+            </section>
+          </article>          
+        <% end %><!-- END HOTEL OUT ORDERS -->
+
+      </div>
+      
+    </div>
+
   </div>
+
 </div>
 
-</div>
+<script>
+  // Mask phone
+  $('.mask-phone').mask('+9(999) 999-99-99');
+  // check avatar size
+  $("#user_avatar").bind("change", function() {
+    const size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 4) {
+      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+    }
+  });
+</script>
 
+<br><br><br>
+<br><br><br>
+<br><br><br>
+<br><br><br>
+<br><br><br>
+<br><br><br>
+<br><br><br>
 

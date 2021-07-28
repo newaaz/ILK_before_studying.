@@ -1,0 +1,68 @@
+<div class="row mb-4">
+
+  <div class="col-lg-5">
+    <%= link_to image_tag(hotel.avatar.url, class: "img-fluid"), hotel %>
+  </div>
+
+  <div class="col-lg-7">
+    <%= link_to hotel do %>
+      <h4 style="font-weight:600">(ID - <%= hotel.id %>) <%= hotel.name %></h4>      
+    <% end %>    
+
+    <% unless hotel.activated? %>
+      <p><span class="text-secondary">Объявление ещё не активировано</span></p>  
+    <% end %>
+
+    <%= hotel.desc_json['cat_name'] %>
+    <br>
+    <%= hotel.desc_json['town_name'] %>
+    <br>
+
+    <%= link_to "+ Добавить Номер", new_room_path(hotel_id: hotel.id), class: "btn btn-outline-primary btn-sm" %>
+    
+    <%= link_to 'Редактировать', edit_hotel_path(hotel), class: 'btn btn-outline-primary btn-sm' %>    
+
+    <%= link_to "Удалить", hotel_path(hotel), method: :delete, data: { confirm: "Вы уверены?" }, class: 'btn btn-outline-danger btn-sm' %>
+    
+  </div>
+
+</div>
+
+<% if hotel.rooms.any? %>
+  
+  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseRooms" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Номера <span class="icon-down-open-mini"></span>
+  </a>
+  <div class="collapse mt-3" id="collapseRooms">
+
+    <% hotel.rooms.each do |room| %>
+
+      <div class="row mb-3">
+
+      <div class="col-lg-3 ps-lg-5">
+        <%= image_tag(room.avatar.thumb.url, class: "img-fluid") %>
+      </div>
+
+      <div class="col-lg-9">
+        <%= link_to hotel do %>
+          <h4><%= room.name %></h4>
+        <% end %>
+        
+        <%= link_to "Редактировать", edit_room_path(room, hotel_id: hotel.id),class: "btn btn-outline-primary btn-sm" %>
+        
+        <%= link_to "Удалить номер", room ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
+             
+      </div>
+
+      </div>
+    
+    <% end %>
+    
+  </div>
+
+  
+<% end %>
+
+<br>
+<br>
+<br>

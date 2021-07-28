@@ -8,10 +8,14 @@ class User < ApplicationRecord
   has_many  :services, dependent: :destroy
   has_many  :actives, dependent: :destroy
 
+  mount_uploader  :avatar, PictureUploader
+
   before_save :downcase_email
   before_create :create_activation_digest
 
   validates :name, length: { maximum: 50 }
+
+  validate  :avatar_type_size
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: {maximum: 255, minimum: 6},
@@ -21,8 +25,6 @@ class User < ApplicationRecord
   validates :password, length: {minimum: 6 }, allow_nil: true
 
   has_secure_password
-
-  #_______________ Методы ___________________
 
   # Возвращает заявки по отелям принадлежащим пользователю
   def owner_orders
@@ -88,6 +90,15 @@ private
   def create_activation_digest
     self.activation_token = User.new_token
     self.activation_digest = User.digest(activation_token)
+  end
+
+  # Проверяем Avatar загруженный через carrierwave
+  def avatar_type_size
+    # эта проверка на тип файла проверяется самим загрузчиком
+    #errors.add(:avatar, "должно иметь формат JPEG или PNG") unless avatar.content_type.in?(%('image/jpeg image/png'))
+    
+    # проверка размера файла
+    errors.add(:avatar, "- изображение должно быть меньше 4 МБ") if avatar.size > 4.megabytes
   end
 
 end
