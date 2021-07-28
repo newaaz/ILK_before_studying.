@@ -75,6 +75,13 @@
 
 <div class="container">
 
+  <% unless @hotel.activated? %>
+    <div class="alert alert-info alert-dismissible fade show mt-4" role="alert">
+      Пока страница видна только Вам. Объект ждёт проверки модератором и активации.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+
   <!-- title + photo + contacts -->
   <div class="row mt-3">
     
@@ -97,12 +104,7 @@
 
     <div class="col-lg-3 px-4">   
 
-      <%= render 'contacts' %>
-      
-      <div class="social-links text-center mt-4">
-        <h4 style="color: #666">Поделиться</h4>  
-        <div class="ya-share2 mt-2 mb-4" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
-      </div>          
+      <%= render 'contacts' %>               
 
     </div>
 

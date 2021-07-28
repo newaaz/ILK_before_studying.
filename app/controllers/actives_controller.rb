@@ -11,6 +11,15 @@ class ActivesController<ApplicationController
 
   def show
     @active = Active.find(params[:id])
+
+    # проверяем активацию ресурса
+    unless @active.activated?
+      unless current_user && (current_user?(@active.user) || current_user.admin?)
+        flash[:info] = 'Объект ждёт проверки модератором и активации'
+        redirect_back(fallback_location: root_url)
+      end
+    end
+
     # @service_categories = ServiceCategory.select(:id, :name).all
     # определение города к которому относится сервис
     #FIXME: сейчас город определяется если заходить со страницы города, проработать другие варианты определения города - например с помощью определения местоположения
@@ -35,9 +44,11 @@ class ActivesController<ApplicationController
     @active.desc_json = JSON.parse(params[:desc_json])
     # set Desc_json: cat_name -> in Model (after_save)  
     if @active.save
-      flash[:success] = "#{@active.name} - добавлен и ожидает проверки модератором. 
-                        При успешной проверке Вам на почту придёт письмо, и страница 
-                        будет доступна для просмотра всем посетителям сайта"
+      flash[:success] = "#{@active.name} - Активный отдых добавлен и ожидает проверки модератором. 
+                        При успешной проверке Вам на почту придёт письмо, о том что страница активирована и доступна для всех посетителей сайта"
+      # Отправляем админу письмо о создании ресурса
+      #TODO: Включить отправку письма при создании ресурса
+      # UserMailer.resource_create(@active).deliver_now
       redirect_to @active
     else
       render 'new'
@@ -117,25 +128,12 @@ class ActivesController<ApplicationController
     
     flash[:info] = 'Активный отдых удалён'
     redirect_to @active.user
-  end
-
-  # Изменяет статус активации
-  def change_activated
-    #TODO: реализовать общую проверку адимновских методов
-    redirect_to root_url unless current_user && current_user.admin
-
-    active = Active.find(params[:id])
-    active.toggle!(:activated)
-
-    # отправляем владельцу письмо об активации
-
-    redirect_back(fallback_location: actives_path)
-  end
+  end 
 
   # Изменяет параметр продвижения (реклама, промо)
   def change_promo
     #TODO: реализовать общую проверку адимновских методов
-    redirect_to root_url unless current_user && current_user.admin
+    redirect_to root_url unless current_user.admin
    
     active = Active.find(params[:id])
     active.update_column(:promouted, params[:promouted].to_i)

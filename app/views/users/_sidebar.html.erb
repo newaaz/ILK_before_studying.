@@ -1,0 +1,128 @@
+<ul class="nav nav-tabs left-tabs" role="tablist">
+
+  <li class="nav-item" role="presentation"><!-- profile -->
+    <div id="lorem-left-tab"
+          class="nav-link tab-clickable active"
+          data-bs-toggle="tab"
+          data-bs-target="#lorem-left"
+          role="tab"
+          aria-controls="lorem-left"
+          aria-selected="true">
+      <i class="icon-user-outline" style="font-size:18px;"></i>
+      Профиль
+    </div>
+  </li><!-- end profile -->
+
+  <% if @hotels.any? %><!-- hotels and orders -->          
+    <li class="nav-item" role="presentation">
+      <div id="hotels-left-tab" title="Объявления по аренде жилья"
+          class="nav-link tab-clickable"
+          data-bs-toggle="tab"
+          data-bs-target="#hotels-left"
+          role="tab" aria-controls="hotels-left"
+          aria-selected="false">
+        <i class="icon-hospital" style="font-size:18px;"></i>
+        Объявления
+      </div>
+    </li>
+    <li class="nav-item" role="presentation">
+      <div id="orders-left-tab" title="Входящие заявки"
+          class="nav-link tab-clickable"
+          data-bs-toggle="tab"
+          data-bs-target="#orders-left"
+          role="tab" aria-controls="orders-left"
+          aria-selected="false">
+        <i class="icon-hospital" style="font-size:18px;"></i>
+        Заявки
+      </div>
+    </li>       
+  <% end %><!-- END hotels and orders -->
+
+  <% if @actives.any? %><!-- actives -->          
+    <li class="nav-item" role="presentation">
+      <div id="actives-left-tab" title="Объявления активного отдыха"
+          class="nav-link tab-clickable"
+          data-bs-toggle="tab"
+          data-bs-target="#actives-left"
+          role="tab" aria-controls="actives-left"
+          aria-selected="false">
+        <i class="icon-star-7" style="font-size:18px;"></i>
+        Активный отдых
+      </div>
+    </li>          
+  <% end %><!-- END actives -->
+
+  <% if @cafebars.any? %><!-- cafebars -->          
+    <li class="nav-item" role="presentation">
+      <div id="cafebars-left-tab" title="Кафе и рестораны"
+          class="nav-link tab-clickable"
+          data-bs-toggle="tab"
+          data-bs-target="#cafebars-left"
+          role="tab" aria-controls="cafebars-left"
+          aria-selected="false">
+        <i class="icon_set_1_icon-14" style="font-size:18px;"></i>
+        Кафе / Рестораны
+      </div>
+    </li>          
+  <% end %><!-- END cafebars -->
+
+  <% if @points.any? %><!-- points -->          
+    <li class="nav-item" role="presentation">
+      <div id="points-left-tab" title="Интересные места и достопримечательности"
+          class="nav-link tab-clickable"
+          data-bs-toggle="tab"
+          data-bs-target="#points-left"
+          role="tab" aria-controls="points-left"
+          aria-selected="false">
+        <i class="icon-picture-1" style="font-size:18px;"></i>
+        Достопримечательности
+      </div>
+    </li>          
+  <% end %><!-- END points -->
+
+  <% if @services.any? %><!-- services -->          
+    <li class="nav-item" role="presentation">
+      <div id="services-left-tab" title="Услуги и сервисы"
+          class="nav-link tab-clickable"
+          data-bs-toggle="tab"
+          data-bs-target="#services-left"
+          role="tab" aria-controls="services-left"
+          aria-selected="false">
+        <i class="icon-tag-6" style="font-size:18px;"></i>
+        Услуги и сервисы
+      </div>
+    </li>          
+  <% end %><!-- END services -->  
+  
+  <% if @hotel_out_orders.any? %><!-- hotel_out_orders -->          
+    <li class="nav-item" role="presentation">
+      <div id="hotel_out_orders-left-tab" title="Исходящие заявки"
+          class="nav-link tab-clickable"
+          data-bs-toggle="tab"
+          data-bs-target="#hotel_out_orders-left"
+          role="tab" aria-controls="hotel_out_orders-left"
+          aria-selected="false">
+        <i class="icon_set_1_icon-68" style="font-size:18px;"></i>
+        Ваши заявки
+      </div>
+    </li>          
+  <% end %><!-- END hotel_out_orders -->
+
+  <li class="mt-lg-4 px-3"><!-- button ADD -->
+    <div class="dropdown">
+      <a class="btn btn-secondary dropdown-toggle d-block" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        Добавить
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+        <li><%= link_to "Гостиницу", new_hotel_path, class: "dropdown-item" %></li>
+        <li><%= link_to "Активный отдых", new_active_path, class: "dropdown-item" %></li>
+        <li><%= link_to "Кафе / Ресторан", new_cafebar_path, class: "dropdown-item" %></li>
+        <li><%= link_to "Достопримечательность", new_point_path, class: "dropdown-item" %></li>
+        <li><%= link_to "Услугу / Сервис", new_service_path, class: "dropdown-item" %></li>
+
+      </ul>
+    </div>
+  </li>
+
+</ul>

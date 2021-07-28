@@ -10,6 +10,15 @@ class PointsController<ApplicationController
 
   def show
     @point = Point.find(params[:id])
+
+    # проверяем активацию ресурса
+    unless @point.activated?
+      unless current_user && (current_user?(@point.user) || current_user.admin?)
+      flash[:info] = 'Объект ждёт проверки модератором и активации'
+      redirect_back(fallback_location: root_url)
+      end
+    end
+
     @point_categories = PointCategory.all
     @town = @point.town
     # определяем - является ли этот Поинт запомненным    
@@ -21,16 +30,18 @@ class PointsController<ApplicationController
     @point = Point.new
   end
 
-  def create
-    #debugger
+  def create    
     @point = current_user.points.build(point_params)
     @point.desc_json = JSON.parse(params[:desc_json])
     # set Desc_json: town_name & cat_name -> in Model (after_save)
     if @point.save
-      flash[:success] = "Объект добавлен и ожидает проверки модератором. 
-                        При успешной проверке Вам на почту придёт письмо, и страница 
-                        будет доступна для просмотра всем посетителям сайта"
+      flash[:success] = "Объект добавлен и ожидает проверки модератором.
+                        При успешной проверке Вам на почту придёт письмо, сообщающее
+                         об активации страницы и доступности к просмотру всем посетителям сайта"      
       redirect_to @point
+      # Отправляем админу письмо о создании ресурса
+      #TODO: Включить отправку письма при создании ресурса
+      # UserMailer.resource_create(@point).deliver_now
     else
       render 'new'
     end

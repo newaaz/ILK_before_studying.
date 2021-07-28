@@ -53,6 +53,13 @@
 
 <div class="container">
 
+  <% unless @active.activated? %>
+    <div class="alert alert-info alert-dismissible fade show mt-4" role="alert">
+      Пока страница видна только Вам. Объект ждёт проверки модератором и активации.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+
   <!-- title -->
   <div class="px-2 mt-3">
     <h1 class="d-inline"><%= @active.name %></h1>&emsp;                
@@ -94,7 +101,12 @@
         <% end %>
       </div>
 
-      <div class="contact-photo text-center mt-4">        
+      <div class="contact-photo text-center mt-4">
+        <% if @active.user.avatar.blank? %>
+          <%= image_tag @active.avatar.thumb.url, class: "shadow-sm mx-auto" %>                  
+        <% else %>
+          <%= image_tag(@active.user.avatar.thumb_user.url, class: "shadow-sm mx-auto") %>
+        <% end %>        
         <span><%= @active.desc_json["ow_name"] %></span>
       </div>
 

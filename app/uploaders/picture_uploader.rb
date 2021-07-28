@@ -4,6 +4,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   version :thumb_active, if: :resource_active?
+  version :thumb_user, if: :model_user?
 
   # Choose what kind of storage to use for this uploader:
   storage :file
@@ -24,6 +25,10 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   version :thumb_active do
     process resize_to_fill: [330, 220]
+  end
+
+  version :thumb_user do
+    process resize_to_fill: [150, 150]
   end
   
   # Process files as they are uploaded:
@@ -47,6 +52,10 @@ private
 
   def resource_active? picture
     model.model_name.name == 'Active' && mounted_as.to_s == 'avatar'
+  end
+
+  def model_user? picture
+    model.model_name.name == 'User'
   end
 
 end

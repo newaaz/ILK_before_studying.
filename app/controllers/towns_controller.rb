@@ -1,6 +1,6 @@
 class TownsController < ApplicationController
 
-  before_action :user_admin, except: [:show, :hotels, :cafebars, :points, :services]
+  before_action :user_admin, except: [:show, :hotels, :cafebars, :points, :services, :actives]
 
   def index
     @towns = Town.all    
@@ -11,16 +11,16 @@ class TownsController < ApplicationController
     # счётчик всех категорий
     @town_cats = @town.category_counters
     # рекламные активности
-    @promo_actives = @town.actives.select(:id, :avatar, :name, :price).where("promouted = ?", 10).take(6)
+    @promo_actives = @town.actives.activated.select(:id, :avatar, :name, :price).where("promouted = ?", 10).take(6)
     # категории достопримечательностей имеющие объекты
     @point_cats = @town_cats.where(cat_type: 'points')
 
     # Определяем существующие категории сервисов
-    array_ids = []
+    service_array_ids = []
     @town_cats.where(cat_type: 'services').each do |counter|
-      array_ids << counter.cat_id
+      service_array_ids << counter.cat_id
     end
-    @service_cats = ServiceCategory.find(array_ids)
+    @service_cats = ServiceCategory.find(service_array_ids)
 
   end
   
@@ -66,12 +66,13 @@ class TownsController < ApplicationController
 
     # @hotel_categories = HotelCategory.all
     # определяем категории через счётчик
+    #TODO: реализовать вывод категорий имеющих только активированные ресурсы
     @hotel_categories = @town.category_counters.where(cat_type: 'hotels')
 
     if params[:cat].blank?
-      @hotels = @town.hotels.select(:id, :avatar, :images, :name, :price_from, :distance_to_sea, :desc_json, :address)
+      @hotels = @town.hotels.activated.select(:id, :avatar, :images, :name, :price_from, :distance_to_sea, :desc_json, :address)
     else
-      @hotels = @town.hotels.select(:id, :avatar, :images, :name, :price_from, :distance_to_sea, :desc_json, :address).where(hotel_category: params[:cat].to_i)
+      @hotels = @town.hotels.activated.select(:id, :avatar, :images, :name, :price_from, :distance_to_sea, :desc_json, :address).where(hotel_category: params[:cat].to_i)
       @hotels_cat = HotelCategory.find(params[:cat].to_i).name
     end
 
@@ -90,10 +91,10 @@ class TownsController < ApplicationController
     @town = Town.find(params[:id])
     @tagcafebars = Tagcafebar.all   
     if params[:tag].blank?
-      @cafebars = @town.cafebars.select(:id, :avatar, :images, :name, :desc_json, :address)
+      @cafebars = @town.cafebars.activated.select(:id, :avatar, :images, :name, :desc_json, :address)
     else
       @tag = Tagcafebar.find(params[:tag].to_i)
-      @cafebars = @tag.cafebars.select(:id, :avatar, :images, :name, :desc_json, :address).where(town_id: @town.id)
+      @cafebars = @tag.cafebars.activated.select(:id, :avatar, :images, :name, :desc_json, :address).where(town_id: @town.id)
 
       # OPTIMIZE: проверить как делать такую выборку, для оптимизации запроса. Чтобы поиск происходил из кафешек города, а не из всех 
       # @cafebars = @town.cafebars.where(tagcafebar_ids: params[:tag].to_i)
@@ -115,12 +116,13 @@ class TownsController < ApplicationController
     @town = Town.find(params[:id])
     # @point_categories = PointCategory.all
     # определяем категории через счётчик
+    #TODO: реализовать вывод категорий имеющих только активированные ресурсы
     @point_categories = @town.category_counters.where(cat_type: 'points')
     
     if params[:cat].blank?
-      @points = @town.points.select(:id, :avatar, :images, :name, :desc_json)
+      @points = @town.points.activated.select(:id, :avatar, :images, :name, :desc_json)
     else
-      @points = @town.points.select(:id, :avatar, :images, :name, :desc_json).where(point_category: params[:cat].to_i)
+      @points = @town.points.activated.select(:id, :avatar, :images, :name, :desc_json).where(point_category: params[:cat].to_i)
       @points_cat = PointCategory.find(params[:cat].to_i).name
     end
 
@@ -138,11 +140,12 @@ class TownsController < ApplicationController
     @town = Town.find(params[:id])
     # @service_categories = ServiceCategory.all
     # определяем категории через счётчик
+    #TODO: реализовать вывод категорий имеющих только активированные ресурсы
     @service_categories = @town.category_counters.where(cat_type: 'services')
     if params[:cat].blank?
-      @services = @town.services.select(:id, :avatar, :images, :name, :desc_json)
+      @services = @town.services.activated.select(:id, :avatar, :images, :name, :desc_json)
     else
-      @services = @town.services.select(:id, :avatar, :images, :name, :desc_json).where(service_category: params[:cat].to_i)
+      @services = @town.services.activated.select(:id, :avatar, :images, :name, :desc_json).where(service_category: params[:cat].to_i)
       @services_cat = ServiceCategory.find(params[:cat].to_i).name
     end
 
@@ -160,13 +163,14 @@ class TownsController < ApplicationController
     @town = Town.find(params[:id])
     # @active_categories = ActiveCategory.all
     # определяем категории через счётчик
+    #TODO: реализовать вывод категорий имеющих только активированные ресурсы
     @active_categories = @town.category_counters.where(cat_type: 'actives')   
 
     # вывод с категориями
     if params[:cat].blank?
-      @actives = @town.actives.select(:id, :avatar, :images, :name, :price, :desc_json)
+      @actives = @town.actives.activated.select(:id, :avatar, :images, :name, :price, :desc_json)
     else
-      @actives = @town.actives.select(:id, :avatar, :images, :name, :price, :desc_json).where(active_category: params[:cat].to_i)
+      @actives = @town.actives.activated.select(:id, :avatar, :images, :name, :price, :desc_json).where(active_category: params[:cat].to_i)
       @actives_cat = ActiveCategory.find(params[:cat].to_i).name
     end
 

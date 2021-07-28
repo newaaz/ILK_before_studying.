@@ -6,6 +6,24 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
   include Pagy::Backend
 
+  def change_activated
+    #TODO: реализовать общую проверку адимновских методов
+    redirect_to root_url unless current_user.admin
+
+    model = params[:model].constantize
+    object = model.find(params[:id].to_i)
+    object.toggle!(:activated)
+   
+
+    # определяем куда перенаправлять
+    resources_path = (params[:model].downcase + 's').to_sym
+    redirect_back(fallback_location: resources_path)
+
+    # посылаем письмо юзеру об активации
+    #TODO: потом включить письмо юзеру об активации
+    #UserMailer.change_activated(object).deliver_now if object.activated?
+  end
+
 private
 
   # Перенесли из UsersController

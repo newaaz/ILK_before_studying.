@@ -14,19 +14,23 @@
     <thead>
       <th>id#</th>
       <th>Название</th>
-      <th>Город</th>
+      <th>Категория</th>
       <th>Действия</th>
+      <th>Активно?</th>
+      <th>Promo</th>
     </thead>
     <tbody>
       <% @services.each do |service| %>
         <tr>
           <td><%= service.id %></td>
           <td><%= link_to service.name, service %></td>
-          <td>Города</td>
+          <td><%= service.desc_json['cat_name'] %></td>
           <td>
             <%= link_to 'Edit', edit_service_path(service), class: 'btn btn-warning btn-sm' %>
-            <%= link_to "Удалить", service_path(service), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+            <%= link_to "Del", service_path(service), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
           </td>
+          <td><%= link_to "#{service.activated}", change_activated_path(model: "Service", id: service.id) %></td>
+          <td><%= service.rating %></td>
         </tr>
       <% end %>
     </tbody>

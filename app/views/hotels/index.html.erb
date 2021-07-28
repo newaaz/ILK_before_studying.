@@ -1,19 +1,41 @@
 <% provide(:title, 'Все гостиницы') %>
 
-<div class="container">
+<div class="container mt-5">
+  
 
-<%= link_to "Новоё жильё", new_hotel_path, class: 'btn btn-primary btn-sm' %>
+  <%= link_to 'Новая Гостиница', new_hotel_path, class: 'btn btn-primary btn-sm' %>
 
-<div class='row'> 
-  <div class='col-md-9'>
-    <h1>Все гостиницы</h1>   
-    <div class="row">
-      Здесь - вывод всех отелей для админа
-    </div>
-  </div>
-  <div class='col-md-3'>
-    Left sidebar
-  </div>
-</div>
+  <br><br>
 
-</div>
+  <table class="table">
+    <thead>
+      <th>id#</th>
+      <th>Название</th>
+      <th>Категория</th>
+      <th>Действия</th>
+      <th>Активно?</th>
+      <th>Рейтинг</th>
+    </thead>
+    <tbody>
+      <% @hotels.each do |hotel| %>
+        <tr>
+          <td><%= hotel.id %></td>
+          <td><%= link_to hotel.name, hotel %></td>
+          <td><%= hotel.desc_json['cat_name'] %></td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+            <%= link_to 'Edit', edit_hotel_path(hotel), class: 'btn btn-warning btn-sm' %>
+            <%= link_to "Удалить", hotel_path(hotel), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+            </div>
+          </td>
+          <td><%= link_to "#{hotel.activated}", change_activated_path(model: "Hotel",  id: hotel.id) %></td>
+          <td>
+            <%= hotel.rating %>        
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+
+</div><!-- END CONTAINER  -->

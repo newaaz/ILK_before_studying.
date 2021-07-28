@@ -1,0 +1,41 @@
+<% provide(:title, 'Все Кафе') %>
+
+<div class="container mt-5">
+  
+
+  <%= link_to 'Новое Кафе', new_cafebar_path, class: 'btn btn-primary btn-sm' %>
+
+  <br><br>
+
+  <table class="table">
+    <thead>
+      <th>id#</th>
+      <th>Название</th>
+      <th>Город</th>
+      <th>Действия</th>
+      <th>Активно?</th>
+      <th>Рейтинг</th>
+    </thead>
+    <tbody>
+      <% @cafebars.each do |cafebar| %>
+        <tr>
+          <td><%= cafebar.id %></td>
+          <td><%= link_to cafebar.name, cafebar %></td>
+          <td><%= cafebar.desc_json['town_name'] %></td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+            <%= link_to 'Edit', edit_cafebar_path(cafebar), class: 'btn btn-warning btn-sm' %>
+            <%= link_to "Удалить", cafebar_path(cafebar), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+            </div>
+          </td>
+          <td><%= link_to "#{cafebar.activated}", change_activated_path(model: "Cafebar",  id: cafebar.id) %></td>
+          <td>
+            <%= cafebar.rating %>        
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+
+</div><!-- END CONTAINER  -->

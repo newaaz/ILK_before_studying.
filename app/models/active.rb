@@ -21,7 +21,9 @@ class Active < ApplicationRecord
 
   after_create  :set_town_category_counter
 
-  #TODO: сделать проверку полей json на длину текста  
+  scope :activated, -> { where(activated: true) }
+
+  #TODO: сделать проверку полей json на длину текста 
 
   private
 

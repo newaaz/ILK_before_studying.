@@ -10,6 +10,16 @@ class ServicesController<ApplicationController
 
   def show
     @service = Service.find(params[:id])
+
+    # проверяем активацию ресурса
+    unless @service.activated?
+      unless current_user && (current_user?(@service.user) || current_user.admin?)
+        flash[:info] = 'Объект ждёт проверки модератором и активации'
+        redirect_back(fallback_location: root_url)
+      end
+    end
+
+    #TODO: выводить только категории имеющие объекты
     @service_categories = ServiceCategory.select(:id, :name).all
     # определение города к которому относится сервис
     #FIXME: сейчас город определяется если заходить со страницы города, проработать другие варианты определения города - например с помощью определения местоположения
@@ -36,9 +46,12 @@ class ServicesController<ApplicationController
     # set Desc_json: cat_name -> in Model (after_save)  
     if @service.save
       flash[:success] = "Услуга/Сервис добавлен и ожидает проверки модератором. 
-                        При успешной проверке Вам на почту придёт письмо, и страница 
+                        При успешной проверке Вам на почту придёт письмо об активации, и страница 
                         будет доступна для просмотра всем посетителям сайта"
       redirect_to @service
+      # Отправляем админу письмо о создании ресурса
+      #TODO: Включить отправку письма при создании ресурса
+      # UserMailer.resource_create(@service).deliver_now
     else
       render 'new'
     end

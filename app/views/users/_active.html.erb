@@ -1,0 +1,28 @@
+<div class="row mb-4 bg-white rounded-3 shadow">
+
+  <div class="col-lg-4 ps-lg-0">
+    <%= link_to image_tag(active.avatar.url, class: "img-fluid rounded-start"), active %>
+  </div>
+
+  <div class="col-lg-8">
+    <%= link_to active do %>
+      <h4 style="font-weight:600"><%= active.name %>&emsp;(ID - <%= active.id %>)</h4>      
+    <% end %>
+
+    <% unless active.activated? %>
+      <p><span class="text-secondary">Объявление ещё не активировано</span></p>  
+    <% end %>
+
+
+
+    <%= active.desc_json['cat_name'] %>
+    <br>    
+    <br>
+    
+    <%= link_to 'Редактировать', edit_active_path(active), class: 'btn btn-outline-primary btn-sm' %>    
+
+    <%= link_to "Удалить", active_path(active), method: :delete, data: { confirm: "Вы уверены?" }, class: 'btn btn-outline-danger btn-sm' %>
+    
+  </div>
+
+</div>

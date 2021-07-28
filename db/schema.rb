@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_02_190015) do
+ActiveRecord::Schema.define(version: 2021_07_24_163614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,6 +160,9 @@ ActiveRecord::Schema.define(version: 2021_07_02_190015) do
     t.decimal "longitude", precision: 6, scale: 4
     t.boolean "all_year", default: false
     t.json "desc_json"
+    t.boolean "activated", default: false
+    t.boolean "enabled", default: true
+    t.boolean "deleted", default: false
     t.index ["hotel_category_id"], name: "index_hotels_on_hotel_category_id"
     t.index ["town_id"], name: "index_hotels_on_town_id"
     t.index ["user_id"], name: "index_hotels_on_user_id"
@@ -295,6 +298,8 @@ ActiveRecord::Schema.define(version: 2021_07_02_190015) do
     t.datetime "reset_sent_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "avatar"
+    t.string "phone"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

@@ -13,11 +13,17 @@ class UsersController < ApplicationController
   def show
     # @user определяется в методе :correct_user
     # @user = User.find(params[:id])
-    #debugger
+
+    @hotels = @user.hotels.includes(:rooms).references(:rooms).order(:number)
+    @actives = @user.actives
+    @cafebars = @user.cafebars
+    @points = @user.points
+    @services = @user.services    
+    
     # определяем заявки которые принял User в качестве владельца жилья
-    @orders = current_user.owner_orders unless current_user.owner_orders.nil?
+    @hotel_orders = current_user.owner_orders unless current_user.owner_orders.nil?
     # определяем заявки которые отправлял User в качестве гостя
-    @outgoing_orders = Order.where('user_id = ?', current_user.id)
+    @hotel_out_orders = Order.where('user_id = ?', current_user.id)
   end
   
   def new
@@ -25,7 +31,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)    # Not the final implementation!
+    @user = User.new(user_params)
     if @user.save
       # отправка письма с токеном активации
       UserMailer.account_activation(@user).deliver_now    
@@ -48,7 +54,7 @@ class UsersController < ApplicationController
       flash[:info] = "Ваши данные успешно изменены"
       redirect_to @user
     else
-      render 'edit'
+      render 'show'
     end
   end
 
@@ -63,7 +69,7 @@ private
   # Метод logged_in_user находится в Application_controller
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :phone, :avatar, :password, :password_confirmation)
   end
 
   def correct_user
