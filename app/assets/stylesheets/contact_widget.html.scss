@@ -164,16 +164,17 @@ $color-yellow: #f48f24; /* #f48f24  - */
 .condition {	
 	cursor: pointer;
 	font-size: 12px;
-	color: #fff;	
+	color: #f1f1f1;	
 	text-align: center;
 	padding: 2px 10px;
 	display: block;
 	/* background: rgba(0, 0, 0, 0) linear-gradient(to right, $color-orange, $color-yellow) no-repeat scroll center; */
-	background: rgba(0, 0, 0, 0) linear-gradient(to right, #a3a3a3, #dbdbdb, ) no-repeat scroll center;
+	background: linear-gradient(to right, #62b1ff, #94caff);
 	/*background: rgba(0, 0, 0, 0) linear-gradient(to right, #0e64ac, #1e80c5) no-repeat scroll center;*/
 
 	&:hover {
-		color: #ff4500;
+		color: #fff;	
+		background: linear-gradient(to right, #007fff, #4088cf);
 	}
 }
 

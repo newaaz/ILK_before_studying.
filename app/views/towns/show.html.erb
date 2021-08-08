@@ -51,12 +51,19 @@
 		</p>
 	</div>
 
-	<div class="resources-title">
-		<h2>Жильё:</h2>
-		<%= link_to "(Все варианты)", hotels_town_path %>
+	<div class="resources-title">		
+		<h2>Жильё:</h2>		
 	</div>
-	
-	<div class="row"><!-- hotels -->
+
+	<div class="row pt-lg-2"><!-- hotels -->
+		<div class="col-6 col-lg-2 p-1">
+			<a href="/towns/<%= @town.id %>/hotels">
+				<div class="cat-bg-image">
+					<img src="<%= @town.hotels.first.avatar.thumb.url %>" alt="<%= "Жильё в #{@town.parent_name}" %>" class="img-fluid">
+					<div class="cat-bg-title">Все варианты</div>
+				</div>
+			</a>
+		</div>
 		<% @town_cats.where(cat_type: 'hotels').each do |cat| %>
 			<div class="col-6 col-lg-2 p-1">
 				<a href="/towns/<%= @town.id %>/hotels?cat=<%= cat.cat_id %>">
@@ -69,11 +76,11 @@
 		<% end %>	
 	</div><!-- END hotels -->	
 
-</div><!-- END container --->
+</div><!-- END container -->
 
 <br><br>
 
-<div class="bg-white"><!-- actives -->
+<div class="bg-white shadow py-3"><!-- actives -->
 	<div class="container">
 		<div class="row">			
 			<aside class="col-lg-3">				
@@ -90,10 +97,17 @@
 				</div>
 			</aside>
 			<div class="col-lg-9 p-1">
-				<div class="row gx-0">
+				<div class="row gx-1">
 					<% @promo_actives.each do |active| %>
-						<div class="col-lg-4 col-6">
-							<%= link_to image_tag(active.avatar.thumb_active.url, alt: "Главная", class: 'img-fluid'), active_path(active, town_id: @town.id) %>	
+						<div class="col-lg-4 col-6 mb-1">
+							<div class="actives-promo" style="position: relative;">
+							<%= link_to active do %>
+								<%= image_tag(active.avatar.thumb_active.url, alt: "Главная", class: 'img-fluid') %>
+								<div class="actives-link">
+									<%= active.name %>
+								</div>
+							<% end %>
+							</div>						
 						</div>
 					<% end %>
 				</div>
@@ -102,20 +116,22 @@
 	</div>	
 </div><!-- END actives -->
 
-<br><br><br>
+<br>
 
-<div class="container"><!-- Points -->
-	
-	<div class="resources-title">
-		<%= link_to points_town_path do %>
-		<h2>Интересные места, достопримечательности в <%= @town.parent_name %> (все)</h2>
-		<% end %>		
-	</div>	
-	
-	<div class="row mt-4">
-	
-		<% @point_cats.each do |cat| %>
-		
+<div class="container pt-4"><!-- Points -->	
+	<div class="resources-title">		
+		<h2>Интересные места, достопримечательности в <%= @town.parent_name %></h2>			
+	</div>		
+	<div class="row pt-lg-3">
+		<div class="col point-cat">
+			<a href="/towns/<%= @town.id %>/points">
+				<%= image_tag("icons/all_sight.png", width: "75px", class: "mx-auto d-block") %>
+				<span>
+					Все места
+				</span>
+			</a>			
+		</div>
+		<% @point_cats.each do |cat| %>		
 			<div class="col point-cat">
 				<a href="/towns/<%= @town.id %>/points?cat=<%= cat.cat_id %>">
 					<%= image_tag("icons/#{cat.cat_name}.png", width: "75px", class: "mx-auto d-block") %>
@@ -123,23 +139,19 @@
 						<%= cat.cat_name %>
 					</span>
 				</a>			
-			</div>
-			
-		<% end %>
-	
+			</div>			
+		<% end %>	
 	</div>	
-
 </div><!-- END POINTS -->
 
-<div class="bg-white py-4"><!-- Services -->
+<div class="py-4 bg-white"><!-- Services -->
 	<div class="container">
 
-		<div class="main_title">
-			<h2>Услуги и сервисы в <span><%= @town.parent_name %></span></h2>
-			<p>Доставка еды, такси, прокат и многое другое</p>
+		<div class="resources-title">		
+			<h2>Услуги и сервисы в <%= @town.parent_name %></h2>
 		</div>
 
-		<div class="row gx-3 service-cats">
+		<div class="row gx-3 service-cats pt-lg-3">
 
 			<div class="col-6 col-lg-4 px-lg-5">
 				<a href="/towns/<%= @town.id %>/services">
@@ -164,6 +176,39 @@
 		</div>
 	</div>	
 </div><!-- END Services -->
+
+
+<div class="container pt-4"><!-- CAFE -->	
+	<div class="resources-title">		
+		<h2>Кафе, рестораны и где перекусить в <%= @town.parent_name %></h2>			
+	</div>		
+		<div class="row pt-lg-2">
+			<div class="col-lg-3 col-md-6 text-center">
+				<p>
+					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
+				</p>
+				<h4><span>Sightseen tour</span> booking</h4>
+				<p>
+					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
+				</p>
+			</div>
+			<% @promo_cafebars.each do |cafe| %>
+				<div class="col-lg-3 col-md-6 text-center">
+					<p>
+						<%= link_to image_tag(cafe.avatar.thumb.url, alt: "Pic", class: "img-fluid"), root_url %>
+					</p>
+					<h4><%= cafe.name %><span>(Cafe)</span></h4>
+					<p>
+						<%= cafe.desc_json['mini_desc'] %>
+					</p>
+				</div>
+			<% end %>
+		</div><!-- End row -->
+</div><!-- END CAFE -->
+
+
+
+
 
 <div class="container mt-5"><!-- Towns near -->
 	<div class="main_title">
@@ -228,8 +273,8 @@
 					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
 				</p>
 			</div>
-		</div>
-		<!-- End row -->
+		</div><!-- End row -->
+	
 	</div>
 	<!-- End container -->
 </div>
@@ -281,7 +326,7 @@
       </div>
     </div>
 
-    <div class="col-lg-4"">
+    <div class="col-lg-4">
       <div class="feature_home">
         <i class="icon_set_1_icon-57"></i>
         <h3><span>H24 </span> Support</h3>

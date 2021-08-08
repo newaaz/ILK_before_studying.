@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
 
   def change_activated
-    #TODO: реализовать общую проверку адимновских методов
+    #TODO: реализовать общую проверку админовских методов
     redirect_to root_url unless current_user.admin
 
     model = params[:model].constantize
@@ -22,6 +22,18 @@ class ApplicationController < ActionController::Base
     # посылаем письмо юзеру об активации
     #TODO: потом включить письмо юзеру об активации
     #UserMailer.change_activated(object).deliver_now if object.activated?
+  end
+
+  def change_rating
+    #TODO: реализовать общую проверку админовских методов
+    redirect_to root_url unless current_user.admin   
+    model = params[:model].constantize
+    object = model.find(params[:id].to_i)
+    object.update_column(:rating, params[:rating].to_i)
+
+    # определяем куда перенаправлять
+    resources_path = (params[:model].downcase + 's').to_sym
+    redirect_back(fallback_location: resources_path)    
   end
 
 private

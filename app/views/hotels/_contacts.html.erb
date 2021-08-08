@@ -34,23 +34,26 @@
     </div>
 
     <div class="contact-email mb-3">
-      <span style="margin-left:-2px;">
-        <a href="mailto:<%= @hotel.email %>"><%= image_tag("icons/email_sm.png", width: "20px") %>&nbsp;&nbsp;<%= @hotel.email %></a> 
+      <span >
+        <a href="mailto:<%= @hotel.email %>"><%= image_tag("icons/email_sm_2.png", width: "20px") %>&nbsp;&nbsp;<%= @hotel.email %></a> 
       </span>
       <% unless @hotel.site.blank? %>
-        <span><a href="https://<%= @hotel.site %>" target="_blank">&#127760;&nbsp;<%= @hotel.site %></a></span>      
+        <span><a href="https://<%= @hotel.site %>" target="_blank">
+          <%= image_tag("icons/www_sm.png", width: "20px") %>
+          &nbsp;<%= @hotel.site %>
+        </a></span>      
       <% end %>
       <% unless @hotel.desc_json["instagram"].empty? %>
         <span><a href="https://www.instagram.com/<%= @hotel.desc_json["instagram"] %>" target="_blank">
-        <%= image_tag("icons/instagram_sm.png", width: "20px") %>
-        &nbsp;<%= @hotel.desc_json["instagram"] %></a>
-        </span>
+          <%= image_tag("icons/instagram_sm_2.png", width: "20px") %>
+          &nbsp;<%= @hotel.desc_json["instagram"] %>
+        </a></span>
       <% end %>
       <% unless @hotel.desc_json["vk"].empty? %>
         <span><a href="https://vk.com/<%= @hotel.desc_json["vk"] %>" target="_blank">
           <%= image_tag("icons/vk_sm.png", width: "20px") %>
-          &nbsp;<%= @hotel.desc_json["vk"] %></a>
-        </span>
+          &nbsp;<%= @hotel.desc_json["vk"] %>
+        </a></span>
       <% end %>
     </div>  
 
@@ -58,9 +61,11 @@
 
   <div class="row gx-1 mb-3">
     <div class="col-6">
-      <div class="send-owner text-center">
-        <i class="icon-mail-6"></i> Написать
-      </div>
+      
+        <div class="send-owner text-center">      
+          <i class="icon-mail-6"></i> Написать      
+        </div>
+      
     </div>
     <div class="col-6">
 
@@ -94,8 +99,8 @@
   </div>
 
   <%= link_to new_order_path(hotel_id: @hotel.id), class:"text-center mt-4 px-1" do %>
-    <div class="more-info w-100 text-center" style="font-size:14px;font-weight:600;">
-      Отправить заявку
+    <div class="more-info d-block text-center" style="font-size:14px;font-weight:600;">
+      ОТПРАВИТЬ ЗАЯВКУ
     </div>
   <% end %>
       
@@ -103,7 +108,6 @@
     <h4 style="color: #666">Поделиться</h4>  
     <div class="ya-share2 mt-2 mb-4" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
   </div>
-
 
 </div>
 
@@ -113,20 +117,22 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Как получить кэшбэк - 5%</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        1. Зарегистрируйтесь и оформите заявку - тогда она будет отображаться в личном кабинете<br>
+        2. После отдыха оствьте отзыв на странице гостиницы или активного отдыха<br>
+        3. Напишите на почту <a href="mailto:ilk-cashback@mail.ru">ilk-cashback@mail.ru</a>  - укажите № заявки
+         и реквизиты для перевода кэшбэка (Номер карты или номер телефона и банк для СБП, или номер электронного кошелька).
+        4. После проверки заявки в течение пяти рабочих дней на указанные реквизиты придут средства
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
       </div>
     </div>
   </div>
 </div>
-
 
 <script>
   var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))

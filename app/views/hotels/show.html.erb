@@ -248,12 +248,7 @@
                 <th scope="row" class="ps-2"><i class="icon_set_1_icon-35" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Оплата:</th>
                 <td><%= @hotel.desc_json["payment"] %></td>            
-              </tr>
-              <tr>
-                <th scope="row" class="ps-2"><i class="icon_set_1_icon-81" style="font-size:20px"></i></th>
-                <th scope="row" class="px-0">Скидки и акции:</th>
-                <td><%= @hotel.desc_json["bonus"] %></td>            
-              </tr>
+              </tr>            
               <tr>
                 <th scope="row" class="ps-2"><i class="icon_set_1_icon-70" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Размещение детей:</th>
@@ -263,7 +258,17 @@
                 <th scope="row" class="ps-2"><i class="icon_set_1_icon-22" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Размещение животных:</th>
                 <td><%= @hotel.desc_json["animals"] %></td>            
-              </tr>          
+              </tr>
+              <tr>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-54" style="font-size:20px"></i></th>
+                <th scope="row" class="px-0">Условия бронирования и отмены:</th>
+                <td><%= @hotel.desc_json["advance"] %></td>            
+              </tr>   
+              <tr>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-81" style="font-size:20px"></i></th>
+                <th scope="row" class="px-0">Скидки и акции:</th>
+                <td><%= @hotel.desc_json["bonus"] %></td>            
+              </tr>       
             </table>
           </section>
 
@@ -323,7 +328,11 @@
 
       <!-- ROOMS -->      
       <% if @hotel.rooms.any? %>
-        <h2 class="mb-3">Номера:</h2>
+        
+       	<div class="resources-title pt-4">		
+          <h2>Номера</h2>			
+        </div>	
+        
         <%= render @hotel.rooms %>
       <% end %>      
 

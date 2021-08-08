@@ -181,6 +181,11 @@
           <label class="form-label">Скидки и акции</label>
           <input name="bonus" type="text" class="form-control form-control-sm">
         </div>
+        <div class="mb-3">
+        <span style="font-size:18px"><i class="icon_set_1_icon-74" data-bs-toggle="tooltip" data-bs-placement="right" title="Если есть какие-то скидки или акции - напишите об этом"></i></span>
+          <label class="form-label">Условия отмены брони, возврата аванса</label><span class="text-danger">*</span> 
+          <input name="advance" type="text" class="form-control form-control-sm" required>
+        </div>
 
       </div>
 
@@ -471,6 +476,7 @@
     form.min_check.value = '<%= @hotel.desc_json["min_check"] %>'
     form.payment.value = '<%= @hotel.desc_json["payment"] %>'
     form.bonus.value = '<%= @hotel.desc_json["bonus"] %>'
+    form.advance.value = '<%= @hotel.desc_json["advance"] %>'
     form.vk.value = '<%= @hotel.desc_json["vk"] %>'
     form.instagram.value = '<%= @hotel.desc_json["instagram"] %>'
     form.seo_description.value = '<%= @hotel.desc_json["seo_description"] %>'
@@ -498,6 +504,7 @@
         "min_check": this.min_check.value,
         "payment": this.payment.value,
         "bonus": this.bonus.value,
+        "advance": this.advance.value,
         "max_price": this.max_price.value,
         "price_type": this.price_type.value,
         "seo_keywords": this.seo_keywords.value,

@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   # change resource activation
   get '/change_activated', to: 'application#change_activated'
+  # change resource rating
+  post '/change_rating', to: 'application#change_rating'
  
   resources :account_activations, only: [:edit]  
   resources :password_resets,     only: [:new, :create, :edit, :update]

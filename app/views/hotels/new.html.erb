@@ -183,6 +183,11 @@
             <label class="form-label">Скидки и акции</label>
             <input name="bonus" type="text" class="form-control form-control-sm">
           </div>
+          <div class="mb-3">
+            <span style="font-size:18px"><i class="icon_set_1_icon-74" data-bs-toggle="tooltip" data-bs-placement="right" title="Если есть какие-то скидки или акции - напишите об этом"></i></span>
+            <label class="form-label">Условия отмены брони, возврата аванса</label><span class="text-danger">*</span> 
+            <input name="advance" type="text" class="form-control form-control-sm" required>
+          </div>
         </div>
 
         <br><br><hr>       
@@ -204,14 +209,14 @@
           <div class="contact row gx-1">              
             <div class="col-lg-6 col-md-12">
               <div class="mb-2">
-                <span style="font-size:18px">
+                
                 <label class="form-label">№ телефона</label><span class="text-danger">*</span> 
                 <input name="ow_phone" type="text" class="mask-phone form-control form-control-sm" style="font-size:12px" required>
               </div>
             </div>
             <div class="col-lg-6 col-md-12">
               <div class="mb-2">
-                <span style="font-size:18px">
+                
                 <label class="form-label">Имя</label><span class="text-danger">*</span> 
                 <input name="ow_name" type="text" class="form-control form-control-sm" style="font-size:12px" required >
               </div>
@@ -291,7 +296,7 @@
               <div class="mt-3"><!-- desc --> 
                 <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
                 <label class="form-label" for="point_how_to_get">Описание (description)</label>          
-                <textarea name="seo_description" class="form-control" rows="3" name=""></textarea>
+                <textarea name="seo_description" class="form-control" rows="3"></textarea>
               </div>
             </div>
           </div>  
@@ -360,7 +365,7 @@
 </script>
 
 <% if @hotel.name %>
-<!-- failure to save -->
+<!-- if failed save -->
   <script>
     var form = document.forms[0]  
     form.floors.value = '<%= @hotel.desc_json["floors"] %>'
@@ -381,6 +386,7 @@
     form.min_check.value = '<%= @hotel.desc_json["min_check"] %>'
     form.payment.value = '<%= @hotel.desc_json["payment"] %>'
     form.bonus.value = '<%= @hotel.desc_json["bonus"] %>'
+    form.advance.value = '<%= @hotel.desc_json["advance"] %>'
 
     form.vk.value = '<%= @hotel.desc_json["vk"] %>'
     form.instagram.value = '<%= @hotel.desc_json["instagram"] %>'
@@ -415,6 +421,7 @@
         "min_check": this.min_check.value,
         "payment": this.payment.value,
         "bonus": this.bonus.value,
+        "advance": this.advance.value,
         "max_price": this.max_price.value,
         "price_type": this.price_type.value,
         "seo_keywords": this.seo_keywords.value,
@@ -585,9 +592,10 @@
     form.min_check.value = 'От одной ночи';
     form.payment.value = 'Принимаем карточки, выдаём чеки';
     form.bonus.value = 'На данный момент акций не предусмотрено';
+    form.advance.value = 'Вы можете бесплатно отменить бронирование'
 
-    form.elements[52].value = 'jumperka@list.ru';
-    form.elements[53].value = 'kilova.ru';    
+    form.elements[53].value = 'jumperka@list.ru';
+    form.elements[54].value = 'kilova.ru';    
     form.vk.value = 'mcixabuka';
     form.instagram.value = 'kilovagora';
 
