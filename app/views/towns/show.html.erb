@@ -1,5 +1,9 @@
 <% provide(:title, "#{@town.name} - жильё и активный отдых без посредников") %>
 
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
+<% end %>
+
 <% content_for(:seo_tags) do %>  
 
   <meta name="keywords"           content="<%= @town.name %> отдых 2021, жильё в <%= @town.parent_name %>, конные прогулки в <%= @town.parent_name %>">  
@@ -180,40 +184,27 @@
 
 <div class="container pt-4"><!-- CAFE -->	
 	<div class="resources-title">		
-		<h2>Кафе, рестораны и где перекусить в <%= @town.parent_name %></h2>			
-	</div>		
-		<div class="row pt-lg-2">
-			<div class="col-lg-3 col-md-6 text-center">
-				<p>
-					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
-				</p>
-				<h4><span>Sightseen tour</span> booking</h4>
-				<p>
-					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
-				</p>
-			</div>
-			<% @promo_cafebars.each do |cafe| %>
-				<div class="col-lg-3 col-md-6 text-center">
-					<p>
-						<%= link_to image_tag(cafe.avatar.thumb.url, alt: "Pic", class: "img-fluid"), root_url %>
-					</p>
-					<h4><%= cafe.name %><span>(Cafe)</span></h4>
-					<p>
-						<%= cafe.desc_json['mini_desc'] %>
-					</p>
-				</div>
-			<% end %>
-		</div><!-- End row -->
+		<h2>Где поесть в <%= @town.parent_name %></h2>			
+	</div>
+
+	<div class="tags my-4 px-3">
+		<%= link_to "Все предложения", cafebars_town_path(@town) %>
+		<% @tagcafebars.each do |tag| %>        
+			<%= link_to tag.name, cafebars_town_path(@town, { tag: tag.id }) %>                  
+		<% end %>
+	</div>
+
+	<div class="row g-3">
+		<%= render partial: "towns/promo_cafebar", collection: @promo_cafebars %>		
+	</div>
+	
 </div><!-- END CAFE -->
 
 
-
-
-
 <div class="container mt-5"><!-- Towns near -->
-	<div class="main_title">
+	<div class="resources-title">		
 		<h2>Населённые пункты рядом</h2>			
-	</div>
+	</div>	
 	<div class="row gx-1">
 		<div class="col-4">
 			<img src="<%= Town.where("number = ?", @town.number).first.avatar.url %>" alt="Laptop" class="img-fluid">
@@ -225,60 +216,7 @@
 	</div>
 </div>
 
-<div class="white_bg">
-	<div class="container margin_60">
-
-		<div class="banner colored">
-			<h4>Получайте кэшбэк <span>5%</span> при бронировании жилья и активного отдыха </h4>
-			<p>
-				Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in.
-			</p>
-			<a href="single_tour.html" class="btn_1 white">Read more</a>
-		</div>
-		
-		<div class="row">
-			<div class="col-lg-3 col-md-6 text-center">
-				<p>
-					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
-				</p>
-				<h4><span>Sightseen tour</span> booking</h4>
-				<p>
-					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
-				</p>
-			</div>
-			<div class="col-lg-3 col-md-6 text-center">
-				<p>
-					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
-				</p>
-				<h4><span>Transfer</span> booking</h4>
-				<p>
-					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
-				</p>
-			</div>
-			<div class="col-lg-3 col-md-6 text-center">
-				<p>
-					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
-				</p>
-				<h4><span>Tour guide</span> booking</h4>
-				<p>
-					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
-				</p>
-			</div>
-			<div class="col-lg-3 col-md-6 text-center">
-				<p>
-					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
-				</p>
-				<h4><span>Hotel</span> booking</h4>
-				<p>
-					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
-				</p>
-			</div>
-		</div><!-- End row -->
-	
-	</div>
-	<!-- End container -->
-</div>
-<!-- End white_bg -->
+<br>
 
 <section class="promo_full">
 	<div class="promo_full_wp">
@@ -293,78 +231,32 @@
 </section>
 <!-- End section -->
 
-<div class="container margin_60">
-
-  <div class="main_title">
-    <h2>Some <span>good</span> reasons</h2>
-    <p>
-      Quisque at tortor a libero posuere laoreet vitae sed arcu. Curabitur consequat.
-    </p>
-  </div>
-
-  <div class="row">
-
-    <div class="col-lg-4">
-      <div class="feature_home">
-        <i class="icon_set_1_icon-41"></i>
-        <h3><span>+120</span> Premium tours</h3>
-        <p>
-          Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
-        </p>
-        <a href="about.html" class="btn_1 outline">Read more</a>
-      </div>
-    </div>
-
-    <div class="col-lg-4">
-      <div class="feature_home">
-        <i class="icon_set_1_icon-30"></i>
-        <h3><span>+1000</span> Customers</h3>
-        <p>
-          Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
-        </p>
-        <a href="about.html" class="btn_1 outline">Read more</a>
-      </div>
-    </div>
-
-    <div class="col-lg-4">
-      <div class="feature_home">
-        <i class="icon_set_1_icon-57"></i>
-        <h3><span>H24 </span> Support</h3>
-        <p>
-          Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
-        </p>
-        <a href="about.html" class="btn_1 outline">Read more</a>
-      </div>
-    </div>
-
-  </div>
-  <!--End row -->
-
-  <hr>
-
-  <div class="row">
-    <div class="col-md-6">
-      <img src="<%= @town.avatar.url %>" alt="Laptop" class="img-fluid laptop">
-    </div>
-    <div class="col-md-6">
-      <h3><span>Get started</span> with CityTours</h3>
-      <p>
-        Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
-      </p>
-      <ul class="list_order">
-        <li><span>1</span>Select your preferred tours</li>
-        <li><span>2</span>Purchase tickets and options</li>
-        <li><span>3</span>Pick them directly from your office</li>
-      </ul>
-      <a href="all_tour_list.html" class="btn_1">Start now</a>
-    </div>
-  </div>
-  <!-- End row -->
-        
-</div>
-<!-- End container -->
-
 </main>
+
+<script>//Initialize fotorama manually
+  $(document).on('turbolinks:load', function() {
+    $(function () {    
+
+      //Initialize fotorama hotels widget.
+      var $fotoramaDiv = $('.fotorama-rooms').fotorama();
+
+      $fotoramaDiv.on('fotorama:fullscreenenter',
+        function (e, fotorama) {        
+          fotorama.setOptions({
+            nav: "thumbs"
+          });
+        });
+      
+      $fotoramaDiv.on('fotorama:fullscreenexit',
+      function (e, fotorama) {      
+        fotorama.setOptions({
+          nav: "false"
+        });
+      })
+    });
+  }); 
+</script>
+
 
 
 
