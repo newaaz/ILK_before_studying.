@@ -34,7 +34,9 @@ Rails.application.routes.draw do
   end
 
   resources :hotel_categories, except: :show
-  resources :hotels
+  resources :hotels do
+    post :send_message, on: :member
+  end
   resources :rooms
   resources :orders, except: [:edit, :update, :destroy]
 

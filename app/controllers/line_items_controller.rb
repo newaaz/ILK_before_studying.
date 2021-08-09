@@ -2,9 +2,7 @@ class LineItemsController < ApplicationController
 
   before_action :set_cart, only: :create
 
-  def create
-    #debugger
-    #current_item = @cart.line_items.find_by(resource_id: params[:resource_id])
+  def create  
     current_item = @cart.line_items.find_by(resource_name: params[:resource_name],
                                             resource_id: params[:resource_id])
     if current_item           # если такой ресурс уже добавлен в избранное - удаляем

@@ -45,5 +45,15 @@ class UserMailer < ApplicationMailer
     @resource = resource
     mail to: @resource.user.email, subject: "#{@resource.name} - страница активирована и опубликована"
   end
+
+  # Отправляем владельцу жилья письмо о том что ему пришло сообщение (как-то так...)
+  def send_message_owner(message_hash)     
+
+    @message_hash = message_hash
+
+    @room = Room.find(message_hash["room_id"]).name if message_hash["room_id"] != 0  
+
+    mail to: @message_hash["hotel_email"], subject: "Вам пришло сообщение c сайта 'Люблю Крым'"
+  end
   
 end

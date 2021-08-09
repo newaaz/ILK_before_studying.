@@ -122,7 +122,27 @@ class HotelsController < ApplicationController
 
   # Отправка сообщения-вопроса владельцу
   def send_message
-    @hotel = Hotel.find(params[:id])
+    hotel = Hotel.find(params[:id])
+    #message = params[:message].to_s
+    #room_id = params[:room_id].to_i    
+    
+    message_hash = {
+      "text" => params[:message].to_s,
+      "room_id" => params[:room_id].to_i,
+      "hotel_name" => hotel.name,
+      "hotel_email" => hotel.email,
+      "name" => params[:guest_name].to_s,
+      "email" => params[:guest_email].to_s,
+      "phone" => params[:guest_phone].to_s,
+    }
+
+    UserMailer.send_message_owner(message_hash).deliver_now
+       
+    #debugger
+  
+    respond_to do |format|
+      format.js
+    end
     
   end
   

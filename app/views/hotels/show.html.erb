@@ -383,12 +383,22 @@
 
 </main>
 
-<script> // insert Contacts. Modal-cashback
+<script> // insert Contacts. Modal-cashback, Modal-SendMessage
   
   function showCashbackModal() {
     var myModal = new bootstrap.Modal(document.getElementById('conditionModal'))
     myModal.show()
   }
+
+  function showSendMessageModal() {
+    var myModal = new bootstrap.Modal(document.getElementById('sendMessageModal'))
+    myModal.show()
+  }
+  // send message form - button disable
+  var form = document.forms.message  
+  form.addEventListener('submit', function(event){    
+    form.button.disabled = true;    
+  }) 
 
   var contacts = <%= @hotel.desc_json["contacts"].to_json.html_safe %>
   // insert first name
