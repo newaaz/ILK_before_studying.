@@ -120,22 +120,31 @@ class HotelsController < ApplicationController
     redirect_to @hotel.user
   end
 
-  # Изменяет статус активации
-  #TODO: или реализовать или удалить активацию
-  def change_activated    
+  # Отправка сообщения-вопроса владельцу
+  def send_message
     hotel = Hotel.find(params[:id])
-    hotel.toggle!(:activated)
-    #UserMailer.change_activated(hotel).deliver_now if hotel.activated?
-    redirect_back(fallback_location: hotels_path)
-  end
+    #message = params[:message].to_s
+    #room_id = params[:room_id].to_i    
+    
+    message_hash = {
+      "text" => params[:message].to_s,
+      "room_id" => params[:room_id].to_i,
+      "hotel_name" => hotel.name,
+      "hotel_email" => hotel.email,
+      "name" => params[:guest_name].to_s,
+      "email" => params[:guest_email].to_s,
+      "phone" => params[:guest_phone].to_s,
+    }
 
-  # Изменяет аватар объекта
-  def change_avatar
-    @hotel = Hotel.find(params[:id])
-    @hotel.avatar = params[:avatar]
-    flash[:warning] = "Неудачная загрузка. Проверьте тип и размер файла" unless @hotel.save
-    redirect_back(fallback_location: root_path)    
-  end  
+    UserMailer.send_message_owner(message_hash).deliver_now
+       
+    #debugger
+  
+    respond_to do |format|
+      format.js
+    end
+    
+  end
   
 private
 

@@ -1,7 +1,7 @@
 <% provide(:title, "Покушать в #{ @town.parent_name }") %>
 
 <% content_for(:javascript_plugin_header) do %>
-  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "fotorama.js" %>
 <% end %>
 
 <section class="parallax-window" data-parallax="scroll" data-image-src="<%= @town.avatar.url %>">
@@ -97,7 +97,7 @@
 	}
 </script>
 
-<script>//Initialize fotorama manually for hotels widget.
+<script>//Initialize fotorama manually
   $(document).on('turbolinks:load', function() {
     $(function () {    
 

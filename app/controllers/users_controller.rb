@@ -18,12 +18,18 @@ class UsersController < ApplicationController
     @actives = @user.actives
     @cafebars = @user.cafebars
     @points = @user.points
-    @services = @user.services    
+    @services = @user.services  
     
     # определяем заявки которые принял User в качестве владельца жилья
     @hotel_orders = current_user.owner_orders unless current_user.owner_orders.nil?
     # определяем заявки которые отправлял User в качестве гостя
     @hotel_out_orders = Order.where('user_id = ?', current_user.id)
+
+    # заявки на активный отдых которые принял User в качестве владельца
+    @active_orders = current_user.owner_active_orders unless current_user.owner_active_orders.nil?
+    # заявки которые отправил User в качестве заказчика
+    @active_out_orders = OrderActive.where('user_id = ?', current_user.id)
+
   end
   
   def new

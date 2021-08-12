@@ -1,0 +1,126 @@
+<% provide(:title, 'Заказ | ' + @active.name) %>
+
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_include_tag "litepicker.js", 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<section class="parallax-window" data-parallax="scroll" data-image-src="<%= @active.avatar.url %>">
+  <div class="parallax-content-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h1><%= @active.name %></h1>
+          <span>            
+            Активный отдых - заказ
+          </span>         
+        </div>
+        <div class="col-md-4 d-md-none">          
+          <div id="price_single_main" class="hotel">
+            <span><sup></sup></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container mt-5">
+
+<div class="row">
+
+  <div class="col-lg-9">
+
+    <%= form_with(model: @order_active, local: true) do |f| %>
+      <%= render 'shared/error_messages', object: f.object%>
+      
+      <%= hidden_field_tag(:active_id, @active.id) %>
+      
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <%= f.label "Желаемая дата" %>            
+            <%= f.text_field :wish_date, class:"form-control form-control-sm" %>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <%= f.label "Количество участников" %>            
+            <%= f.text_field :adults, class:" form-control form-control-sm" %>
+          </div>
+        </div>      
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-4">
+          <div class="form-group">
+            <%= f.label "Ваше имя" %><span class="text-danger"> *</span>             
+            <%= f.text_field :guest_name, class:"form-control form-control-sm", required: true %>             
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <%= f.label :guest_email %><span class="text-danger"> *</span>             
+            <%= f.email_field :guest_email, class:"form-control form-control-sm", required: true %>             
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <%= f.label "Ваш телефон" %><span class="text-danger"> *</span>                 
+            <%= f.telephone_field :guest_phone, class:"form-control form-control-sm", required: true %>
+          </div>
+        </div>          
+      </div>
+      
+      <div class="form-group mt-3">
+        <%= f.label :wishes %>                  
+        <%= f.text_area :wishes, class:"form-control form-control-sm" %>
+      </div>
+
+      <div class="d-flex justify-content-center mt-5">
+        <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
+        <%= f.submit "Отправить заявку",class:"btn btn-primary"%>
+      </div>        
+
+    <% end %>
+
+  </div>
+
+  <div class="col-lg-3">
+    <div class="col-lg-12 col-md-6 px-1 mt-2"><!-- cashback -->
+      <div class="cashback">
+        КЭШБЭК <span>5%</span>
+      </div>
+      <div class="" style="font-size:14px;">
+        1. Зарегистрируйтесь и оформите заявку - тогда она будет отображаться в личном кабинете<br>
+        2. После отдыха оствьте отзыв на странице гостиницы или активного отдыха<br>
+        3. Напишите на почту <a href="mailto:ilk-cashback@mail.ru">ilk-cashback@mail.ru</a>  - укажите № заявки
+         и реквизиты для перевода кэшбэка (Номер карты или номер телефона и банк для СБП, или номер электронного кошелька).
+        4. После проверки заявки в течение пяти рабочих дней на указанные реквизиты придут средства
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<!-- lightpicker -->
+<script>
+  document.addEventListener("turbolinks:load", () => {
+    new Litepicker({
+      element: document.getElementById('order_active_wish_date'),      
+      plugins: ['mobilefriendly'],
+      format: 'DD-MM-YYYY',
+      resetButton: true,
+      minDate: Date.now(),      
+      lang: 'ru-RO',     
+      tooltipText: {
+        one: 'ночь',
+        few: 'ночи',
+        many: 'ночей',
+        other: 'ночей'
+      },      
+      allowRepick: true        
+    });
+  });  
+</script>

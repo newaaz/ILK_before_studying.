@@ -1,0 +1,23 @@
+<h3>Здравствуйте, у Вас новая заявка на "<%= @order.active.name %>":</h3>
+
+<strong>№ брони: <%= @order.id %></strong><br>
+
+Дата: <%= @order.wish_date %><br>
+Количество участников: <%= @order.adults %><br>
+Имя: <%= @order.guest_name %><br>
+Email: <%= @order.guest_email %><br>
+Тел: <%= @order.guest_phone %><br>
+
+<% if @order.wishes.blank? %>
+Комментариев или пожеланию к этому бронированию нет      
+<% else %>            
+Комментарии к бронированию: <%= @order.wishes %>         
+<% end %>
+
+<p>Просмотреть заявку и установить стоимость можно в личном кабинете</p>
+<%= link_to "Личный Кабинет", user_url(@order.owner_user) %><br>
+
+С уважением, администрация сайта «Люблю Крым»
+
+
+

@@ -15,7 +15,7 @@ $color-yellow: #f48f24; /* #f48f24  - */
   -webkit-box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37); 
   box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.37);
 	
-	h4 { font-weight: 600;	color: #222;	}
+	h4 { font-weight: 600;	color: rgb(41, 75, 121);	}
 	
 	ul {
 		list-style:none;
@@ -58,15 +58,15 @@ $color-yellow: #f48f24; /* #f48f24  - */
 
 .more-info {
 	display: inline-block;
+	/* text-align: left;
+	min-width: 150px; */
+	margin-bottom: 5px;
 	/* border: 2px solid #ff4500; */
 	outline: 1px solid #ff4500; /* Параметры рамки */
 	color: #ff4500;
-	padding: 5px 9px;
+	padding: 5px 15px;
 	border-radius: 4px;
-	text-align: left;
-	cursor: pointer;
-	min-width: 150px;
-	font-weight: 500;
+	cursor: pointer;		
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
@@ -75,6 +75,17 @@ $color-yellow: #f48f24; /* #f48f24  - */
 		outline: 1px solid #ff893b; /* Параметры рамки */
 		color: #fff;
 		background-color: #ff893b;
+	}
+
+	&.more-info-blue {		
+		outline: 1px solid #007fff; /* Параметры рамки */
+		color: #007fff;
+
+		&:hover {
+			outline: 1px solid #4088cf; /* Параметры рамки */
+			color: #fff;
+			background-color: #4088cf;
+		}
 	}
 }
 

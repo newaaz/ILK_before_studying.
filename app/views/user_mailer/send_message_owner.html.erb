@@ -1,0 +1,13 @@
+Здравствуйте, с нашего сайта вам написали<br>
+
+<hr>
+<strong>Контакты для связи (для ответа на сообщение используйте их):</strong><br>
+Имя: <%= @message_hash["name"] %><br>
+Почта: <%= @message_hash["email"] %><br>
+Телефон: <%= @message_hash["phone"] %><br>
+<hr>
+Гостиница: <%= @message_hash["hotel_name"] %><br>
+<% if @room %>
+  Номер: <%= @room %> <br>
+<% end %>
+Текст сообщения: <%= @message_hash["text"] %><br>

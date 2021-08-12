@@ -1,5 +1,9 @@
 <% provide(:title, "#{@town.name} - жильё и активный отдых без посредников") %>
 
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_include_tag "fotorama.js" %>
+<% end %>
+
 <% content_for(:seo_tags) do %>  
 
   <meta name="keywords"           content="<%= @town.name %> отдых 2021, жильё в <%= @town.parent_name %>, конные прогулки в <%= @town.parent_name %>">  
@@ -51,12 +55,19 @@
 		</p>
 	</div>
 
-	<div class="resources-title">
-		<h2>Жильё:</h2>
-		<%= link_to "(Все варианты)", hotels_town_path %>
+	<div class="resources-title">		
+		<h2>Жильё:</h2>		
 	</div>
-	
-	<div class="row"><!-- hotels -->
+
+	<div class="row pt-lg-2"><!-- hotels -->
+		<div class="col-6 col-lg-2 p-1">
+			<a href="/towns/<%= @town.id %>/hotels">
+				<div class="cat-bg-image">
+					<img src="<%= @town.hotels.first.avatar.thumb.url %>" alt="<%= "Жильё в #{@town.parent_name}" %>" class="img-fluid">
+					<div class="cat-bg-title">Все варианты</div>
+				</div>
+			</a>
+		</div>
 		<% @town_cats.where(cat_type: 'hotels').each do |cat| %>
 			<div class="col-6 col-lg-2 p-1">
 				<a href="/towns/<%= @town.id %>/hotels?cat=<%= cat.cat_id %>">
@@ -69,11 +80,11 @@
 		<% end %>	
 	</div><!-- END hotels -->	
 
-</div><!-- END container --->
+</div><!-- END container -->
 
 <br><br>
 
-<div class="bg-white"><!-- actives -->
+<div class="bg-white shadow py-3"><!-- actives -->
 	<div class="container">
 		<div class="row">			
 			<aside class="col-lg-3">				
@@ -90,10 +101,17 @@
 				</div>
 			</aside>
 			<div class="col-lg-9 p-1">
-				<div class="row gx-0">
+				<div class="row gx-1">
 					<% @promo_actives.each do |active| %>
-						<div class="col-lg-4 col-6">
-							<%= link_to image_tag(active.avatar.thumb_active.url, alt: "Главная", class: 'img-fluid'), active_path(active, town_id: @town.id) %>	
+						<div class="col-lg-4 col-6 mb-1">
+							<div class="actives-promo" style="position: relative;">
+							<%= link_to active do %>
+								<%= image_tag(active.avatar.thumb_active.url, alt: "Главная", class: 'img-fluid') %>
+								<div class="actives-link">
+									<%= active.name %>
+								</div>
+							<% end %>
+							</div>						
 						</div>
 					<% end %>
 				</div>
@@ -102,20 +120,22 @@
 	</div>	
 </div><!-- END actives -->
 
-<br><br><br>
+<br>
 
-<div class="container"><!-- Points -->
-	
-	<div class="resources-title">
-		<%= link_to points_town_path do %>
-		<h2>Интересные места, достопримечательности в <%= @town.parent_name %> (все)</h2>
-		<% end %>		
-	</div>	
-	
-	<div class="row mt-4">
-	
-		<% @point_cats.each do |cat| %>
-		
+<div class="container pt-4"><!-- Points -->	
+	<div class="resources-title">		
+		<h2>Интересные места, достопримечательности в <%= @town.parent_name %></h2>			
+	</div>		
+	<div class="row pt-lg-3">
+		<div class="col point-cat">
+			<a href="/towns/<%= @town.id %>/points">
+				<%= image_tag("icons/all_sight.png", width: "75px", class: "mx-auto d-block") %>
+				<span>
+					Все места
+				</span>
+			</a>			
+		</div>
+		<% @point_cats.each do |cat| %>		
 			<div class="col point-cat">
 				<a href="/towns/<%= @town.id %>/points?cat=<%= cat.cat_id %>">
 					<%= image_tag("icons/#{cat.cat_name}.png", width: "75px", class: "mx-auto d-block") %>
@@ -123,23 +143,19 @@
 						<%= cat.cat_name %>
 					</span>
 				</a>			
-			</div>
-			
-		<% end %>
-	
+			</div>			
+		<% end %>	
 	</div>	
-
 </div><!-- END POINTS -->
 
-<div class="bg-white py-4"><!-- Services -->
+<div class="py-4 bg-white"><!-- Services -->
 	<div class="container">
 
-		<div class="main_title">
-			<h2>Услуги и сервисы в <span><%= @town.parent_name %></span></h2>
-			<p>Доставка еды, такси, прокат и многое другое</p>
+		<div class="resources-title">		
+			<h2>Услуги и сервисы в <%= @town.parent_name %></h2>
 		</div>
 
-		<div class="row gx-3 service-cats">
+		<div class="row gx-3 service-cats pt-lg-3">
 
 			<div class="col-6 col-lg-4 px-lg-5">
 				<a href="/towns/<%= @town.id %>/services">
@@ -165,10 +181,30 @@
 	</div>	
 </div><!-- END Services -->
 
-<div class="container mt-5"><!-- Towns near -->
-	<div class="main_title">
-		<h2>Населённые пункты рядом</h2>			
+
+<div class="container pt-4"><!-- CAFE -->	
+	<div class="resources-title">		
+		<h2>Где поесть в <%= @town.parent_name %></h2>			
 	</div>
+
+	<div class="tags my-4 px-3">
+		<%= link_to "Все предложения", cafebars_town_path(@town) %>
+		<% @tagcafebars.each do |tag| %>        
+			<%= link_to tag.name, cafebars_town_path(@town, { tag: tag.id }) %>                  
+		<% end %>
+	</div>
+
+	<div class="row g-3">
+		<%= render partial: "towns/promo_cafebar", collection: @promo_cafebars %>		
+	</div>
+	
+</div><!-- END CAFE -->
+
+
+<div class="container mt-5"><!-- Towns near -->
+	<div class="resources-title">		
+		<h2>Населённые пункты рядом</h2>			
+	</div>	
 	<div class="row gx-1">
 		<div class="col-4">
 			<img src="<%= Town.where("number = ?", @town.number).first.avatar.url %>" alt="Laptop" class="img-fluid">
@@ -180,60 +216,7 @@
 	</div>
 </div>
 
-<div class="white_bg">
-	<div class="container margin_60">
-
-		<div class="banner colored">
-			<h4>Получайте кэшбэк <span>5%</span> при бронировании жилья и активного отдыха </h4>
-			<p>
-				Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in.
-			</p>
-			<a href="single_tour.html" class="btn_1 white">Read more</a>
-		</div>
-		
-		<div class="row">
-			<div class="col-lg-3 col-md-6 text-center">
-				<p>
-					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
-				</p>
-				<h4><span>Sightseen tour</span> booking</h4>
-				<p>
-					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
-				</p>
-			</div>
-			<div class="col-lg-3 col-md-6 text-center">
-				<p>
-					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
-				</p>
-				<h4><span>Transfer</span> booking</h4>
-				<p>
-					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
-				</p>
-			</div>
-			<div class="col-lg-3 col-md-6 text-center">
-				<p>
-					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
-				</p>
-				<h4><span>Tour guide</span> booking</h4>
-				<p>
-					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
-				</p>
-			</div>
-			<div class="col-lg-3 col-md-6 text-center">
-				<p>
-					<%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
-				</p>
-				<h4><span>Hotel</span> booking</h4>
-				<p>
-					Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
-				</p>
-			</div>
-		</div>
-		<!-- End row -->
-	</div>
-	<!-- End container -->
-</div>
-<!-- End white_bg -->
+<br>
 
 <section class="promo_full">
 	<div class="promo_full_wp">
@@ -248,78 +231,32 @@
 </section>
 <!-- End section -->
 
-<div class="container margin_60">
-
-  <div class="main_title">
-    <h2>Some <span>good</span> reasons</h2>
-    <p>
-      Quisque at tortor a libero posuere laoreet vitae sed arcu. Curabitur consequat.
-    </p>
-  </div>
-
-  <div class="row">
-
-    <div class="col-lg-4">
-      <div class="feature_home">
-        <i class="icon_set_1_icon-41"></i>
-        <h3><span>+120</span> Premium tours</h3>
-        <p>
-          Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
-        </p>
-        <a href="about.html" class="btn_1 outline">Read more</a>
-      </div>
-    </div>
-
-    <div class="col-lg-4">
-      <div class="feature_home">
-        <i class="icon_set_1_icon-30"></i>
-        <h3><span>+1000</span> Customers</h3>
-        <p>
-          Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
-        </p>
-        <a href="about.html" class="btn_1 outline">Read more</a>
-      </div>
-    </div>
-
-    <div class="col-lg-4"">
-      <div class="feature_home">
-        <i class="icon_set_1_icon-57"></i>
-        <h3><span>H24 </span> Support</h3>
-        <p>
-          Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
-        </p>
-        <a href="about.html" class="btn_1 outline">Read more</a>
-      </div>
-    </div>
-
-  </div>
-  <!--End row -->
-
-  <hr>
-
-  <div class="row">
-    <div class="col-md-6">
-      <img src="<%= @town.avatar.url %>" alt="Laptop" class="img-fluid laptop">
-    </div>
-    <div class="col-md-6">
-      <h3><span>Get started</span> with CityTours</h3>
-      <p>
-        Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
-      </p>
-      <ul class="list_order">
-        <li><span>1</span>Select your preferred tours</li>
-        <li><span>2</span>Purchase tickets and options</li>
-        <li><span>3</span>Pick them directly from your office</li>
-      </ul>
-      <a href="all_tour_list.html" class="btn_1">Start now</a>
-    </div>
-  </div>
-  <!-- End row -->
-        
-</div>
-<!-- End container -->
-
 </main>
+
+<script>//Initialize fotorama manually
+  $(document).on('turbolinks:load', function() {
+    $(function () {    
+
+      //Initialize fotorama hotels widget.
+      var $fotoramaDiv = $('.fotorama-rooms').fotorama();
+
+      $fotoramaDiv.on('fotorama:fullscreenenter',
+        function (e, fotorama) {        
+          fotorama.setOptions({
+            nav: "thumbs"
+          });
+        });
+      
+      $fotoramaDiv.on('fotorama:fullscreenexit',
+      function (e, fotorama) {      
+        fotorama.setOptions({
+          nav: "false"
+        });
+      })
+    });
+  }); 
+</script>
+
 
 
 

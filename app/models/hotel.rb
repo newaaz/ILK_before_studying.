@@ -11,7 +11,12 @@ class Hotel < ApplicationRecord
   mount_uploader  :avatar, PictureUploader
   mount_uploaders :images, PictureUploader
 
-  validates :name, :price_from, :avatar, :latitude, :longitude, presence: true
+  validates :name, :price_from, :avatar, :latitude, :longitude, :description, presence: true
+
+  # validate email
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  validates :email, presence: true, length: {maximum: 255, minimum: 6},
+                    format: {with: VALID_EMAIL_REGEX}
 
   validates :price_from, numericality: { greater_than: 0, less_than: 999999 }
   validates :distance_to_sea, numericality: { allow_nil: true, greater_than: 0, less_than: 30000 }
@@ -22,6 +27,8 @@ class Hotel < ApplicationRecord
   validate  :description_embeds
 
   validate  :check_desc_json
+
+  before_save :downcase_email # переводим указанную почту в нижний регистр
 
   after_save  :set_town_name!
 
@@ -91,6 +98,11 @@ private
     desc_json['town_parent_name'] = town.parent_name
     desc_json['cat_name'] = hotel_category.name  
     update_column(:desc_json, desc_json)  
+  end
+
+  # Преобразует емаил в нижний регистр
+  def downcase_email
+    self.email = email.downcase
   end
 
 end

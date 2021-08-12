@@ -52,6 +52,15 @@
             <section>
               <%= render partial: "users/active", collection: @actives %>
             </section>
+          </article>
+          <article class="tab-pane fade show" role="tabpanel" aria-labelledby="active-orders-left-tab" id="active-orders-left">
+            <section>
+              <% if @active_orders.any? %>
+                <%= render partial: "users/active_order" %>
+              <% else %>
+                <h3>Заявок пока нет</h3>
+              <% end %>
+            </section>
           </article>          
         <% end %><!-- END ACTIVES -->
 
@@ -86,6 +95,14 @@
             </section>
           </article>          
         <% end %><!-- END HOTEL OUT ORDERS -->
+
+        <% if @active_out_orders.any? %><!-- ACTIVE OUT ORDERS -->          
+          <article class="tab-pane fade show" role="tabpanel" aria-labelledby="active_out_orders-left-tab" id="active_out_orders-left">
+            <section>
+              <%= render partial: "users/active_out_order" %>
+            </section>
+          </article>          
+        <% end %><!-- END ACTIVE OUT ORDERS -->
 
       </div>
       

@@ -12,6 +12,11 @@ class TownsController < ApplicationController
     @town_cats = @town.category_counters
     # рекламные активности
     @promo_actives = @town.actives.activated.select(:id, :avatar, :name, :price).where("promouted = ?", 10).take(6)
+    
+    #рекламные Cafebars
+    @promo_cafebars = @town.cafebars.activated.select(:id, :avatar, :images, :name, :address, :desc_json).where("rating = ?", 15).take(4)
+    @tagcafebars = Tagcafebar.all 
+
     # категории достопримечательностей имеющие объекты
     @point_cats = @town_cats.where(cat_type: 'points')
 

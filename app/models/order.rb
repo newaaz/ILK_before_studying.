@@ -19,8 +19,8 @@ class Order < ApplicationRecord
   end
   
   # определяем владельца жилья к которому создана заявка (для писем-уведомлений о бронировании)
-  def owner_user    
-    self.owner_user = Hotel.find(self.hotel_id).user
+  def owner_user
+    self.owner_user = self.hotel.user
   end
 
 

@@ -1,8 +1,34 @@
+/* title cats */
 .resources-title {
+  /* padding-bottom: 10px; */
+  margin-bottom: 25px;
+  position: relative;  
   h2 {
-    display: inline;  
-  } 
+    position: relative;  
+    /* display: inline; */
+    text-transform: uppercase;
+    color: rgb(77, 77, 77);
+    /* color: rgb(60, 60, 60); */
+    /* color: #0473aa; */
+    font-size: 24px;
+    font-weight: 700;
+    /* line-height:28px; letter-spacing: 1px; */
+  }
+
+  &::after {
+    display: block;
+    content: '';
+    width: 66px;
+    height: 3px;
+    background: #f9a11b;
+    position: absolute;
+    /* top: -10px; */
+    bottom: -10px;
+    left: 5px; 
+  }
+
 }
+
 
 .point-cat {
   border-radius: 15px;
@@ -149,12 +175,12 @@
   font-weight: 600;
   letter-spacing: 1px;
   width: 100%;  
-  color: white;  
+  color: #f1f1f1;  
   position: absolute; 
   bottom: 0;   
   /* background: rgba(0, 0, 0, 0.6);   Black see-through */  
-  background: linear-gradient(to bottom,transparent,rgb(26, 26, 26)); 
-  padding: 40px 5px 5px 5px; /* если с градиентом то pt надо делать выше */
+  background: linear-gradient(to bottom,transparent,rgba(26, 26, 26, 0.7),rgba(26, 26, 26, 0.8)); 
+  padding: 20px 5px 5px 5px; /* если с градиентом то pt надо делать выше */
   text-align: center;
 }
 /* END TOWN CATEGORIES */
@@ -166,5 +192,24 @@
   font-weight: 600;
 }
 
+/* promo Actives */
+.actives-promo:hover {
+  .actives-link {
+    background: rgba(214, 123, 4, 0.8);
+    color: #fff;
+    
+  }
+}
+.actives-link {
+  font-weight: 600;
+  position: absolute; /* Position the background text */
+  bottom: 0; /* At the bottom. Use top:0 to append it to the top */
+  /* background: rgb(0, 0, 0);  Fallback color */
+  background: rgba(1, 30, 73, 0.7); /* Black background with 0.5 opacity */
+  color: #f1f1f1; /* Grey text */
+  width: 100%; /* Full width */
+  padding: 10px; /* Some padding */
+  transition: all 0.3s;
+}
  
 

@@ -21,7 +21,7 @@
 <% end %>
 
 <% content_for(:javascript_plugin_header) do %>
-  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'false' %>
   <script type="text/javascript">   // widget pack
     $(document).on('turbolinks:load', function() {
       wpac_init = window.wpac_init || [];
@@ -248,12 +248,7 @@
                 <th scope="row" class="ps-2"><i class="icon_set_1_icon-35" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Оплата:</th>
                 <td><%= @hotel.desc_json["payment"] %></td>            
-              </tr>
-              <tr>
-                <th scope="row" class="ps-2"><i class="icon_set_1_icon-81" style="font-size:20px"></i></th>
-                <th scope="row" class="px-0">Скидки и акции:</th>
-                <td><%= @hotel.desc_json["bonus"] %></td>            
-              </tr>
+              </tr>            
               <tr>
                 <th scope="row" class="ps-2"><i class="icon_set_1_icon-70" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Размещение детей:</th>
@@ -263,7 +258,17 @@
                 <th scope="row" class="ps-2"><i class="icon_set_1_icon-22" style="font-size:20px"></i></th>
                 <th scope="row" class="px-0">Размещение животных:</th>
                 <td><%= @hotel.desc_json["animals"] %></td>            
-              </tr>          
+              </tr>
+              <tr>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-54" style="font-size:20px"></i></th>
+                <th scope="row" class="px-0">Условия бронирования и отмены:</th>
+                <td><%= @hotel.desc_json["advance"] %></td>            
+              </tr>   
+              <tr>
+                <th scope="row" class="ps-2"><i class="icon_set_1_icon-81" style="font-size:20px"></i></th>
+                <th scope="row" class="px-0">Скидки и акции:</th>
+                <td><%= @hotel.desc_json["bonus"] %></td>            
+              </tr>       
             </table>
           </section>
 
@@ -323,7 +328,11 @@
 
       <!-- ROOMS -->      
       <% if @hotel.rooms.any? %>
-        <h2 class="mb-3">Номера:</h2>
+        
+       	<div class="resources-title pt-4">		
+          <h2>Номера</h2>			
+        </div>	
+        
         <%= render @hotel.rooms %>
       <% end %>      
 
@@ -374,12 +383,22 @@
 
 </main>
 
-<script> // insert Contacts. Modal-cashback
+<script> // insert Contacts. Modal-cashback, Modal-SendMessage
   
   function showCashbackModal() {
     var myModal = new bootstrap.Modal(document.getElementById('conditionModal'))
     myModal.show()
   }
+
+  function showSendMessageModal() {
+    var myModal = new bootstrap.Modal(document.getElementById('sendMessageModal'))
+    myModal.show()
+  }
+  // send message form - button disable
+  var form = document.forms.message  
+  form.addEventListener('submit', function(event){    
+    form.button.disabled = true;    
+  }) 
 
   var contacts = <%= @hotel.desc_json["contacts"].to_json.html_safe %>
   // insert first name

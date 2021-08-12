@@ -30,7 +30,12 @@
           </td>
           <td><%= link_to "#{cafebar.activated}", change_activated_path(model: "Cafebar",  id: cafebar.id) %></td>
           <td>
-            <%= cafebar.rating %>        
+            <%= form_with(url: change_rating_path(model: "Cafebar", id: cafebar.id)) do |f| %>
+              <div class="input-group">
+                <%= f.text_field :rating, local: true, value: cafebar.rating, class: 'form-control form-control-sm' %>
+                <%= button_tag "Change", type: 'submit', class:"btn btn-sm btn-success" %>
+              </div>  
+            <% end %>        
           </td>
         </tr>
       <% end %>

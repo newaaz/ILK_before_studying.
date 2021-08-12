@@ -33,7 +33,7 @@
           role="tab" aria-controls="orders-left"
           aria-selected="false">
         <i class="icon-hospital" style="font-size:18px;"></i>
-        Заявки
+        Заявки - Жильё
       </div>
     </li>       
   <% end %><!-- END hotels and orders -->
@@ -49,7 +49,18 @@
         <i class="icon-star-7" style="font-size:18px;"></i>
         Активный отдых
       </div>
-    </li>          
+    </li>
+    <li class="nav-item" role="presentation">
+      <div id="active-orders-left-tab" title="Активный отдых: входящие заявки"
+          class="nav-link tab-clickable"
+          data-bs-toggle="tab"
+          data-bs-target="#active-orders-left"
+          role="tab" aria-controls="active-orders-left"
+          aria-selected="false">
+        <i class="icon-star-7" style="font-size:18px;"></i>
+        Заявки - Активный отдых
+      </div>
+    </li>   
   <% end %><!-- END actives -->
 
   <% if @cafebars.any? %><!-- cafebars -->          
@@ -103,14 +114,28 @@
           role="tab" aria-controls="hotel_out_orders-left"
           aria-selected="false">
         <i class="icon_set_1_icon-68" style="font-size:18px;"></i>
-        Ваши заявки
+        Ваши заявки (Жильё)
       </div>
     </li>          
   <% end %><!-- END hotel_out_orders -->
 
+  <% if @active_out_orders.any? %><!-- Active_out_orders -->          
+    <li class="nav-item" role="presentation">
+      <div id="active_out_orders-left-tab" title="Активный отдых: Исходящие заявки"
+          class="nav-link tab-clickable"
+          data-bs-toggle="tab"
+          data-bs-target="#active_out_orders-left"
+          role="tab" aria-controls="active_out_orders-left"
+          aria-selected="false">
+        <i class="icon_set_1_icon-68" style="font-size:18px;"></i>
+        Ваши заявки (Акт. отдых)
+      </div>
+    </li>          
+  <% end %><!-- END active_out_orders -->
+
   <li class="mt-lg-4 px-3"><!-- button ADD -->
     <div class="dropdown">
-      <a class="btn btn-secondary dropdown-toggle d-block" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      <a class="btn btn btn-outline-secondary dropdown-toggle d-block" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
         Добавить
       </a>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">

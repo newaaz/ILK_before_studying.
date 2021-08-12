@@ -23,8 +23,8 @@
     <div class="mb-4 mt-3">
       <input type="checkbox" id="politics" onclick="check();" value="" class="form-check-input" autocomplete="off" required />
       <label class="form-check-label" for="politics"><small>
-        Даю <a href="ссылка на страницу согласия">согласие на обработку персональных данных.</a></small>
-      </label> 
+        Даю <%= link_to "согласие на обработку персональных данных", privacy_url %>.</small>
+      </label>
     </div> 
 
     <%= f.submit "Зарегистрироваться", class:"w-75 btn btn-lg btn-primary mb-4", disabled:"" %>    

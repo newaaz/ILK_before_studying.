@@ -3,6 +3,8 @@ class Active < ApplicationRecord
   belongs_to :user
   belongs_to :active_category
 
+  has_many :order_actives, dependent: :destroy
+
   has_and_belongs_to_many :towns
 
   has_rich_text :description

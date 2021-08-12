@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   # change resource activation
   get '/change_activated', to: 'application#change_activated'
+  # change resource rating
+  post '/change_rating', to: 'application#change_rating'
  
   resources :account_activations, only: [:edit]  
   resources :password_resets,     only: [:new, :create, :edit, :update]
@@ -32,7 +34,9 @@ Rails.application.routes.draw do
   end
 
   resources :hotel_categories, except: :show
-  resources :hotels
+  resources :hotels do
+    post :send_message, on: :member
+  end
   resources :rooms
   resources :orders, except: [:edit, :update, :destroy]
 
@@ -48,9 +52,10 @@ Rails.application.routes.draw do
   resources :services
   resources :service_categories, except: :show
 
+  resources :active_categories, except: :show
   resources :actives do    
     post :change_promo, on: :member
   end
-  resources :active_categories, except: :show
+  resources :order_actives, except: [:edit, :update, :destroy]
 
 end

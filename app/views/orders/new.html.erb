@@ -31,7 +31,7 @@
 
         <% if @hotel.rooms.any? %>
           <div class="form-group mt-3">
-            <%= f.label "Номер / комната" %> 
+            <%= f.label "Тип номера" %> 
             <% if @room %>
               <%= f.collection_select :room_id, @hotel.rooms, :id, :name, { selected: @room.id, include_blank: false },
                                     class: "form-select form-select-sm" %>
