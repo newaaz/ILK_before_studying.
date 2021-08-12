@@ -90,16 +90,12 @@
     <!-- Contacts -->
     <div class="col-lg-3 px-3">
 
-      <!-- prices -->
-      <div class="px-3 mt-4">
-        <div class="distance-sea mb-2">
-          <span><%= @active.price %></span><small>р</small> /
-          <%= @active.desc_json['price_type'] %>
-        </div>
-        <% if @active.desc_json['prices'] %>    
-          <%= @active.desc_json['prices'] %>
-        <% end %>
+      <div class="px-2">
+      <div class="distance-sea">
+        <span><%= @active.price %></span><small>р</small> /
+        <%= @active.desc_json['price_type'] %>
       </div>
+      </div>    
 
       <div class="contact-photo text-center mt-4">
         <% if @active.user.avatar.blank? %>
@@ -149,10 +145,11 @@
           </span>
         <% end %>
 
-      </div> 
+      </div>
 
-      <!-- cart -->
+      
       <div class="px-3 mt-4">
+        <!-- cart -->
         <% if @current_item %>
           <%= link_to line_items_path(resource_id: @active.id, resource_name: "Active", action_show: "1"),
               method: :post, remote: true, id: "heart-Active-#{@active.id}", class: "text-secondary" do %>
@@ -167,10 +164,18 @@
               <i class="icon-heart-empty"></i> В избранное
             </div>
           <% end %>
-        <% end %>        
-      </div>  
+        <% end %>
+        <!-- ORDER -->
+        <%= link_to new_order_active_path(active_id: @active.id), class:"text-center mt-4 px-1" do %>
+        <div class="more-info more-info-blue d-block text-center" style="font-size:14px;font-weight:600;">
+          <span class="icon-paper-plane-2"></span>
+          ОТПРАВИТЬ ЗАЯВКУ
+        </div>
+      <% end %>
 
-      <div class="social-links text-center mt-5">
+      </div>
+      
+      <div class="social-links text-center mt-3">
         <h4 style="color: #666">Поделиться</h4>  
         <div class="ya-share2 mt-2" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
       </div>   
@@ -203,10 +208,28 @@
           <label for="tab2">Дополнительно</label>
         <% end %>
 
+        <!-- Tab comments-->
+        <input type="radio" name="tabset" id="tab3" aria-controls="comments" checked>
+        <label for="tab3">Отзывы</label> 
+
         <div class="tab-panels">
 
           <!-- Tab DESC -->
-          <section id="desc" class="tab-panel">            
+          <section id="desc" class="tab-panel">
+
+            <!-- prices -->
+            <div class="row bg-secondary bg-gradient">
+              <div class="col-3 distance-sea mb-2">
+                <span><%= @active.price %></span><small>р</small> /
+                <%= @active.desc_json['price_type'] %>
+              </div>
+              <div class="col-9">
+                <% if @active.desc_json['prices'] %>    
+                  <%= @active.desc_json['prices'] %>
+                <% end %>
+              </div>
+            </div>
+
             <% if @active.description.to_plain_text.size > 626 %>            
               <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
                             
@@ -245,13 +268,16 @@
             </section>
           <% end %>
 
+          <!-- Tab COMMENTS -->          
+          <section id="comments" class="tab-panel">
+            <h3 class="mt-3">Отзывы</h3>
+            <div id="wpac-comment" class="mt-3"></div>            
+          </section>
+          
+
         </div>
 
-      </div>
-
-      <hr>
-      <h3 class="mt-3">Отзывы</h3>
-      <div id="wpac-comment" class="mt-3"></div>
+      </div>      
 
     </div>
 

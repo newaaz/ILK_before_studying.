@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 
-  attr_accessor :remember_token, :activation_token, :reset_token, :owner_orders
+  attr_accessor :remember_token, :activation_token, :reset_token, :owner_orders, :owner_active_orders
 
   has_many  :hotels, dependent: :destroy
   has_many  :cafebars, dependent: :destroy
@@ -30,6 +30,13 @@ class User < ApplicationRecord
   def owner_orders
     if hotels.any?
       self.owner_orders = Order.where(hotel_id: hotel_ids).order({updated_at: :desc}, :hotel_id)
+    end
+  end
+
+  # заявки на активный отдых которые принял User в качестве владельца
+  def owner_active_orders
+    if actives.any?
+      self.owner_active_orders = OrderActive.where(active_id: active_ids).order({updated_at: :desc}, :active_id)
     end
   end
 

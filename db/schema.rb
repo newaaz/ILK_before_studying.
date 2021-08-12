@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_24_163614) do
+ActiveRecord::Schema.define(version: 2021_08_09_174804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -175,6 +175,22 @@ ActiveRecord::Schema.define(version: 2021_07_24_163614) do
     t.index ["cart_id"], name: "index_line_items_on_cart_id"
   end
 
+  create_table "order_actives", force: :cascade do |t|
+    t.string "guest_name"
+    t.string "guest_email"
+    t.string "guest_phone"
+    t.date "wish_date"
+    t.integer "adults", limit: 2
+    t.text "wishes"
+    t.integer "price"
+    t.boolean "payment_successful", default: false
+    t.integer "user_id"
+    t.bigint "active_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["active_id"], name: "index_order_actives_on_active_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.string "guest_name"
     t.string "guest_email"
@@ -318,6 +334,7 @@ ActiveRecord::Schema.define(version: 2021_07_24_163614) do
   add_foreign_key "hotels", "towns"
   add_foreign_key "hotels", "users"
   add_foreign_key "line_items", "carts"
+  add_foreign_key "order_actives", "actives"
   add_foreign_key "orders", "hotels"
   add_foreign_key "points", "point_categories"
   add_foreign_key "points", "towns"

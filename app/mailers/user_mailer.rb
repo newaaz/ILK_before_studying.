@@ -23,13 +23,25 @@ class UserMailer < ApplicationMailer
   # Orders/create
   def owner_user_reservation(order)
     @order = order
-    mail to: @order.owner_user.email, subject: "Заявка на бронирование № #{@order.id}. Отправитель: #{@order.guest_name}"
+    mail to: @order.owner_user.email, subject: "Люблю Крым | Заявка на бронирование № #{@order.id}. Отправитель: #{@order.guest_name}"
   end
-
   # Отправляем забронировавшему клиенту уведомление, что его заявка отправлена и администраторы гостиницы свяжутся с ним
   # Orders/create
   def guest_reservation(order)
     @order = order
+    mail to: @order.guest_email, subject: "Спасибо за бронирование через наш сервис"
+  end
+
+  # Отправляем владельцу Активности о новой заявке
+  # order_actives/create
+  def active_reservation_owner(order)
+    @order = order
+    mail to: @order.owner_user.email, subject: "Люблю Крым | Новая заявка № #{@order.id}. Отправитель: #{@order.guest_name}"
+  end
+  # Отправляем клиенту уведомление что его заявка отправлена
+  def active_reservation_guest(order)
+    @order = order
+    @active = order.active
     mail to: @order.guest_email, subject: "Спасибо за бронирование через наш сервис"
   end
 

@@ -18,8 +18,7 @@ class OrdersController<ApplicationController
     @hotel = Hotel.find(params[:hotel_id].to_i)    
     # Для заявки поступающей с определённого типа номера
     @room = Room.find(params[:room_id].to_i) if params[:room_id]
-    @order = Order.new
-    
+    @order = Order.new    
   end
 
   def create
@@ -35,7 +34,7 @@ class OrdersController<ApplicationController
     end
 
     if @order.save
-      #TODO: Отправка писем владельцу жилья и гостю
+      #FIXME: Отправка писем владельцу жилья и гостю
       #UserMailer.owner_user_reservation(@order).deliver_now
       #UserMailer.guest_reservation(@order).deliver_now
       flash[:success] = "Ваша заявка отправлена, в ближайшее время с Вами должны связаться по указанным контактам"      

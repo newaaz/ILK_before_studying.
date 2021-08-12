@@ -21,7 +21,7 @@
 <% end %>
 
 <% content_for(:javascript_plugin_header) do %>
-  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'false' %>
   <script type="text/javascript">   // widget pack
     $(document).on('turbolinks:load', function() {
       wpac_init = window.wpac_init || [];

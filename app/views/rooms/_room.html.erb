@@ -67,12 +67,12 @@
                 <% end %>
             <% end %> 
 
-            <div class="more-info more-info-blue" data-room="<%= room.id %>" style="font-weight:600;">
+            <div class="more-info more-info-blue" data-room="<%= room.id %>" style="font-size:14px;font-weight:600;">
               <i class="icon-angle-down"></i> Подробнее
             </div>      
             
             <%= link_to 'ВЫБРАТЬ ЭТОТ НОМЕР', new_order_path(hotel_id: @hotel.id, room_id: room.id),
-                class: "more-info text-center", style: "font-weight:600;" %>
+                class: "more-info text-center", style: "font-size:14px;font-weight:600;" %>
 
           </div>
         </div>

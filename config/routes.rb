@@ -52,9 +52,10 @@ Rails.application.routes.draw do
   resources :services
   resources :service_categories, except: :show
 
+  resources :active_categories, except: :show
   resources :actives do    
     post :change_promo, on: :member
   end
-  resources :active_categories, except: :show
+  resources :order_actives, except: [:edit, :update, :destroy]
 
 end
