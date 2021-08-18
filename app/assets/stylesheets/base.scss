@@ -80,12 +80,12 @@ body {background:#f9f9f9; line-height:22px; color:#444; font-weight: 400;}
 
 /* FOOTER */
 footer {
-  margin-top: 30px;
+  
   padding: 30px 0;
   color: #fff;
   border-top: #ff4500 2px solid;
   background: linear-gradient(to right, #114982, #0473aa, #0473aa, #114982);
-
+  /* background: linear-gradient(to right, #a8a8a8, #d8d8d8, #d8d8d8, #a8a8a8); */
   ul {
     list-style: none;
     padding-left: 5px;    
@@ -94,6 +94,9 @@ footer {
   a {
     color: #ffffff;
     font-size: 14px;
+    &:hover {
+      color: #ff4500;
+    }
   }
 
   
@@ -164,6 +167,81 @@ footer {
   }
 }
 /* END TOWN HERO */
+
+/* banner cashback */
+.banner-bg {
+  /* background-attachment: fixed; */
+  background-size: cover;
+  height: 15em;
+}
+
+/* towns on homepage */
+.home-town {
+  position: relative;
+  img {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+  }
+  &:hover {
+    .home-town-link {
+      background: rgba(214, 123, 4, 0.8);
+      color: #fff;
+      
+    }
+  }
+}
+.home-town-link {
+  font-weight: 600;
+  position: absolute; /* Position the background text */
+  bottom: 0; /* At the bottom. Use top:0 to append it to the top */
+  /* background: rgb(0, 0, 0);  Fallback color */
+  background: rgba(1, 30, 73, 0.7); /* Black background with 0.5 opacity */
+  color: #f1f1f1; /* Grey text */
+  width: 100%; /* Full width */
+  padding: 10px; /* Some padding */
+  transition: all 0.3s;
+}
+
+.hotel__desc {
+  i { font-size: 20px; color: #888; }
+}
+
+/* avatar preview */
+#avatar-preview {
+  height:170px;
+  object-fit: cover;
+}
+
+.flat-price-all {  
+  font-size: 16px;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0px 1px 7px 0px rgba(0,0,0,0.35);
+	-webkit-box-shadow: 0px 1px 7px 0px rgba(0,0,0,0.35);
+
+  p {
+    font-size:18px;
+    font-weight: 500;
+    color: #666;
+  }
+}
+
+.flat-prices {
+  label {
+    font-size: 14px;
+  }
+  input {
+    font-size: 14px;
+  }
+}
+
+.flat-price {
+  padding-bottom: 17px;
+  padding-top: 10px;
+  
+}
+
 
 
 

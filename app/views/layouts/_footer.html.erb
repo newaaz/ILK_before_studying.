@@ -1,38 +1,32 @@
 <footer>
-  <!-- Footer Start-->
   
-    <div class="container">
-      <div class="row justify-content-between">
+  <div class="container">
 
-        <div class="col-xl-6 col-lg-4 col-md-4 col-sm-6">
-          
-          <h5>Информационно-туристический портал «Люблю Крым»</h5>								
-          <p class="footer-text">
-            не является системой онлайн бронирования. Владельцы жилья, активного отдыха и услуг сами предоставляют информацию и контакты по которым с ними можно связаться.
-            <br>Все объявления проходят модерацию и проверку
-          </p>								
-
-        </div>
-
-        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
-          
-          <h5>Инфо:</h5>
-          <ul>
-            <li><a href="#"><i class="far fa-arrow-alt-circle-right"></i>&nbsp;О проекте</a></li>
-            <li><a href="#"><i class="far fa-arrow-alt-circle-right"></i>&nbsp;Политика конфиденциальности</a></li>
-            <li><a href="#"><i class="far fa-arrow-alt-circle-right"></i>&nbsp;О проекте</a></li>
-            <li>ilove-krim@mail.ru</li>								
-          </ul>
-
-        </div>
-
-        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-          <%= link_to image_tag("logo.png", alt: "Главная", width: "210px"), root_path %>					 
-          <p>&copy; Ilovekrim.ru 2021</p>       
-        </div>
-
+    <div class="row">
+    
+      <div class="col-lg-4">
+        <ul class="pt-lg-4">
+          <li><%= link_to "О проекте", about_url %></li>          
+          <li><%= link_to "Политика конфиденциальности", privacy_url %></li>
+          <li><%= link_to "Контакты", contacts_url %></li> 
+        </ul>
       </div>
+
+      <div class="col-lg-4 d-flex justify-content-center">
+        <%= link_to image_tag("logo.png", alt: "Главная", width: "210px"), root_url %>
+      </div>
+
+      <div class="col-lg-4 d-flex justify-content-end">
+        <ul class="pt-lg-4 text-center">
+          <li><%= link_to "О проекте", about_url %></li>          
+          <li><%= link_to "Политика конфиденциальности", privacy_url %></li>
+          <li><%= link_to "Контакты", contacts_url %></li> 
+        </ul>
+      </div>
+    
+
     </div>
-  
-  <!-- Footer End-->
+
+  </div>
+
 </footer>

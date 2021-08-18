@@ -10,3 +10,5 @@
 //= link jquery.maskedinput.min.js
 
 //= link functions.js
+
+//= link fileuploader.min.js

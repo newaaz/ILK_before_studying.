@@ -313,7 +313,7 @@
       <!-- PRICES FLAT -->
       <% if @hotel.desc_json["prices"].any? %>
         <h2>Календарь цен</h2>
-        <div style="overflow-x:auto;">
+        <div style="overflow-x:auto;" class="mb-5">
           <div class="room-prices">
             <% @hotel.desc_json["prices"].each do |price| %>
               <div class="period">

@@ -15,10 +15,12 @@ class TownsController < ApplicationController
     
     #рекламные Cafebars
     @promo_cafebars = @town.cafebars.activated.select(:id, :avatar, :images, :name, :address, :desc_json).where("rating = ?", 15).take(4)
-    @tagcafebars = Tagcafebar.all 
+    @tagcafebars = Tagcafebar.all
 
     # категории достопримечательностей имеющие объекты
     @point_cats = @town_cats.where(cat_type: 'points')
+    # выборка достопримечательностей для показа на странице города
+    @points_photo = @town.points.where('rating = ?', 20).select(:id, :avatar, :point_category_id, :desc_json)
 
     # Определяем существующие категории сервисов
     service_array_ids = []

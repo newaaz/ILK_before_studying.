@@ -2,7 +2,7 @@
 
 <div class="container mt-5">
   <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
 
 <%= link_to 'Новый Поинт', new_point_path, class: 'btn btn-primary btn-sm' %>
 
@@ -33,7 +33,12 @@
           </td>
           <td><%= link_to "#{point.activated}", change_activated_path(model: "Point",  id: point.id) %></td>
           <td>
-            <%= point.rating %>        
+            <%= form_with(url: change_rating_path(model: "Point", id: point.id)) do |f| %>
+              <div class="input-group">
+                <%= f.text_field :rating, local: true, value: point.rating, class: 'form-control form-control-sm' %>
+                <%= button_tag "Change", type: 'submit', class:"btn btn-sm btn-success" %>
+              </div>  
+            <% end %>        
           </td>
         </tr>
       <% end %>

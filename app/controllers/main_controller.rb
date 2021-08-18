@@ -1,6 +1,7 @@
 class MainController < ApplicationController
 
   def home
+    @towns = Town.all
   end
 
   def contacts

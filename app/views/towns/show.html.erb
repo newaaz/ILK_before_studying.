@@ -127,24 +127,22 @@
 		<h2>Интересные места, достопримечательности в <%= @town.parent_name %></h2>			
 	</div>		
 	<div class="row pt-lg-3">
-		<div class="col point-cat">
-			<a href="/towns/<%= @town.id %>/points">
-				<%= image_tag("icons/all_sight.png", width: "75px", class: "mx-auto d-block") %>
-				<span>
-					Все места
-				</span>
-			</a>			
-		</div>
-		<% @point_cats.each do |cat| %>		
-			<div class="col point-cat">
-				<a href="/towns/<%= @town.id %>/points?cat=<%= cat.cat_id %>">
-					<%= image_tag("icons/#{cat.cat_name}.png", width: "75px", class: "mx-auto d-block") %>
-					<span>
-						<%= cat.cat_name %>
-					</span>
-				</a>			
-			</div>			
-		<% end %>	
+		
+		<% @points_photo.each do |points_cat| %>
+			
+				<div class="col-6 col-lg-2 mb-4 px-1">
+					<div class="point-cat">
+					<a href="/towns/<%= @town.id %>/points?cat=<%= points_cat.point_category_id %>">
+						<%= image_tag(points_cat.avatar.thumb.url,  class: "img-fluid")  %>
+						<span>
+							<%= points_cat.desc_json['cat_name'] %>
+						</span>
+					</a>
+					</div>			
+				</div>
+		
+		<% end %>
+
 	</div>	
 </div><!-- END POINTS -->
 
