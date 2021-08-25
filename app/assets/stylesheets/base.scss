@@ -242,6 +242,29 @@ footer {
   
 }
 
+/* add - delete images */
+.del-image {
+  position: relative;
+  img {
+    position: relative;
+  }
+  a {
+    font-weight: 800;
+    padding:  0 5px 1px 5px;
+    background-color: #f9a11b;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 83%;
+    z-index: 10;
+  }
+  @media (max-width: 480px) {
+    a {
+      left: 89%;
+    }
+  }
+}
+
 
 
 

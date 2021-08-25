@@ -41,8 +41,6 @@
   </div>
 </div>
 
-<main class="hotels-show">
-
 <div class="container">
  
   <% unless @cafebar.activated? %>
@@ -52,15 +50,29 @@
     </div>
   <% end %>
 
-  <!-- title + photo + contacts -->
-  <div class="row mt-3">
+  <!-- title -->
+  <div class="px-2 mt-3">
 
-    <div class="col-lg-9 px-0">
-      <!-- title -->
-      <div class="px-2">
-        <h1 class="d-inline"><%= @cafebar.name %></h1>&emsp;
-        <i class="icon_set_1_icon-37"></i> <%= @cafebar.desc_json["town_name"] %>, <%= @cafebar.address %>
-      </div>   
+    <% if current_user && (current_user?(@cafebar.user) || current_user.admin?) %>
+      <div class="btn-group d-inline pt-0 me-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Это ваше объявление - вы можете его редактировать">
+        <button type="button" style="margin-top: -15px;" class="btn btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false" >
+          <span class="icon-cog-5"></span>
+        </button>
+        <ul class="dropdown-menu">          
+          <li><%= link_to "Редактировать", edit_cafebar_path(@cafebar) ,class: "dropdown-item" %></li>
+        </ul>
+      </div>
+    <% end %>
+
+    <h1 class="d-inline"><%= @cafebar.name %></h1>&emsp;
+    <i class="icon_set_1_icon-37"></i> <%= @cafebar.desc_json["town_name"] %>, <%= @cafebar.address %>
+  </div>  
+
+  <!-- photo + contacts -->
+  <div class="row mt-2">
+
+    <div class="col-lg-9 px-0">       
       
       <!-- fotorama begin -->                        
       <div class="fotoramain mt-2"
@@ -79,48 +91,37 @@
 
     </div>
    
-    <div class="col-lg-3">
-
-      <!-- tags -->
-      <% if @cafebar.tagcafebars.any? %> 
-        <div class="tags mt-3 px-3">
-          <%= link_to "Все", cafebars_town_path(@cafebar.town) %>
-          <% @cafebar.tagcafebars.each do |tag| %>        
-            <%= link_to tag.name, cafebars_town_path(@cafebar.town, { tag: tag.id }) %>                  
-          <% end %>
-        </div>
-      <% end %>
+    <div class="col-lg-3">  
 
        <!-- Contacts -->
-      <div class="contact-numbers mt-3 pt-3">
+      <div class="contact-numbers pt-2">
         <div class="contact-number ps-2">
           <span class="contact-phone ps-1">
-            <a href="tel:+$<%= @cafebar.desc_json['phone_clean'] %>"><i class="icon_set_1_icon-90" style="font-size:22px;"></i>
+            <a href="tel:+<%= @cafebar.desc_json['phone_clean'] %>"><i class="icon_set_1_icon-90" style="font-size:22px;"></i>
             <%= @cafebar.phone %></a>
           </span>
         </div>
       </div>
 
-      <div class="contact-email ps-4 mb-3">
-        <% unless @cafebar.email.blank? %>
-          <span style="margin-left:-5px;">
-            <a href="mailto:<%= @cafebar.email %>"><i class="icon-mail-6" style="font-size:20px;"></i>
-            <%= @cafebar.email %></a> 
+      <div class="contact-email ps-4 mb-4">
+        <% if @cafebar.email %>
+          <span >
+            <a href="mailto:<%= @cafebar.email %>"><%= image_tag("icons/email_sm_2.png", width: "20px") %>&nbsp;&nbsp;<%= @cafebar.email %></a> 
           </span>
         <% end %>
-        <% unless @cafebar.site.blank? %>
-          <span><a href="https://<%= @cafebar.site %>" target="_blank">&#127760;&nbsp;<%= @cafebar.site %></a></span>      
+        <% if @cafebar.site %>
+          <span><a href="https://<%= @cafebar.site %>" target="_blank"><%= image_tag("icons/www_sm.png", width: "20px") %>&nbsp;<%= @cafebar.site %></a></span>      
         <% end %>
-        <% unless @cafebar.instagram.blank? %>
-          <span><a href="https://www.instagram.com/<%= @cafebar.instagram %>" target="_blank">&nbsp;@<%= @cafebar.instagram %></a></span>
+        <% if @cafebar.instagram %>
+          <span><a href="https://www.instagram.com/<%= @cafebar.instagram %>" target="_blank"><%= image_tag("icons/instagram_sm_2.png", width: "20px") %>&nbsp;<%= @cafebar.instagram %></a></span>
         <% end %>
-        <% unless @cafebar.vk.blank? %>
-          <span><a href="https://vk.com/<%= @cafebar.vk %>" target="_blank">&nbsp;vk/<%= @cafebar.vk %></a></span>
+        <% if @cafebar.vk %>
+          <span><a href="https://vk.com/<%= @cafebar.vk %>" target="_blank"><%= image_tag("icons/vk_sm.png", width: "20px") %>&nbsp;<%= @cafebar.vk %></a></span>
         <% end %>
       </div>
 
       <!-- cart -->
-      <div class="px-3">
+      <div class="px-3 mb-4">
         <% if @current_item %>
           <%= link_to line_items_path(resource_id: @cafebar.id, resource_name: "Cafebar", action_show: "1"),
               method: :post, remote: true, id: "heart-Cafebar-#{@cafebar.id}", class: "text-secondary" do %>
@@ -138,28 +139,27 @@
         <% end %>        
       </div>
 
-      <div class="social-links text-center mt-3">
+      <!-- tags -->
+      <% if @cafebar.tagcafebars.any? %> 
+        <div class="tags px-3 mb-4">
+          <%= link_to "#Все", cafebars_town_path(@cafebar.town) %>
+          <% @cafebar.tagcafebars.each do |tag| %>        
+            <%= link_to "##{tag.name}", cafebars_town_path(@cafebar.town, { tag: tag.id }) %>                  
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="social-links text-center">
         <h4 style="color: #666">Поделиться</h4>    
         <div class="ya-share2 mt-2 mb-4" data-curtain data-shape="round" data-services="vkontakte,facebook,odnoklassniki,telegram,viber,whatsapp"></div>
-      </div> 
-
-      <!-- УБРАТЬ ---------------------------------------- -->
-      <br><br>
-      <% if current_user %>
-      <% if current_user?(@cafebar.user) || current_user.admin? %>
-      <div class="text-center">
-      <%= link_to "Редактировать", edit_cafebar_path(@cafebar) ,class: "btn btn-outline-primary btn-sm" %>
-      <%= link_to "Удалить", @cafebar ,method: :delete, data: { confirm: "Вы уверены?" } ,class: "btn btn-outline-danger btn-sm" %>
       </div>
-      <% end %>
-      <% end %>
 
     </div>
 
   </div>
 
   <!-- Desc & Menu + NEAR -->
-  <div class="row">
+  <div class="row mb-5">
     
     <div class="col-lg-9">
       
@@ -177,6 +177,10 @@
         <!-- Tab maps -->
         <input type="radio" name="tabset" id="tab4" aria-controls="maps">
         <label for="tab4">На карте</label>
+
+        <!-- Tab comments -->
+        <input type="radio" name="tabset" id="tab5" aria-controls="comments">
+        <label for="tab5">Отзывы</label>
 
         <div class="tab-panels">
 
@@ -212,28 +216,30 @@
             <h5 class="mb-3"><i class="icon_set_1_icon-37"></i> <%= @cafebar.desc_json["town_name"] %>, <%= @cafebar.address %></h5>
             <div id="map" style="height: 300px" class="border shadow"></div>            
           </section>
+
+          <!-- Tab COMMENTS -->
+          <section id="comments" class="tab-panel">
+            <h3 class="mt-3">Отзывы</h3>
+            <div id="wpac-comment" class="mt-3"></div>         
+          </section>
         
         </div>
 
       </div>
 
-      <hr>
-      <h3 class="mt-5">Отзывы</h3>
-      <div id="wpac-comment" class="mt-3"></div>
-
     </div>
 
     <div class="col-lg-3 pe-0">
-      
+      <!-- near, etc -->
     </div>    
 
   </div>
 
-  </div>
+</div>
 
 
 
-</main>
+
 
 <script>//Initialize fotorama manually for rooms.
   $(document).on('turbolinks:load', function() {

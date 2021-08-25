@@ -65,9 +65,7 @@ class CafebarsController<ApplicationController
     @cafebar = Cafebar.find(params[:id])
     @cafebar.destroy
     flash[:info] = 'Объект удалён'
-
-
-    redirect_back(fallback_location: @cafebar.user)
+    redirect_to @cafebar.user
   end
 
 private

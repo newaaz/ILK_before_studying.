@@ -2,6 +2,7 @@
 
 <% content_for(:javascript_plugin_header) do %>
   <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "fileuploader.min.js", 'data-turbolinks-track': 'false' %>
 <% end %>
 
 <div class="container">
@@ -115,14 +116,38 @@
 <script>
   // Mask phone
   $('.mask-phone').mask('+9(999) 999-99-99');
-  // check avatar size
-  $("#user_avatar").bind("change", function() {
-    const size_in_megabytes = this.files[0].size/1024/1024;
-    if (size_in_megabytes > 4) {
-      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
-    }
+
+  // avatar preview   
+  $(document).ready(function() {
+    $('#user_avatar').fileuploader({
+      captions: 'ru',      
+      limit: 1,
+      fileMaxSize: 3,
+      extensions: ['jpg', 'jpeg', 'png', 'gif'],
+      theme: 'onebutton',
+      editor: {
+        // editor cropper
+        cropper: {        
+            ratio: '1:1',
+            showGrid: true
+        },
+        // editor on save quality (0 - 100)
+        // only for client-side resizing
+        quality: null,
+
+        // editor on save maxWidth in pixels
+        // only for client-side resizing
+        maxWidth: 200,
+
+        // editor on save maxHeight in pixels
+        // only for client-size resizing
+        maxHeight: 200,
+     
+      }
+    });
   });
 </script>
+
 
 <br><br><br>
 <br><br><br>

@@ -2,12 +2,13 @@
 
 <% content_for(:javascript_plugin_header) do %>
   <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "fileuploader.min.js", 'data-turbolinks-track': 'false' %>
 <% end %>
 
 <div class="container mt-5">
   
   <h1 class='h3 text-center mb-4'>Изменение данных</h1>
-  <p>Все поля со звёздочками <span class="text-danger">*</span> - нужно заполнить</p>
+  
 
   <%= form_with(model: @active, local: true, html: { name: "active" }) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
@@ -17,27 +18,23 @@
 
         <div class="row mb-3 gx-2">
 
-          <div class="col-lg-5 col-md-6"><!-- name -->
-            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <div class="col-lg-5 col-md-6"><!-- name -->          
             <%= f.label :name %> <span class="text-danger">*</span>  
             <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>           
           </div>
 
-          <div class="col-lg-3 col-md-6"><!-- category -->
-            <span>
-              <i class="icon_set_1_icon-8 text-muted"></i>
-            </span>
+          <div class="col-lg-3 col-md-6"><!-- category -->       
             <%= f.label :active_category_id %> <span class="text-danger">*</span>              
             <%= f.collection_select :active_category_id, ActiveCategory.order(:number), :id, :name,
               { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
           </div>
           
-          <div class="col-lg-2 col-md-6"><!-- price -->
-            <span>
-              <i class="icon_set_1_icon-8 text-muted"></i>
-            </span>
-            <%= f.label :price %> <span class="text-danger">*</span> <small class="form-text text-muted">руб</small>        
-            <%= f.text_field :price, class: 'form-control form-control-sm', required: true %>
+          <div class="col-lg-2 col-md-6"><!-- price -->         
+            <%= f.label :price %> <span class="text-danger">*</span>       
+            <div class="input-group input-group-sm">              
+              <%= f.text_field :price, class: 'form-control form-control-sm', required: true %>
+              <span class="input-group-text">&#8381;</span>
+            </div> 
           </div>
           <div class="col-lg-2 col-md-4">
             <label for="price_type">чел / тур</label> <span class="text-danger">*</span>              
@@ -51,7 +48,7 @@
 
         <!-- Desc -->
         <div class="mb-2">
-          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon_set_1_icon-54" data-bs-toggle="tooltip" data-bs-placement="right" title="Общее описание. Несколько абзацев"></i></span>          
           <%= f.label :description %> <span class="text-danger">*</span>
         </div>
         <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
@@ -68,9 +65,8 @@
 
         <!-- map -->
         <div class="row mb-4 mt-3 pb-3 gx-2">
-          <div class="col-md-8">
-            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
-            Отметить на карте
+          <div class="col-md-8">            
+            Отметить на карте <small class="text-muted"> (Если надо)</small>
             <div id="map" style="height: 300px" class="border mt-2"></div>
           </div>
           <div class="col-md-4">
@@ -92,152 +88,189 @@
           </div>
         </div>
 
-        <div class="d-flex justify-content-center">
-          <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
-          <%= button_tag "Сохранить изменения", type: 'submit', class:"btn btn-primary" %>
+        <!-- SEO TAGS -->
+        <h3 class='h4 text-center text-success mt-4'>SEO Теги</h3>    
+        <div class="seo-tags mt-2 mb-4">
+          <p>
+            <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#seotags" role="button" aria-expanded="false" aria-controls="collapseExample">
+              SEO-теги <span class="icon-down-open-1"></span>
+            </a>
+            <small class="text-muted">
+              &nbsp;- Используются для продвижения страницы. Если не знаете что это такое - можно пропустить. Система автоматически вставит стандартные
+            </small>
+          </p>
+          <div class="collapse" id="seotags">
+            <div class="card card-body">
+              <div class="mb-3"><!-- keyword --> 
+                <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                <label class="form-label">Ключевые слова (keywords)</label>
+                <input name="seo_keywords" type="text" class="form-control form-control-sm">
+              </div>                
+              <div class="mt-3"><!-- desc --> 
+                <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                <label class="form-label" for="point_how_to_get">Описание (description)</label>          
+                <textarea name="seo_description" class="form-control" rows="3" name=""></textarea>
+              </div>
+            </div>
+          </div>  
+        </div>
+        <!-- END SEO TAGS -->
+
+        <br><hr>
+      
+        <%= link_to  @active, class: "btn btn-outline-secondary btn-sm mb-2" do %>
+          <span class="icon-left-open-mini"></span>Назад
+        <% end %>   
+
+        <div class="d-grid gap-2 col-md-5 mx-auto mb-5">     
+          <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
+            Сохранить изменения
+          <% end %> 
         </div>
 
+        
       </div><!-- end col-9 -->
 
       
-      <div class="col-lg-3"><!-- contacts & photo -->            
-          
-        <div class="row">
-                   
-          <div class="col">
-
-            <% if logged_in? && current_user.admin? %>
-              <!-- Admin button -->
-              <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd">Вставить</a>
-            <% end %>
-            <!-- contacts -->  
-            <h3 class='h4 text-center text-success'>Контакты</h3>            
-            <!-- Phone CONTACTS -->
-            <div class="add-contacts">
-              <div class="contact row gx-1">              
-                <div class="col-lg-6 col-md-12">
-                  <div class="mb-2">
-                    <span style="font-size:18px">
-                    <label class="form-label">№ телефона</label><span class="text-danger">*</span> 
-                    <input name="phone" type="text" class="mask-phone form-control form-control-sm" style="font-size:12px" required>
-                  </div>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                  <div class="mb-2">
-                    <span style="font-size:18px">
-                    <label class="form-label">Имя</label><span class="text-danger">*</span> 
-                    <input name="ow_name" type="text" class="form-control form-control-sm" style="font-size:12px" required >
-                  </div>
-                </div>
-                <div class="col">
-                  <ul class="ps-0 checkbox-tags">
-                    <li>                  
-                      <input type="checkbox" name="viber" id="chk_viber" value="0"/>
-                      <label for="chk_viber"><i class="fab fa-viber fa-lg"></i>&ensp;Есть Viber&nbsp;&nbsp;</label>
-                    </li>
-                    <li>                  
-                      <input type="checkbox" name="whatsapp" id="chk_whatsapp" value="0"/>
-                      <label for="chk_whatsapp"><i class="fab fa-whatsapp fa-lg"></i>&ensp;Есть Whatsapp</label>
-                    </li>
-                  </ul>
-                </div>                   
+      <div class="col-lg-3 mb-5"><!-- contacts & photo -->  
+         
+        <!-- contacts -->  
+        <h3 class='h4 text-center text-success'>Контакты</h3>            
+        <!-- Phone CONTACTS -->
+        <div class="add-contacts">
+          <div class="contact row gx-1">              
+            <div class="col-lg-6 col-md-12">
+              <div class="mb-2">
+                <span style="font-size:18px">
+                <label class="form-label">№ телефона</label><span class="text-danger">*</span> 
+                <input name="phone" type="text" class="mask-phone form-control form-control-sm" style="font-size:12px" required>
               </div>
             </div>
-            <!-- END Phone CONTACTS -->
-            <div class="my-3"><!-- vk -->           
-              <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
-                <label class="form-label">ВКонтакте</label><small class="text-muted"> (если есть)</small>
+            <div class="col-lg-6 col-md-12">
+              <div class="mb-2">
+                <span style="font-size:18px">
+                <label class="form-label">Имя</label><span class="text-danger">*</span> 
+                <input name="ow_name" type="text" class="form-control form-control-sm" style="font-size:12px" required >
               </div>
-              <div class="input-group input-group-sm">
-                <span class="input-group-text">vk.com/</span>
-                <input name="vk" type="text" class="form-control form-control-sm">
-              </div>            
             </div>
-            <div class="mb-3"><!-- insta -->           
-              <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
-                <label class="form-label">Instagram</label><small class="text-muted"> (если есть)</small>
-              </div>
-              <div class="input-group input-group-sm">
-                <span class="input-group-text">instagram.com/</span>
-                <input name="instagram" type="text" class="form-control form-control-sm">
-              </div>            
-            </div>
-            <div class="mb-3"><!-- site -->          
-              <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
-                <label class="form-label">Сайт</label><small class="text-muted"> (если есть)</small>
-              </div>
-              <div class="input-group input-group-sm">
-                <span class="input-group-text">https://</span>
-                <input name="site" type="text" class="form-control form-control-sm">
-              </div>            
-            </div>
-            <div class="mb-3"><!-- email -->
-              <span style="font-size:18px"><i class="icon_set_1_icon-84" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-              <label class="form-label">Email</label><small class="text-muted"> (если есть)</small>
-              <input name="email" type="text" class="form-control form-control-sm">
-            </div>
-        
-            <!-- images -->
-            <h3 class='h4 text-center text-success'>Фотографии</h3>
-            <div class="mb-3">
-              <i class="icon_set_1_icon-8 text-muted"></i><%= f.label :avatar %> <span class="text-danger">*</span>
-              <small class="text-muted mb-2">Здесь подсказки к загрузке  главного фото</small> 
-              <%= f.file_field :avatar, accept: 'image/*' %>
-            </div>
-            <div class="mb-3">
-              <i class="icon_set_1_icon-8 text-muted"></i> Остальные изображения     
-              <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
-              <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
-            </div>
-            <!-- towns -->
-            <h3 class='h4 text-center text-success'>К каким населённым пунктам относится</h3>          
-            <div class="form-group">
-              <%= f.label 'Выберите один или несколько', class:"ps-1" %> <span class="text-danger">*</span>         
-              <%= f.collection_select :town_ids, Town.order(:name), :id, :name,
-                { include_blank: false }, class:"form-select", size: 8, required: true, multiple: true %>
-            </div>
-            
-            <!-- SEO TAGS -->
-            <div class="seo-tags mt-5">
-              <p>
-                <a class="btn btn-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                  Добавить SEO-теги <span class="icon-down-open-1"></span>
-                </a>
-                <small class="text-muted">
-                - если не знаете что это такое - можно пропустить. Система автоматически вставит стандартные
-              </small>
-              </p>
-              <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                  <div class="mb-3"><!-- keyword --> 
-                    <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-                    <label class="form-label">Ключевые слова (keywords)</label>
-                    <input name="seo_keywords" type="text" class="form-control form-control-sm">
-                  </div>                
-                  <div class="mt-3"><!-- desc --> 
-                    <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-                    <label class="form-label" for="point_how_to_get">Описание (description)</label>          
-                    <textarea name="seo_description" class="form-control" rows="3" name=""></textarea>
-                  </div>
-                </div>
-              </div>  
-            </div>
-            <!-- END SEO TAGS -->
-            
-            
-            <input type="hidden" name="desc_json"><!-- hidden -->   
+            <div class="col">
+              <ul class="ps-0 checkbox-tags">
+                <li>                  
+                  <input type="checkbox" name="viber" id="chk_viber" value="0"/>
+                  <label for="chk_viber"><i class="fab fa-viber fa-lg"></i>&ensp;Есть Viber&nbsp;&nbsp;</label>
+                </li>
+                <li>                  
+                  <input type="checkbox" name="whatsapp" id="chk_whatsapp" value="0"/>
+                  <label for="chk_whatsapp"><i class="fab fa-whatsapp fa-lg"></i>&ensp;Есть Whatsapp</label>
+                </li>
+              </ul>
+            </div>                   
           </div>
-                  
-        </div>       
+        </div>
+        <!-- END Phone CONTACTS -->
+
+        <div class="my-3"><!-- vk -->           
+          <div class="mb-1">
+            <%= image_tag "icons/vk_sm.png", width: "20px", title: "Просто ID странички, например - feohotel", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+            <label class="form-label">ВКонтакте</label><small class="text-muted"> (если есть)</small>
+          </div>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">vk.com/</span>
+            <input name="vk" type="text" class="form-control form-control-sm">
+          </div>            
+        </div>
+
+        <div class="mb-3"><!-- insta -->           
+          <div class="mb-1">
+            <%= image_tag "icons/instagram_sm_2.png", width: "20px", title: "Просто ID в Instagram, например - feohotel", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+            <label class="form-label">Instagram</label><small class="text-muted"> (если есть)</small>
+          </div>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">instagram.com/</span>
+            <input name="instagram" type="text" class="form-control form-control-sm">
+          </div>            
+        </div>
+
+        <div class="mb-3"><!-- email -->
+          <%= image_tag "icons/email_sm_2.png", width: "20px", title: "Email который будет отображаться в контактах и на него будут приходить заявки", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+          <label class="form-label">Email</label><small class="text-muted"> (если есть)</small>
+          <input name="email" type="text" class="form-control form-control-sm">
+        </div>
+
+        <div class="mb-3"><!-- site -->          
+          <div class="mb-1">
+            <%= image_tag "icons/www_sm.png", width: "20px", title: "Без https://, например - feohotel.ru", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+            <label class="form-label">Сайт</label><small class="text-muted"> (если есть)</small>
+          </div>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">https://</span>
+            <input name="site" type="text" class="form-control form-control-sm">
+          </div>            
+        </div>
+
+        <!-- towns -->
+        <h3 class='h4 text-center text-success'>К каким населённым пунктам относится</h3>          
+        <div class="form-group">
+          <%= f.label 'Выберите один или несколько', class:"ps-1" %> <span class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" title="Зажав клавишу 'Ctrl' можно выбрать несколько">*</span>         
+          <%= f.collection_select :town_ids, Town.order(:name), :id, :name,
+            { include_blank: false }, class:"form-select", size: 8, required: true, multiple: true %>
+        </div>  
+    
+        <!-- images -->
+        <h3 class='h4 text-center text-success mt-4'>Фотографии</h3>
+        <div class="mb-4">
+          <span style="font-size:20px;color: #888"><i class="icon-photo" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
+          <div class="mb-2">
+            <%= image_tag @active.avatar.thumb.url, class: "img-thumbnail", id: "avatar-preview"  %>
+          </div>
+          <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
+        </div>           
+            
+        <input type="hidden" name="desc_json"><!-- hidden -->
+
+        <% end %>  <!-- END FORM -->
+
+        <div class="text-center text-success mb-3" style="font-weight:600;">
+          Остальные фотографии
+        </div>
+
+        <!-- remove images -->
+        <div class="mb-4" id="add-delete-image">
+          <%  if @active.images.any? %>
+            <div class="row g-1">
+              <% @active.images.each_with_index do |image, index| %>
+                <div class="col-6 del-image">                  
+                  <%= link_to active_image_path(@active, index, model: "Active"), :method => :delete, remote: true  do %>
+                    &times;
+                  <% end %>
+                  <%= image_tag image.thumb.url, class: 'img-fluid ' %>                  
+                </div>
+              <% end %>
+            </div>    
+          <% else %>
+            <small>
+              Фотографий нет, Вы можете добавить их ниже.     
+            </small>
+          <% end %>
+        </div>   
+
+        <div class="text-center text-success mb-3" style="font-weight:600;">
+          Добавить фотографии
+        </div> 
+
+        <!-- add images -->
+        <%= form_with(url: images_path(@active), local: false, method: :hotel) do |f| %>
+          <%= hidden_field_tag(:model, "Active") %>
+          <%= f.file_field :images, multiple: true, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
+            <%= button_tag type: 'submit', class:"w-100 btn btn-primary btn-sm mt-2" do %>
+              <span class="icon"><i class="icon-down-1"></i></span>&#8194;Загрузить выбранные
+            <% end %>
+        <% end %> 
 
       </div>
 
-    </div>            
-
-  <% end %>
+    </div>
 
 </div>
 
@@ -319,13 +352,32 @@
 
 <!-- avatar, mask-phone, work with form -->
 <script type="text/javascript">
-  // check avatar size
-  $("#active_avatar").bind("change", function() {
-    const size_in_megabytes = this.files[0].size/1024/1024;
-    if (size_in_megabytes > 4) {
-      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+  // preview avatar
+    const avatar = document.getElementById('active_avatar')          
+    avatar.addEventListener('change', () => {
+      uploadFile(avatar.files[0])
+    })
+    function uploadFile(file) {
+      // проверяем тип файла
+      if (![ 'image/jpeg', 'image/png', 'image/gif' ].includes(file.type)) {
+        alert('Можно загрузить только изображения')
+        avatar.value = ''
+        return
+      }
+      // проверяем размер файла
+      if (file.size > 4 * 1024 * 1024) {
+        alert('Файл должен быть мене 4 МБ.')
+        avatar.value = ''
+        return
+      }
+      // выводим preview
+      var reader = new FileReader()
+      reader.onload = function (e) {
+        document.getElementById("avatar-preview").src = e.target.result 
+      }
+      reader.readAsDataURL(file)
     }
-  });
+  //
 
   // Mask phone
   $('.mask-phone').mask('+9(999) 999-99-99');

@@ -59,23 +59,36 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   <% end %>
- 
-  <!-- title + fotorama + contacts -->
-  <div class="row mt-3">
+
+  <!-- title -->
+  <div class="px-2 mt-3">
+
+    <% if current_user && (current_user?(@point.user) || current_user.admin?) %>
+      <div class="btn-group d-inline pt-0 me-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Это ваше объявление - вы можете его редактировать">
+        <button type="button" style="margin-top: -10px;" class="btn btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false" >
+          <span class="icon-cog-5"></span>
+        </button>
+        <ul class="dropdown-menu">          
+          <li><%= link_to "Редактировать", edit_point_path(@point) ,class: "dropdown-item" %></li>
+        </ul>
+      </div>
+    <% end %>
+
+    <h1 class="d-inline"><%= @point.name %></h1>&emsp;
+    <% if @point.address.blank? %>
+      <i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>
+    <% else %>
+      <i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>, <%= @point.address %>
+    <% end %>        
+  </div>  
+  
+  <div class="row mt-3"><!--  fotorama + contacts -->
 
     <div class="col-lg-9 px-0">
-      <!-- title -->
-      <div class="px-2">
-        <h1 class="d-inline"><%= @point.name %></h1>&emsp;
-        <% if @point.address.blank? %>
-          <i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>
-        <% else %>
-          <i class="icon_set_1_icon-37"></i> <%= @point.desc_json["town_name"] %>, <%= @point.address %>
-        <% end %>        
-      </div>   
       
-      <!-- fotorama begin -->                        
-      <div class="fotoramain mt-2"
+      <!-- fotorama -->                        
+      <div class="fotoramain"
         data-width="900"
         data-ratio="3/2"
         data-allowfullscreen="true"
@@ -86,28 +99,22 @@
         <% @point.images.each do |image| %>
           <%= link_to image_tag(image.thumb.url), image.url %>
         <% end %>
-      </div> 
-      <!-- fotorama end -->    
+      </div><!-- fotorama end -->          
 
     </div>
-
-    <!-- Contacts -->
-    <div class="col-lg-3 px-3"> 
+    
+    <div class="col-lg-3 px-3"> <!-- Contacts -->
 
       <!-- cats -->
       <div class="mt-5">
         <div class="hotel-cats">
           <ul class="">          
-            <li><%= link_to "Все поинты", points_town_path(@point.town) %></li>                
+            <li><%= link_to "Все места", points_town_path(@point.town) %></li>                
             <% @point_categories.each do |point_cat| %>
               <% unless point_cat.id == @point.point_category.id %>
-                <li>             
-                  <%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %>
-                </li> 
+                <li><%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %></li> 
               <% else %>
-                <li class="active">             
-                  <%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %>
-                </li> 
+                <li class="active"><%= link_to point_cat.name, points_town_path(@point.town, { cat: point_cat.id }) %></li> 
               <% end %>           
             <% end %>                        
           </ul>

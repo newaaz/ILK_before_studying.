@@ -21,9 +21,9 @@ class UserMailer < ApplicationMailer
 
   # Отправляем владельцу жилья уведомление, что у него появилась новая заявка
   # Orders/create
-  def owner_user_reservation(order)
+  def owner_reservation(order)
     @order = order
-    mail to: @order.owner_user.email, subject: "Люблю Крым | Заявка на бронирование № #{@order.id}. Отправитель: #{@order.guest_name}"
+    mail to: @order.hotel.email, subject: "Люблю Крым | Заявка на бронирование № #{@order.id}. Отправитель: #{@order.guest_name}"
   end
   # Отправляем забронировавшему клиенту уведомление, что его заявка отправлена и администраторы гостиницы свяжутся с ним
   # Orders/create

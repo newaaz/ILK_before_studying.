@@ -61,8 +61,22 @@
   <% end %>
 
   <!-- title -->
-  <div class="px-2 mt-3">
-    <h1 class="d-inline"><%= @active.name %></h1>&emsp;                
+  <div class="mt-3">
+
+    <% if current_user && (current_user?(@active.user) || current_user.admin?) %>
+      <div class="btn-group d-inline pt-0 me-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Это ваше объявление - вы можете его редактировать">
+        <button type="button" style="margin-top: -10px;" class="btn btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false" >
+          <span class="icon-cog-5"></span>
+        </button>
+        <ul class="dropdown-menu">          
+          <li><%= link_to "Редактировать", edit_active_path(@active) ,class: "dropdown-item" %></li>
+        </ul>
+      </div>
+    <% end %>
+
+    <h1 class="d-inline"><%= @active.name %></h1>
+
   </div>   
  
   <!-- fotorama + contacts -->
@@ -90,11 +104,11 @@
     <!-- Contacts -->
     <div class="col-lg-3 px-3">
 
-      <div class="px-2">
-      <div class="distance-sea">
-        <span><%= @active.price %></span><small>р</small> /
-        <%= @active.desc_json['price_type'] %>
-      </div>
+      <div class="px-2 mt-2">
+        <div class="distance-sea">
+          <span><%= @active.price %></span><small>р</small> /
+          <%= @active.desc_json['price_type'] %>
+        </div>
       </div>    
 
       <div class="contact-photo text-center mt-4">
@@ -129,24 +143,23 @@
         <% end %>
         <% unless @active.desc_json["instagram"].empty? %>
           <span><a href="https://www.instagram.com/<%= @active.desc_json["instagram"] %>" target="_blank">
-            <%= image_tag("icons/instagram_sm.png", width: "20px") %>
+            <%= image_tag("icons/instagram_sm_2.png", width: "20px") %>
             &nbsp;<%= @active.desc_json["instagram"] %>
           </a></span>
         <% end %>     
         <% unless @active.desc_json["email"].empty? %>          
           <span><a href="mailto:<%= @active.desc_json["email"] %>">
-            <%= image_tag("icons/email_sm.png", width: "20px") %>
+            <%= image_tag("icons/email_sm_2.png", width: "20px") %>
             &nbsp;<%= @active.desc_json["email"] %>
           </a></span>         
         <% end %>
         <% unless @active.desc_json["site"].empty? %>          
            <span><a href="https://<%= @active.desc_json["site"] %>" target="_blank">
-              &#127760;&nbsp;<%= @active.desc_json["site"] %></a>
+            <%= image_tag("icons/www_sm.png", width: "20px") %> 
+            &nbsp;<%= @active.desc_json["site"] %></a>
           </span>
         <% end %>
-
       </div>
-
       
       <div class="px-3 mt-4">
         <!-- cart -->
@@ -185,7 +198,7 @@
   </div>
 
   <!-- Desc & Menu + NEAR -->
-  <div class="row">
+  <div class="row mb-5">
     
     <div class="col-lg-9">
       
@@ -198,19 +211,19 @@
 
         <!-- Tab maps -->
         <% unless @active.latitude.blank? %>
-          <input type="radio" name="tabset" id="tab4" aria-controls="maps">
-          <label for="tab4">На карте</label>
+          <input type="radio" name="tabset" id="tab2" aria-controls="maps">
+          <label for="tab2">На карте</label>
         <% end %>
 
         <!-- Tab addition -->
         <% if @active.desc_json['addition'] %>
-          <input type="radio" name="tabset" id="tab2" aria-controls="addition">
-          <label for="tab2">Дополнительно</label>
+          <input type="radio" name="tabset" id="tab3" aria-controls="addition">
+          <label for="tab3">Дополнительно</label>
         <% end %>
 
         <!-- Tab comments-->
-        <input type="radio" name="tabset" id="tab3" aria-controls="comments" checked>
-        <label for="tab3">Отзывы</label> 
+        <input type="radio" name="tabset" id="tab4" aria-controls="comments">
+        <label for="tab4">Отзывы</label>      
 
         <div class="tab-panels">
 
@@ -218,12 +231,11 @@
           <section id="desc" class="tab-panel">
 
             <!-- prices -->
-            <div class="row bg-secondary bg-gradient">
-              <div class="col-3 distance-sea mb-2">
-                <span><%= @active.price %></span><small>р</small> /
-                <%= @active.desc_json['price_type'] %>
+            <div class="row bg-white border rounded p-2 mb-4">
+              <div class="col-3 d-flex align-items-center" style="font-size:20px;font-weight:600;color: #ff4500;">
+                <span style="font-size:32px;font-weight:700;"><%= @active.price %></span>&nbsp;<small>р</small> /<%= @active.desc_json['price_type'] %>
               </div>
-              <div class="col-9">
+              <div class="col-9 border-start ">
                 <% if @active.desc_json['prices'] %>    
                   <%= @active.desc_json['prices'] %>
                 <% end %>
@@ -232,25 +244,12 @@
 
             <% if @active.description.to_plain_text.size > 626 %>            
               <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
-                            
               <div class="content_block hide">
                 <%= @active.description %>
                 <a class="content_toggle" style="color:#ff4500" href="#"></a>
-
-                <hr> <!--EDIT DELETE  -->
-                <% if current_user && (current_user?(@active.user) || current_user.admin?) %>
-                  <%= link_to "Edit", edit_active_path(@active) ,class: "btn btn-outline-success btn-sm" %>
-                  <%= link_to "Delete", @active, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
-                <% end %>
-
-              </div>          
+              </div>
             <% else %>
-              <%= @active.description %>
-                <hr> <!--EDIT DELETE  -->
-                <% if current_user && (current_user?(@active.user) || current_user.admin?) %>
-                  <%= link_to "Edit", edit_active_path(@active) ,class: "btn btn-outline-success btn-sm" %>
-                  <%= link_to "Delete", @active, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
-                <% end %>
+              <%= @active.description %>                
             <% end %>
           </section>
 
@@ -281,15 +280,13 @@
 
     </div>
 
-    <div class="col-lg-3 pe-0">
-      
+    <div class="col-lg-3">
+      <!--  -->
     </div>    
 
   </div>
 
   </div>
-
-
 
 </main>
 

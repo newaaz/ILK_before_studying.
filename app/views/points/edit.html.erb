@@ -95,7 +95,7 @@
           <span style="font-size:20px;color: #888"><i class="icon-photo" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
           <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
           <div class="mb-2">
-            <%= image_tag @point.avatar.url, class: "img-thumbnail", id: "avatar-preview"  %>
+            <%= image_tag @point.avatar.thumb.url, class: "img-thumbnail", id: "avatar-preview"  %>
           </div>
           <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
         </div> 
@@ -111,9 +111,16 @@
 
     </div>
 
-    <div class="d-flex justify-content-center my-5">
-      <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
-      <%= button_tag "Сохранить изменения", type: 'submit', class:"btn btn-primary" %>
+    <br><hr>
+  
+    <%= link_to  @point, class: "btn btn-outline-secondary btn-sm mb-2" do %>
+      <span class="icon-left-open-mini"></span>Назад
+    <% end %>   
+
+    <div class="d-grid gap-2 col-md-5 mx-auto mb-5">     
+      <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
+        Сохранить изменения
+      <% end %> 
     </div>           
 
   <% end %>

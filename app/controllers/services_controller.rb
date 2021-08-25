@@ -102,7 +102,8 @@ class ServicesController<ApplicationController
 
 
       redirect_to service_path
-      flash[:info] = 'Сервис успешно изменён'
+      # пока убрали, потому что ломает паралакс
+      # flash[:info] = 'Сервис успешно изменён'
     else
       flash.now[:warning] = 'Не получилось изменить Сервис'
       render :edit

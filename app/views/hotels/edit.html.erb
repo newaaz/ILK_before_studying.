@@ -180,7 +180,7 @@
             <label class="form-label">Скидки и акции</label>
             <input name="bonus" type="text" class="form-control form-control-sm">
           </div>
-          <div class="mb-3">
+          <div class="mb-1">
             <span><i class="icon_set_1_icon-74" data-bs-toggle="tooltip" data-bs-placement="right" title="Возможен ли возврат аванса и при каких условиях"></i></span>
             <label class="form-label">Условия отмены брони, возврата аванса</label><span class="text-danger">*</span> 
             <input name="advance" type="text" class="form-control form-control-sm" required>
@@ -188,6 +188,55 @@
         </div>
 
         <input type="hidden" name="desc_json">  
+
+        <br> <hr>  
+
+        <!-- FLAT PRICES -->
+        <h3 class='h4 text-center text-success'>Стоимость проживания</h3>
+        <% unless @hotel.desc_json['prices'].any? %>
+          <a href="#" onclick="add_input_price();return false;" class="btn btn-success btn-sm"
+                        data-bs-toggle="tooltip" data-bs-placement="right" title="Если у вас нет номеров или комнат и объект сдаётся
+                        целиком (квартира, дом под ключ или отдельный эллинг) - то стоимость проживания устанавливается здесь.">
+            <span class="icon-calendar-8"></span>
+            Установить стоимость проживания
+          </a>
+        <small class="text-muted">
+            &nbsp;- Если объект сдаётся целиком и номеров нет (например квартира, дом под ключ или отдельный эллинг) - то стоимость проживания устанавливается здесь.
+          </small>
+        <% end %>
+        
+        <div class="flat-prices-all card card-body p-3 mt-3" style="display: none">
+          <div class="flat-prices"><!-- insert --></div>
+          <button type="button" id="add_price" onclick="add_input_price()" class="mx-auto mt-3 btn btn-success btn-sm">Добавить ещё ценовой период</button>
+        </div><!-- END FLAT PRICES -->
+
+        <!-- SEO TAGS -->
+        <h3 class='h4 text-center text-success mt-4'>SEO Теги</h3>    
+        <div class="seo-tags mt-2 mb-4">
+          <p>
+            <a class="btn btn-success btn-sm" data-bs-toggle="collapse" href="#seotags" role="button" aria-expanded="false" aria-controls="collapseExample">
+              SEO-теги <span class="icon-down-open-1"></span>
+            </a>
+            <small class="text-muted">
+              &nbsp;- Используются для продвижения страницы. Если не знаете что это такое - можно пропустить. Система автоматически вставит стандартные
+            </small>
+          </p>
+          <div class="collapse" id="seotags">
+            <div class="card card-body">
+              <div class="mb-3"><!-- keyword --> 
+                <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                <label class="form-label">Ключевые слова (keywords)</label>
+                <input name="seo_keywords" type="text" class="form-control form-control-sm">
+              </div>                
+              <div class="mt-3"><!-- desc --> 
+                <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+                <label class="form-label" for="point_how_to_get">Описание (description)</label>          
+                <textarea name="seo_description" class="form-control" rows="3" name=""></textarea>
+              </div>
+            </div>
+          </div>  
+        </div>
+        <!-- END SEO TAGS -->
                 
       </div>  
 
@@ -259,80 +308,66 @@
           <span style="font-size:20px;color: #888"><i class="icon-photo" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
           <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
           <div class="mb-2">
-            <%= image_tag @hotel.avatar.url, class: "img-thumbnail", id: "avatar-preview"  %>
+            <%= image_tag @hotel.avatar.thumb.url, class: "img-thumbnail", id: "avatar-preview"  %>
           </div>
           <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
         </div> 
 
-        <div class="mb-3">
-          <% @hotel.images.each do |image| %>
-            <%= image_tag image.thumb.url, class: 'img-thumbnail', style: 'width:110px; margin:5px' %>
-          <% end %>             
+        <% end %><!-- END FORM -->
+
+        <div class="text-center text-success mb-3" style="font-weight:600;">
+          Остальные фотографии
         </div>
 
-        <% if current_user.admin? %><!-- SEO TAGS -->          
-          <div class="seo-tags mt-5">
-            <p>
-              <a class="btn btn-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                SEO-теги <span class="icon-down-open-1"></span>
-              </a>
-              <small class="text-muted">
-                &nbsp;- если не знаете что это такое - можно пропустить. Система автоматически вставит стандартные
-            </small>
-            </p>
-            <div class="collapse" id="collapseExample">
-              <div class="card card-body">
-                <div class="mb-3"><!-- keyword --> 
-                  <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-                  <label class="form-label">Ключевые слова (keywords)</label>
-                  <input name="seo_keywords" type="text" class="form-control form-control-sm">
-                </div>                
-                <div class="mt-3"><!-- desc --> 
-                  <span style="font-size:18px"><i class="icon-tag-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-                  <label class="form-label" for="point_how_to_get">Описание (description)</label>          
-                  <textarea name="seo_description" class="form-control" rows="3" name=""></textarea>
+        <!-- remove images -->
+        <div class="mb-4" id="add-delete-image">
+          <%  if @hotel.images.any? %>
+            <div class="row g-1">
+              <% @hotel.images.each_with_index do |image, index| %>
+                <div class="col-6 del-image">                  
+                  <%= link_to hotel_image_path(@hotel, index, model: "Hotel"), :method => :delete, remote: true  do %>
+                    &times;
+                  <% end %>
+                  <%= image_tag image.thumb.url, class: 'img-fluid ' %>                  
                 </div>
-              </div>
-            </div>  
-          </div>
-          <!-- END SEO TAGS -->
+              <% end %>
+            </div>    
+          <% else %>
+            <small>
+              Фотографий нет, Вы можете их добавить ниже.     
+            </small>
+          <% end %>
+        </div>   
+
+        <div class="text-center text-success mb-3" style="font-weight:600;">
+          Добавить фотографии
+        </div> 
+
+        <!-- add images -->
+        <%= form_with(url: images_path(@hotel), local: false, method: :hotel) do |f| %>
+          <%= hidden_field_tag(:model, "Hotel") %>
+          <%= f.file_field :images, multiple: true, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
+            <%= button_tag type: 'submit', class:"w-100 btn btn-primary btn-sm mt-2" do %>
+              <span class="icon"><i class="icon-down-1"></i></span>&#8194;Загрузить выбранные
+            <% end %>
         <% end %>
       
-      </div>
+      </div><!-- END col-3 -->
       
-    </div>
+    </div><!-- END ROW -->
 
     <hr>
 
-    <!-- FLAT PRICES -->
-    <% unless @hotel.desc_json['prices'].any? %>
-      <button type="button" onclick="add_input_price()" class="btn btn-success btn-sm mb-4"
-              data-bs-toggle="tooltip" data-bs-placement="right"
-              title="Если у вас нет номеров или комнат и объект сдаётся целиком (квартира, дом под ключ или отдельный эллинг) - то стоимость проживания устанавливается здесь.">
-        <span class="icon-calendar-8"></span>
-        Установить стоимость проживания
-      </button>
-    <% end %>
-    
-    <div class="flat-prices-all flat-price-all p-3" style="display: none">
-      <div class="flat-prices">
-        <h3 class='h4 text-center text-success'>Стоимость проживания</h3>
-      </div><!-- END FLAT PRICES -->
-      <button type="button" id="add_price" onclick="add_input_price()" class="mt-3 btn btn-success btn-sm">Добавить ещё ценовой период</button>
-    </div>
-
     <div class="row my-5">
       <div class="col-3  text-start">
-        <%= link_to :back, class: "btn btn-outline-secondary btn-sm" do %>
+        <%= link_to @hotel, class: "btn btn-outline-secondary btn-sm" do %>
         <span class="icon-left-open-mini"></span>Назад
         <% end %>
       </div>
-      <div class="col-9 text-start">
-        <%= f.submit "Сохранить изменения",class:"btn btn-primary btn-lg"%> 
+      <div class="col-6 text-center">
+        <button type="button" id="btn-send-form" onclick="sendForm()" class="btn btn-primary btn-lg">Сохранить изменения</button>
       </div>
-    </div>  
-
-  <% end %>
+    </div>    
 
 </div>
 
@@ -520,8 +555,100 @@
     form.instagram.value = '<%= @hotel.desc_json["instagram"] %>'
     form.seo_description.value = '<%= @hotel.desc_json["seo_description"] %>'
     form.seo_keywords.value = '<%= @hotel.desc_json["seo_keywords"] %>'
-  //  
+  // 
 
+  //-------  SEND FORM ON CLICK BUTTON ------------
+  function sendForm() {
+    //var form = document.forms.hotel
+    var buttonSend = document.getElementById('btn-send-form')
+    buttonSend.disabled = true    
+    
+    var data = {
+      "floors": form.floors.value,
+      "food": form.food.value,
+      "parking": form.parking.value,
+      "territory": form.territory.value,
+      "transfer": form.transfer.value,
+      "service": form.service.value,
+      "addition": form.addition.value,
+      "vk": form.vk.value,
+      "instagram": form.instagram.value,
+      "child": form.child.value,
+      "animals": form.animals.value,
+      "check_time": form.check_time.value,
+      "min_check": form.min_check.value,
+      "payment": form.payment.value,
+      "bonus": form.bonus.value,
+      "advance": form.advance.value,
+      "max_price": form.max_price.value,
+      "price_type": form.price_type.value,
+      "seo_keywords": form.seo_keywords.value,
+      "seo_description": form.seo_description.value,
+      "contacts": [],
+      "prices": []
+    };
+
+    // insert contacts
+    var phoneInputs = $('.add-contacts input[name="ow_phone"]');
+    var nameInputs = $('.add-contacts input[name="ow_name"]');
+    var vibers = $('.add-contacts input[name="viber"]');
+    var whatsapps = $('.add-contacts input[name="whatsapp"]');
+    for (var i = 0; i < phoneInputs.length; i++) {  
+      // проверяем нажаты ли чекбоксы
+      if (vibers[i].checked == true) {
+        vibers[i].value = 1     
+      }
+      if (whatsapps[i].checked == true) {
+        whatsapps[i].value = 1
+      }
+
+      data.contacts.push( {
+        "ow_name":nameInputs[i].value,
+        "ow_phone":phoneInputs[i].value,        
+        "ow_phone_clean":phoneInputs[i].value.replace(/[^0-9]/g, ''),
+        "viber": vibers[i].value,
+        "whatsapp": whatsapps[i].value
+      })         
+    }
+
+    // insert PRICES and validate
+    if ( $('.flat-price').length >=1 ) {
+      var startDateInputs = $('.flat-prices input[name="start_date"]')
+      var endtDateInputs = $('.flat-prices input[name="end_date"]')
+      var dayCostInputs = $('.flat-prices input[name="day_cost"]')      
+      for ( var i = 0; i < dayCostInputs.length; i++ ) {
+        $(`#flat-price-${i + 1}`).removeClass('row_with_errors')    
+        if ( Date.parse(endtDateInputs[i].value) < Date.parse(startDateInputs[i].value) ) { 
+          $(`#flat-price-${i + 1}`).addClass('row_with_errors')       
+          var errors = true
+        }        
+        data.prices.push( {
+          "start_date":startDateInputs[i].value,
+          "end_date": endtDateInputs[i].value,
+          "day_cost": dayCostInputs[i].value
+        } )        
+      }
+      if ( errors == true ) {
+        $('.flat-prices').prepend(`
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Начало ценового периода должно быть раньше конца
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `);  
+        buttonSend.disabled = false;      
+        return
+      }      
+    }
+
+    form.desc_json.value = JSON.stringify(data);    
+    
+    form.submit();
+
+  }  
+  //------- END  SEND FORM ON CLICK BUTTON ------------
+
+
+  // not required
   form.addEventListener('submit', function(event){    
   
     event.preventDefault();
