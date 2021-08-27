@@ -1,42 +1,132 @@
 <% provide(:title, "Люблю Крым - жильё и активный отдых в Крыму без посредников") %>
 
-<div class="container">
+<main class="homepage">
 
-	<div class="container py-3 border">
-    <div class="row align-items-center border py-3 banner-bg"
-		style="background-image: url('<%= asset_path("ct/home_bg_2.jpg") %>');">
-      <div class="col-lg-9 text-center border">
-        <div class="fs-4 fw-bold lh-1 mb-3">Получайте кэшбэк 5% при бронировании жилья и активного отдыха</div>
-        <p class="col-lg-10 fs-6 border">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
-      </div>
-      <div class="col-lg-3 text-center border">
-        <button class="btn btn-lg btn-primary">Подробнее</button>
-      </div>
-    </div>
-  </div>
-
-  <br>
-  <br>
-
-	<div class="container px-4 pt-5">
-    <div class="row align-items-center g-lg-5 py-5 border">
-      <div class="col-lg-9 text-center text-lg-start border">
-        <div class="fs-4 fw-bold lh-1 mb-3">Получайте кэшбэк 5% при бронировании жилья и активного отдыха</div>
-        <p class="col-lg-10 fs-6 border">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
-      </div>
-      <div class="col-lg-3 col-md-10 mx-auto border">
-        <button class="btn btn-lg btn-primary">Sign up</button>
-      </div>
-    </div>
-  </div>
-
-  <br>
-  <br>
-
-
-
-
+<div class="container pb-2 d-flex justify-content-center">		
+		<h1 style="color: #777; font-size:28px">Жильё и активный отдых в Крыму без посредников</h1>
 </div>
+
+<div class="bg-white shadow py-3 mb-5"><!-- title -->
+	<div class="container">
+    <div class="row">
+
+      <div class="col-sm-12 col-lg-8">
+        <div class="resources-title pt-2">
+          <h2>Выбирайте куда поехать, планируйте свой отдых</h2>		
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-lg-4 border-start" >
+        <div class="cashback">
+          И ПОЛУЧАЙТЕ КЭШБЭК <span>5%</span>
+        </div>
+        <div class="condition" onclick="showCashbackModal();">
+          Как получить
+        </div>
+      </div>
+
+
+    </div>
+	</div>	
+</div><!-- END title -->
+
+
+
+  <% @towns.each do |town| %>   
+
+    <div class="bg-white shadow border mb-5 pb-4">
+
+      
+      <%= link_to town do %>
+        <div class="container">
+          <div class="town-title ms-lg-4">
+            <h2><i class="icon_set_1_icon-61"></i><%= town.name %></h2>		
+          </div>
+        </div>
+        <div class="home-town">
+          <%= image_tag town.avatar.url %>        
+        </div>      
+      <% end %>
+        
+
+      <div class="my-3 px-3">
+        <div class="container"><%= town.description %></div>
+      </div>
+
+      <div class="container links-to-res" data-turbolinks="false">
+
+        <%= link_to hotels_town_path(town) do %>
+          <span class="icon-key-4"></span>
+          Жильё в <%= town.parent_name %>
+        <% end %>
+
+        <%= link_to actives_town_path(town) do %>
+          <span class="icon-star-2"></span>
+          Активный отдых в <%= town.parent_name %>
+        <% end %>
+
+        <%= link_to services_town_path(town) do %>
+          <span class="icon_set_1_icon-21"></span>
+          Услуги и сервисы в <%= town.parent_name %>
+        <% end %>
+
+        <%= link_to cafebars_town_path(town) do %>
+          <span class="icon-food"></span>
+          Где поесть в <%= town.parent_name %>
+        <% end %>
+        
+        <%= link_to points_town_path(town) do %>
+          <span class="icon-camera-6"></span>
+          Интересные места в <%= town.parent_name %>
+        <% end %>     
+      
+      </div>
+
+    </div>    
+
+  <% end %>
+
+
+
+
+</main>
+
+<br><br>
+
+<!-- Modal cashback-->
+<div class="modal fade" id="conditionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Как получить кэшбэк - 5%</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-danger text-center" role="alert">
+          Функция кэшбэка тестируется, и пока недоступна
+        </div>
+
+        1. Зарегистрируйтесь и оформите заявку - тогда она будет отображаться в личном кабинете<br>
+        2. После отдыха оствьте отзыв на странице гостиницы или активного отдыха<br>
+        3. Напишите на почту <a href="mailto:ilk-cashback@mail.ru">ilk-cashback@mail.ru</a>  - укажите № заявки
+         и реквизиты для перевода кэшбэка (Номер карты или номер телефона и банк для СБП, или номер электронного кошелька).
+        4. После проверки заявки в течение пяти рабочих дней на указанные реквизиты придут средства
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+ function showCashbackModal() {
+    var myModal = new bootstrap.Modal(document.getElementById('conditionModal'))
+    myModal.show()
+  }
+</script>
+
 
 
 

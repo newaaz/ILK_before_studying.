@@ -1,0 +1,35 @@
+<div class="container my-5">
+
+  <p>
+    <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Категории
+    </a>   
+  </p>
+
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+
+      <h3>Счётчик категорий</h3>
+
+      <br>
+
+      <table class="table table-responsive">   
+
+        <% @town_cats.each do |cat| %>
+
+          <tr>
+            <td><%= cat.town_id %></td>
+            <td><%= cat.cat_type %></td>
+            <td><%= cat.cat_name %> (<%= cat.cat_count %>)</td>
+          </tr> 
+        
+        <% end %>
+
+      </table>
+
+    </div>
+  </div>
+
+  
+</div>
+

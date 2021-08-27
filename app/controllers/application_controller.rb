@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
     # посылаем письмо юзеру об активации
     #TODO: потом включить письмо юзеру об активации
-    #UserMailer.change_activated(object).deliver_now if object.activated?
+    UserMailer.change_activated(object).deliver_now if object.activated?
   end
 
   def change_rating

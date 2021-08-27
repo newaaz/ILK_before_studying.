@@ -1,0 +1,21 @@
+<% link_path = (@model_instance.model_name.singular + '_image_path') %>
+
+<%  if @model_instance.images.any? %>
+  <div class="row g-1">
+    <% @model_instance.images.each_with_index do |image, index| %>
+      <div class="col-6 del-image">
+        <%= link_to send(link_path,  @model_instance, index, model: @model_instance.model_name.name), method: :delete, remote: true do %>
+          &times;
+        <% end %>
+        <%= image_tag image.thumb.url, class: 'img-fluid ' %>        
+      </div>
+    <% end %>
+  </div>    
+<% else %>
+  <small>
+    Фотографий нет, Вы можете их добавить ниже.     
+  </small>
+<% end %>
+
+
+

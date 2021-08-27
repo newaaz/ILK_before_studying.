@@ -17,7 +17,7 @@
       <th>Категория</th>
       <th>Действия</th>
       <th>Активно?</th>
-      <th>Promo</th>
+      <th>Rating</th>
     </thead>
     <tbody>
       <% @services.each do |service| %>
@@ -30,7 +30,14 @@
             <%= link_to "Del", service_path(service), method: :delete, class: 'btn btn-outline-danger btn-sm' %>
           </td>
           <td><%= link_to "#{service.activated}", change_activated_path(model: "Service", id: service.id) %></td>
-          <td><%= service.rating %></td>
+          <td>
+            <%= form_with(url: change_rating_path(model: "Service", id: service.id)) do |f| %>
+              <div class="input-group">
+                <%= f.text_field :rating, local: true, value: service.rating, class: 'form-control form-control-sm' %>
+                <%= button_tag "Change", type: 'submit', class:"btn btn-sm btn-success" %>
+              </div>  
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

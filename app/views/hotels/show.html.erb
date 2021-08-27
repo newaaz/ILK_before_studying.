@@ -21,7 +21,7 @@
 <% end %>
 
 <% content_for(:javascript_plugin_header) do %>
-  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'false' %>
+  <%= javascript_include_tag "fotorama.js", 'data-turbolinks-track': 'reload' %>
   <script type="text/javascript">   // widget pack
     $(document).on('turbolinks:load', function() {
       wpac_init = window.wpac_init || [];
@@ -82,16 +82,35 @@
     </div>
   <% end %>
 
-  <!-- title + photo + contacts -->
+  <div class="mt-3"><!-- title, address -->
+
+    <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
+      <div class="btn-group d-inline pt-0  me-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Это ваше объявление - вы можете его редактировать">
+        <button type="button" style="margin-top: -10px;" class="btn btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false" >
+          <span class="icon-cog-5"></span>
+        </button>
+        <ul class="dropdown-menu">          
+          <li><%= link_to "Редактировать", edit_hotel_path(@hotel) ,class: "dropdown-item" %></li>
+          <li><%= link_to "Добавить номер", new_room_path(hotel_id: @hotel.id), class: "dropdown-item" %></li>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div class="d-inline">
+      <h1 class="d-inline"><%= @hotel.name %></h1>&emsp;
+      <i class="icon_set_1_icon-37"></i>
+      <span style="font-size:14px;">
+        <%= @hotel.desc_json["town_name"] %>, <%= @hotel.address %>
+      </span>
+    </div>
+
+  </div>
+
+  <!-- photo + contacts -->
   <div class="row mt-3">
     
     <div class="col-lg-9 px-0">
-
-      <div class="px-2">
-        <h1 class="d-inline"><%= @hotel.name %></h1>&emsp;
-        <i class="icon_set_1_icon-37"></i> <%= @hotel.desc_json["town_name"] %>, <%= @hotel.address %>
-      </div>
-
       <!-- fotorama begin -->        
       <div class="fotoramain mt-2">
         <%= link_to image_tag(@hotel.avatar.thumb.url), @hotel.avatar.url %>
@@ -150,27 +169,11 @@
           <section id="desc" class="tab-panel">            
             <% if @hotel.description.to_plain_text.size > 626 %>            
               <a class="content_toggle" style="color:#ff4500" href="#"><i class='icon-angle-down'></i>Показать текст</a>
-                            
               <div class="content_block hide">
                 <%= @hotel.description %>
                 <a class="content_toggle" style="color:#ff4500" href="#"></a>
-
-                <!-- УБРАТЬ -->
-                <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
-                  <%= link_to "Edit", edit_hotel_path(@hotel) ,class: "btn btn-outline-success btn-sm" %>
-                  <%= link_to "+ Room", new_room_path(hotel_id: @hotel.id), class: "btn btn-outline-success btn-sm" %>
-                  <%= link_to "Delete", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
-                <% end %>
-
               </div>          
-            <% else %>
-
-              <% if current_user && (current_user?(@hotel.user) || current_user.admin?) %>
-                <%= link_to "Edit", edit_hotel_path(@hotel) ,class: "btn btn-outline-success btn-sm" %>
-                <%= link_to "+ Room", new_room_path(hotel_id: @hotel.id), class: "btn btn-outline-success btn-sm" %>
-                <%= link_to "Delete", @hotel, method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-outline-danger btn-sm" %>
-              <% end %>
-
+            <% else %> 
               <%= @hotel.description %>
             <% end %>
           </section>
@@ -313,7 +316,7 @@
       <!-- PRICES FLAT -->
       <% if @hotel.desc_json["prices"].any? %>
         <h2>Календарь цен</h2>
-        <div style="overflow-x:auto;">
+        <div style="overflow-x:auto;" class="mb-5">
           <div class="room-prices">
             <% @hotel.desc_json["prices"].each do |price| %>
               <div class="period">
@@ -340,7 +343,7 @@
 
     <div class="col-lg-3 pe-0">
       <!-- NEAR -->      
-      <div class="resource_near"><!-- Hotels NEAR -->
+      <div class="resource_near" data-turbolinks="false"><!-- Hotels NEAR -->
         <h4>Жильё рядом</h4>
         <% hotels_near(@hotel).each do |hotel_near| %>          
           <div class="d-flex align-items-center border rounded bg-white shadow mb-2"> 

@@ -33,28 +33,45 @@ Rails.application.routes.draw do
     get :actives, on: :member
   end
 
+  resources :carts, only: [:show, :destroy]
+  resources :line_items, only: :create  
+
+  resources :images, only: [:create]
+
+  # hotels
   resources :hotel_categories, except: :show
   resources :hotels do
     post :send_message, on: :member
+    resources :images, only: [:destroy]
   end
-  resources :rooms
+  resources :rooms, except: [:show, :index] do
+    resources :images, only: [:destroy]
+  end
   resources :orders, except: [:edit, :update, :destroy]
-
-  resources :carts, only: [:show, :destroy]
-  resources :line_items, only: :create
-
-  resources :cafebars
+  
+  # cafebars
+  resources :cafebars do
+    resources :images, only: [:destroy]
+  end
   resources :tagcafebars, except: :show
 
-  resources :points  
+  # points
+  resources :points do
+    resources :images, only: [:destroy]
+  end 
   resources :point_categories, except: :show
 
-  resources :services
+  # services
+  resources :services do
+    resources :images, only: [:destroy]
+  end
   resources :service_categories, except: :show
 
+  # actives
   resources :active_categories, except: :show
   resources :actives do    
     post :change_promo, on: :member
+    resources :images, only: [:destroy]
   end
   resources :order_actives, except: [:edit, :update, :destroy]
 

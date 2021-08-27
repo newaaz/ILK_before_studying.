@@ -2,6 +2,7 @@
 
 <% content_for(:javascript_plugin_header) do %>
   <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "fileuploader.min.js", 'data-turbolinks-track': 'false' %>
 <% end %>
 
 <div class="container mt-5">
@@ -10,35 +11,27 @@
 
   <%= form_with(model: @service, local: true, html: { name: "service" }) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
+
     <div class="row g-3">
 
       <div class="col-lg-9  border-end">
 
-        <div class="row mb-3 gx-2">
+        <div class="row mb-3">
 
           <div class="col-lg-4 col-md-6 mb-3">
-            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
             <%= f.label :name %> <span class="text-danger">*</span>  
             <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>            
           </div>
 
           <div class="col-lg-4 col-md-6">
-            <span>
-              <i class="icon_set_1_icon-8 text-muted"></i>
-            </span>
             <%= f.label :service_category_id %> <span class="text-danger">*</span>              
             <%= f.collection_select :service_category_id, ServiceCategory.order(:number), :id, :name,
               { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
           </div>
 
           <div class="col-lg-4 col-md-6">
-            <span>
-              <i class="icon_set_1_icon-8 text-muted"></i>
-            </span>
             <%= f.label :address %>
-            <small class="text-muted">
-              / улица, номер
-            </small>
+            <small class="text-muted"> / улица, номер дома</small>
             <%= f.text_field :address, class: 'form-control form-control-sm' %>
           </div>     
 
@@ -46,27 +39,26 @@
 
         <!-- Desc -->
         <div class="mb-2">
-          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon_set_1_icon-54" data-bs-toggle="tooltip" data-bs-placement="right" title="Общее описание. Несколько абзацев"></i></span>          
           <%= f.label :description %> <span class="text-danger">*</span>
         </div>
         <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
         <!-- Prices -->
         <div class="mb-2 mt-3">
-          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon-wallet" data-bs-toggle="tooltip" data-bs-placement="right" title="Описание стоимости"></i></span>
           <%= f.label :price %>
         </div>
         <%= f.rich_text_area :price, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
         <!-- Addition -->
         <div class="mb-2 mt-3">
-          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon-comment-6" data-bs-toggle="tooltip" data-bs-placement="right" title="Дополнительная информация, правила и рекомендации"></i></span>
           <%= f.label :addition %>
         </div>
         <%= f.rich_text_area :addition, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой" %>
     
         <!-- map -->
         <div class="row mb-4 mt-3 pb-3 gx-2">
-          <div class="col-md-8">
-            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <div class="col-md-8">           
             Отметить на карте
             <div id="map" style="height: 300px" class="border mt-2"></div>
           </div>
@@ -87,12 +79,7 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="d-flex justify-content-center">
-          <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
-          <%= button_tag "Добавить Услугу / Сервис", type: 'submit', class:"btn btn-primary" %>
-        </div>
+        </div>       
 
       </div><!-- end col-9 -->
 
@@ -110,13 +97,12 @@
             <!-- contacts -->  
             <h3 class='h4 text-center text-success'>Контакты</h3>            
             <div class="mb-3"><!-- phone -->
-              <span style="font-size:18px"><i class="icon_set_1_icon-62 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-              <label class="form-label">Телефон</label><small class="text-muted"> (если есть)</small> 
+              <label class="form-label">№ Телефона</label><small class="text-muted"> (если есть)</small> 
               <input name="phone" type="text" class="mask-phone form-control form-control-sm">
             </div>
-            <div class="mb-3"><!-- vk -->           
+            <div class="my-3"><!-- vk -->           
               <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
+                <%= image_tag "icons/vk_sm.png", width: "20px", title: "Просто ID странички, например - feohotel", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
                 <label class="form-label">ВКонтакте</label><small class="text-muted"> (если есть)</small>
               </div>
               <div class="input-group input-group-sm">
@@ -124,9 +110,10 @@
                 <input name="vk" type="text" class="form-control form-control-sm">
               </div>            
             </div>
+
             <div class="mb-3"><!-- insta -->           
               <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
+                <%= image_tag "icons/instagram_sm_2.png", width: "20px", title: "Просто ID в Instagram, например - feohotel", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
                 <label class="form-label">Instagram</label><small class="text-muted"> (если есть)</small>
               </div>
               <div class="input-group input-group-sm">
@@ -134,41 +121,49 @@
                 <input name="instagram" type="text" class="form-control form-control-sm">
               </div>            
             </div>
+
+            <div class="mb-3"><!-- email -->
+              <%= image_tag "icons/email_sm_2.png", width: "20px", title: "Email который будет отображаться в контактах и на него будут приходить заявки", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+              <label class="form-label">Email</label><small class="text-muted"> (если есть)</small>
+              <input name="email" type="text" class="form-control form-control-sm">
+            </div>
+
             <div class="mb-3"><!-- site -->          
               <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
+                <%= image_tag "icons/www_sm.png", width: "20px", title: "Без https://, например - feohotel.ru", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
                 <label class="form-label">Сайт</label><small class="text-muted"> (если есть)</small>
               </div>
               <div class="input-group input-group-sm">
                 <span class="input-group-text">https://</span>
                 <input name="site" type="text" class="form-control form-control-sm">
               </div>            
-            </div>
-            <div class="mb-3"><!-- email -->
-              <span style="font-size:18px"><i class="icon_set_1_icon-84" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-              <label class="form-label">Email</label><small class="text-muted"> (если есть)</small>
-              <input name="email" type="text" class="form-control form-control-sm">
-            </div>
+            </div>   
         
-            <!-- images -->
+           <!-- images -->
             <h3 class='h4 text-center text-success'>Фотографии</h3>
-            <div class="mb-3">
-              <i class="icon_set_1_icon-8 text-muted"></i><%= f.label :avatar %> <span class="text-danger">*</span>
-              <small class="text-muted mb-2">Здесь подсказки к загрузке  главного фото</small> 
-              <%= f.file_field :avatar, accept: 'image/*', required: true %>
-            </div>
-            <div class="mb-3">
-              <i class="icon_set_1_icon-8 text-muted"></i> Остальные изображения     
-              <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
+            <div class="mb-4">
+              <span style="font-size:20px;color: #888"><i class="icon-photo" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+              <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
+              <div class="mb-2">
+              <img src="https://via.placeholder.com/300x200" id="avatar-preview" class="img-thumbnail">
+              </div>       
+              <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm', required: true %>
+            </div>         
+
+            <div class="">
+              <i class="icon-picture-1" style="font-size:20px;color: #888" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить все остальные фотографии. Максимальный размер одной фотографии - 4 МБ, не более 35 фотографий"></i>
+              Остальные изображения     
               <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
             </div>
+
             <!-- towns -->
-            <h3 class='h4 text-center text-success'>К каким населённым пунктам относится</h3>          
+            <h3 class='h4 text-center text-success mt-3'>К каким населённым пунктам относится</h3>          
             <div class="form-group">
-              <%= f.label 'Выберите один или несколько', class:"ps-1" %> <span class="text-danger">*</span>         
+              <%= f.label 'Выберите один или несколько', class:"ps-1 mb-2" %> <span class="text-danger">*</span>         
               <%= f.collection_select :town_ids, Town.order(:name), :id, :name,
                 { include_blank: false }, class:"form-select", size: 8, required: true, multiple: true %>
             </div>
+
             <!-- SEO TAGS -->
             <div class="seo-tags mt-5">
               <p>
@@ -202,7 +197,11 @@
 
       </div>
 
-    </div>            
+    </div>
+
+    <div class="d-flex justify-content-center my-5">
+      <%= button_tag "Добавить объявление", type: 'submit', class:"btn btn-primary btn-lg" %>    
+    </div> 
 
   <% end %>
 
@@ -250,12 +249,51 @@
 
 <!-- avatar, mask-phone, work with form -->
 <script type="text/javascript">
-  // check avatar size
-  $("#service_avatar").bind("change", function() {
-    const size_in_megabytes = this.files[0].size/1024/1024;
-    if (size_in_megabytes > 4) {
-      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+ // upload avatar
+  const avatar = document.getElementById('service_avatar')          
+  avatar.addEventListener('change', () => {
+    uploadFile(avatar.files[0])
+  })
+  function uploadFile(file) {
+    // проверяем тип файла
+    if (![ 'image/jpeg', 'image/png', 'image/gif' ].includes(file.type)) {
+      alert('Можно загрузить только изображения')
+      avatar.value = ''
+      return
     }
+    // проверяем размер файла
+    if (file.size > 4 * 1024 * 1024) {
+      alert('Файл должен быть мене 4 МБ.')
+      avatar.value = ''
+      return
+    }
+    // выводим preview
+    var reader = new FileReader()
+    reader.onload = function (e) {
+      document.getElementById("avatar-preview").src = e.target.result 
+    }
+    reader.readAsDataURL(file)
+  }
+
+  // upload images
+  $(document).ready(function() {
+    $('#service_images').fileuploader({
+      captions: 'ru',
+      addMore: true,
+      limit: 35,
+      fileMaxSize: 3,
+      extensions: ['jpg', 'jpeg', 'png', 'gif'],
+      theme: 'dragdrop',
+      changeInput: '<div class="fileuploader-input mb-3">' +
+              '<div class="fileuploader-input-inner">' +
+                '<div class="fileuploader-icon-main"></div>' +
+              '<h3 class="fileuploader-input-caption"><span>${captions.feedback}</span></h3>' +
+              '<p>${captions.or}</p>' +
+              '<button type="button" class="fileuploader-input-button"><span>${captions.button}</span></button>' +
+            '</div>' +
+          '</div>',
+      
+    });
   });
 
   // Mask phone
@@ -296,12 +334,11 @@
       form.elements[3].value = 'ул. Володарского 31 Б';
       form.elements[58].value = 45.0423;
       form.elements[59].value = 35.3666;
-      form.phone.value =  '+7(978) 254-11-56'
-      form.vk.value = 'mcixabuka'
-      form.instagram.value = 'kilovagora'
-      form.site.value = 'kilova.ru'
-      form.email.value = 'email_32@mail.ru'
-      form.elements[70].value = 1;    
+      form.phone.value =  '+7(978) 265-19-47'
+      form.vk.value = 'i_lovekrim'
+      form.instagram.value = 'ilovekrim'
+      form.site.value = 'ilovekrim.ru'
+      form.email.value = 'ilove-krim@mail.ru'
     }
   </script>            
 <% end %>

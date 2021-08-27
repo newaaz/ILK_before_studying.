@@ -1,8 +1,11 @@
 <% provide(:title, 'Добавление номера') %>
+<% content_for(:javascript_plugin_header) do %>
+  <%= javascript_include_tag "fileuploader.min.js", 'data-turbolinks-track': 'false' %>
+<% end %>
 
 <div class="container">
 
-<h1 class='h3 text-center my-4'><%= link_to @hotel.name, @hotel %> - добавление номера:</h1>
+<h1 class='h3 text-center my-4'>Добавление номера - <%= link_to @hotel.name, @hotel %></h1>
 
 <%= form_with(model: @room, local: true, html: { name: "room" }) do |f| %>
   <%= hidden_field_tag(:hotel_id, params[:hotel_id].to_i) %>
@@ -19,7 +22,7 @@
         </div>
         <div class="col-md-2">
           <label class="form-label">Кол-во комнат</label> <span class="text-danger">*</span>
-          <input name="rooms" type="text" class="form-control" required>
+          <input name="rooms" type="text" class="form-control form-control-sm" required>
         </div>
 
         <% if @previous_room %>
@@ -27,8 +30,8 @@
             <div class="form-label">Предыдущее описание
               <span style="font-size:14px"><sup><i class="far fa-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Вставить описание из предыдущего номера (кроме фотографий и цен)"></i></sup></span>
             </div> 
-            <a href="javascript: insertInfo();" class="btn btn-success  shadow">Вставить</a>
-            <a href="javascript: document.forms[0].reset();" class="btn btn-outline-warning shadow">Очистить</a>
+            <a href="javascript: insertInfo();" class="btn btn-success btn-sm  shadow">Вставить</a>
+            <a href="javascript: document.forms[0].reset();" class="btn btn-outline-success btn-sm shadow">Очистить</a>
           </div>
         <% end %>
 
@@ -37,7 +40,7 @@
       <div class="row mb-3 gx-3">
         <div class="col-md-3">
           <label class="form-label">Кол-во гостей</label> <span class="text-danger">*</span>
-          <input name="guests" type="text" class="form-control" required>
+          <input name="guests" type="text" class="form-control form-control-sm" required>
         </div>
         <div class="col-md-3">        
           <div class="form-label">Площадь <span class="text-danger">*</span> (М<sup><small>2</small></sup>) </div>  
@@ -45,44 +48,44 @@
         </div>
         <div class="col-md-3">
           <label class="form-label">Этаж</label> <span class="text-danger">*</span>
-          <input name="floor" type="text" class="form-control" required>            
+          <input name="floor" type="text" class="form-control form-control-sm" required>            
         </div> 
         <div class="col-md-3">
           <%= f.label :number, class: 'form-label' %> <span style="font-weight:200; font-size:14px"><sup><i class="far fa-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Порядковый номер в выводе списка номеров"></i></sup></span>
-          <%= f.number_field :number, class: 'form-control' %>
+          <%= f.number_field :number, class: 'form-control form-control-sm' %>
         </div>
       </div>      
 
-      <div class="room__desc">
+      <div class="hotel__desc">
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon_set_1_icon-54 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Общее описание номера"></i></span>
           <label class="form-label">Описание</label>
           <textarea name="desc" class="form-control" rows="5" style="height:130px"></textarea>
         </div>
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span><i class="icon_set_2_icon-114" data-bs-toggle="tooltip" data-bs-placement="right" title="Какая мебель есть в номере. Какие спальные места"></i></span>
           <label class="form-label">Мебель</label> <span class="text-danger">*</span>
-          <input name="furniture" type="text" class="form-control" required>            
+          <input name="furniture" type="text" class="form-control form-control-sm" required>            
         </div>  
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span><i class="icon_set_2_icon-111" data-bs-toggle="tooltip" data-bs-placement="right" title="Что есть в номере. Нпример - туалет и душ в номере, санузел совмещенный"></i></span>
           <label class="form-label">Санузел/душ/ванна</label> <span class="text-danger">*</span>
-          <input name="bathroom" type="text" class="form-control" required>            
+          <input name="bathroom" type="text" class="form-control form-control-sm" required>            
         </div> 
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span><i class="icon_set_2_icon-116" data-bs-toggle="tooltip" data-bs-placement="right" title="Что ещё есть в номере"></i></span>
           <label class="form-label">В номере</label> <span class="text-danger">*</span>
-          <input name="in_room" type="text" class="form-control" required>            
+          <input name="in_room" type="text" class="form-control form-control-sm" required>            
         </div>
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span><i class="icon_set_1_icon-68" data-bs-toggle="tooltip" data-bs-placement="right" title="Дополнительная информация"></i></span>
           <label class="form-label">Дополнительно</label>
-          <input name="addition" type="text" class="form-control">            
+          <input name="addition" type="text" class="form-control form-control-sm">            
         </div>
 
         <input type="hidden" name="desc_json">
@@ -90,7 +93,7 @@
       </div>     
       
       <!-- Add Price -->
-      <h3 class="text-center">Добавление цен:</h3>
+      <h3 class='h4 text-center text-success'>Добавление цен:</h3>      
       <div class="flat-prices">
         <% unless @previous_room %>
           <div class="row flat-price" id="flat-price-1">
@@ -118,11 +121,13 @@
 
       <br><br><hr>
 
-      <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+      <%= link_to  :back, class: "btn btn-outline-secondary btn-sm mb-2" do %>
+        <span class="icon-left-open-mini"></span>Назад
+      <% end %>      
 
       <div class="d-grid gap-2 col-md-5 mx-auto mb-5">
-       <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
-          <span class="icon"><i class="icon_set_1_icon-11"></i></span>&#8194;Добавить номер
+        <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
+          Добавить номер
         <% end %> 
       </div>
       
@@ -130,18 +135,24 @@
     </div>  
 
     <div class="col-md-3 border-start">
-      <h3 class='h4 text-center'>Фото номера</h3>
-      <div class="mb-3">
-        <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+
+      <h3 class='h4 text-center text-success'>Фото номера</h3>
+
+      <div class="mb-4">
+        <span style="font-size:20px;color: #888"><i class="icon-photo" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
         <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
-        <img src="https://via.placeholder.com/300x200" id="preview" class="img-thumbnail mb-1">        
+        <div class="mb-2">
+        <img src="https://via.placeholder.com/300x200" id="avatar-preview" class="img-thumbnail">
+        </div>       
         <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm', required: true %>
       </div>
-      <div class="form-group">
-        <span style="font-size:18px"><i class="fas fa-images text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Загрузить фотографии номера. Максимальный размер одной фотографии - 4 МБ, не более 15 фотографий"></i></span>
-        <%= f.label :images, class: 'form-label' %>      
-        <%= f.file_field :images, multiple: true, accept: 'image/jpeg,image/png', class: 'form-control' %>
-      </div> 
+
+      <div class="mb-3">
+        <i class="icon-picture-1" style="font-size:20px;color: #888" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить все остальные фотографии. Максимальный размер одной фотографии - 4 МБ, не более 35 фотографий"></i>
+        Остальные изображения     
+        <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
+      </div>  
+
     </div>
 
   </div>  
@@ -150,12 +161,78 @@
 
 </div>
 
-<script type="text/javascript">
-  $("#room_avatar").bind("change", function() {
-    const size_in_megabytes = this.files[0].size/1024/1024;
-    if (size_in_megabytes > 4) {
-      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");      
+<script type="text/javascript"> // avatar, images preview
+  const avatar = document.getElementById('room_avatar')          
+  avatar.addEventListener('change', () => {
+    uploadFile(avatar.files[0])
+  })
+  function uploadFile(file) {
+    // проверяем тип файла
+    if (![ 'image/jpeg', 'image/png', 'image/gif' ].includes(file.type)) {
+      alert('Можно загрузить только изображения')
+      avatar.value = ''
+      return
     }
+    // проверяем размер файла
+    if (file.size > 4 * 1024 * 1024) {
+      alert('Файл должен быть мене 4 МБ.')
+      avatar.value = ''
+      return
+    }
+    // выводим preview
+    var reader = new FileReader()
+    reader.onload = function (e) {
+      document.getElementById("avatar-preview").src = e.target.result 
+    }
+    reader.readAsDataURL(file)
+  }
+
+  // upload images
+  $(document).ready(function() {
+    $('#room_images').fileuploader({
+      captions: 'ru',
+      addMore: true,
+      limit: 35,
+      fileMaxSize: 3,
+      extensions: ['jpg', 'jpeg', 'png', 'gif'],
+      changeInput: ' ',
+      theme: 'boxafter',
+      enableApi: true,
+        thumbnails: {
+            box: '<div class="fileuploader-items">' +
+                      '<ul class="fileuploader-items-list"></ul>' +
+                  '</div>' +
+                  '<div class="fileuploader-input">' +
+                      '<div class="fileuploader-input-inner">' +
+                          '<h3>${captions.feedback} ${captions.or} <a>${captions.button}</a></h3>' +
+                      '</div>' +
+                      '<button type="button" class="fileuploader-input-button">&plus;</button>' +
+                  '</div>',
+            item: '<li class="fileuploader-item">' +
+                       '<div class="columns">' +
+                           '<div class="column-thumbnail">${image}<span class="fileuploader-action-popup"></span></div>' +
+                           '<div class="column-title">' +
+                               '<div title="${name}">${name}</div>' +
+                               '<span>${size2}</span>' +
+                           '</div>' +
+                           '<div class="column-actions">' +
+                               '<button type="button" class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i class="fileuploader-icon-remove"></i></button>' +
+                           '</div>' +
+                           '${progressBar}' +
+                       '</div>' +
+                   '</li>',
+        },
+        afterRender: function(listEl, parentEl, newInputEl, inputEl) {
+            var plusInput = parentEl.find('.fileuploader-input'),
+                api = $.fileuploader.getInstance(inputEl.get(0));
+
+            plusInput.on('click', function() {
+                api.open();
+            });
+            
+            api.getOptions().dragDrop.container = plusInput;
+        },
+    });
   });
 </script>
 

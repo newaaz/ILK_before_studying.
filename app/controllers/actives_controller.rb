@@ -48,7 +48,7 @@ class ActivesController<ApplicationController
                         При успешной проверке Вам на почту придёт письмо, о том что страница активирована и доступна для всех посетителей сайта"
       # Отправляем админу письмо о создании ресурса
       #TODO: Включить отправку письма при создании ресурса
-      # UserMailer.resource_create(@active).deliver_now
+      UserMailer.resource_create(@active).deliver_now
       redirect_to @active
     else
       render 'new'

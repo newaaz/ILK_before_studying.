@@ -1,14 +1,15 @@
 ru:
   activerecord:
-    models:
-      post: 'Статья'
-      user: 'Пользователь'
-      post_category: 'Категория статей'
+    models:      
+      user: 'Пользователь'      
       town: 'Город'
-      order: 'Заявка'
-      price: 'Стоимость'
+      hotel: 'Гостиница' 
+      active: 'Активный отдых'
+      service: 'Услуга/Сервис'           
       cafebar: 'Кафе/Ресторан'
-      point: 'Поинт'
+      point: 'Достопримечательность'
+      order: 'Заявка - бронирование'
+      order_active: 'Заявка на активный отдых'
     attributes:
       point:
         name:   "Название"
@@ -21,26 +22,13 @@ ru:
         point_category_id:  "Категория"
         latitude: 'Требуется широта,'
         longitude: 'Требуется долгота,'
-      post:
-        title:   'Название'
-        content: 'Содержание:'
-        user_id: 'Пользователь'
-        avatar: 'Главное фото'
-        images: 'Изображения'
-        content_preview: 'Краткое описание'
-        seo_keywords: 'Ключевые слова для SEO'
-        seo_description: 'Описание (description) для SEO'
-        all_tags: 'Теги'
-        post_category_id: 'Категория статьи'
-        post_category: 'Категория статьи.'
       user:
         name: 'Имя'
         email: 'E-mail'
+        phone: '№ телефона'
+        avatar: 'Фото профиля'
         password: 'Пароль'
         password_confirmation: 'Подтверждение пароля'
-      post_category:
-        name: 'Название категории'
-        number: 'Порядковый номер'
       town:
         name: 'Название'
         parent_name: 'Название в падеже'
@@ -56,7 +44,8 @@ ru:
         price_from: 'Цена от'
         address: 'Адрес'
         distance_to_sea: 'Расстояние до моря'
-        feature: 'Рекламная особенность'
+        email: 'Email'
+        site: 'Сайт'
         avatar: 'Главное фото'
         images: 'Фотографии'
         hotel_category_id: 'Категория жилья'
@@ -80,10 +69,22 @@ ru:
         bathroom: "Санузел/душ/ванна"
         in_room: "В номере"
         addition: "Дополнительно"
-      price:
-        start_date: 'Начальная дата'
-        end_date: 'Конец периода'
-        day_cost: 'Стоимость периода'
+      active:
+        name: 'Название'
+        active_category_id: 'Категория'
+        price: 'Стоимость'
+        description: 'Описание'
+        avatar: 'Главное фото'
+        images: 'Остальные фото'
+      service:
+        name: 'Название'
+        service_category_id: 'Категория'
+        address: 'Адрес'
+        description: 'Описание'
+        price: 'Стоимость'
+        addition: 'Дополнительно'
+        avatar: 'Главное фото'
+        images: 'Остальные фото'
       cafebar:
         name: 'Название'
         avatar: 'Главное фото'
@@ -108,6 +109,13 @@ ru:
         wishes: 'Комментарии и пожелания'
         owner_comment: ''
         total_amount: ''
+      order_active:
+        guest_name: 'Ваше имя'
+        guest_email: 'Ваш email'
+        guest_phone: 'Ваш номер телефона'
+        wish_date: 'Желаемая дата'
+        adults: 'Поле: взрослых'
+        wishes: 'Комментарии и пожелания'
     errors:
       messages:
         blank:  'не может быть пустым'

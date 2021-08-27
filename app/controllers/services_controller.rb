@@ -51,7 +51,7 @@ class ServicesController<ApplicationController
       redirect_to @service
       # Отправляем админу письмо о создании ресурса
       #TODO: Включить отправку письма при создании ресурса
-      # UserMailer.resource_create(@service).deliver_now
+      UserMailer.resource_create(@service).deliver_now
     else
       render 'new'
     end
@@ -102,7 +102,8 @@ class ServicesController<ApplicationController
 
 
       redirect_to service_path
-      flash[:info] = 'Сервис успешно изменён'
+      # пока убрали, потому что ломает паралакс
+      # flash[:info] = 'Сервис успешно изменён'
     else
       flash.now[:warning] = 'Не получилось изменить Сервис'
       render :edit

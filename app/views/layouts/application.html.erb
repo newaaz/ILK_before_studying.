@@ -68,7 +68,12 @@
         $('html, body').animate({scrollTop:0}, scrollSpeed);
         return false;
         });
-      });  
+
+        
+      });
+      function logout() {
+        document.getElementById("logout-link").click()
+      }  
     </script>
     
     <%= javascript_include_tag "functions.js", 'data-turbolinks-track': 'reload' %>

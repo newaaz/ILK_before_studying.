@@ -2,6 +2,7 @@
 
 <% content_for(:javascript_plugin_header) do %>
   <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "fileuploader.min.js", 'data-turbolinks-track': 'false' %>
 <% end %>
 
 <div class="container mt-5">
@@ -10,31 +11,25 @@
 
   <%= form_with(model: @cafebar, local: true, html: { name: "cafe" }) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
-    <div class="row g-3">
+
+    <div class="row g-3 mb-5">
 
       <div class="col-lg-9  border-end">
 
         <div class="row mb-3 gx-2">
-          <div class="col-lg-4 col-md-6">
-            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <div class="col-lg-4 col-md-6">          
             <%= f.label :name %> <span class="text-danger">*</span>  
             <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>            
           </div>
-          <div class="col-lg-4 col-md-6">
-            <span>
-              <i class="icon_set_1_icon-8 text-muted"></i>
-            </span>
+          <div class="col-lg-4 col-md-6">      
             <%= f.label :town_id %> <span class="text-danger">*</span>              
             <%= f.collection_select :town_id, Town.order(:number), :id, :name,
               { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
           </div>
-          <div class="col-lg-4 col-md-6">
-            <span>
-              <i class="icon_set_1_icon-8 text-muted"></i>
-            </span>
+          <div class="col-lg-4 col-md-6">        
             <%= f.label :address %> <span class="text-danger">*</span>  
             <small class="text-muted">
-              / улица, номер
+              / улица, номер дома
             </small>
             <%= f.text_field :address, class: 'form-control form-control-sm', required: true %>
           </div>        
@@ -42,7 +37,7 @@
 
         <!-- mini-desc -->
         <div class="mb-3">
-          <span style="font-size:18px"><i class="icon_set_1_icon-8 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - Гостеприимный ресторан на берегу моря. Или - Уютное кафе семейного типа с вкусной и недорогой кухней"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon_set_1_icon-54" data-bs-toggle="tooltip" data-bs-placement="right" title="Например - Гостеприимный ресторан на берегу моря. Или - Уютное кафе семейного типа с вкусной и недорогой кухней"></i></span>
           <label class="form-label">О себе в двух словах</label><small class="text-muted"> / Краткое описание в одном предложении</small>
            <% if logged_in? && current_user.admin? %>
             <!-- Admin button -->
@@ -52,115 +47,125 @@
         </div>
         <!-- Desc -->
         <div class="mb-2">
-          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon_set_1_icon-54" data-bs-toggle="tooltip" data-bs-placement="right" title="Общее описание. Несколько абзацев"></i></span>          
           <%= f.label :description %> <span class="text-danger">*</span>
         </div>
         <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
         <!-- Menu -->
         <div class="mb-2 mt-3">
-          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon_set_3_restaurant-10" data-bs-toggle="tooltip" data-bs-placement="right" title="Какая кухня, что интересного есть в меню, фирменные блюда"></i></span>          
           <%= f.label :menu %> <span class="text-danger">*</span>
           <small class="text-muted">/ Что есть в меню</small> 
         </div>
         <%= f.rich_text_area :menu, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
 
-
-        <div class="row mb-4 mt-3 pb-3 gx-2">
-          <div class="col-md-8">
-            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+        <div class="row mb-4 mt-3 pb-3 gx-2"><!-- Map -->
+          <div class="col-md-8">        
             Отметить на карте <span class="text-danger">*</span>
-            <div id="map" style="height: 300px" class="border"></div>
+            <div id="map" style="height: 300px" class="border mt-2"></div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 pt-3">
             <div class="coordinates">
               <span>Координаты</span>
               <div class="form-group">              
                 <small class="text-muted">Широта</small>                
                 <%= f.text_field :latitude, class: 'form-control', readonly: true, required: true %>
               </div>
-              <div class="form-group mb-5">              
+              <div class="form-group mb-4">              
                 <small class="text-muted">Долгота</small>
                 <%= f.text_field :longitude, class: 'form-control', readonly: true, required: true %>
               </div>
-              <div class="pt-5">
+              <div class="d-flex justify-content-end">
                 <button type="button" id="clear-btn" class="d-block btn btn-outline-secondary btn-sm">Сбросить координаты</button>
-                <small class="text-muted">С пустыми координатами карта отображаться не будет</small>
               </div>
             </div>
           </div>
+        </div>          
+
+      </div><!-- END col-9 -->
+     
+      <div class="col-lg-3"><!-- contacts & photo -->     
+          
+        <h3 class='h4 text-center text-success'>Контакты</h3>
+        <div class="mb-3">
+          <%= f.label :phone %><small class="text-muted"> / если есть</small>
+          <%= f.text_field :phone, class: 'mask-phone form-control form-control-sm' %>
         </div>
 
-        <div class="d-flex justify-content-center">
-          <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
-          <%= button_tag "Добавить объявление", type: 'submit', class:"btn btn-primary" %>
-        </div>       
-
-      </div>
-      <!-- contacts & photo -->
-      <div class="col-lg-3">             
-          
-        <div class="row">
-          <!-- contacts -->          
-          <div class="col">
-            <h3 class='h4 text-center text-success'>Контакты</h3>
-            <div class="mb-3">
-              <span><i class="icon_set_1_icon-8 text-muted"></i></span>
-              <%= f.label :phone %><small class="text-muted"> / если есть</small>
-              <%= f.text_field :phone, class: 'mask-phone form-control form-control-sm' %>
-            </div>
-            <div class="mb-3">            
-              <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
-                <%= f.label :site %><small class="text-muted"> / если есть </small>
-              </div>
-              <div class="input-group input-group-sm">
-                <span class="input-group-text">https://</span>
-                <%= f.text_field :site, class: 'form-control' %>
-              </div>            
-            </div>
-            <div class="mb-3">
-              <span><i class="icon_set_1_icon-8 text-muted"></i></span>
-              <%= f.label :email %><small class="text-muted"> / если есть </small>
-              <%= f.email_field :email, class: 'form-control form-control-sm' %>     
-            </div>
-            <div class="mb-3">
-              <span><i class="icon_set_1_icon-8 text-muted"></i></span>
-              <%= f.label :instagram %><small class="text-muted"> / если есть </small>
-              <%= f.text_field :instagram, class: 'form-control form-control-sm' %>
-            </div>
-            <div class="mb-3">
-              <span><i class="icon_set_1_icon-8 text-muted"></i></span>
-              <%= f.label :vk %><small class="text-muted"> / если есть </small>
-              <%= f.text_field :vk, class: 'form-control form-control-sm' %>
-            </div>
-            <!-- images -->
-            <h3 class='h4 text-center text-success'>Фотографии</h3>
-            <div class="mb-3">
-              <i class="icon_set_1_icon-8 text-muted"></i><%= f.label :avatar %> <span class="text-danger">*</span>
-              <small class="text-muted mb-2">Здесь подсказки к загрузке  главного фото</small> 
-              <%= f.file_field :avatar, accept: 'image/*', required: true %>
-            </div>
-            <div class="mb-3">
-              <i class="icon_set_1_icon-8 text-muted"></i> Остальные изображения     
-              <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
-              <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
-            </div>
-            <!-- tags -->
-            <h3 class='h4 text-center text-success'>Категории</h3>          
-            <div class="form-group">
-              <%= f.label 'Выберите несколько', class:"ps-1" %>            
-              <%= f.collection_select :tagcafebar_ids, Tagcafebar.order(:name), :id, :name,
-                { include_blank: false }, class:"form-select", size: 8, required: true,
-                      multiple: true %>
-              <input type="hidden" name="desc_json">               
-            </div>
+        <div class="mb-3">            
+          <div class="mb-1">
+            <%= image_tag "icons/www_sm.png", width: "20px", title: "Без https://, например - feohotel.ru", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+            <%= f.label :site %><small class="text-muted"> / если есть </small>
           </div>
-                  
-        </div>       
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">https://</span>
+            <%= f.text_field :site, class: 'form-control' %>
+          </div>            
+        </div>
 
-      </div>
+        <div class="mb-3">
+          <%= image_tag "icons/email_sm_2.png", width: "20px", title: "Email который будет отображаться в контактах", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+          <%= f.label :email %><small class="text-muted"> / если есть </small>
+          <%= f.email_field :email, class: 'form-control form-control-sm' %>     
+        </div>
 
-    </div>            
+        <div class="mb-3"><!-- vk -->           
+          <div class="mb-1">
+            <%= image_tag "icons/vk_sm.png", width: "20px", title: "Просто ID странички, например - feohotel", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+            <%= f.label :vk %><small class="text-muted"> / если есть </small>
+          </div>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">vk.com/</span>
+            <%= f.text_field :vk, class: 'form-control form-control-sm' %>
+          </div>            
+        </div>
+
+        <div class="mb-3"><!-- insta -->           
+          <div class="mb-1">
+            <%= image_tag "icons/instagram_sm_2.png", width: "20px", title: "Просто ID в Instagram, например - feohotel", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+              <%= f.label :instagram %><small class="text-muted"> / если есть </small>
+          </div>
+          <div class="input-group input-group-sm">
+            <span class="input-group-text">instagram.com/</span>
+            <%= f.text_field :instagram, class: 'form-control form-control-sm' %>
+          </div>            
+        </div>
+  
+        <!-- images -->
+        <h3 class='h4 text-center text-success'>Фотографии</h3>
+        <div class="mb-4">
+          <span style="font-size:20px;color: #888"><i class="icon-photo" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
+          <div class="mb-2">
+          <img src="https://via.placeholder.com/300x200" id="avatar-preview" class="img-thumbnail">
+          </div>       
+          <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm', required: true %>
+        </div>         
+
+        <div class="">
+          <i class="icon-picture-1" style="font-size:20px;color: #888" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить все остальные фотографии. Максимальный размер одной фотографии - 4 МБ, не более 35 фотографий"></i>
+          Остальные изображения     
+          <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
+        </div>
+
+        <!-- tags -->
+        <h3 class='h4 text-center text-success'># Теги</h3>          
+        <div class="form-group">
+          <%= f.label 'Выберите несколько', class:"ps-1 mb-2" %>            
+          <%= f.collection_select :tagcafebar_ids, Tagcafebar.order(:name), :id, :name,
+            { include_blank: false }, class:"form-select", size: 8, required: true,
+                  multiple: true %>
+        </div> 
+
+        <input type="hidden" name="desc_json"><!-- hidden -->  
+
+      </div><!-- END COl-3 -->
+
+    </div>
+
+    <div class="d-flex justify-content-center my-5">
+      <%= button_tag "Добавить объект", type: 'submit', class:"btn btn-primary btn-lg" %>    
+    </div>          
 
   <% end %>
 
@@ -208,12 +213,51 @@
 
 <!-- avatar, mask-phone, work with form -->
 <script type="text/javascript">
-  // check avatar size
-  $("#cafebar_avatar").bind("change", function() {
-    const size_in_megabytes = this.files[0].size/1024/1024;
-    if (size_in_megabytes > 4) {
-      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+  // upload avatar
+  const avatar = document.getElementById('cafebar_avatar')          
+  avatar.addEventListener('change', () => {
+    uploadFile(avatar.files[0])
+  })
+  function uploadFile(file) {
+    // проверяем тип файла
+    if (![ 'image/jpeg', 'image/png', 'image/gif' ].includes(file.type)) {
+      alert('Можно загрузить только изображения')
+      avatar.value = ''
+      return
     }
+    // проверяем размер файла
+    if (file.size > 4 * 1024 * 1024) {
+      alert('Файл должен быть мене 4 МБ.')
+      avatar.value = ''
+      return
+    }
+    // выводим preview
+    var reader = new FileReader()
+    reader.onload = function (e) {
+      document.getElementById("avatar-preview").src = e.target.result 
+    }
+    reader.readAsDataURL(file)
+  }
+
+  // upload images
+  $(document).ready(function() {
+    $('#cafebar_images').fileuploader({
+      captions: 'ru',
+      addMore: true,
+      limit: 35,
+      fileMaxSize: 3,
+      extensions: ['jpg', 'jpeg', 'png', 'gif'],
+      theme: 'dragdrop',
+      changeInput: '<div class="fileuploader-input mb-3">' +
+              '<div class="fileuploader-input-inner">' +
+                '<div class="fileuploader-icon-main"></div>' +
+              '<h3 class="fileuploader-input-caption"><span>${captions.feedback}</span></h3>' +
+              '<p>${captions.or}</p>' +
+              '<button type="button" class="fileuploader-input-button"><span>${captions.button}</span></button>' +
+            '</div>' +
+          '</div>',
+      
+    });
   });
 
   // Mask phone
@@ -228,7 +272,7 @@
     event.preventDefault();
     
     var data = {
-        "phone_clean": this[26].value.replace(/[^0-9]/g, ''),
+        "phone_clean": this[44].value.replace(/[^0-9]/g, ''),
         "mini_desc": this.mini_desc.value     
     };   
 
@@ -257,11 +301,11 @@
 
       form.mini_desc.value = 'Уютное кафе семейного типа со вкусной и недорогой кухней'
 
-      form.elements[45].value = '+7 (846) 546-54-65';
-      form.elements[46].value = 'https://kilova.ru/';
-      form.elements[47].value = 'voskod@mail.ru';
-      form.elements[48].value = 'kilovagora';
-      form.elements[49].value = 'mcixabuka';
+      form.elements[44].value = '+7 (978) 265-19-47';
+      form.elements[45].value = 'ilovekrim.ru';
+      form.elements[46].value = 'ilove-krim@mail.ru';
+      form.elements[48].value = 'ilovekrim';
+      form.elements[47].value = 'i_lovekrim';
 
       form.elements[41].value = 45.0415;
       form.elements[42].value = 35.3666;      

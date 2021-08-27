@@ -2,12 +2,12 @@
 
 <% content_for(:javascript_plugin_header) do %>
   <%= javascript_include_tag "jquery.maskedinput.min.js", 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag "fileuploader.min.js", 'data-turbolinks-track': 'false' %>
 <% end %>
 
 <div class="container mt-5">
   
-  <h1 class='h3 text-center mb-4'>Новая Активность</h1>
-  <p>Все поля со звёздочками <span class="text-danger">*</span> - нужно заполнить</p>
+  <h1 class='h3 text-center mb-4'>Новая Активность</h1>  
 
   <%= form_with(model: @active, local: true, html: { name: "active" }) do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
@@ -17,27 +17,23 @@
 
         <div class="row mb-3 gx-2">
 
-          <div class="col-lg-5 col-md-6"><!-- name -->
-            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <div class="col-lg-5 col-md-6"><!-- name -->          
             <%= f.label :name %> <span class="text-danger">*</span>  
             <%= f.text_field :name, class: 'form-control form-control-sm', required: true %>           
           </div>
 
-          <div class="col-lg-3 col-md-6"><!-- category -->
-            <span>
-              <i class="icon_set_1_icon-8 text-muted"></i>
-            </span>
+          <div class="col-lg-3 col-md-6"><!-- category -->       
             <%= f.label :active_category_id %> <span class="text-danger">*</span>              
             <%= f.collection_select :active_category_id, ActiveCategory.order(:number), :id, :name,
               { prompt: "Выбрать..." },class:"form-select form-select-sm", required: true %>
           </div>
           
-          <div class="col-lg-2 col-md-6"><!-- price -->
-            <span>
-              <i class="icon_set_1_icon-8 text-muted"></i>
-            </span>
-            <%= f.label :price %> <span class="text-danger">*</span> <small class="form-text text-muted">руб</small>        
-            <%= f.text_field :price, class: 'form-control form-control-sm', required: true %>
+          <div class="col-lg-2 col-md-6"><!-- price -->         
+            <%= f.label :price %> <span class="text-danger">*</span>       
+            <div class="input-group input-group-sm">              
+              <%= f.text_field :price, class: 'form-control form-control-sm', required: true %>
+              <span class="input-group-text">&#8381;</span>
+            </div> 
           </div>
           <div class="col-lg-2 col-md-4">
             <label for="price_type">чел / тур</label> <span class="text-danger">*</span>              
@@ -51,7 +47,7 @@
 
         <!-- Desc -->
         <div class="mb-2">
-          <span><i class="icon_set_1_icon-8 text-muted"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon_set_1_icon-54" data-bs-toggle="tooltip" data-bs-placement="right" title="Общее описание. Несколько абзацев"></i></span>          
           <%= f.label :description %> <span class="text-danger">*</span>
         </div>
         <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
@@ -68,9 +64,8 @@
 
         <!-- map -->
         <div class="row mb-4 mt-3 pb-3 gx-2">
-          <div class="col-md-8">
-            <span><i class="icon_set_1_icon-8 text-muted"></i></span>
-            Отметить на карте
+          <div class="col-md-8">            
+            Отметить на карте <small class="text-muted"> (Если надо)</small>
             <div id="map" style="height: 300px" class="border mt-2"></div>
           </div>
           <div class="col-md-4">
@@ -92,9 +87,10 @@
           </div>
         </div>
 
-        <div class="d-flex justify-content-center">
-          <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
-          <%= button_tag "Добавить Активность", type: 'submit', class:"btn btn-primary" %>
+        <br><hr>
+
+        <div class="d-flex justify-content-center mt-5">          
+          <%= button_tag "Добавить Активность", type: 'submit', class:"btn btn-primary btn-lg" %>
         </div>
 
       </div><!-- end col-9 -->
@@ -144,9 +140,10 @@
               </div>
             </div>
             <!-- END Phone CONTACTS -->
+
             <div class="my-3"><!-- vk -->           
               <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
+                <%= image_tag "icons/vk_sm.png", width: "20px", title: "Просто ID странички, например - feohotel", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
                 <label class="form-label">ВКонтакте</label><small class="text-muted"> (если есть)</small>
               </div>
               <div class="input-group input-group-sm">
@@ -154,9 +151,10 @@
                 <input name="vk" type="text" class="form-control form-control-sm">
               </div>            
             </div>
+
             <div class="mb-3"><!-- insta -->           
               <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
+                <%= image_tag "icons/instagram_sm_2.png", width: "20px", title: "Просто ID в Instagram, например - feohotel", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
                 <label class="form-label">Instagram</label><small class="text-muted"> (если есть)</small>
               </div>
               <div class="input-group input-group-sm">
@@ -164,38 +162,45 @@
                 <input name="instagram" type="text" class="form-control form-control-sm">
               </div>            
             </div>
+
+            <div class="mb-3"><!-- email -->
+              <%= image_tag "icons/email_sm_2.png", width: "20px", title: "Email который будет отображаться в контактах и на него будут приходить заявки", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
+              <label class="form-label">Email</label><small class="text-muted"> (если есть)</small>
+              <input name="email" type="text" class="form-control form-control-sm">
+            </div>
+
             <div class="mb-3"><!-- site -->          
               <div class="mb-1">
-                <i class="icon_set_1_icon-8 text-muted"></i>
+                <%= image_tag "icons/www_sm.png", width: "20px", title: "Без https://, например - feohotel.ru", data: { 'bs-toggle': 'tooltip', 'bs-placement': 'left' } %>
                 <label class="form-label">Сайт</label><small class="text-muted"> (если есть)</small>
               </div>
               <div class="input-group input-group-sm">
                 <span class="input-group-text">https://</span>
                 <input name="site" type="text" class="form-control form-control-sm">
               </div>            
-            </div>
-            <div class="mb-3"><!-- email -->
-              <span style="font-size:18px"><i class="icon_set_1_icon-84" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
-              <label class="form-label">Email</label><small class="text-muted"> (если есть)</small>
-              <input name="email" type="text" class="form-control form-control-sm">
-            </div>
+            </div>           
         
             <!-- images -->
             <h3 class='h4 text-center text-success'>Фотографии</h3>
-            <div class="mb-3">
-              <i class="icon_set_1_icon-8 text-muted"></i><%= f.label :avatar %> <span class="text-danger">*</span>
-              <small class="text-muted mb-2">Здесь подсказки к загрузке  главного фото</small> 
-              <%= f.file_field :avatar, accept: 'image/*', required: true %>
-            </div>
-            <div class="mb-3">
-              <i class="icon_set_1_icon-8 text-muted"></i> Остальные изображения     
-              <small class="text-muted mb-2">Здесь подсказки к загрузке изображений</small>           
+            <div class="mb-4">
+              <span style="font-size:20px;color: #888"><i class="icon-photo" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+              <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
+              <div class="mb-2">
+              <img src="https://via.placeholder.com/300x200" id="avatar-preview" class="img-thumbnail">
+              </div>       
+              <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm', required: true %>
+            </div>         
+
+            <div class="">
+              <i class="icon-picture-1" style="font-size:20px;color: #888" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить все остальные фотографии. Максимальный размер одной фотографии - 4 МБ, не более 35 фотографий"></i>
+              Остальные изображения     
               <%= f.file_field :images, multiple: true, accept: 'image/*' %>          
             </div>
+
             <!-- towns -->
-            <h3 class='h4 text-center text-success'>К каким населённым пунктам относится</h3>          
+            <h3 class='h4 text-center text-success mt-3'>К каким населённым пунктам относится</h3>          
             <div class="form-group">
-              <%= f.label 'Выберите один или несколько', class:"ps-1" %> <span class="text-danger">*</span>         
+              <%= f.label 'Выберите один или несколько', class:"ps-1 mb-2" %> <span class="text-danger" data-bs-toggle="tooltip" data-bs-placement="left" title="Зажав клавишу 'Ctrl' можно выбрать несколько">*</span>         
               <%= f.collection_select :town_ids, Town.order(:name), :id, :name,
                 { include_blank: false }, class:"form-select", size: 8, required: true, multiple: true %>
             </div>
@@ -225,10 +230,10 @@
                 </div>
               </div>  
             </div>
-            <!-- END SEO TAGS -->
+            <!-- END SEO TAGS -->            
             
-            
-            <input type="hidden" name="desc_json"><!-- hidden -->   
+            <input type="hidden" name="desc_json"><!-- hidden --> 
+
           </div>
                   
         </div>       
@@ -283,12 +288,51 @@
 
 <!-- avatar, mask-phone, work with form -->
 <script type="text/javascript">
-  // check avatar size
-  $("#active_avatar").bind("change", function() {
-    const size_in_megabytes = this.files[0].size/1024/1024;
-    if (size_in_megabytes > 4) {
-      alert("Максимальный размер фотографии 4 МБ. Пожалуйста, выберите файл поменьше");
+  // upload avatar
+  const avatar = document.getElementById('active_avatar')          
+  avatar.addEventListener('change', () => {
+    uploadFile(avatar.files[0])
+  })
+  function uploadFile(file) {
+    // проверяем тип файла
+    if (![ 'image/jpeg', 'image/png', 'image/gif' ].includes(file.type)) {
+      alert('Можно загрузить только изображения')
+      avatar.value = ''
+      return
     }
+    // проверяем размер файла
+    if (file.size > 4 * 1024 * 1024) {
+      alert('Файл должен быть мене 4 МБ.')
+      avatar.value = ''
+      return
+    }
+    // выводим preview
+    var reader = new FileReader()
+    reader.onload = function (e) {
+      document.getElementById("avatar-preview").src = e.target.result 
+    }
+    reader.readAsDataURL(file)
+  }
+
+  // upload images
+  $(document).ready(function() {
+    $('#active_images').fileuploader({
+      captions: 'ru',
+      addMore: true,
+      limit: 35,
+      fileMaxSize: 3,
+      extensions: ['jpg', 'jpeg', 'png', 'gif'],
+      theme: 'dragdrop',
+      changeInput: '<div class="fileuploader-input mb-3">' +
+              '<div class="fileuploader-input-inner">' +
+                '<div class="fileuploader-icon-main"></div>' +
+              '<h3 class="fileuploader-input-caption"><span>${captions.feedback}</span></h3>' +
+              '<p>${captions.or}</p>' +
+              '<button type="button" class="fileuploader-input-button"><span>${captions.button}</span></button>' +
+            '</div>' +
+          '</div>',
+      
+    });
   });
 
   // Mask phone
@@ -310,20 +354,20 @@
     }
     
     var data = {
-        "addition": this.addition.value,
-        "price_type": this.price_type.value,
-        "prices":     this.prices.value,
-        "phone": this.phone.value,
-        "phone_clean": this.phone.value.replace(/[^0-9]/g, ''),
-        "ow_name":  this.ow_name.value,
-        "viber":    this.viber.value,
-        "whatsapp": this.whatsapp.value,
-        "vk": this.vk.value,
-        "instagram": this.instagram.value,
-        "site": this.site.value,
-        "email": this.email.value,
-        "seo_keywords": this.seo_keywords.value,
-        "seo_description": this.seo_description.value,
+      "addition": this.addition.value,
+      "price_type": this.price_type.value,
+      "prices":     this.prices.value,
+      "phone": this.phone.value,
+      "phone_clean": this.phone.value.replace(/[^0-9]/g, ''),
+      "ow_name":  this.ow_name.value,
+      "viber":    this.viber.value,
+      "whatsapp": this.whatsapp.value,
+      "vk": this.vk.value,
+      "instagram": this.instagram.value,
+      "site": this.site.value,
+      "email": this.email.value,
+      "seo_keywords": this.seo_keywords.value,
+      "seo_description": this.seo_description.value,
     };   
 
     this.desc_json.value = JSON.stringify(data);  
@@ -348,19 +392,17 @@
       form.elements[25].value = 45.0423
       form.elements[26].value = 35.3666
       
-      form.phone.value =  '+7(978) 254-11-56'
-      form.ow_name.value =  'Илья'
+      form.phone.value =  '+7(978) 265-19-47'
+      form.ow_name.value =  'Сергей'
       form.viber.value =  1
       form.whatsapp.value =  1
       form.viber.checked =  1
       form.whatsapp.checked =  1
       
-      form.vk.value = 'mcixabuka'
-      form.instagram.value = 'kilovagora'
-      form.site.value = 'kilova.ru'
-      form.email.value = 'email_32@mail.ru'
-
-      form.elements[40].value = 1
+      form.vk.value = 'i_lovekrim'
+      form.instagram.value = 'ilovekrim'
+      form.site.value = 'ilovekrim.ru'
+      form.email.value = 'ilk-cashback@mail.ru'      
 
       form.seo_keywords.value =  'Коктебель, Полеты на параплане, Параплан, отдых, экстрим, тур, активность, заказать'
       form.seo_description.value =  'Полет на параплане в тандеме с инструктором станет удивительным и захватывающим дух подарком для любителей активного отдыха и романтиков. Это потрясающая возможность летать «как птица, чувствуя голос ветра». Полет в тандеме с инструктором — наиболее безопасная возможность подняться в воздух и почувствовать себя невесомо, как зонтик одуванчика.'

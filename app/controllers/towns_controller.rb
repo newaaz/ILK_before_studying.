@@ -9,16 +9,22 @@ class TownsController < ApplicationController
   def show
     @town = Town.find(params[:id])
     # счётчик всех категорий
-    @town_cats = @town.category_counters
+    @town_cats = @town.category_counters.order(:cat_type)
+
     # рекламные активности
-    @promo_actives = @town.actives.activated.select(:id, :avatar, :name, :price).where("promouted = ?", 10).take(6)
+    @promo_actives = @town.actives.activated.select(:id, :avatar, :name, :price).where("promouted >= ?", 60).take(6)
     
     #рекламные Cafebars
-    @promo_cafebars = @town.cafebars.activated.select(:id, :avatar, :images, :name, :address, :desc_json).where("rating = ?", 15).take(4)
-    @tagcafebars = Tagcafebar.all 
+    @promo_cafebars = @town.cafebars.activated.select(:id, :avatar, :images, :name, :address, :desc_json).where("rating >= ?", 60).take(4)
+    @tagcafebars = Tagcafebar.all
+ 
+    # выборка отелей для показа фото категорий жилья
+    @hotels_photo = @town.hotels.where('rating >= ?', 60).select(:id, :avatar, :hotel_category_id, :desc_json)
 
     # категории достопримечательностей имеющие объекты
     @point_cats = @town_cats.where(cat_type: 'points')
+    # выборка достопримечательностей для показа фото их категорий на странице города
+    @points_photo = @town.points.where('rating >= ?', 60).select(:id, :avatar, :point_category_id, :desc_json)
 
     # Определяем существующие категории сервисов
     service_array_ids = []
@@ -191,7 +197,7 @@ class TownsController < ApplicationController
   private
 
   def town_params
-    params.require(:town).permit(:name, :parent_name, :number, :avatar)
+    params.require(:town).permit(:name, :parent_name, :number, :avatar, :description)
   end
 
   def user_admin

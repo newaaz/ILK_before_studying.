@@ -19,14 +19,14 @@
         </div>
         <div class="col-md-3">
           <label class="form-label">Кол-во комнат</label> <span class="text-danger">*</span>
-          <input name="rooms" type="text" class="form-control" required>
+          <input name="rooms" type="text" class="form-control form-control-sm" required>
         </div>
       </div>
 
       <div class="row mb-3 gx-3">
         <div class="col-md-3">
           <label class="form-label">Кол-во гостей</label> <span class="text-danger">*</span>
-          <input name="guests" type="text" class="form-control" required>
+          <input name="guests" type="text" class="form-control form-control-sm" required>
         </div>
         <div class="col-md-3">        
           <div class="form-label">Площадь <span class="text-danger">*</span> (М<sup><small>2</small></sup>) </div>  
@@ -34,44 +34,44 @@
         </div>
         <div class="col-md-3">
           <label class="form-label">Этаж</label> <span class="text-danger">*</span>
-          <input name="floor" type="text" class="form-control" required>            
+          <input name="floor" type="text" class="form-control form-control-sm" required>            
         </div> 
         <div class="col-md-3">
           <%= f.label :number, class: 'form-label' %> <span style="font-weight:200; font-size:14px"><sup><i class="far fa-question-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Порядковый номер в выводе списка номеров"></i></sup></span>
-          <%= f.number_field :number, class: 'form-control' %>
+          <%= f.number_field :number, class: 'form-control form-control-sm' %>
         </div>
       </div>      
 
-      <div class="room__desc">
+      <div class="hotel__desc">
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span style="font-size:20px;color: #888"><i class="icon_set_1_icon-54 text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Общее описание номера"></i></span>
           <label class="form-label">Описание</label>
           <textarea name="desc" class="form-control" rows="5" style="height:130px"></textarea>
         </div>
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span><i class="icon_set_2_icon-114" data-bs-toggle="tooltip" data-bs-placement="right" title="Какая мебель есть в номере. Какие спальные места"></i></span>
           <label class="form-label">Мебель</label> <span class="text-danger">*</span>
-          <input name="furniture" type="text" class="form-control" required>            
+          <input name="furniture" type="text" class="form-control form-control-sm" required>            
         </div>  
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span><i class="icon_set_2_icon-111" data-bs-toggle="tooltip" data-bs-placement="right" title="Что есть в номере. Нпример - туалет и душ в номере, санузел совмещенный"></i></span>
           <label class="form-label">Санузел/душ/ванна</label> <span class="text-danger">*</span>
-          <input name="bathroom" type="text" class="form-control" required>            
+          <input name="bathroom" type="text" class="form-control form-control-sm" required>            
         </div> 
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span><i class="icon_set_2_icon-116" data-bs-toggle="tooltip" data-bs-placement="right" title="Что ещё есть в номере"></i></span>
           <label class="form-label">В номере</label> <span class="text-danger">*</span>
-          <input name="in_room" type="text" class="form-control" required>            
+          <input name="in_room" type="text" class="form-control form-control-sm" required>            
         </div>
 
         <div class="mb-3">
-          <span style="font-size:18px"><i class="fas fa-image text-muted" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+          <span><i class="icon_set_1_icon-68" data-bs-toggle="tooltip" data-bs-placement="right" title="Дополнительная информация"></i></span>
           <label class="form-label">Дополнительно</label>
-          <input name="addition" type="text" class="form-control">            
+          <input name="addition" type="text" class="form-control form-control-sm">            
         </div>
 
         <input type="hidden" name="desc_json">
@@ -88,46 +88,69 @@
 
       <br><br><hr>
       
-      <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+      <%= link_to  @room.hotel, class: "btn btn-outline-secondary btn-sm mb-2" do %>
+        <span class="icon-left-open-mini"></span>Назад
+      <% end %>   
 
       <div class="d-grid gap-2 col-md-5 mx-auto mb-5">     
         <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
-          <span class="icon"><i class="icon_set_1_icon-76"></i></span>&#8194;Сохранить изменения
+          Сохранить изменения
         <% end %> 
-      </div>
-
-    <% end %>        
+      </div>          
 
   </div>  
 
   <div class="col-md-3 border-start">
 
-    Главное фото
-    <%= image_tag @room.avatar.thumb.url, class: 'img-fluid img-thumbnail' %>
+    <h3 class='h4 text-center text-success'>Фотографии</h3>
+    <div class="mb-4">
+      <span style="font-size:20px;color: #888"><i class="icon-photo" data-bs-toggle="tooltip" data-bs-placement="left" title="Загрузить главную фотографию. Максимальный размер - 4 МБ"></i></span>
+      <%= f.label :avatar, class: 'form-label' %> <span class="text-danger">*</span>
+      <div class="mb-2">
+        <%= image_tag @room.avatar.url, class: "img-thumbnail", id: "avatar-preview"  %>
+      </div>
+      <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
+    </div> 
+    
+    <% end %>
 
-    <h2 class='h6'><strong>Фотографии</strong></h2>
-    <div class="row mb-3">
+    <div class="text-center text-success mb-3" style="font-weight:600;">
+      Остальные фотографии
+    </div>
+
+    <!-- remove images -->
+    <div class="mb-4" id="add-delete-image">
       <%  if @room.images.any? %>
-        <% @room.images.each_with_index do |image, index| %>
-          <div class="col-md-6">
-            <%= image_tag image.thumb.url, class: 'img-fluid img-thumbnail' %>
-            
-          </div>
-        <% end %>    
+        <div class="row g-1">
+          <% @room.images.each_with_index do |image, index| %>
+            <div class="col-6 del-image">                  
+              <%= link_to room_image_path(@room, index, model: "Room"), :method => :delete, remote: true  do %>
+                &times;
+              <% end %>
+              <%= image_tag image.thumb.url, class: 'img-fluid ' %>                  
+            </div>
+          <% end %>
+        </div>    
       <% else %>
         <small>
-          У номера нет фотографий, Вы можете добавить их ниже.     
+          Фотографий нет, Вы можете их добавить ниже.     
         </small>
       <% end %>
-    </div>
-      
-    <div class="col-12"><strong>Добавить фотографии</strong></div>
-    
-    <small class="form-text text-muted">
-      Загрузить фотографии номера. Максимальный размер одной фотографии - 4 МБ,
-      не больше 20 фотографий
-    </small>
-    
+    </div>   
+
+    <div class="text-center text-success mb-3" style="font-weight:600;">
+      Добавить фотографии
+    </div> 
+
+    <!-- add images -->
+    <%= form_with(url: images_path(@room), local: false, method: :hotel) do |f| %>
+      <%= hidden_field_tag(:model, "Room") %>
+      <%= f.file_field :images, multiple: true, accept: 'image/jpeg,image/png', class: 'form-control form-control-sm' %>
+        <%= button_tag type: 'submit', class:"w-100 btn btn-primary btn-sm mt-2" do %>
+          <span class="icon"><i class="icon-down-1"></i></span>&#8194;Загрузить выбранные
+        <% end %>
+    <% end %> 
+
   </div>
 
 </div>
@@ -136,6 +159,33 @@
 
 
 <script>
+
+  // preview avatar
+    const avatar = document.getElementById('room_avatar')          
+    avatar.addEventListener('change', () => {
+      uploadFile(avatar.files[0])
+    })
+    function uploadFile(file) {
+      // проверяем тип файла
+      if (![ 'image/jpeg', 'image/png', 'image/gif' ].includes(file.type)) {
+        alert('Можно загрузить только изображения')
+        avatar.value = ''
+        return
+      }
+      // проверяем размер файла
+      if (file.size > 4 * 1024 * 1024) {
+        alert('Файл должен быть мене 4 МБ.')
+        avatar.value = ''
+        return
+      }
+      // выводим preview
+      var reader = new FileReader()
+      reader.onload = function (e) {
+        document.getElementById("avatar-preview").src = e.target.result 
+      }
+      reader.readAsDataURL(file)
+    }
+  //
 
   var form = document.room
   
@@ -274,8 +324,6 @@
       $('#flat-price-' + removeId).remove()
     }        
   }
-
-
 
 </script>
   

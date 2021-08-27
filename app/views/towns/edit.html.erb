@@ -1,59 +1,72 @@
 <% provide(:title, 'Изменение города') %>
 
-<div class="row justify-content-center align-items-center">
-  <h2>Изменение города</h2>
-</div>
+<div class="container my-5">
 
-<%= form_with(model: @town, local: true) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
+  <div class="row justify-content-center align-items-center">
+    <h2><%= @town.name %> - Изменение города</h2>
+  </div>
 
-  <div class="row h-100">
-    <div class="col-md-9 col-md-offset-3"> 
+  <%= form_with(model: @town, local: true) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
 
-      <div class="form-group">
-        <%= f.label :name %>
-        <small class="text-muted">
-          / Имя города
-        </small>
-        <%= f.text_field :name, class: 'form-control' %>
-      </div>
+    <div class="row h-100">
+      <div class="col-md-9 col-md-offset-3"> 
 
-      <div class="form-group">
-        <%= f.label :parent_name %>
-        <small class="text-muted">
-          / Имя города в падеже
-        </small>
-        <%= f.text_field :parent_name, class: 'form-control' %>
-      </div>
+        <div class="form-group">
+          <%= f.label :name %>
+          <small class="text-muted">
+            / Имя города
+          </small>
+          <%= f.text_field :name, class: 'form-control' %>
+        </div>
 
-      <div class="form-group">
-        <%= f.label :number %>
-        <small class="text-muted">
-          / Порядковый номер
-        </small>
-        <%= f.number_field :number, class: 'form-control' %>
-      </div>
-       
-      
+        <div class="form-group">
+          <%= f.label :parent_name %>
+          <small class="text-muted">
+            / Имя города в падеже
+          </small>
+          <%= f.text_field :parent_name, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :number %>
+          <small class="text-muted">
+            / Порядковый номер
+          </small>
+          <%= f.number_field :number, class: 'form-control' %>
+        </div>
+
+        <!-- Desc -->
+        <div class="mb-2">
+          <span style="font-size:20px;color: #888"><i class="icon_set_1_icon-54" data-bs-toggle="tooltip" data-bs-placement="right" title="Общее описание. Несколько абзацев"></i></span>          
+          <%= f.label :description %> <span class="text-danger">*</span>
+        </div>
+        <%= f.rich_text_area :description, class: 'form-control', placeholder: "Чтобы прикрепить изображения просто перетащите их сюда, или нажмите кнопку со скрепкой", required: true %>
+              
+        
         <small class="form-text text-muted">
           Загрузить новое фото города
         </small>        
         <%= f.file_field :avatar, accept: 'image/jpeg,image/png', class: 'form-control' %>
         <%= image_tag @town.avatar.thumb.url, class: 'img-thumbnail' %>
 
-      <br>  
-           
+        <br>  
+            
 
-      <%= f.submit "Изменить город",class:"btn btn-primary btn-sm"%>
-      <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm" %>
+        <%= link_to "Назад", :back, class: "btn btn-outline-secondary btn-sm mt-5" %>
+        <%= f.submit "Изменить город",class:"btn btn-primary btn-sm mt-5"%>
+        
+      </div>
+
+      <div class="col-md-3 col-md-offset-3">
+        
+      </div>
+
     </div>
+  <% end %>
 
-    <div class="col-md-3 col-md-offset-3">
-      
-    </div>
 
-  </div>
-<% end %>
+</div>
 
   <script type="text/javascript">
     $("#town_avatar").bind("change", function() {

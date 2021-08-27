@@ -6,9 +6,13 @@
 <div class="row">
 
 
-<div class="col-lg-6">
+<div class="col-lg-8">
 
-  <span class="text-muted">Те же данные видит и заказчик, кроме кнопки "Установить стоимость"</span>  
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    Это ваша заявка отправленная на ваше объявление.<br>
+    Те же данные видит и заказчик
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>   
 
   <h4 class="my-4">Заявка на Активный отдых № <%= @order.id %></h4> 
 

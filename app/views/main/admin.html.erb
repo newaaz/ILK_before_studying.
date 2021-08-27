@@ -1,2 +1,223 @@
-<h1>Main#admin</h1>
-<p>Find me in app/views/main/admin.html.erb</p>
+<% provide(:title, "Админка | Люблю Крым") %>
+
+<div class="container my-5">
+
+  <div style="font-size:25px;line-height:35px;">
+    &#127760;127760	&#129517;129517 &#127968;127968 &#127969; &#127970; &#127971; 	&#127972; 
+    &#127973; 	&#127974; &#127976; &#127977; 	&#127978; 	&#127984; &#128146; &#128508;
+    кемпинг&#9978; &#127748; 	&#127749; &#127904; &#127905; &#127906; &#127914;
+    &#128642; &#128650; &#128651; &#128652; 	&#128653; 	&#128654; &#128657; &#128658;
+
+    &#128661; &#128662; &#128757; &#9973; &#128758; 	&#128676; &#128674; &#128747;  <br>
+      &#127873;
+
+      &#9917;  	&#127936; &#127952;  &#127923; &#127955;  &#127992;
+
+      &#127909; &#128247; &#128248; &#128218; &#128179; 
+
+        &#9993; &#128231; &#128197; &#128198;
+
+      &#128274;
+
+      &#128701; &#128703; &#128705; &#129529; &#129530; &#128722;    
+  </div>
+
+  <hr>
+
+  <a href="javascript: add_input();" class="btn-ilk btn-ilk-grd btn-ocean"><span class="icon-user-add-1"></span> Добавить ещё контакт</a>
+  <a href="javascript: insertInfo();" class="btn-ilk">Вставить</a>
+  <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-prim">Очистить</a>
+  <a href="javascript: contactsOutput();" class="btn-ilk btn-ilk-grd">Контакты</a>
+  <a href="javascript: insertInfo();" class="btn-ilk btn-ilk-grd btn-blue">Голубой</a>
+
+  <hr>
+
+</div>
+
+  <div class="white_bg">
+    <div class="container margin_60">
+      
+      <div class="row">
+        <div class="col-lg-3 col-md-6 text-center">
+          <p>
+            <%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
+          </p>
+          <h4><span>Sightseen tour</span> booking</h4>
+          <p>
+            Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
+          </p>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+          <p>
+            <%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
+          </p>
+          <h4><span>Transfer</span> booking</h4>
+          <p>
+            Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
+          </p>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+          <p>
+            <%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
+          </p>
+          <h4><span>Tour guide</span> booking</h4>
+          <p>
+            Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
+          </p>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+          <p>
+            <%= link_to image_tag("ct/bus.jpg", alt: "Pic", class: "img-fluid"), root_url %>
+          </p>
+          <h4><span>Hotel</span> booking</h4>
+          <p>
+            Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex.
+          </p>
+        </div>
+      </div><!-- End row -->
+    
+    </div><!-- End container -->
+	
+  </div><!-- End white_bg --> 
+
+
+  <section class="promo_full">
+    <div class="promo_full_wp">
+      <div>
+        <h3>ОТДЫХАЙТЕ С НАМИ!</h3>
+        <p>
+          Жильё и активный отдых в Крыму без посредников
+        </p>
+        <a href="https://www.youtube.com/watch?v=Zz5cu72Gv5Y" class="video"><i class="far fa-play-circle"></i></a>
+      </div>
+    </div>
+  </section>
+  <!-- End section -->
+
+  <div class="container margin_60">
+
+    <div class="main_title">
+      <h2>Some <span>good</span> reasons</h2>
+      <p>
+        Quisque at tortor a libero posuere laoreet vitae sed arcu. Curabitur consequat.
+      </p>
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-4">
+        <div class="feature_home">
+          <i class="icon_set_1_icon-41"></i>
+          <h3><span>+120</span> Premium tours</h3>
+          <p>
+            Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
+          </p>
+          <a href="about.html" class="btn_1 outline">Read more</a>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="feature_home">
+          <i class="icon_set_1_icon-30"></i>
+          <h3><span>+1000</span> Customers</h3>
+          <p>
+            Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
+          </p>
+          <a href="about.html" class="btn_1 outline">Read more</a>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="feature_home">
+          <i class="icon_set_1_icon-57"></i>
+          <h3><span>H24 </span> Support</h3>
+          <p>
+            Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset.
+          </p>
+          <a href="about.html" class="btn_1 outline">Read more</a>
+        </div>
+      </div>
+
+    </div>
+    <!--End row -->        
+  </div>
+  <!-- End container -->
+
+  <div class="white_bg">
+    <div class="container margin_60">
+      <div class="main_title">
+        <h2>Other <span>Popular</span> tours</h2>
+        <p>
+          Quisque at tortor a libero posuere laoreet vitae sed arcu. Curabitur consequat.
+        </p>
+      </div>
+      <div class="row add_bottom_45">
+        <div class="col-lg-4 other_tours">
+          <ul>
+            <li><a href="#"><i class="icon_set_1_icon-3"></i>Tour Eiffel<span class="other_tours_price">$42</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-30"></i>Shopping tour<span class="other_tours_price">$35</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-44"></i>Versailles tour<span class="other_tours_price">$20</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-3"></i>Montparnasse skyline<span class="other_tours_price">$26</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-44"></i>Pompidue<span class="other_tours_price">$26</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-3"></i>Senna River tour<span class="other_tours_price">$32</span></a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-4 other_tours">
+          <ul>
+            <li><a href="#"><i class="icon_set_1_icon-1"></i>Notredame<span class="other_tours_price">$48</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-4"></i>Lafaiette<span class="other_tours_price">$55</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-30"></i>Trocadero<span class="other_tours_price">$76</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-3"></i>Open Bus tour<span class="other_tours_price">$55</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-30"></i>Louvre museum<span class="other_tours_price">$24</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-3"></i>Madlene Cathedral<span class="other_tours_price">$24</span></a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-4 other_tours">
+          <ul>
+            <li><a href="#"><i class="icon_set_1_icon-37"></i>Montparnasse<span class="other_tours_price">$36</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-1"></i>D'Orsey museum<span class="other_tours_price">$28</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-50"></i>Gioconda Louvre musuem<span class="other_tours_price">$44</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-44"></i>Tour Eiffel<span class="other_tours_price">$56</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-50"></i>Ladefanse<span class="other_tours_price">$16</span></a>
+            </li>
+            <li><a href="#"><i class="icon_set_1_icon-44"></i>Notredame<span class="other_tours_price">$26</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- End row -->    	
+    </div>
+    <!-- End container -->
+  </div>
+  <!-- End white_bg -->
+
+  <section class="promo_full">
+    <div class="promo_full_wp">
+      <div>
+        <h3>ОТДЫХАЙТЕ С НАМИ!</h3>
+        <p>
+          Жильё и активный отдых в Крыму без посредников
+        </p>
+        <a href="https://www.youtube.com/watch?v=Zz5cu72Gv5Y" class="video"><i class="icon_set_1_icon-34"></i></a>
+      </div>
+    </div>
+  </section>
+  <!-- End section -->
+
+

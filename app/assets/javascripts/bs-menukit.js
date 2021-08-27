@@ -1,7 +1,8 @@
-window.addEventListener("resize", function() {
-	"use strict"; window.location.reload(); 
-});
-
+//
+//window.addEventListener("resize", function() {
+//	"use strict"; window.location.reload(); 
+//});
+//
 
 function darken_activate(){
 	el_overlay = document.createElement('span');

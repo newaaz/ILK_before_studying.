@@ -30,7 +30,12 @@
           </td>
           <td><%= link_to "#{hotel.activated}", change_activated_path(model: "Hotel",  id: hotel.id) %></td>
           <td>
-            <%= hotel.rating %>        
+            <%= form_with(url: change_rating_path(model: "Hotel", id: hotel.id)) do |f| %>
+              <div class="input-group">
+              <%= f.text_field :rating, local: true, value: hotel.rating, class: 'form-control form-control-sm' %>
+              <%= button_tag "Change", type: 'submit', class:"btn btn-sm btn-success" %>
+              </div>  
+            <% end %>        
           </td>
         </tr>
       <% end %>
@@ -39,3 +44,15 @@
 
 
 </div><!-- END CONTAINER  -->
+
+<br><br><br>
+
+<div class="row align-items-center py-3 banner-bg" style="background-image: url('<%= asset_path("ct/home_bg_2.jpg") %>');">
+  <div class="col-lg-9 text-center">
+    <div class="fs-4 fw-bold lh-1 mb-3">Получайте кэшбэк 5% при бронировании жилья и активного отдыха</div>
+    <p class="col-lg-10 fs-6">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+  </div>
+  <div class="col-lg-3 text-center">
+    <button class="btn btn-lg btn-primary">Подробнее</button>
+  </div>
+</div>

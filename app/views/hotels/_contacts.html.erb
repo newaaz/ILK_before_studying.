@@ -59,33 +59,31 @@
 
   </div>
 
-  <div class="row gx-1 mb-3">
-    <div class="col-6">
-     
-        <div class="send-owner text-center" onclick="showSendMessageModal();">      
-          <i class="icon-mail-6"></i> Написать      
-        </div>
-      
+  <div class="row gx-1 mb-3"><!-- send message + cart -->
+
+    <div class="col-6">     
+      <div class="send-owner text-center" onclick="showSendMessageModal();">      
+        <i class="icon-mail-6"></i> Написать      
+      </div>      
     </div>
+
     <div class="col-6">
+      <% if @current_item %>
+        <%= link_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel", action_show: "1"),
+            method: :post, remote: true, id: "heart-Hotel-#{@hotel.id}", class: "text-secondary" do %>
+          <div id="add-cart-hotel" class="add-cart text-center">
+            <i class="icon-heart"></i> Добавлено
+          </div>
+        <% end %>
+      <% else %>
+        <%= link_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel", action_show: "1"),
+            method: :post, remote: true, id: "heart-Hotel-#{@hotel.id}", class: "text-secondary" do %>
+          <div  id="add-cart-hotel"  class="add-cart text-center">
+            <i class="icon-heart-empty"></i> В избранное
+          </div>
+        <% end %>
 
-    <% if @current_item %>
-      <%= link_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel", action_show: "1"),
-          method: :post, remote: true, id: "heart-Hotel-#{@hotel.id}", class: "text-secondary" do %>
-        <div id="add-cart-hotel" class="add-cart text-center">
-          <i class="icon-heart"></i> Добавлено
-        </div>
       <% end %>
-    <% else %>
-      <%= link_to line_items_path(resource_id: @hotel.id, resource_name: "Hotel", action_show: "1"),
-          method: :post, remote: true, id: "heart-Hotel-#{@hotel.id}", class: "text-secondary" do %>
-        <div  id="add-cart-hotel"  class="add-cart text-center">
-          <i class="icon-heart-empty"></i> В избранное
-        </div>
-      <% end %>
-
-    <% end %>  
-      
     </div>
   </div>
 
@@ -150,7 +148,7 @@
           <div class="alert alert-secondary">
 
             <div class="text-center">
-              <small>Ваши контакты нужны для того чтобы с вами могли связаться и ответить на сообщение. Мы не занимаемся сбором и рассылкой рекламных объявлений</small>
+              <small>Ваши контакты нужны только для того чтобы с вами могли связаться и ответить на сообщение. Мы не занимаемся сбором и рассылкой рекламных объявлений</small>
             </div>
 
             <div class="form-group mt-3">

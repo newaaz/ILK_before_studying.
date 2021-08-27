@@ -4,96 +4,168 @@
   <%= javascript_include_tag "litepicker.js", 'data-turbolinks-track': 'reload' %>
 <% end %>
 
+<section class="parallax-window" data-parallax="scroll" data-image-src="<%= @hotel.avatar.url %>">
+  <div class="parallax-content-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h1><%= @hotel.name %></h1>
+          <span>            
+            Отправка заявки
+          </span>         
+        </div>
+        <div class="col-md-4 d-md-none">          
+          <div id="price_single_main" class="hotel">
+            <span><sup></sup></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="container mb-5">
-  <div class="row">
-    <h3>Предварительное бронирование - <%= @hotel.name %></h3>
+
+  <h3 class="mt-4">Предварительное бронирование - <%= @hotel.name %></h3>
+
+  <div class="row">    
     <div class="col-md-9">      
       <%= form_with(model: @order, local: true) do |f| %>
         <%= render 'shared/error_messages', object: f.object%>
         
         <%= hidden_field_tag(:hotel_id, @hotel.id) %>
-        <p id="result-3"></p>
-        <div class="row">
-          <div class="col-4  pr-1">
+
+        <div class="row my-3 gx-2">
+
+          <div class="col-6 col-lg-2 col-md-6">
             <div class="form-group">
-              <%= f.label "Дата заезда" %>            
+              <span class="icon_set_1_icon-53 text-muted"></span>
+              <%= f.label "Дата заезда", class: "mb-1" %>           
               <%= f.text_field :check_in, class:"form-control form-control-sm" %>
             </div>
           </div>
-          <div class="col-4  pl-1">
+
+          <div class="col-6 col-lg-2 col-md-6 mb-3">
             <div class="form-group">
-              <%= f.label "Дата выезда" %>            
+              <span class="icon_set_1_icon-53 text-muted"></span>
+              <%= f.label "Дата выезда", class: "mb-1" %>            
               <%= f.text_field :check_out, class:" form-control form-control-sm" %>
             </div>
           </div>
-          <div class="col-4" id="range-result"></div>
+
+          <div class="col-lg-8">
+            <% if @hotel.rooms.any? %>
+              <div class="form-group">
+                <span class="icon_set_1_icon-49 text-muted"></span>
+                <%= f.label "Тип номера", class: "mb-1" %> 
+                <% if @room %>
+                  <%= f.collection_select :room_id, @hotel.rooms, :id, :name, { selected: @room.id  },
+                                        class: "form-select form-select-sm", required: true %>
+                <% else %>
+                  <%= f.collection_select :room_id, @hotel.rooms, :id, :name, { prompt: "Выбрать" },
+                                        class: "form-select form-select-sm", required: true %>
+                <% end %>
+              </div>
+            <% end %> 
+          </div>
+
         </div>
 
-        <% if @hotel.rooms.any? %>
-          <div class="form-group mt-3">
-            <%= f.label "Тип номера" %> 
-            <% if @room %>
-              <%= f.collection_select :room_id, @hotel.rooms, :id, :name, { selected: @room.id, include_blank: false },
-                                    class: "form-select form-select-sm" %>
-            <% else %>
-              <%= f.collection_select :room_id, @hotel.rooms, :id, :name, { prompt: "Выбрать", include_blank: false },
-                                    class: "form-select form-select-sm" %>
-            <% end %>
-          </div>
-        <% end %>        
-        
-        <div class="form-group mt-3">
-          <label>
-            Ваше имя<span class="text-danger"> *</span>
-          </label>            
-          <%= f.text_field :guest_name, class:"form-control form-control-sm", required: true %>
-        </div>
-        
-        <div class="row mt-3">
-          <div class="col-5 pr-1">
+        <div class="row gx-2">
+          <div class="col-3">
             <div class="form-group">
-              <%= f.label :guest_email %><span class="text-danger"> *</span>             
-              <%= f.email_field :guest_email, class:"form-control form-control-sm", required: true %>             
-            </div>
-          </div>
-          <div class="col-4 pl-1">
-            <div class="form-group">
-              <%= f.label "Ваш телефон" %><span class="text-danger"> *</span>                 
-              <%= f.telephone_field :guest_phone, class:"form-control form-control-sm", required: true %>
-            </div>
-          </div>          
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-5">
-            <div class="form-group">
-              <%= f.label "Взрослых" %>               
+              <%= f.label "Взрослых", class: "mb-1" %>               
               <%= f.number_field :adults, class:"form-control form-control-sm" %>
             </div>
           </div>
-          <div class="col-5">
+          <div class="col-3">
             <div class="form-group">
-              <%= f.label "Детей" %>               
+              <%= f.label "Детей", class: "mb-1" %>               
               <%= f.number_field :kids, class:"form-control form-control-sm" %>
             </div>
           </div>
+          <div class="col-6">
+
+          </div>
         </div>
+
+        <br>
+
+        <div class="alert alert-success" style="font-size:14px;" role="alert">
+          Ваши контакты нужны только для того чтобы с вами могли связаться. Мы не занимаемся сбором и рассылкой рекламных объявлений
+        </div>
+
+        <div class="row gx-2">
         
-        <div class="form-group mt-3">
-          <%= f.label :wishes %>                  
+          <div class="col-4">
+            <label class="mb-1">Ваше имя<span class="text-danger"> *</span></label>            
+            <%= f.text_field :guest_name, class:"form-control form-control-sm", required: true %>
+          </div>
+
+          <div class="col-4">
+            <div class="form-group">
+              <%= f.label :guest_email, class: "mb-1" %><span class="text-danger"> *</span>
+              <% if current_user %>            
+                <%= f.email_field :guest_email, class:"form-control form-control-sm", value: "#{current_user.email}", required: true %>             
+              <% else %>
+                <%= f.email_field :guest_email, class:"form-control form-control-sm", required: true %>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="form-group">
+              <%= f.label "Ваш телефон", class: "mb-1" %><span class="text-danger"> *</span>                 
+              <%= f.telephone_field :guest_phone, class:"form-control form-control-sm", required: true %>
+            </div>
+          </div>
+        
+        </div> 
+        
+        <div class="form-group mt-4">
+          <%= f.label :wishes, class: "mb-1" %>                  
           <%= f.text_area :wishes, class:"form-control form-control-sm" %>
         </div>
 
-        <div class="d-flex justify-content-center mt-5">
-          <%= link_to "Назад", :back, class: "btn btn-outline-secondary" %>&nbsp;
-          <%= f.submit "Отправить заявку",class:"btn btn-primary"%>
-        </div>   
-        
-          
+        <br><hr>
+
+        <%= link_to  @hotel, class: "btn btn-outline-secondary btn-sm mb-2" do %>
+          <span class="icon-left-open-mini"></span>Назад
+        <% end %>   
+
+        <div class="d-grid gap-2 col-md-5 mx-auto mb-5">     
+          <%= button_tag type: 'submit', class:"btn btn-lg btn-primary" do %>
+            <span class="icon-paper-plane-2"></span>
+            Отправить заявку
+          <% end %> 
+        </div>            
 
       <% end %>
-    </div>
+
+    </div><!-- END COL-9 -->
+
     <div class="col-md-3">
+
+      <div class="card p-3">
+
+        <div class="cashback my-3">
+          КЭШБЭК <span>5%</span>
+        </div>
+
+        <div class="alert alert-danger text-center" role="alert">
+          Функция кэшбэка тестируется, и пока недоступна
+        </div>
+
+        <div class="" style="font-size:14px;">
+          1. Зарегистрируйтесь и оформите заявку - тогда она будет отображаться в личном кабинете<br>
+          2. После отдыха оствьте отзыв на странице гостиницы или активного отдыха<br>
+          3. Напишите на почту <a href="mailto:ilk-cashback@mail.ru">ilk-cashback@mail.ru</a>  - укажите № заявки
+          и реквизиты для перевода кэшбэка (Номер карты или номер телефона и банк для СБП, или номер электронного кошелька).
+          4. После проверки заявки в течение пяти рабочих дней на указанные реквизиты придут денежные средства
+        </div>
+
+      </div>
+
     </div>
   </div>
 </div>

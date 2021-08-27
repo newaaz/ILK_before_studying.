@@ -1,4 +1,6 @@
 class OrdersController<ApplicationController
+
+  before_action :logged_in_user, only: :show
   
   before_action :correct_user, only: :show
   before_action :correct_room_new, only: :new
@@ -11,7 +13,19 @@ class OrdersController<ApplicationController
   end
   
   def show
-    @order = Order.find(params[:id])       
+
+    @order = Order.find(params[:id])
+    order_client = User.find(@order.user_id)
+    
+    if @order.owner_user == order_client
+      render 'show'
+    elsif order_client == current_user
+      render 'show_client'
+    elsif current_user?(@order.owner_user)
+      render 'show_owner'      
+    end
+
+         
   end  
 
   def new
@@ -27,19 +41,19 @@ class OrdersController<ApplicationController
 
     #TODO: что-то придумать когда заявку делает незарегистрированный пользователь
     if current_user
-      @order[:user_id] = current_user[:id]
+      @order.user_id = current_user.id
     else
       # владельцем исходящих заявок от незарегистрированных пользователей становится админ
-      @order[:user_id] = User.find_by('email = ?', 'newaz@mail.ru').id
+      @order.user_id = User.find_by('email = ?', 'azmoday@mail.ru').id
     end
 
     if @order.save
       #FIXME: Отправка писем владельцу жилья и гостю
-      #UserMailer.owner_user_reservation(@order).deliver_now
-      #UserMailer.guest_reservation(@order).deliver_now
+      UserMailer.owner_reservation(@order).deliver_now
+      UserMailer.guest_reservation(@order).deliver_now
       flash[:success] = "Ваша заявка отправлена, в ближайшее время с Вами должны связаться по указанным контактам"      
       redirect_to @hotel
-      #redirect_back(fallback_location: root_path)
+      # redirect_back(fallback_location: root_path)
     else
       flash[:info] = "Не получилось отправить заявку"
       #redirect_back(fallback_location: root_path)      
@@ -55,10 +69,11 @@ private
                                   :adults, :kids, :room_id, :wishes, :owner_comment, :total_amount)
   end
 
-  # Корректный пользователь - владелец отеля заявки, или админ
+  # Корректный пользователь - владелец отеля заявки, или заказчик или админ
   def correct_user
     order = Order.find(params[:id])
-    redirect_to root_url unless current_user && (current_user?(order.owner_user) || current_user.admin?)
+    order_client = User.find(order.user_id)    
+    redirect_to root_url unless current_user?(order.owner_user) || order_client == current_user || current_user.admin?  
   end
 
   # Проверям принадлежит ли выбранный номер отелю (при создании заявки)

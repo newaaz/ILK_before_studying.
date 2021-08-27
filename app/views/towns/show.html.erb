@@ -46,7 +46,7 @@
 
 <main class="town">
 
-<div class="container">
+<div class="container"><!-- title & hotels -->
 
 	<div class="main_title mt-3">
 		<h1>Жильё, отдых, услуги и развлечения в <span><%= @town.parent_name %></span> 2021</h1>
@@ -56,24 +56,24 @@
 	</div>
 
 	<div class="resources-title">		
-		<h2>Жильё:</h2>		
+		<h2>Жильё</h2>		
 	</div>
 
-	<div class="row pt-lg-2"><!-- hotels -->
-		<div class="col-6 col-lg-2 p-1">
+	<div class="row g-1"><!-- hotels -->
+		<div class="col-6 col-lg-2">
 			<a href="/towns/<%= @town.id %>/hotels">
 				<div class="cat-bg-image">
-					<img src="<%= @town.hotels.first.avatar.thumb.url %>" alt="<%= "Жильё в #{@town.parent_name}" %>" class="img-fluid">
+					<img src="<%= @town.avatar.thumb.url %>" alt="<%= "Жильё в #{@town.parent_name}" %>" class="img-fluid">
 					<div class="cat-bg-title">Все варианты</div>
 				</div>
 			</a>
 		</div>
-		<% @town_cats.where(cat_type: 'hotels').each do |cat| %>
-			<div class="col-6 col-lg-2 p-1">
-				<a href="/towns/<%= @town.id %>/hotels?cat=<%= cat.cat_id %>">
-					<div class="cat-bg-image">
-						<img src="<%= @town.avatar_for_cat("hotels", cat.cat_id) %>" alt="<%= "#{cat.cat_name} в #{@town.parent_name}" %>" class="img-fluid">
-						<div class="cat-bg-title"><%= cat.cat_name %> (<%= cat.cat_count %>)</div>
+		<% @hotels_photo.each do |cat| %>
+			<div class="col-6 col-lg-2">
+				<a href="/towns/<%= @town.id %>/hotels?cat=<%= cat.hotel_category_id %>">
+					<div class="cat-bg-image">						
+						<img src="<%= cat.avatar.thumb.url %>" alt="<%= "#{cat.desc_json['cat_name']} в #{@town.parent_name}" %>" class="img-fluid">
+						<div class="cat-bg-title"><%= cat.desc_json['cat_name'] %></div>
 					</div>
 				</a>
 			</div>
@@ -84,14 +84,14 @@
 
 <br><br>
 
-<div class="bg-white shadow py-3"><!-- actives -->
+<div class="bg-white shadow"><!-- actives -->
 	<div class="container">
 		<div class="row">			
 			<aside class="col-lg-3">				
-				<div class="resources-title pt-3">
+				<div class="resources-title">
 					<h2>Активный отдых</h2>		
 				</div>
-				<div class="hotel-cats mt-2">
+				<div class="hotel-cats">
 					<ul>          
 						<li><a href="/towns/<%= @town.id %>/actives">Все активности</a></li>
 						<% @town_cats.where(cat_type: 'actives').each do |cat| %>							
@@ -100,10 +100,10 @@
 					</ul>
 				</div>
 			</aside>
-			<div class="col-lg-9 p-1">
-				<div class="row gx-1">
+			<div class="col-lg-9">
+				<div class="row g-1">
 					<% @promo_actives.each do |active| %>
-						<div class="col-lg-4 col-6 mb-1">
+						<div class="col-lg-4 col-6">
 							<div class="actives-promo" style="position: relative;">
 							<%= link_to active do %>
 								<%= image_tag(active.avatar.thumb_active.url, alt: "Главная", class: 'img-fluid') %>
@@ -127,24 +127,22 @@
 		<h2>Интересные места, достопримечательности в <%= @town.parent_name %></h2>			
 	</div>		
 	<div class="row pt-lg-3">
-		<div class="col point-cat">
-			<a href="/towns/<%= @town.id %>/points">
-				<%= image_tag("icons/all_sight.png", width: "75px", class: "mx-auto d-block") %>
-				<span>
-					Все места
-				</span>
-			</a>			
-		</div>
-		<% @point_cats.each do |cat| %>		
-			<div class="col point-cat">
-				<a href="/towns/<%= @town.id %>/points?cat=<%= cat.cat_id %>">
-					<%= image_tag("icons/#{cat.cat_name}.png", width: "75px", class: "mx-auto d-block") %>
-					<span>
-						<%= cat.cat_name %>
-					</span>
-				</a>			
-			</div>			
-		<% end %>	
+		
+		<% @points_photo.each do |points_cat| %>
+			
+				<div class="col-6 col-lg-2 mb-4 px-1">
+					<div class="point-cat">
+					<a href="/towns/<%= @town.id %>/points?cat=<%= points_cat.point_category_id %>">
+						<%= image_tag(points_cat.avatar.thumb.url,  class: "img-fluid")  %>
+						<span>
+							<%= points_cat.desc_json['cat_name'] %>
+						</span>
+					</a>
+					</div>			
+				</div>
+		
+		<% end %>
+
 	</div>	
 </div><!-- END POINTS -->
 
@@ -182,7 +180,7 @@
 </div><!-- END Services -->
 
 
-<div class="container pt-4"><!-- CAFE -->	
+<div class="container pt-4 mb-5"><!-- CAFE -->	
 	<div class="resources-title">		
 		<h2>Где поесть в <%= @town.parent_name %></h2>			
 	</div>
@@ -200,36 +198,9 @@
 	
 </div><!-- END CAFE -->
 
-
-<div class="container mt-5"><!-- Towns near -->
-	<div class="resources-title">		
-		<h2>Населённые пункты рядом</h2>			
-	</div>	
-	<div class="row gx-1">
-		<div class="col-4">
-			<img src="<%= Town.where("number = ?", @town.number).first.avatar.url %>" alt="Laptop" class="img-fluid">
-		</div>
-		<div class="col-4">
-			<img src="<%= @town.avatar.url %>" alt="Laptop" class="img-fluid">
-		</div>
-		<div class="col-4">Город справа</div>
-	</div>
-</div>
-
-<br>
-
-<section class="promo_full">
-	<div class="promo_full_wp">
-		<div>
-			<h3>ОТДЫХАЙТЕ С НАМИ!</h3>
-			<p>
-				Жильё и активный отдых в Крыму без посредников
-			</p>
-			<a href="https://www.youtube.com/watch?v=Zz5cu72Gv5Y" class="video"><i class="far fa-play-circle"></i></a>
-		</div>
-	</div>
-</section>
-<!-- End section -->
+<% if current_user && current_user.admin? %>	
+	<%= render 'category_counter' %>           <!-- Category Counter -->
+<% end %>
 
 </main>
 

@@ -4,8 +4,7 @@ cart.innerHTML = "<%= j render(@cart) %>"
 btnHeart = document.getElementById("heart-<%= params[:resource_name] %>-<%= params[:resource_id] %>")
 btnHeart.classList.toggle("text-danger")
 
-cartMob = document.getElementById("cart-mobile")
-cartMob.innerHTML = "<%= j render 'cart_mobile' %>"
+
 
 // if resource_controller action - show
 <% if params['action_show'] == "1" %>
