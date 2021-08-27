@@ -146,6 +146,21 @@
       }
     });
   });
+
+  // check password confirmation
+  var check = function() {
+    var form = document.forms[0]
+    if (document.getElementById('password').value ==
+      document.getElementById('password_confirm').value) {
+      document.getElementById('message').style.color = 'green';
+      document.getElementById('message').innerHTML = 'Совпадает';
+      form.button.disabled = false; 
+    } else {
+      document.getElementById('message').style.color = 'red';
+      document.getElementById('message').innerHTML = 'Не совпадает';            
+      form.button.disabled = true; 
+    }
+  } 
 </script>
 
 

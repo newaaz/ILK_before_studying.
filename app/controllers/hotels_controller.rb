@@ -47,7 +47,7 @@ class HotelsController < ApplicationController
       redirect_to @hotel
       # Отправляем админу письмо о создании ресурса
       #TODO: Включить отправку письма при создании ресурса
-      # UserMailer.resource_create(@hotel).deliver_now
+      UserMailer.resource_create(@hotel).deliver_now
     else
       render 'new'
     end

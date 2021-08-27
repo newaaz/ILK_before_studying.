@@ -49,7 +49,7 @@ class UserMailer < ApplicationMailer
   def resource_create(resource)
     @resource = resource
     #TODO: Изменить почту админа
-    mail to: "newaz@mail.ru", subject: "#{@resource.model_name.name}:#{@resource.name} создан"
+    mail to: "ilk-ui@ya.ru", subject: "#{@resource.model_name.name}:#{@resource.name} создан"
   end
 
   # Отправляем письмо когда ресурс активирован (универсальный для всех ресурсов)

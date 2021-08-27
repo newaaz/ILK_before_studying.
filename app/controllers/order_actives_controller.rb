@@ -42,8 +42,8 @@ class OrderActivesController<ApplicationController
 
     if @order_active.save
       #FIXME: Отправка писем владельцу Активности и клиенту
-      #UserMailer.active_reservation_owner(@order_active).deliver_now
-      #UserMailer.active_reservation_guest(@order_active).deliver_now
+      UserMailer.active_reservation_owner(@order_active).deliver_now
+      UserMailer.active_reservation_guest(@order_active).deliver_now
       flash[:success] = "Ваша заявка отправлена, в ближайшее время с Вами должны связаться по указанным контактам"      
       redirect_to @active
       #redirect_back(fallback_location: root_path)

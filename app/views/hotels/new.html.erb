@@ -311,7 +311,7 @@
         Номера/комнаты (включая стоимость проживания в них) добавляются после создание объявления в Личном Кабинете во вкладке "Объявления" или на странице самого объявления
         с помощью кнопки редактирования расположенной слева от названия:
         <div class="btn-group d-inline">
-          <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <button type="button" class="btn btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="icon-cog-5"></span>
           </button>
           <ul class="dropdown-menu">
@@ -661,44 +661,44 @@
   }  
 
   <% if current_user.admin? %>
-  //  INSERT HOTEL INFO
-  function insertInfo() {   
-    var form = document.forms.hotel
-    
-    form.elements[1].value = 'гостевой дом "Ромашка"';
-    form.elements[2].value = 1;    
-    form.elements[3].value = 'ул. Полины Осипенко, 24';
-    form.elements[4].value = 1;
-    form.floors.value      = 3; //5
-    form.elements[6].value = 450;
+    //  INSERT HOTEL INFO
+    function insertInfo() {   
+      var form = document.forms.hotel
+      
+      form.elements[1].value = 'гостевой дом "Ромашка"';
+      form.elements[2].value = 1;    
+      form.elements[3].value = 'ул. Полины Осипенко, 24';
+      form.elements[4].value = 1;
+      form.floors.value      = 3; //5
+      form.elements[6].value = 450;
 
-    form.elements[9].value = 1600; //min price
-    form.max_price.value   = 2800;
-    form.price_type.value  = "чел." 
+      form.elements[9].value = 1600; //min price
+      form.max_price.value   = 2800;
+      form.price_type.value  = "чел." 
+          
+      form.elements[12].value = 45.0417;
+      form.elements[13].value = 35.3668;
+      form.food.value = 'оборудованная кухня, возможность готовить еду самостоятельно 2 кухни';
+      form.parking.value = 'бесплатная, на территории';
+      form.territory.value = 'закрытый двор терраса, место для отдыха мангал, место для барбекю';
+      form.transfer.value = 'трансфер из аэропорта в Симферополе 2500 руб';
+      form.service.value = 'круглосуточная стойка регистрации бесплатный wi-fi в номерах поздний выезд ранний заезд';
+      form.addition.value = 'Услуги за отдельную плату: пользование стиральной машиной. Примечание: если клиент отказывается от бронирования, предоплата не возвращается.';
+      form.child.value = 'Принимаем с детьми';
+      form.animals.value = 'Принимаем с животными';
+      form.check_time.value = 'По договорённости';
+      form.min_check.value = 'От одной ночи';
+      form.payment.value = 'Принимаем карточки, выдаём чеки';
+      form.bonus.value = 'На данный момент акций не предусмотрено';
+      form.advance.value = 'Вы можете бесплатно отменить бронирование'
+
+      form.elements[52].value = 'ilk-cashback@mail.ru';
+      form.elements[53].value = 'ilovekrim.ru';
         
-    form.elements[12].value = 45.0417;
-    form.elements[13].value = 35.3668;
-    form.food.value = 'оборудованная кухня, возможность готовить еду самостоятельно 2 кухни';
-    form.parking.value = 'бесплатная, на территории';
-    form.territory.value = 'закрытый двор терраса, место для отдыха мангал, место для барбекю';
-    form.transfer.value = 'трансфер из аэропорта в Симферополе 2500 руб';
-    form.service.value = 'круглосуточная стойка регистрации бесплатный wi-fi в номерах поздний выезд ранний заезд';
-    form.addition.value = 'Услуги за отдельную плату: пользование стиральной машиной. Примечание: если клиент отказывается от бронирования, предоплата не возвращается.';
-    form.child.value = 'Принимаем с детьми';
-    form.animals.value = 'Принимаем с животными';
-    form.check_time.value = 'По договорённости';
-    form.min_check.value = 'От одной ночи';
-    form.payment.value = 'Принимаем карточки, выдаём чеки';
-    form.bonus.value = 'На данный момент акций не предусмотрено';
-    form.advance.value = 'Вы можете бесплатно отменить бронирование'
+      form.vk.value = 'i_lovekrim';
+      form.instagram.value = 'ilovekrim';
 
-    form.elements[52].value = 'jumperka@list.ru';
-    form.elements[53].value = 'kilova.ru';
-       
-    form.vk.value = 'mcixabuka';
-    form.instagram.value = 'kilovagora';
-
-  }
+    }
   <% end %>
 
 </script>

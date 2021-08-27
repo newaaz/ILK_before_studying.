@@ -60,7 +60,9 @@ class UsersController < ApplicationController
       flash[:info] = "Ваши данные успешно изменены"
       redirect_to @user
     else
-      render 'show'
+      #render 'show'
+      flash[:danger] = "Изменения не сохранились"
+      redirect_to @user
     end
   end
 

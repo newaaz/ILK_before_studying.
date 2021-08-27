@@ -25,6 +25,8 @@ ru:
       user:
         name: 'Имя'
         email: 'E-mail'
+        phone: '№ телефона'
+        avatar: 'Фото профиля'
         password: 'Пароль'
         password_confirmation: 'Подтверждение пароля'
       town:

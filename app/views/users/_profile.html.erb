@@ -69,17 +69,18 @@
 
         <div class="mb-3">
           <%= f.label :password %>
-          <%= f.password_field :password, class: 'form-control form-control-sm' %>
+          <%= f.password_field :password, id: "password", onkeyup:'check();', class: 'form-control form-control-sm' %>
         </div>
 
         <div class="mb-3">
-          <%= f.label :password_confirmation %>
-          <%= f.password_field :password_confirmation, class: 'form-control form-control-sm' %>
+          <%= f.label :password_confirmation %> <span id='message'></span>
+          <%= f.password_field :password_confirmation, id: "password_confirm", onkeyup:'check();', class: 'form-control form-control-sm' %>
+          
         </div>
 
-        <br>
-
-        <%= f.submit "Сохранить изменения", class:"w-100 btn btn-primary" %>
+        <br>      
+        
+        <%= button_tag "Сохранить изменения", type: 'submit', class:"w-100 btn btn-primary" %>
 
       <% end %><br>
 

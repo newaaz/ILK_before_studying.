@@ -39,7 +39,7 @@ class CafebarsController<ApplicationController
       redirect_to @cafebar
       # Отправляем админу письмо о создании ресурса
       #TODO: Включить отправку письма при создании ресурса
-      # UserMailer.resource_create(@cafebar).deliver_now
+      UserMailer.resource_create(@cafebar).deliver_now
     else
       render 'new'
     end

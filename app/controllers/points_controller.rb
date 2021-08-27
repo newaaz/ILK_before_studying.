@@ -41,7 +41,7 @@ class PointsController<ApplicationController
       redirect_to @point
       # Отправляем админу письмо о создании ресурса
       #TODO: Включить отправку письма при создании ресурса
-      # UserMailer.resource_create(@point).deliver_now
+      UserMailer.resource_create(@point).deliver_now
     else
       render 'new'
     end

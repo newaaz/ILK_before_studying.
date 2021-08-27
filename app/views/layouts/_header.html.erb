@@ -131,7 +131,7 @@
           </ul>
       </li>
 
-      <li>
+      <li class="d-none"><!-- WHAT NEAR -->
         <%= link_to contacts_url, class: 'nav-link' do %>
           <i class="icon-location-outline"></i>Что рядом?
         <% end %>
@@ -145,41 +145,34 @@
           </a>
           <ul class="dropdown-menu">
             <li><%= link_to "Личный кабинет", current_user, class: "dropdown-item" %></li>
-            <li><%= link_to "Настройки", edit_user_path(current_user), class: "dropdown-item" %></li>
-            <li><%= link_to "Новая Гостиница", new_hotel_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Новое Кафе", new_cafebar_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Новый Место", new_point_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Новая Услуга", new_service_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Новая Активность", new_active_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Выход", logout_path, method: :delete, class: "dropdown-item" %></li>
-            <li><%= link_to "Контакты", contacts_url, class: 'dropdown-item' %></li>
+            <li><a href="javascript:logout();" class="dropdown-item">Выход</a></li>
           </ul>
-        </li>
+        </li>      
 
         <% if current_user.admin? %>
           <li class="nav-item dropdown hover">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="icon-cog-5"></i>Admin</a>
             <ul class="dropdown-menu">
               <li><%= link_to "Пользователи", users_url, class: 'dropdown-item' %></li>
-              <li><%= link_to "Типы жилья", hotel_categories_path, class: "dropdown-item" %></li>
               <li><%= link_to "Города", towns_path, class: "dropdown-item" %></li>
+              <li><%= link_to "Типы жилья", hotel_categories_path, class: "dropdown-item" %></li>              
               <li><%= link_to "Гостиницы", hotels_path, class: "dropdown-item" %></li>
-              <li><%= link_to "Кафе", cafebars_path, class: "dropdown-item" %></li>
-              <li><%= link_to "Теги для кафе", tagcafebars_path, class: "dropdown-item" %></li>
-              <li><%= link_to "Типы Point", point_categories_path, class: "dropdown-item" %></li>
-              <li><%= link_to "Points", points_path, class: "dropdown-item" %></li>
+              <li><%= link_to "Кат.Активностей", active_categories_path, class: "dropdown-item" %></li>
+              <li><%= link_to "Активности", actives_path, class: "dropdown-item" %></li>
               <li><%= link_to "Типы Услуг", service_categories_path, class: "dropdown-item" %></li>              
               <li><%= link_to "Услуги", services_path, class: "dropdown-item" %></li>
-              <li><%= link_to "Категории Активностей", active_categories_path, class: "dropdown-item" %></li>
-              <li><%= link_to "Активности", actives_path, class: "dropdown-item" %></li>
-              <li><%= link_to "Выход", logout_path, method: :delete, class: "dropdown-item" %></li>
+              <li><%= link_to "Теги для кафе", tagcafebars_path, class: "dropdown-item" %></li>
+              <li><%= link_to "Кафе", cafebars_path, class: "dropdown-item" %></li>              
+              <li><%= link_to "Типы Point", point_categories_path, class: "dropdown-item" %></li>
+              <li><%= link_to "Points", points_path, class: "dropdown-item" %></li> 
+              <li><a href="javascript:logout();" class="dropdown-item">Выход</a></li>
               <li><%= link_to "Контакты", contacts_url, class: 'dropdown-item' %></li>
               <li><%= link_to "О нас (parts)", about_url, class: 'dropdown-item' %></li>
             </ul>
           </li>
         <% end %>
        
-        <li><%= link_to "Выход", logout_url, method: :delete, class: 'nav-link' %></li>
+        <li><%= link_to "Выход", logout_url, method: :delete, id: "logout-link", class: 'nav-link d-none' %></li>
 
       <% end %>
 

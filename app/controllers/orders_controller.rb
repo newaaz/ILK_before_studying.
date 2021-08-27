@@ -49,8 +49,8 @@ class OrdersController<ApplicationController
 
     if @order.save
       #FIXME: Отправка писем владельцу жилья и гостю
-      # UserMailer.owner_reservation(@order).deliver_now
-      # UserMailer.guest_reservation(@order).deliver_now
+      UserMailer.owner_reservation(@order).deliver_now
+      UserMailer.guest_reservation(@order).deliver_now
       flash[:success] = "Ваша заявка отправлена, в ближайшее время с Вами должны связаться по указанным контактам"      
       redirect_to @hotel
       # redirect_back(fallback_location: root_path)

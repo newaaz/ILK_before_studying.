@@ -8,6 +8,8 @@ class Town < ApplicationRecord
   has_and_belongs_to_many :services
   has_and_belongs_to_many :actives
 
+  has_rich_text :description
+
   default_scope { order(:number) }
 
   mount_uploader  :avatar, PictureUploader

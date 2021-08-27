@@ -1,7 +1,7 @@
 class MainController < ApplicationController
 
   def home
-    @towns = Town.all
+    @towns = Town.includes(:category_counters).all
   end
 
   def contacts
@@ -11,6 +11,9 @@ class MainController < ApplicationController
   end
 
   def admin
+    unless current_user || current_user.admin?
+      redirect_back(fallback_location: root_url)
+    end
   end
 
   def privacy
