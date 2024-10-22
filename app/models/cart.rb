@@ -12,7 +12,8 @@ class Cart < ApplicationRecord
   end
 
   # find checked cafe
-  def cafebars    
+  def cafebars
+    # edit with github online    
     array_cafebar_ids = []
     line_items.where('resource_name = ?', 'Cafebar').each do |line_item|
       array_cafebar_ids << line_item.resource_id
